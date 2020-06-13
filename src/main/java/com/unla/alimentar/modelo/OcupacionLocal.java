@@ -1,15 +1,16 @@
 /**
  * 
  */
-package com.unla.alimentar.model;
+package com.unla.alimentar.modelo;
 
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -30,10 +31,15 @@ public class OcupacionLocal {
 	@GeneratedValue(generator = "system-uuid")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String idOcupacionLocal;
-	@ManyToOne
-	@JoinColumn(name = "ocupacionLocal")
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@MapsId("idLocal")
 	@JsonBackReference
 	private Local local;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@MapsId("idUsuario")
+	@JsonBackReference
 	private Usuario usuario;
 	private Date fechaHoraEntrada;
 	private Date fechaHoraSalida;

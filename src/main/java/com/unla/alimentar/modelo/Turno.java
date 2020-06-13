@@ -1,15 +1,16 @@
 /**
  * 
  */
-package com.unla.alimentar.model;
+package com.unla.alimentar.modelo;
 
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -30,10 +31,12 @@ public class Turno {
 	@GeneratedValue(generator = "system-uuid")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String idTurno;
-	@ManyToOne
-	@JoinColumn(name = "turno")
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@MapsId("idLocal")
 	@JsonBackReference
 	private Local local;
+	
 	private Usuario usuario;
 	private Estado estado;
 	private Date fechaHora;

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.unla.alimentar.model;
+package com.unla.alimentar.modelo;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,12 +18,11 @@ import lombok.Data;
  */
 @Data
 @Entity
-@Table(name = "provincia")
-public class Provincia {
+@Table(name = "estado")
+public class Estado {
 	@Id
 	@GeneratedValue(generator = "system-uuid")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
-	private String idProvincia;
+	private String idEstado;
 	private String nombre;
-	
 }

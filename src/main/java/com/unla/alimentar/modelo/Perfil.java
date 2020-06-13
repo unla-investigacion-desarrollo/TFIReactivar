@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.unla.alimentar.model;
+package com.unla.alimentar.modelo;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

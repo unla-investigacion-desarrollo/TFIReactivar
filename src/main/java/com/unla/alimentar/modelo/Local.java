@@ -1,17 +1,18 @@
 /**
  * 
  */
-package com.unla.alimentar.model;
+package com.unla.alimentar.modelo;
 
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -44,8 +45,8 @@ public class Local {
 	private String latitud;
 	private String longitud;
 	
-	@ManyToOne
-	@JoinColumn(name = "idLocalidad")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@MapsId("idLocalidad")
 	@JsonBackReference
 	private Localidad localidad;
 	
@@ -54,21 +55,21 @@ public class Local {
 	private int capacidad;
 	private boolean usaTurno;
 	
-    @OneToOne
-    @JoinColumn(name = "idRubro", nullable = false)
+	@OneToOne
+	@MapsId("idRubro")
     private Rubro rubro;
 	
-	@ManyToOne
-	@JoinColumn(name = "idUsuario")
-	@JsonBackReference
+	@OneToOne(mappedBy = "local", cascade = CascadeType.ALL)
 	private Usuario usuario;
 	
 	@OneToMany(mappedBy = "local", cascade = CascadeType.ALL)
 	@JsonManagedReference
-	private List<OcupacionLocal> ocupacionLocal;
+	private List<OcupacionLocal> ocupacionLocales;
 	
 	@OneToMany(mappedBy = "local", cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<Turno> turnos;
 	
+	@OneToOne(mappedBy = "local", cascade = CascadeType.ALL)
+	private ConfiguracionTurno configuracionTurno;
 }
