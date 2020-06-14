@@ -52,13 +52,24 @@ public class Usuario {
 	private Localidad localidad;
 	private String latitud;
 	private String longitud;
-	private Perfil perfil;
 	
 	@OneToOne
-	@MapsId("idLocal")
+    @MapsId("idPerfil")
+	private Perfil perfil;
+	
+	
+	@OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
 	private Local local;
 	
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<OcupacionLocal> ocupacionLocales;
+	
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+	@JsonManagedReference
+	private List<Turno> turnos;
+	
+	private String mail;
+	private int numCelular;
+	private String token;
 }

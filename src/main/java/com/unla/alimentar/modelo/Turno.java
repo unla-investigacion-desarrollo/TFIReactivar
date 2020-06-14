@@ -37,7 +37,14 @@ public class Turno {
 	@JsonBackReference
 	private Local local;
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@MapsId("idUsuario")
+	@JsonBackReference
 	private Usuario usuario;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@MapsId("idEstado")
+	@JsonBackReference
 	private Estado estado;
 	private Date fechaHora;
 	private String observaciones;

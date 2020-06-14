@@ -37,6 +37,7 @@ public class Local {
 	@GeneratedValue(generator = "system-uuid")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String idLocal;
+	private String nombre;
 	private int cuit;
 	private String calle;
 	private int numeracion;
@@ -59,7 +60,8 @@ public class Local {
 	@MapsId("idRubro")
     private Rubro rubro;
 	
-	@OneToOne(mappedBy = "local", cascade = CascadeType.ALL)
+	@OneToOne
+	@MapsId("idUsuario")
 	private Usuario usuario;
 	
 	@OneToMany(mappedBy = "local", cascade = CascadeType.ALL)
