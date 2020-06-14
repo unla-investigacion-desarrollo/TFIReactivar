@@ -81,5 +81,4 @@ public class Usuario {
 	@Transient
 	private String token;
 	private boolean estaActivo;
-	//asd
 }
