@@ -5,7 +5,6 @@ package com.unla.alimentar.modelo;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -31,8 +30,8 @@ public class Estado {
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String idEstado;
 	private String nombre;
-	
-	@OneToMany(mappedBy = "estado", cascade = CascadeType.ALL)
+
+	@OneToMany(mappedBy = "estado")
 	@JsonManagedReference
 	private List<Turno> turnos;
 }

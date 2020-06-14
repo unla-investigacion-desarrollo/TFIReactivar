@@ -9,8 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -31,17 +31,17 @@ public class OcupacionLocal {
 	@GeneratedValue(generator = "system-uuid")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String idOcupacionLocal;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@MapsId("idLocal")
+	@JoinColumn(name = "idLocal", nullable = false)
 	@JsonBackReference
 	private Local local;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@MapsId("idUsuario")
+	@JoinColumn(name = "idUsuario", nullable = false)
 	@JsonBackReference
 	private Usuario usuario;
 	private Date fechaHoraEntrada;
 	private Date fechaHoraSalida;
-	
+
 }

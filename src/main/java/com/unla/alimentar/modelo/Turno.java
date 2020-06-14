@@ -9,8 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -31,22 +31,22 @@ public class Turno {
 	@GeneratedValue(generator = "system-uuid")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String idTurno;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@MapsId("idLocal")
+	@JoinColumn(name = "idLocal", nullable = false)
 	@JsonBackReference
 	private Local local;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@MapsId("idUsuario")
+	@JoinColumn(name = "idUsuario", nullable = false)
 	@JsonBackReference
 	private Usuario usuario;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@MapsId("idEstado")
+	@JoinColumn(name = "idEstado", nullable = false)
 	@JsonBackReference
 	private Estado estado;
 	private Date fechaHora;
 	private String observaciones;
-	
+
 }

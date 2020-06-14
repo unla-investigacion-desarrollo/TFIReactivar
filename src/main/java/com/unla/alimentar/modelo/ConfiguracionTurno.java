@@ -26,7 +26,7 @@ import lombok.Data;
 public class ConfiguracionTurno implements Serializable {
 
 	private static final long serialVersionUID = -3828728491551187571L;
-	
+
 	@Id
 	@GeneratedValue(generator = "system-uuid")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
@@ -36,5 +36,5 @@ public class ConfiguracionTurno implements Serializable {
 	private int horaAtencionDesde;
 	private int horaAtencionHasta;
 	private int intervaloTurno;
-	
+
 }

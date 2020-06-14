@@ -5,7 +5,6 @@ package com.unla.alimentar.modelo;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -31,12 +30,9 @@ public class Provincia {
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String idProvincia;
 	private String nombre;
-	
-	@OneToMany(mappedBy = "provincia", cascade = CascadeType.ALL)
+
+	@OneToMany(mappedBy = "provincia")
 	@JsonManagedReference
 	private List<Localidad> localidades;
-	
-	
+
 }
-
-

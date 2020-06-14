@@ -27,7 +27,7 @@ public class AlimentarApplication {
 			http.csrf().disable()
 				.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 				.authorizeRequests()
-				.antMatchers(HttpMethod.POST, "/user").permitAll()
+				.antMatchers(HttpMethod.POST, "/usuario").permitAll()
 				.anyRequest().authenticated();
 		}
 	}

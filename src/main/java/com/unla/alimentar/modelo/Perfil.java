@@ -3,13 +3,17 @@
  */
 package com.unla.alimentar.modelo;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
 
@@ -21,14 +25,15 @@ import lombok.Data;
 @Entity
 @Table(name = "perfil")
 public class Perfil {
-	
+
 	@Id
 	@GeneratedValue(generator = "system-uuid")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String idPerfil;
 	private String nombre;
-	
-	@OneToOne(mappedBy = "perfil")
-	private Usuario usuario;
-	
+
+	@OneToMany(mappedBy = "perfil")
+	@JsonManagedReference
+	private List<Usuario> usuarios;
+
 }
