@@ -76,7 +76,10 @@ public class Usuario {
 
 	private String mail;
 	private int numCelular;
+	
+	
 	@Transient
 	private String token;
 	private boolean estaActivo;
+	//asd
 }
