@@ -16,23 +16,20 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name ="marca")
-public class Marca {
+@Table(name = "unidadMedida")
+public class UnidadMedida {
 	
 	@Id
 	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
-	private long idMarca ;
+	@GenericGenerator(name = "system-uuid", strategy ="uuid")
+	private long idUnidadMedida;
 	private String nombre;
-	
-	@OneToMany(mappedBy="marca")
+
+	@OneToMany(mappedBy="unidadMedida")
 	@JsonManagedReference
 	private List<ArticuloReferencia> articulosReferencia;
 	
-	@OneToMany(mappedBy="marca")
+	@OneToMany(mappedBy="unidadMedida")
 	@JsonManagedReference
 	private List<Articulo> articulos;
-
-
-
 }
