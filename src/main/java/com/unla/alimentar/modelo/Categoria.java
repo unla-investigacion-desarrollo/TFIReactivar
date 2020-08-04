@@ -2,14 +2,18 @@ package com.unla.alimentar.modelo;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
@@ -32,4 +36,8 @@ public class Categoria {
 	@OneToMany(mappedBy="categoria")
 	@JsonManagedReference
 	private List<Articulo> articulos;
+		
+	@OneToOne(mappedBy = "categoria", cascade = CascadeType.ALL)
+	@JsonIgnore
+	private DtoXCategoria dtoXCategoria;
 }
