@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.unla.alimentar.modelo;
 
 import java.util.Date;
@@ -21,59 +18,39 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
 
-/**
- * @author Matias
- *
- */
 @Data
 @Entity
-@Table(name = "local")
-public class Local {
-
+@Table(name = "ubicacion")
+public class Ubicacion {
 	@Id
 	@GeneratedValue(generator = "system-uuid")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
-	private String idLocal;
-	private String nombre;
-	private int cuit;
+	private long idUbicacion;
 	private String calle;
-	private int numeracion;
-	private int codigoPostal;
+	private int numero;
+	private int piso;
 	private String departamento;
 	private String latitud;
 	private String longitud;
-
+	private String usuarioModi;
+	private Date fechaModi;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idLocalidad", nullable = false)
 	@JsonBackReference
 	private Localidad localidad;
-
-	private String usuarioModi;
-	private Date fechaModi;
-	private int capacidad;
-	private boolean usaTurno;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idRubro", nullable = false)
-	@JsonBackReference
-	private Rubro rubro;
-
-	@OneToOne
-	@MapsId("idUsuario")
-	private Usuario usuario;
-
-	/*@OneToMany(mappedBy = "local", cascade = CascadeType.ALL)
-	@JsonManagedReference
-	private List<OcupacionLocal> ocupacionLocales;*/
-
-	@OneToMany(mappedBy = "local", cascade = CascadeType.ALL)
-	@JsonManagedReference
-	private List<Turno> turnos;
-
-	@OneToOne(mappedBy = "local", cascade = CascadeType.ALL)
-	private ConfiguracionTurno configuracionTurno;
+	
+	@OneToOne(mappedBy = "ubicacion", cascade = CascadeType.ALL)
+	@JsonIgnore
+	private Emprendimiento emprendimiento;
+	
+	@OneToOne(mappedBy = "ubicacion", cascade = CascadeType.ALL)
+	@JsonIgnore
+	private Persona persona;
+	
 }

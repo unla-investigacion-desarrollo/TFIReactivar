@@ -1,8 +1,6 @@
-/**
- * 
- */
 package com.unla.alimentar.modelo;
 
+import java.sql.Time;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -19,47 +17,26 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Data;
 
-/**
- * @author Matias
- *
- */
 @Data
 @Entity
-@Table(name = "turno")
-public class Turno {
+@Table(name = "configuracionLocal")
+public class ConfiguracionLocal {
 	@Id
 	@GeneratedValue(generator = "system-uuid")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
-	private String idTurno;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idLocal", nullable = false)
-	@JsonBackReference
-	private Local local;
+	private long idConfiguracionLocal;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idEmprendimiento", nullable = false)
 	@JsonBackReference
 	private Emprendimiento emprendimiento;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idUsuario", nullable = false)
-	@JsonBackReference
-	private Usuario usuario;
-
-	/*@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idEstado", nullable = false)
-	@JsonBackReference
-	private Estado estado;*/
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idEstadoTurno", nullable = false)
-	@JsonBackReference
-	private EstadoTurno estadoTurno;
-	
-	
-	private Date fechaHora;
-	private String observaciones;
+	private String diaSemana;
+	private Time turno1Desde;
+	private Time turno1Hasta;
+	private Time turno2Desde;
+	private Time turno2Hasta;
+	private int intervaloTurnos;
 	private String usuarioModi;
 	private Date fechaModi;
 

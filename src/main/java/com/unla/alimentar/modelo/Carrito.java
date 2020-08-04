@@ -27,7 +27,12 @@ public class Carrito {
 	@GeneratedValue(generator = "system-uuid")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private long idCarrito;
-	//private Emprendimiento emprendimiento;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idEmprendimiento", nullable = false)
+	@JsonBackReference
+	private Emprendimiento emprendimiento;
+
 	//private Persona persona;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

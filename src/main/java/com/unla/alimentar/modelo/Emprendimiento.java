@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.unla.alimentar.modelo;
 
 import java.util.Date;
@@ -21,59 +18,62 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
 
-/**
- * @author Matias
- *
- */
 @Data
 @Entity
-@Table(name = "local")
-public class Local {
-
+@Table(name = "emprendimiento")
+public class Emprendimiento {
 	@Id
 	@GeneratedValue(generator = "system-uuid")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
-	private String idLocal;
+	private long idEmprendimiento;
 	private String nombre;
-	private int cuit;
-	private String calle;
-	private int numeracion;
-	private int codigoPostal;
-	private String departamento;
-	private String latitud;
-	private String longitud;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idLocalidad", nullable = false)
-	@JsonBackReference
-	private Localidad localidad;
-
+	private String cuit;
 	private String usuarioModi;
 	private Date fechaModi;
-	private int capacidad;
-	private boolean usaTurno;
-
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idTipoEmprendimiento", nullable = false)
+	@JsonBackReference
+	private TipoEmprendimiento tipoEmprendimiento;
+	
+	@OneToOne
+	@MapsId("idUbicacion")
+	private Ubicacion ubicacion;
+	
+	//private IPersona persona;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idRubro", nullable = false)
 	@JsonBackReference
 	private Rubro rubro;
-
-	@OneToOne
-	@MapsId("idUsuario")
-	private Usuario usuario;
-
-	/*@OneToMany(mappedBy = "local", cascade = CascadeType.ALL)
+	
+	@OneToMany(mappedBy = "emprendimiento")
 	@JsonManagedReference
-	private List<OcupacionLocal> ocupacionLocales;*/
+	private List<Promocion> promociones;
+	
+	
+	@OneToMany(mappedBy = "emprendimiento")
+	@JsonManagedReference
+	private List<Carrito> carrito;
 
-	@OneToMany(mappedBy = "local", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "emprendimiento", cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<Turno> turnos;
+	
+	@OneToMany(mappedBy = "emprendimiento")
+	@JsonManagedReference
+	private List<Articulo> articulos;
+	
+	@OneToMany(mappedBy = "emprendimiento")
+	@JsonManagedReference
+	private List<ConfiguracionLocal> configuracionLocales;
 
-	@OneToOne(mappedBy = "local", cascade = CascadeType.ALL)
-	private ConfiguracionTurno configuracionTurno;
+	@OneToMany(mappedBy = "emprendimiento", cascade = CascadeType.ALL)
+	@JsonManagedReference
+	private List<OcupacionLocal> ocupacionLocales;
 }

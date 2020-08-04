@@ -35,4 +35,7 @@ public class Rubro {
 	@JsonManagedReference
 	private List<Local> locales;
 
+	@OneToMany(mappedBy = "rubro")
+	@JsonManagedReference
+	private List<Emprendimiento> emprendimientos;
 }

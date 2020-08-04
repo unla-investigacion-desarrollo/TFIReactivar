@@ -3,6 +3,7 @@
  */
 package com.unla.alimentar.modelo;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -29,11 +30,21 @@ public class Perfil {
 	@Id
 	@GeneratedValue(generator = "system-uuid")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
-	private String idPerfil;
+	private long idPerfil;
 	private String nombre;
+	private String usuarioModi;
+	private Date fechaModi;
+	
+
+	/*@OneToMany(mappedBy = "perfil")
+	@JsonManagedReference
+	private List<Usuario> usuarios;*/
+	
+	@OneToMany(mappedBy = "perfil")
+	@JsonManagedReference
+	private List<Persona> personas;
 
 	@OneToMany(mappedBy = "perfil")
 	@JsonManagedReference
-	private List<Usuario> usuarios;
-
+	private List<FuncionPerfil> funcionesPerfil;
 }

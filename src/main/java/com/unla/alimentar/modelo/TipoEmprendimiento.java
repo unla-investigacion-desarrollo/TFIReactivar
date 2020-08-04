@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.unla.alimentar.modelo;
 
 import java.util.List;
@@ -17,21 +14,17 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
 
-/**
- * @author Matias
- *
- */
 @Data
 @Entity
-@Table(name = "estado")
-public class Estado {
+@Table(name = "tipoEmprendimiento")
+public class TipoEmprendimiento {
 	@Id
 	@GeneratedValue(generator = "system-uuid")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
-	private String idEstado;
+	private long idTipoEmprendimiento;
 	private String nombre;
-
-	/*@OneToMany(mappedBy = "estado")
+	
+	@OneToMany(mappedBy = "tipoEmprendimiento")
 	@JsonManagedReference
-	private List<Turno> turnos;*/
+	private List<Emprendimiento> emprendimientos;
 }

@@ -41,4 +41,12 @@ public class Localidad {
 	@JsonManagedReference
 	private List<Usuario> usuarios;
 
+	
+	
+	@OneToMany(mappedBy = "localidad")
+	@JsonManagedReference
+	private List<Ubicacion> ubicaciones;
+
+	
+
 }

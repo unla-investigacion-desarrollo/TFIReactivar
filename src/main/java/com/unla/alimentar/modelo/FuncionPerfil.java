@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.unla.alimentar.modelo;
 
 import java.util.Date;
@@ -19,38 +16,27 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Data;
 
-/**
- * @author Matias
- *
- */
 @Data
 @Entity
-@Table(name = "ocupacionLocal")
-public class OcupacionLocal {
+@Table(name = "funcionPerfil")
+public class FuncionPerfil {
 	@Id
 	@GeneratedValue(generator = "system-uuid")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
-	private String idOcupacionLocal;
-
-	/*@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idLocal", nullable = false)
-	@JsonBackReference
-	private Local local;*/
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idUsuario", nullable = false)
-	@JsonBackReference
-	private Usuario usuario;
+	private long idFuncionPerfil;
 	
-	private Date fechaHoraEntrada;
-	private Date fechaHoraSalida;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idPerfil", nullable = false)
+	@JsonBackReference
+	private Perfil perfil;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idFuncion", nullable = false)
+	@JsonBackReference
+	private Funcion funcion;
+	
+	private boolean edicion;
 	private String usuarioModi;
 	private Date fechaModi;
 	
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idEmprendimiento", nullable = false)
-	@JsonBackReference
-	private Emprendimiento emprendimiento;
-
 }

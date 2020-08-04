@@ -1,6 +1,7 @@
 package com.unla.alimentar.modelo;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -17,6 +19,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
 
@@ -54,7 +57,11 @@ public class Articulo {
 	@JsonBackReference
 	private UnidadMedida unidadMedida;
 	
-	//private Emprendimiento emprendimiento;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idEmprendimiento", nullable = false)
+	@JsonBackReference
+	private Emprendimiento emprendimiento;
 	
 	private boolean activoComercial;
 	private boolean visible;
@@ -62,4 +69,12 @@ public class Articulo {
 	@OneToOne(mappedBy = "articuloPrecio", cascade = CascadeType.ALL)
 	@JsonIgnore
 	private ItemCarrito itemCarrito;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idPromocion", nullable = false)
+	@JsonBackReference
+	private Promocion promocion;
+	
+	
+
 }

@@ -1,37 +1,30 @@
-/**
- * 
- */
 package com.unla.alimentar.modelo;
 
-import java.util.List;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
-/**
- * @author Matias
- *
- */
 @Data
 @Entity
-@Table(name = "estado")
-public class Estado {
+@Table(name = "login")
+public class Login {
 	@Id
 	@GeneratedValue(generator = "system-uuid")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
-	private String idEstado;
-	private String nombre;
+	private long idLogin;
+	private String emailString;
+	private String clave;
 
-	/*@OneToMany(mappedBy = "estado")
-	@JsonManagedReference
-	private List<Turno> turnos;*/
+	@OneToOne(mappedBy = "login", cascade = CascadeType.ALL)
+	@JsonIgnore
+	private Persona persona;
 }
