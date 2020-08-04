@@ -47,32 +47,32 @@ public class Local {
 	private String latitud;
 	private String longitud;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	/*@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idLocalidad", nullable = false)
 	@JsonBackReference
-	private Localidad localidad;
+	private Localidad localidad;*/
 
 	private String usuarioModi;
 	private Date fechaModi;
 	private int capacidad;
 	private boolean usaTurno;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	/*@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idRubro", nullable = false)
 	@JsonBackReference
-	private Rubro rubro;
+	private Rubro rubro;*/
 
-	@OneToOne
+	/*@OneToOne
 	@MapsId("idUsuario")
-	private Usuario usuario;
+	private Usuario usuario;*/
 
 	/*@OneToMany(mappedBy = "local", cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<OcupacionLocal> ocupacionLocales;*/
 
-	@OneToMany(mappedBy = "local", cascade = CascadeType.ALL)
+	/*@OneToMany(mappedBy = "local", cascade = CascadeType.ALL)
 	@JsonManagedReference
-	private List<Turno> turnos;
+	private List<Turno> turnos;*/
 
 	@OneToOne(mappedBy = "local", cascade = CascadeType.ALL)
 	private ConfiguracionTurno configuracionTurno;

@@ -31,16 +31,11 @@ public class OcupacionLocal {
 	@GeneratedValue(generator = "system-uuid")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String idOcupacionLocal;
-
-	/*@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idLocal", nullable = false)
-	@JsonBackReference
-	private Local local;*/
-
+	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idUsuario", nullable = false)
+	@JoinColumn(name = "idPersona", nullable = false)
 	@JsonBackReference
-	private Usuario usuario;
+	private Persona persona;
 	
 	private Date fechaHoraEntrada;
 	private Date fechaHoraSalida;
@@ -52,5 +47,17 @@ public class OcupacionLocal {
 	@JoinColumn(name = "idEmprendimiento", nullable = false)
 	@JsonBackReference
 	private Emprendimiento emprendimiento;
+	
+	
+
+	/*@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idLocal", nullable = false)
+	@JsonBackReference
+	private Local local;*/
+
+	/*@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idUsuario", nullable = false)
+	@JsonBackReference
+	private Usuario usuario;*/
 
 }

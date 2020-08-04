@@ -1,6 +1,7 @@
 package com.unla.alimentar.modelo;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,12 +10,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
 
@@ -44,4 +47,16 @@ public class Persona {
 	@OneToOne
 	@MapsId("idLogin")
 	private Login login;
+	
+	@OneToMany(mappedBy = "persona")
+	@JsonManagedReference
+	private List<Turno> turnos;
+	
+	@OneToMany(mappedBy = "persona")
+	@JsonManagedReference
+	private List<OcupacionLocal> ocupacionLocales;
+	
+	@OneToMany(mappedBy = "persona")
+	@JsonManagedReference
+	private List<Carrito> carritos;
 }

@@ -33,13 +33,10 @@ public class Localidad {
 	@JsonBackReference
 	private Provincia provincia;
 
-	@OneToMany(mappedBy = "localidad")
-	@JsonManagedReference
-	private List<Local> locales;
 
-	@OneToMany(mappedBy = "localidad")
+	/*@OneToMany(mappedBy = "localidad")
 	@JsonManagedReference
-	private List<Usuario> usuarios;
+	private List<Usuario> usuarios;*/
 
 	
 	
@@ -48,5 +45,9 @@ public class Localidad {
 	private List<Ubicacion> ubicaciones;
 
 	
+	/*@OneToMany(mappedBy = "localidad")
+	@JsonManagedReference
+	private List<Local> locales;*/
+
 
 }

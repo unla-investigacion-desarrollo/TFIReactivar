@@ -31,11 +31,14 @@ public class Rubro {
 	private String idRubro;
 	private String nombre;
 
-	@OneToMany(mappedBy = "rubro")
-	@JsonManagedReference
-	private List<Local> locales;
+
 
 	@OneToMany(mappedBy = "rubro")
 	@JsonManagedReference
 	private List<Emprendimiento> emprendimientos;
+	
+	
+	/*@OneToMany(mappedBy = "rubro")
+	@JsonManagedReference
+	private List<Local> locales;*/
 }

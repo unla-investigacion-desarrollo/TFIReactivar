@@ -33,7 +33,10 @@ public class Carrito {
 	@JsonBackReference
 	private Emprendimiento emprendimiento;
 
-	//private Persona persona;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idPersona", nullable = false)
+	@JsonBackReference
+	private Persona persona;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="idItemCarrito",nullable= false)
@@ -46,6 +49,8 @@ public class Carrito {
 	@JoinColumn(name="idEstadoCarrito",nullable= false)
 	@JsonBackReference
 	private EstadoCarrito estadoCarrito;
+	
+	
 	
 
 }

@@ -50,29 +50,25 @@ public class Usuario {
 	private int numeracion;
 	private int codigoPostal;
 	private String departamento;
-	@ManyToOne(fetch = FetchType.LAZY)
+	/*@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idLocalidad", nullable = false)
 	@JsonBackReference
-	private Localidad localidad;
+	private Localidad localidad;*/
 	private String latitud;
 	private String longitud;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	/*@ManyToOne(fetch = FetchType.LAZY)
 	@JsonBackReference
 	@JoinColumn(name = "idPerfil", nullable = false)
-	private Perfil perfil;
+	private Perfil perfil;*/
 
-	@OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
-	@JsonIgnore
-	private Local local;
-
-	@OneToMany(mappedBy = "usuario")
+	/*@OneToMany(mappedBy = "usuario")
 	@JsonManagedReference
-	private List<OcupacionLocal> ocupacionLocales;
+	private List<OcupacionLocal> ocupacionLocales;*/
 
-	@OneToMany(mappedBy = "usuario")
+	/*@OneToMany(mappedBy = "usuario")
 	@JsonManagedReference
-	private List<Turno> turnos;
+	private List<Turno> turnos;*/
 
 	private String mail;
 	private int numCelular;
@@ -81,4 +77,8 @@ public class Usuario {
 	@Transient
 	private String token;
 	private boolean estaActivo;
+	
+	/*@OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
+	@JsonIgnore
+	private Local local;*/
 }
