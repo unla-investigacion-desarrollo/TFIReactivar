@@ -10,6 +10,6 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect    
     hibernate:      
-      ddl-auto: create-drop
+      ddl-auto: none
     generate-ddl: true
     show-sql: true
