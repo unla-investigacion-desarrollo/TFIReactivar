@@ -1,8 +1,11 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/alimentar?serverTimezone=UTC
-    username: root
-    password: lala123
+    #Desa
+    url: jdbc:mysql://213.190.6.106/u545240097_alimentar?serverTimezone=UTC
+    #local
+    #url: jdbc:mysql://localhost:3306/alimentar?serverTimezone=UTC
+    username: u545240097_tfialimentar
+    password: Colojoymati123
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect    
