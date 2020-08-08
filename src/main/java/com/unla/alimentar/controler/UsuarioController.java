@@ -35,7 +35,7 @@ public class UsuarioController {
 	@Autowired
 	private UsuarioService usuarioService;
 	
-	@PostMapping
+	/*@PostMapping
 	public ResponseEntity<Usuario> login(@RequestParam("usuario") String username, @RequestParam("password") String pwd) {
 
 		Usuario user = usuarioService.traerUsuarioPorUsuario(username);
@@ -52,7 +52,7 @@ public class UsuarioController {
 		
 		return new ResponseEntity<>(user, HttpStatus.OK);
 
-	}
+	}*/
 	
 	@GetMapping
 	public ResponseEntity<List<Usuario>> traerTodos(){
