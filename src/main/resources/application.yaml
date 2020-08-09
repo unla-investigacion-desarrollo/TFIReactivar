@@ -1,7 +1,7 @@
 spring:
   datasource:
     #Desa
-    url: jdbc:mysql://213.190.6.106/u545240097_alimentar?serverTimezone=UTC
+    url: jdbc:mysql://213.190.6.106/u545240097_alimentar?autoReconnect=true
     #local
     #url: jdbc:mysql://localhost:3306/alimentar?serverTimezone=UTC
     username: u545240097_tfialimentar
@@ -13,3 +13,6 @@ spring:
       ddl-auto: none
     generate-ddl: true
     show-sql: true
+server:
+  host: 181.166.200.22
+  port: 9999
