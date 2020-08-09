@@ -1,6 +1,7 @@
 package com.unla.alimentar.modelo;
 
 import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
@@ -10,7 +11,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name ="dtoXCategoria")
+@DiscriminatorValue("categoria")
 public class DtoXCategoria extends Promocion{
 
 	private double descuento;
