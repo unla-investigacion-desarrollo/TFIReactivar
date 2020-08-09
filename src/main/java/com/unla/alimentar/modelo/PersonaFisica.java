@@ -1,17 +1,13 @@
 package com.unla.alimentar.modelo;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
 
 import lombok.Data;
 
 @Data
-@Entity
-@Table(name = "personaFisica")
+@Entity(name = "personaFisica")
+@DiscriminatorValue("fisica")
 public class PersonaFisica extends Persona {
 	private String nombre;
 	private String apellido;

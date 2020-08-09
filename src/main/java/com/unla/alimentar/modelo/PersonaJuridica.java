@@ -2,18 +2,15 @@ package com.unla.alimentar.modelo;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.Table;
 
 import lombok.Data;
 
 @Data
-@Entity
-@Table(name = "personaJuridica")
+@Entity(name = "personaJuridica")
+@DiscriminatorValue("juridica")
 public class PersonaJuridica extends Persona{
 
 	private String razonSocial;
