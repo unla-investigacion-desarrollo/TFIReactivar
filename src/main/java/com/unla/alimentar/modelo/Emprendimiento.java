@@ -52,6 +52,11 @@ public class Emprendimiento {
 	@JsonBackReference
 	private Rubro rubro;
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idPersona", nullable = false)
+	@JsonBackReference
+	private Persona persona;
+	
 	@OneToMany(mappedBy = "emprendimiento")
 	@JsonManagedReference
 	private List<Promocion> promociones;
