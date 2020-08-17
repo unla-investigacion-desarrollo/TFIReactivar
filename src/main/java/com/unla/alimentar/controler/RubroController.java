@@ -19,7 +19,7 @@ public class RubroController {
 	private RubroService rubroService;
 	
 	@GetMapping("/{idRubro}")
-	public ResponseEntity<Rubro> traerRubroPorId(@PathVariable("idRubro") String id){
+	public ResponseEntity<Rubro> traerRubroPorId(@PathVariable("idRubro") Long id){
 		Rubro rubro = rubroService.traerRubroPorId(id);
 		
 		return new ResponseEntity<>(rubro, HttpStatus.OK);

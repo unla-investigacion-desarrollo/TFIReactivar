@@ -3,11 +3,11 @@ package com.unla.alimentar.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.unla.alimentar.modelo.Rubro;
+import com.unla.alimentar.modelo.Perfil;
 
 @Repository
-public interface RubroRepository extends JpaRepository<Rubro, Long>{
+public interface PerfilRepository extends JpaRepository<Perfil, Long>{
 	
-	public Rubro findByIdRubro(Long idRubro);
+	public Perfil findByIdPerfil(Long id);
 	
 }

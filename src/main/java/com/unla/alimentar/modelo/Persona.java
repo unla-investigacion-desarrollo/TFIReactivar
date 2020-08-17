@@ -9,6 +9,7 @@ import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -18,9 +19,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
+import org.springframework.lang.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -35,26 +37,25 @@ import lombok.Data;
 discriminatorType = DiscriminatorType.STRING)
 public class Persona {
 	@Id
-	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long idPersona;
 
 	private String celular;
 	private String usuarioModi;
 	private Date fechaModi;
 	
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idPerfil", nullable = false)
 	@JsonBackReference
 	private Perfil perfil;
 	
 	@OneToOne
-	@MapsId("idUbicacion")
+	@JoinColumn(name = "idUbicacion", nullable = true)
 	private Ubicacion ubicacion;
 	
 	@OneToOne
-	@MapsId("idLogin")
+    @JoinColumn(name = "idLogin")
 	private Login login;
 	
 	@OneToMany(mappedBy = "persona")

@@ -3,11 +3,11 @@ package com.unla.alimentar.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.unla.alimentar.modelo.Rubro;
+import com.unla.alimentar.modelo.Localidad;
 
 @Repository
-public interface RubroRepository extends JpaRepository<Rubro, Long>{
+public interface LocalidadRepository extends JpaRepository<Localidad, Long>{
 	
-	public Rubro findByIdRubro(Long idRubro);
-	
+	public Localidad findByIdLocalidad(Long id);
+
 }

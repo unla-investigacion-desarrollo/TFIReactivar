@@ -1,5 +1,6 @@
 package com.unla.alimentar.modelo;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -7,18 +8,15 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
@@ -28,21 +26,20 @@ import lombok.Data;
 @Table(name = "emprendimiento")
 public class Emprendimiento {
 	@Id
-	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long idEmprendimiento;
 	private String nombre;
 	private String cuit;
 	private String usuarioModi;
 	private Date fechaModi;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
 	@JoinColumn(name = "idTipoEmprendimiento", nullable = false)
 	@JsonBackReference
 	private TipoEmprendimiento tipoEmprendimiento;
 	
-	@OneToOne
-	@MapsId("idUbicacion")
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name = "idUbicacion", nullable = false)
 	private Ubicacion ubicacion;
 	
 	//private IPersona persona;
@@ -74,9 +71,9 @@ public class Emprendimiento {
 	@JsonManagedReference
 	private List<Articulo> articulos;
 	
-	@OneToMany(mappedBy = "emprendimiento")
+	@OneToMany(mappedBy = "emprendimiento", cascade=CascadeType.ALL)
 	@JsonManagedReference
-	private List<ConfiguracionLocal> configuracionLocales;
+	private List<ConfiguracionLocal> configuracionLocales = new ArrayList<>();
 
 	@OneToMany(mappedBy = "emprendimiento", cascade = CascadeType.ALL)
 	@JsonManagedReference

@@ -12,7 +12,7 @@ public class RubroService {
 	@Autowired
 	private RubroRepository rubroRepository;
 	
-	public Rubro traerRubroPorId(String id) {
+	public Rubro traerRubroPorId(Long id) {
 		Rubro rubro = rubroRepository.findByIdRubro(id);
 		return rubro;
 	}
