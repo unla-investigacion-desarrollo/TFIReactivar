@@ -3,6 +3,7 @@ package com.unla.alimentar.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.unla.alimentar.exception.ObjectNotFound;
 import com.unla.alimentar.modelo.Localidad;
 import com.unla.alimentar.modelo.Ubicacion;
 import com.unla.alimentar.repository.UbicacionRepository;
@@ -34,7 +35,7 @@ public class UbicacionService {
 		ubicacion.setLongitud(ubicacionVo.getLongitud());
 		Localidad localidad = localidadService.traerLocalidadPorId(ubicacionVo.getIdLocalidad());
 		if(localidad == null) {
-			//lanzar exception
+			throw new ObjectNotFound("Localidad");
 		}
 		ubicacion.setLocalidad(localidad);
 		

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.unla.alimentar.exception.ObjectNotFound;
 import com.unla.alimentar.modelo.ConfiguracionLocal;
 import com.unla.alimentar.modelo.Emprendimiento;
 import com.unla.alimentar.modelo.Persona;
@@ -62,13 +63,13 @@ public class EmprendimientoService {
 
 		repository.delete(emprendimiento);
 	}
-	
+
 	@Transactional
 	public Emprendimiento actualizarEmprendimiento(Long id, EmprendimientoVo emprendimientoVo) {
 		Emprendimiento emprendimiento = repository.findByIdEmprendimiento(id);
 
 		if (emprendimiento == null) {
-			// Lanzar exception
+			throw new ObjectNotFound();
 		}
 
 		adaptarEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
@@ -76,8 +77,7 @@ public class EmprendimientoService {
 		return repository.save(emprendimiento);
 	}
 
-	private void adaptarEmprendimientoVoAEmprendimiento(EmprendimientoVo emprendimientoVo,
-			Emprendimiento emprendimiento) {
+	private void adaptarEmprendimientoVoAEmprendimiento(EmprendimientoVo emprendimientoVo, Emprendimiento emprendimiento) {
 		for (int i = 0; i < emprendimientoVo.getConfiguracionLocales().size(); i++) {
 			emprendimiento.getConfiguracionLocales()
 					.add(adaptarConfiguracionLocal(emprendimientoVo.getConfiguracionLocales().get(i)));
@@ -86,12 +86,18 @@ public class EmprendimientoService {
 		emprendimiento.setCuit(emprendimientoVo.getCuit());
 		emprendimiento.setNombre(emprendimientoVo.getNombre());
 		Persona persona = personaService.traerPersonaPorId(emprendimientoVo.getIdPersona());
-		emprendimiento.setPersona(persona);
 		Rubro rubro = rubroService.traerRubroPorId(emprendimientoVo.getIdRubro());
-		emprendimiento.setRubro(rubro);
 		TipoEmprendimiento tipoEmprendimiento = tipoEmprendimientoService
 				.traerTipoEmprendimientoporId(emprendimientoVo.getIdTipoEmprendimiento());
+
+		if (persona == null || rubro == null || tipoEmprendimiento == null) {
+			throw new ObjectNotFound("Persona, rubro o tipoEmprendimiento");
+		}
+
+		emprendimiento.setPersona(persona);
+		emprendimiento.setRubro(rubro);
 		emprendimiento.setTipoEmprendimiento(tipoEmprendimiento);
+
 		Ubicacion ubicacion = ubicacionService.crearUbicacion(emprendimientoVo.getUbicacionVo());
 		emprendimiento.setUbicacion(ubicacion);
 	}

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.unla.alimentar.exception.ObjectNotFound;
 import com.unla.alimentar.modelo.Login;
 import com.unla.alimentar.modelo.Perfil;
 import com.unla.alimentar.modelo.Persona;
@@ -35,7 +36,7 @@ public class PersonaJuridicaService {
 		Perfil perfil = perfilService.traerPerfilPorId(personaVo.getIdPerfil());
 		
 		if(login == null || perfil == null) {
-			//lanzar excepcion
+			throw new ObjectNotFound("Login o perfil");
 		}
 		
 		persona.setLogin(login);

@@ -1,16 +1,11 @@
 package com.unla.alimentar.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.unla.alimentar.modelo.ConfiguracionLocal;
 import com.unla.alimentar.repository.ConfiguracionLocalRepository;
 import com.unla.alimentar.vo.ConfiguracionLocalVo;
-import com.unla.alimentar.vo.EmprendimientoVo;
 
 @Service
 public class ConfiguracionLocalService {
@@ -33,7 +28,6 @@ public class ConfiguracionLocalService {
 		config.setTurno2Desde(configuracionLocales.getTurno2Desde());
 		config.setTurno2Hasta(configuracionLocales.getTurno2Hasta());
 
-		
 		return repository.save(config);
 	}
 	
