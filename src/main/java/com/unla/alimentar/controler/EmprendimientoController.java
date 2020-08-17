@@ -47,7 +47,7 @@ public class EmprendimientoController {
 	}
 	
 	@DeleteMapping("/{idEmprendimiento}")
-	public void eliminarEmprendimiento(@PathVariable("idEmprendimiento") Long id ) {
+	public void eliminarEmprendimiento(@PathVariable("idEmprendimiento") long id ) {
 		service.borrarEmprendimiento(id);
 	}
 	

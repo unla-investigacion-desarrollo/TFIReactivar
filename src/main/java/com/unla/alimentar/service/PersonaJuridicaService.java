@@ -48,4 +48,14 @@ public class PersonaJuridicaService {
 		return personaRepository.findByIdPersona(idPersona);
 	}
 
+	public void borrarPersona(long id) {
+		Persona persona = personaRepository.findByIdPersona(id);
+		
+		if(persona == null) {
+			throw new ObjectNotFound("Persona");
+		}
+		
+		personaRepository.delete(persona);
+	}
+
 }

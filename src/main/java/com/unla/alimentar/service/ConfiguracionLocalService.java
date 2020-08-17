@@ -3,6 +3,7 @@ package com.unla.alimentar.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.unla.alimentar.exception.ObjectNotFound;
 import com.unla.alimentar.modelo.ConfiguracionLocal;
 import com.unla.alimentar.repository.ConfiguracionLocalRepository;
 import com.unla.alimentar.vo.ConfiguracionLocalVo;
@@ -29,6 +30,16 @@ public class ConfiguracionLocalService {
 		config.setTurno2Hasta(configuracionLocales.getTurno2Hasta());
 
 		return repository.save(config);
+	}
+	
+	public void borrarConfiguracionLocal(long id) {
+		ConfiguracionLocal configuracionLocal = repository.findByIdConfiguracionLocal(id);
+
+		if (configuracionLocal == null) {
+			throw new ObjectNotFound("ConfiguracionLocal");
+		}
+
+		repository.delete(configuracionLocal);
 	}
 	
 	

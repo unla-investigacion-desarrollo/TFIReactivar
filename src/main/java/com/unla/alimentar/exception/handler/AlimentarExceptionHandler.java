@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.unla.alimentar.exception.ObjectNotFound;
-import com.unla.alimentar.modelo.GenericError;
+import com.unla.alimentar.exception.model.GenericError;
 
 @ControllerAdvice
 @Order(Ordered.LOWEST_PRECEDENCE)
@@ -24,8 +24,8 @@ public class AlimentarExceptionHandler {
 		
 		String message = "El objeto seleccionado no fue encontrado.";
 		
-		if(!StringUtils.isBlank(ex.getMessage())) {
-			message = new StringBuilder(message).append(" (").append(ex.getMessage()).append(")").toString();
+		if(!StringUtils.isBlank(ex.getErrorMessage())) {
+			message = new StringBuilder(message).append(" (").append(ex.getErrorMessage()).append(")").toString();
 		}
 		
 		GenericError error = new GenericError("error.alimentar.object.not_found", message);

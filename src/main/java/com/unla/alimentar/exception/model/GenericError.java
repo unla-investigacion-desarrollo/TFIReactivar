@@ -1,4 +1,4 @@
-package com.unla.alimentar.modelo;
+package com.unla.alimentar.exception.model;
 
 public class GenericError {
 

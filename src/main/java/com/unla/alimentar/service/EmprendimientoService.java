@@ -58,7 +58,7 @@ public class EmprendimientoService {
 		Emprendimiento emprendimiento = repository.findByIdEmprendimiento(id);
 
 		if (emprendimiento == null) {
-			// Lanzar exception
+			throw new ObjectNotFound("Emprendimiento");
 		}
 
 		repository.delete(emprendimiento);
