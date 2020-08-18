@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.unla.alimentar.exceptions.ObjectNotFound;
 import com.unla.alimentar.models.Articulo;
 import com.unla.alimentar.repositories.ArticuloRepository;
+import com.unla.alimentar.vo.ArticuloVo;
 
 @Service
 @Transactional(readOnly = true)
@@ -21,7 +22,7 @@ public class ArticuloService {
 		return repository.findByIdArticulo(id);
 	}
 
-	public List<Articulo> traerTodos(Long id) {
+	public List<Articulo> traerTodos() {
 		return repository.findAll();
 	}
 
@@ -34,6 +35,16 @@ public class ArticuloService {
 		}
 
 		repository.delete(articulo);
+	}
+
+	public Articulo crearArticulo(ArticuloVo articuloVo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Articulo actualizarArticulo(Long id, ArticuloVo articuloVo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -88,7 +88,7 @@ public class EmprendimientoService {
 		Persona persona = personaService.traerPersonaPorId(emprendimientoVo.getIdPersona());
 		Rubro rubro = rubroService.traerRubroPorId(emprendimientoVo.getIdRubro());
 		TipoEmprendimiento tipoEmprendimiento = tipoEmprendimientoService
-				.traerTipoEmprendimientoporId(emprendimientoVo.getIdTipoEmprendimiento());
+				.traerTipoEmprendimientoPorId(emprendimientoVo.getIdTipoEmprendimiento());
 
 		if (persona == null || rubro == null || tipoEmprendimiento == null) {
 			throw new ObjectNotFound("Persona, rubro o tipoEmprendimiento");

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.unla.alimentar.exceptions.ObjectNotFound;
 import com.unla.alimentar.models.Promocion;
 import com.unla.alimentar.repositories.PromocionRepository;
+import com.unla.alimentar.vo.PromocionVo;
 
 @Service
 @Transactional(readOnly = true)
@@ -21,7 +22,7 @@ public class PromocionService {
 		return repository.findByIdPromocion(id);
 	}
 
-	public List<Promocion> traerTodos(Long id) {
+	public List<Promocion> traerTodos() {
 		return repository.findAll();
 	}
 
@@ -34,6 +35,16 @@ public class PromocionService {
 		}
 
 		repository.delete(registro);
+	}
+
+	public Promocion actualizarPromocion(Long id, PromocionVo promocionVo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Promocion crearPromocion(PromocionVo promocionVo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

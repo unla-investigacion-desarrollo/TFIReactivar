@@ -1,5 +1,7 @@
 package com.unla.alimentar.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,31 +18,61 @@ import com.unla.alimentar.models.Persona;
 import com.unla.alimentar.services.PersonaJuridicaService;
 import com.unla.alimentar.vo.PersonaJuridicaVo;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
-@RequestMapping("/juridica")
+@RequestMapping("/api/juridica")
+@Api(tags = "PersonaJuridica")
 public class PersonaJuridicaController {
 	
 	@Autowired
-	private PersonaJuridicaService personaJuridicaService;
+	private PersonaJuridicaService service;
 	
-	@GetMapping("/{idJuridica}")
-	public ResponseEntity<Persona> traerRubroPorId(@PathVariable("idPersona") long idPersona){
-		Persona persona = personaJuridicaService.traerPersonaPorId(idPersona);
-		
-		return new ResponseEntity<>(persona, HttpStatus.OK);
+	@GetMapping
+	@ApiOperation(value = "Listar todos los personaJuridicas", notes = "Service para listar todos los personaJuridicas")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "PersonaJuridicas encontrados"),
+			@ApiResponse(code = 404, message = "PersonaJuridicas no encontrados") })
+	public List<Persona> traerTodos() {
+		return service.traerTodos();
+	}
+	
+	@GetMapping("/{idPersonaJuridica}")
+	@ApiOperation(value = "Mostrar un personaJuridica", notes = "Service para mostrar un personaJuridica")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "PersonaJuridica encontrado"),
+			@ApiResponse(code = 404, message = "PersonaJuridica no encontrado") })
+	public Persona traerPersonaJuridica(@PathVariable ("idPersonaJuridica") long id) {
+		return service.traerPersonaPorId(id);
 	}
 	
 	@PostMapping
-	public ResponseEntity<Persona> crearPersona(@RequestBody PersonaJuridicaVo personaJuridica){
+	@ApiOperation(value = "Crear PersonaJuridica", notes = "Servicio creador de personaJuridicas")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "PersonaJuridica successfully created"),
+			@ApiResponse(code = 400, message = "Invalid request") })
+	public ResponseEntity<Persona> crearPersonaJuridica(@RequestBody PersonaJuridicaVo personaJuridicaVo){
+		Persona personaJuridica = service.crearPersona(personaJuridicaVo);
 		
-		Persona juridica = personaJuridicaService.crearPersona(personaJuridica);
-		
-		return new ResponseEntity<>(juridica, HttpStatus.CREATED);
+		return new ResponseEntity<>(personaJuridica, HttpStatus.CREATED);
 	}
 	
-	@DeleteMapping("/{idPersona}")
-	public void eliminarPersona(@PathVariable("idPersona") long id ) {
-		personaJuridicaService.borrarPersona(id);
+	@DeleteMapping("/{idPersonaJuridica}")
+	@ApiOperation(value = "Eliminar personaJuridica", notes = "Servicio elimina PersonaJuridica")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "PersonaJuridica eliminado con exito"),
+			@ApiResponse(code = 404, message = "PersonaJuridica no encontrado") })
+	public void eliminarPersonaJuridica(@PathVariable("idPersonaJuridica") long id ) {
+		
+		service.borrarPersona(id);
+	}
+	
+	@PutMapping("/{idPersonaJuridica}")
+	@ApiOperation(value = "Update PersonaJuridica", notes = "PersonaJuridica updater service")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "PersonaJuridica successfully updated"),
+			@ApiResponse(code = 404, message = "PersonaJuridica not found") })
+	public ResponseEntity<Persona> updateAbility(@PathVariable("idPersonaJuridica") Long id, PersonaJuridicaVo personaJuridicaVo) {
+
+		return new ResponseEntity<>(service.actualizarPersonaJuridica(id, personaJuridicaVo), HttpStatus.OK);
 	}
 
 }

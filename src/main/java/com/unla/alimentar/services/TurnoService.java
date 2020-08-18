@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.unla.alimentar.exceptions.ObjectNotFound;
 import com.unla.alimentar.models.Turno;
 import com.unla.alimentar.repositories.TurnoRepository;
+import com.unla.alimentar.vo.TurnoVo;
 
 @Service
 @Transactional(readOnly = true)
@@ -21,7 +22,7 @@ public class TurnoService {
 		return repository.findByIdTurno(id);
 	}
 
-	public List<Turno> traerTodos(Long id) {
+	public List<Turno> traerTodos() {
 		return repository.findAll();
 	}
 
@@ -34,6 +35,16 @@ public class TurnoService {
 		}
 
 		repository.delete(registro);
+	}
+
+	public Turno actualizarTurno(Long id, TurnoVo turnoVo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Turno crearTurno(TurnoVo turnoVo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

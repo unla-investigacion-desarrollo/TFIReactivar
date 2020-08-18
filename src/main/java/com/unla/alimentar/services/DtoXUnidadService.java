@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.unla.alimentar.exceptions.ObjectNotFound;
 import com.unla.alimentar.models.DtoXUnidad;
 import com.unla.alimentar.repositories.DtoXUnidadRepository;
+import com.unla.alimentar.vo.DtoXUnidadVo;
 
 @Service
 @Transactional(readOnly = true)
@@ -21,7 +22,7 @@ public class DtoXUnidadService {
 		return repository.findByIdDtoXUnidad(id);
 	}
 
-	public List<DtoXUnidad> traerTodos(Long id) {
+	public List<DtoXUnidad> traerTodos() {
 		return repository.findAll();
 	}
 
@@ -34,6 +35,16 @@ public class DtoXUnidadService {
 		}
 
 		repository.delete(registro);
+	}
+
+	public DtoXUnidad actualizarDtoXUnidad(Long id, DtoXUnidadVo dtoXUnidadVo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public DtoXUnidad crearDtoXUnidad(DtoXUnidadVo dtoXUnidadVo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

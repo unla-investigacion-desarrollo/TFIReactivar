@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.unla.alimentar.exceptions.ObjectNotFound;
 import com.unla.alimentar.models.DtoXPorcentaje;
 import com.unla.alimentar.repositories.DtoXPorcentajeRepository;
+import com.unla.alimentar.vo.DtoXPorcentajeVo;
 
 @Service
 @Transactional(readOnly = true)
@@ -21,7 +22,7 @@ public class DtoXPorcentajeService {
 		return repository.findByIdDtoXPorcentaje(id);
 	}
 
-	public List<DtoXPorcentaje> traerTodos(Long id) {
+	public List<DtoXPorcentaje> traerTodos() {
 		return repository.findAll();
 	}
 
@@ -34,6 +35,16 @@ public class DtoXPorcentajeService {
 		}
 
 		repository.delete(registro);
+	}
+
+	public DtoXPorcentaje actualizarDtoXPorcentaje(Long id, DtoXPorcentajeVo dtoXPorcentajeVo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public DtoXPorcentaje crearDtoXPorcentaje(DtoXPorcentajeVo dtoXPorcentajeVo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -9,10 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.unla.alimentar.exceptions.ObjectNotFound;
 import com.unla.alimentar.models.ArticuloReferencia;
 import com.unla.alimentar.repositories.ArticuloReferenciaRepository;
+import com.unla.alimentar.vo.ArticuloReferenciaVo;
 
 @Service
 @Transactional(readOnly = true)
-public class ArticuloRefenciaService {
+public class ArticuloReferenciaService {
 
 	@Autowired
 	private ArticuloReferenciaRepository repository;
@@ -21,7 +22,7 @@ public class ArticuloRefenciaService {
 		return repository.findByIdArticuloReferencia(id);
 	}
 
-	public List<ArticuloReferencia> traerTodos(Long id) {
+	public List<ArticuloReferencia> traerTodos() {
 		return repository.findAll();
 	}
 
@@ -34,6 +35,16 @@ public class ArticuloRefenciaService {
 		}
 
 		repository.delete(articuloReferencia);
+	}
+
+	public ArticuloReferencia crearArticuloReferencia(ArticuloReferenciaVo articuloReferenciaVo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ArticuloReferencia actualizarArticuloReferencia(Long id, ArticuloReferenciaVo articuloReferenciaVo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

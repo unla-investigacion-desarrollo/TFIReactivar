@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.unla.alimentar.exceptions.ObjectNotFound;
 import com.unla.alimentar.models.UnidadMedida;
 import com.unla.alimentar.repositories.UnidadMedidaRepository;
+import com.unla.alimentar.vo.UnidadMedidaVo;
 
 @Service
 @Transactional(readOnly = true)
@@ -21,7 +22,7 @@ public class UnidadMedidaService {
 		return repository.findByIdUnidadMedida(id);
 	}
 
-	public List<UnidadMedida> traerTodos(Long id) {
+	public List<UnidadMedida> traerTodos() {
 		return repository.findAll();
 	}
 
@@ -34,6 +35,16 @@ public class UnidadMedidaService {
 		}
 
 		repository.delete(registro);
+	}
+
+	public UnidadMedida actualizarUnidadMedida(Long id, UnidadMedidaVo unidadMedidaVo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public UnidadMedida crearUnidadMedida(UnidadMedidaVo unidadMedidaVo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

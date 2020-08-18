@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.unla.alimentar.exceptions.ObjectNotFound;
 import com.unla.alimentar.models.LlevaPaga;
 import com.unla.alimentar.repositories.LlevaPagaRepository;
+import com.unla.alimentar.vo.LlevaPagaVo;
 
 @Service
 @Transactional(readOnly = true)
@@ -21,7 +22,7 @@ public class LlevaPagaService {
 		return repository.findByIdLlevaPaga(id);
 	}
 
-	public List<LlevaPaga> traerTodos(Long id) {
+	public List<LlevaPaga> traerTodos() {
 		return repository.findAll();
 	}
 
@@ -34,6 +35,16 @@ public class LlevaPagaService {
 		}
 
 		repository.delete(registro);
+	}
+
+	public LlevaPaga actualizarLlevaPaga(Long id, LlevaPagaVo llevaPagaVo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public LlevaPaga crearLlevaPaga(LlevaPagaVo llevaPagaVo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

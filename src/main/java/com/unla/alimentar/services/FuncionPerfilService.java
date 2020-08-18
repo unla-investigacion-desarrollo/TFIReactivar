@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.unla.alimentar.exceptions.ObjectNotFound;
 import com.unla.alimentar.models.FuncionPerfil;
 import com.unla.alimentar.repositories.FuncionPerfilRepository;
+import com.unla.alimentar.vo.FuncionPerfilVo;
 
 @Service
 @Transactional(readOnly = true)
@@ -21,7 +22,7 @@ public class FuncionPerfilService {
 		return repository.findByIdFuncionPerfil(id);
 	}
 
-	public List<FuncionPerfil> traerTodos(Long id) {
+	public List<FuncionPerfil> traerTodos() {
 		return repository.findAll();
 	}
 
@@ -34,6 +35,16 @@ public class FuncionPerfilService {
 		}
 
 		repository.delete(registro);
+	}
+
+	public FuncionPerfil actualizarFuncionPerfil(Long id, FuncionPerfilVo funcionPerfilVo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public FuncionPerfil crearFuncionPerfil(FuncionPerfilVo funcionPerfilVo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

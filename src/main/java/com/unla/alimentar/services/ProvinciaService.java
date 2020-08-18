@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.unla.alimentar.exceptions.ObjectNotFound;
 import com.unla.alimentar.models.Provincia;
 import com.unla.alimentar.repositories.ProvinciaRepository;
+import com.unla.alimentar.vo.ProvinciaVo;
 
 @Service
 @Transactional(readOnly = true)
@@ -34,6 +35,16 @@ public class ProvinciaService {
 		}
 		
 		repository.delete(provincia);
+	}
+
+	public Provincia actualizarProvincia(Long id, ProvinciaVo provinciaVo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Provincia crearProvincia(ProvinciaVo provinciaVo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

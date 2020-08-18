@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.unla.alimentar.exceptions.ObjectNotFound;
 import com.unla.alimentar.models.Marca;
 import com.unla.alimentar.repositories.MarcaRepository;
+import com.unla.alimentar.vo.MarcaVo;
 
 @Service
 @Transactional(readOnly = true)
@@ -21,7 +22,7 @@ public class MarcaService {
 		return repository.findByIdMarca(id);
 	}
 
-	public List<Marca> traerTodos(Long id) {
+	public List<Marca> traerTodos() {
 		return repository.findAll();
 	}
 
@@ -34,6 +35,16 @@ public class MarcaService {
 		}
 
 		repository.delete(registro);
+	}
+
+	public Marca actualizarMarca(Long id, MarcaVo marcaVo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Marca crearMarca(MarcaVo marcaVo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

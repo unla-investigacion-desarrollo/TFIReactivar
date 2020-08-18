@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.unla.alimentar.exceptions.ObjectNotFound;
 import com.unla.alimentar.models.Funcion;
 import com.unla.alimentar.repositories.FuncionRepository;
+import com.unla.alimentar.vo.FuncionVo;
 
 @Service
 @Transactional(readOnly = true)
@@ -21,7 +22,7 @@ public class FuncionService {
 		return repository.findByIdFuncion(id);
 	}
 
-	public List<Funcion> traerTodos(Long id) {
+	public List<Funcion> traerTodos() {
 		return repository.findAll();
 	}
 
@@ -34,6 +35,16 @@ public class FuncionService {
 		}
 
 		repository.delete(registro);
+	}
+
+	public Funcion actualizarFuncion(Long id, FuncionVo funcionVo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Funcion crearFuncion(FuncionVo funcionVo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.unla.alimentar.exceptions.ObjectNotFound;
 import com.unla.alimentar.models.OcupacionLocal;
 import com.unla.alimentar.repositories.OcupacionLocalRepository;
+import com.unla.alimentar.vo.OcupacionLocalVo;
 
 @Service
 @Transactional(readOnly = true)
@@ -21,7 +22,7 @@ public class OcupacionLocalService {
 		return repository.findByIdOcupacionLocal(id);
 	}
 
-	public List<OcupacionLocal> traerTodos(Long id) {
+	public List<OcupacionLocal> traerTodos() {
 		return repository.findAll();
 	}
 
@@ -34,6 +35,16 @@ public class OcupacionLocalService {
 		}
 
 		repository.delete(registro);
+	}
+
+	public OcupacionLocal actualizarOcupacionLocal(Long id, OcupacionLocalVo ocupacionLocalVo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public OcupacionLocal crearOcupacionLocal(OcupacionLocalVo ocupacionLocalVo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.unla.alimentar.exceptions.ObjectNotFound;
 import com.unla.alimentar.models.Perfil;
 import com.unla.alimentar.repositories.PerfilRepository;
+import com.unla.alimentar.vo.PerfilVo;
 
 @Service
 @Transactional(readOnly = true)
@@ -34,5 +35,15 @@ public class PerfilService {
 		}
 		
 		repository.delete(perfil);
+	}
+
+	public Perfil actualizarPerfil(Long id, PerfilVo perfilVo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Perfil crearPerfil(PerfilVo perfilVo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.unla.alimentar.exceptions.ObjectNotFound;
 import com.unla.alimentar.models.TipoEmprendimiento;
 import com.unla.alimentar.repositories.TipoEmprendimientoRepository;
+import com.unla.alimentar.vo.TipoEmprendimientoVo;
 
 @Service
 @Transactional(readOnly = true)
@@ -17,7 +18,7 @@ public class TipoEmprendimientoService {
 	@Autowired
 	private TipoEmprendimientoRepository repository;
 	
-	public TipoEmprendimiento traerTipoEmprendimientoporId(Long id) {
+	public TipoEmprendimiento traerTipoEmprendimientoPorId(Long id) {
 		return repository.findByIdTipoEmprendimiento(id);
 	}
 	
@@ -34,6 +35,16 @@ public class TipoEmprendimientoService {
 		}
 		
 		repository.delete(tipoEmprendimiento);
+	}
+
+	public TipoEmprendimiento actualizarTipoEmprendimiento(Long id, TipoEmprendimientoVo tipoEmprendimientoVo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public TipoEmprendimiento crearTipoEmprendimiento(TipoEmprendimientoVo tipoEmprendimientoVo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

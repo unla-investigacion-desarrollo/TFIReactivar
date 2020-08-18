@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.unla.alimentar.exceptions.ObjectNotFound;
 import com.unla.alimentar.models.Login;
 import com.unla.alimentar.repositories.LoginRepository;
+import com.unla.alimentar.vo.LoginVo;
 
 @Service
 @Transactional(readOnly = true)
@@ -21,7 +22,7 @@ public class LoginService {
 		return repository.findByIdLogin(id);
 	}
 
-	public List<Login> traerTodos(Long id) {
+	public List<Login> traerTodos() {
 		return repository.findAll();
 	}
 
@@ -34,6 +35,16 @@ public class LoginService {
 		}
 
 		repository.delete(login);
+	}
+
+	public Login actualizarLogin(Long id, LoginVo loginVo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Login crearLogin(LoginVo loginVo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

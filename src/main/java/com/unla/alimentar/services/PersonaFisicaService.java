@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.unla.alimentar.exceptions.ObjectNotFound;
 import com.unla.alimentar.models.Persona;
 import com.unla.alimentar.repositories.PersonaFisicaRepository;
+import com.unla.alimentar.vo.PersonaFisicaVo;
 
 @Service
 @Transactional(readOnly = true)
@@ -21,7 +22,7 @@ public class PersonaFisicaService {
 		return repository.findByIdPersona(id);
 	}
 
-	public List<Persona> traerTodos(Long id) {
+	public List<Persona> traerTodos() {
 		return repository.findAll();
 	}
 
@@ -34,6 +35,16 @@ public class PersonaFisicaService {
 		}
 
 		repository.delete(registro);
+	}
+
+	public Persona crearPersonaFisica(PersonaFisicaVo personaFisicaVo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Persona actualizarPersonaFisica(Long id, PersonaFisicaVo personaFisicaVo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

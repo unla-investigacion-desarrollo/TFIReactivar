@@ -24,7 +24,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("/emprendimiento")
+@RequestMapping("/api/emprendimiento")
 @Api(tags = "Emprendimiento")
 public class EmprendimientoController {
 	
@@ -32,8 +32,19 @@ public class EmprendimientoController {
 	private EmprendimientoService service;
 	
 	@GetMapping
+	@ApiOperation(value = "Listar todos los emprendimientos", notes = "Service para listar todos los emprendimientos")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Emprendimientos encontrados"),
+			@ApiResponse(code = 404, message = "Emprendimientos no encontrados") })
 	public List<Emprendimiento> traerTodos() {
 		return service.traerTodos();
+	}
+	
+	@GetMapping("/{idEmprendimiento}")
+	@ApiOperation(value = "Mostrar un emprendimiento", notes = "Service para mostrar un emprendimiento")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Emprendimiento encontrado"),
+			@ApiResponse(code = 404, message = "Emprendimiento no encontrado") })
+	public Emprendimiento traerEmprendimiento(@PathVariable ("idEmprendimiento") long id) {
+		return service.traerEmprendimientoPorId(id);
 	}
 	
 	@PostMapping
@@ -47,7 +58,11 @@ public class EmprendimientoController {
 	}
 	
 	@DeleteMapping("/{idEmprendimiento}")
+	@ApiOperation(value = "Eliminar emprendimiento", notes = "Servicio elimina Emprendimiento")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Emprendimiento eliminado con exito"),
+			@ApiResponse(code = 404, message = "Emprendimiento no encontrado") })
 	public void eliminarEmprendimiento(@PathVariable("idEmprendimiento") long id ) {
+		
 		service.borrarEmprendimiento(id);
 	}
 	

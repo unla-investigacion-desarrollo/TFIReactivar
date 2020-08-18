@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.unla.alimentar.exceptions.ObjectNotFound;
 import com.unla.alimentar.models.EstadoCarrito;
 import com.unla.alimentar.repositories.EstadoCarritoRepository;
+import com.unla.alimentar.vo.EstadoCarritoVo;
 
 @Service
 @Transactional(readOnly = true)
@@ -21,7 +22,7 @@ public class EstadoCarritoService {
 		return repository.findByIdEstadoCarrito(id);
 	}
 
-	public List<EstadoCarrito> traerTodos(Long id) {
+	public List<EstadoCarrito> traerTodos() {
 		return repository.findAll();
 	}
 
@@ -34,6 +35,16 @@ public class EstadoCarritoService {
 		}
 
 		repository.delete(registro);
+	}
+
+	public EstadoCarrito actualizarEstadoCarrito(Long id, EstadoCarritoVo estadoCarritoVo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public EstadoCarrito crearEstadoCarrito(EstadoCarritoVo estadoCarritoVo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

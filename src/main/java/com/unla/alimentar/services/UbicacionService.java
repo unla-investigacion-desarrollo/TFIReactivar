@@ -61,5 +61,10 @@ public class UbicacionService {
 		
 		repository.delete(ubicacion);
 	}
+
+	public Ubicacion actualizarUbicacion(Long id, UbicacionVo ubicacionVo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

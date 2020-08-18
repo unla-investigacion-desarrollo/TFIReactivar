@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.unla.alimentar.exceptions.ObjectNotFound;
 import com.unla.alimentar.models.Rubro;
 import com.unla.alimentar.repositories.RubroRepository;
+import com.unla.alimentar.vo.RubroVo;
 
 @Service
 @Transactional(readOnly = true)
@@ -35,6 +36,16 @@ public class RubroService {
 		}
 		
 		repository.delete(rubro);
+	}
+
+	public Rubro actualizarRubro(Long id, RubroVo rubroVo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Rubro crearRubro(RubroVo rubroVo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

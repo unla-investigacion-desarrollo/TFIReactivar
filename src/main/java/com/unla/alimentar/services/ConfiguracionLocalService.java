@@ -1,5 +1,7 @@
 package com.unla.alimentar.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,10 @@ public class ConfiguracionLocalService {
 	
 	public ConfiguracionLocal traerConfiguracionLocalPorId(Long id) {
 		return repository.findByIdConfiguracionLocal(id);
+	}
+	
+	public List<ConfiguracionLocal> traerTodos(){
+		return repository.findAll();
 	}
 
 	public ConfiguracionLocal crearConfiguracion(ConfiguracionLocalVo configuracionLocales) {
@@ -40,6 +46,11 @@ public class ConfiguracionLocalService {
 		}
 
 		repository.delete(configuracionLocal);
+	}
+
+	public ConfiguracionLocal actualizarConfiguracionLocal(Long id, ConfiguracionLocalVo configuracionLocalVo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

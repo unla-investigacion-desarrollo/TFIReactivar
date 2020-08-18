@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.unla.alimentar.exceptions.ObjectNotFound;
 import com.unla.alimentar.models.DtoXCategoria;
 import com.unla.alimentar.repositories.DtoXCategoriaRepository;
+import com.unla.alimentar.vo.DtoXCategoriaVo;
 
 @Service
 @Transactional(readOnly = true)
@@ -21,7 +22,7 @@ public class DtoXCategoriaService {
 		return repository.findByIdDtoXCategoria(id);
 	}
 
-	public List<DtoXCategoria> traerTodos(Long id) {
+	public List<DtoXCategoria> traerTodos() {
 		return repository.findAll();
 	}
 
@@ -34,6 +35,16 @@ public class DtoXCategoriaService {
 		}
 
 		repository.delete(registro);
+	}
+
+	public DtoXCategoria actualizarDtoXCategoria(Long id, DtoXCategoriaVo dtoXCategoriaVo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public DtoXCategoria crearDtoXCategoria(DtoXCategoriaVo dtoXCategoriaVo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

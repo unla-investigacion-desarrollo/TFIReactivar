@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.unla.alimentar.exceptions.ObjectNotFound;
 import com.unla.alimentar.models.Localidad;
 import com.unla.alimentar.repositories.LocalidadRepository;
+import com.unla.alimentar.vo.LocalidadVo;
 
 @Service
 @Transactional(readOnly = true)
@@ -34,5 +35,15 @@ public class LocalidadService {
 		}
 		
 		repository.delete(localidad);
+	}
+
+	public Localidad actualizarLocalidad(Long id, LocalidadVo localidadVo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Localidad crearLocalidad(LocalidadVo localidadVo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

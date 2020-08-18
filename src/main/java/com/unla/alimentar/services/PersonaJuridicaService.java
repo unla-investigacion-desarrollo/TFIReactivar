@@ -1,5 +1,7 @@
 package com.unla.alimentar.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,6 +49,10 @@ public class PersonaJuridicaService {
 	public Persona traerPersonaPorId(long idPersona) {
 		return personaRepository.findByIdPersona(idPersona);
 	}
+	
+	public List<Persona> traerTodos(){
+		return personaRepository.findAll();
+	}
 
 	public void borrarPersona(long id) {
 		Persona persona = personaRepository.findByIdPersona(id);
@@ -56,6 +62,11 @@ public class PersonaJuridicaService {
 		}
 		
 		personaRepository.delete(persona);
+	}
+
+	public Persona actualizarPersonaJuridica(Long id, PersonaJuridicaVo personaJuridicaVo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
