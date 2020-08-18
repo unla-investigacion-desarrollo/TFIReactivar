@@ -20,7 +20,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name ="articuloRefencia")
+@Table(name ="articuloReferencia")
 public class ArticuloReferencia {
 	
 	@Id
