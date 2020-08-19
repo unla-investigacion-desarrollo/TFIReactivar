@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.unla.alimentar.exceptions.ObjectNotFound;
 import com.unla.alimentar.models.DtoXUnidad;
+import com.unla.alimentar.models.Promocion;
 import com.unla.alimentar.repositories.DtoXUnidadRepository;
 import com.unla.alimentar.vo.DtoXUnidadVo;
 
@@ -18,17 +19,17 @@ public class DtoXUnidadService {
 	@Autowired
 	private DtoXUnidadRepository repository;
 
-	public DtoXUnidad traerDtoXUnidadPorId(Long id) {
-		return repository.findByIdDtoXUnidad(id);
+	public Promocion traerDtoXUnidadPorId(Long id) {
+		return repository.findByIdPromocion(id);
 	}
 
-	public List<DtoXUnidad> traerTodos() {
+	public List<Promocion> traerTodos() {
 		return repository.findAll();
 	}
 
 	@Transactional
 	public void borrarDtoXUnidad(long id) {
-		DtoXUnidad registro = repository.findByIdDtoXUnidad(id);
+		Promocion registro = repository.findByIdPromocion(id);
 
 		if (registro == null) {
 			throw new ObjectNotFound("DtoXUnidad");
@@ -37,12 +38,12 @@ public class DtoXUnidadService {
 		repository.delete(registro);
 	}
 
-	public DtoXUnidad actualizarDtoXUnidad(Long id, DtoXUnidadVo dtoXUnidadVo) {
+	public Promocion actualizarDtoXUnidad(Long id, DtoXUnidadVo dtoXUnidadVo) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public DtoXUnidad crearDtoXUnidad(DtoXUnidadVo dtoXUnidadVo) {
+	public Promocion crearDtoXUnidad(DtoXUnidadVo dtoXUnidadVo) {
 		// TODO Auto-generated method stub
 		return null;
 	}

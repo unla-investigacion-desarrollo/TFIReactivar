@@ -10,21 +10,22 @@
 	</parent>
 	<groupId>com.unla</groupId>
 	<artifactId>alimentar</artifactId>
-	<version>0.0.1</version>
+	<version>1.0.0</version>
 	<name>alimentar</name>
 	<description>Demo project for Spring Boot</description>
 
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<properties>
 		<java.version>1.8</java.version>
+		<start-class>com.unla.alimentar.AlimentarApplication</start-class>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
+		</dependency>		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -38,7 +39,6 @@
 		    <artifactId>jjwt</artifactId>
 		    <version>0.9.1</version>
 		</dependency>
-				
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -69,6 +69,12 @@
 		</dependency>
 		
 		<dependency>
+		   <groupId>org.springframework.boot</groupId>
+		   <artifactId>spring-boot-starter-tomcat</artifactId>
+		   <scope>provided</scope>
+		</dependency>
+		
+		<dependency>
 		  <groupId>org.apache.commons</groupId>
 		  <artifactId>commons-lang3</artifactId>
 		</dependency>
@@ -86,6 +92,7 @@
 	</dependencies>
 
 	<build>
+	<finalName>alimentar</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

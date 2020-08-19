@@ -70,7 +70,7 @@ public class ProvinciaController {
 	@ApiOperation(value = "Update Provincia", notes = "Provincia updater service")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Provincia successfully updated"),
 			@ApiResponse(code = 404, message = "Provincia not found") })
-	public ResponseEntity<Provincia> updateAbility(@PathVariable("idProvincia") Long id, ProvinciaVo provinciaVo) {
+	public ResponseEntity<Provincia> updateProvincia(@PathVariable("idProvincia") Long id, ProvinciaVo provinciaVo) {
 
 		return new ResponseEntity<>(service.actualizarProvincia(id, provinciaVo), HttpStatus.OK);
 	}

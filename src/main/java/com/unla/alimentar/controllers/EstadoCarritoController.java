@@ -70,7 +70,7 @@ public class EstadoCarritoController {
 	@ApiOperation(value = "Update EstadoCarrito", notes = "EstadoCarrito updater service")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "EstadoCarrito successfully updated"),
 			@ApiResponse(code = 404, message = "EstadoCarrito not found") })
-	public ResponseEntity<EstadoCarrito> updateAbility(@PathVariable("idEstadoCarrito") Long id, EstadoCarritoVo estadoCarritoVo) {
+	public ResponseEntity<EstadoCarrito> updateEstadoCarrito(@PathVariable("idEstadoCarrito") Long id, EstadoCarritoVo estadoCarritoVo) {
 
 		return new ResponseEntity<>(service.actualizarEstadoCarrito(id, estadoCarritoVo), HttpStatus.OK);
 	}

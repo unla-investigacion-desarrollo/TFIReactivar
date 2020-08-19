@@ -70,7 +70,7 @@ public class ArticuloReferenciaController {
 	@ApiOperation(value = "Update ArticuloReferencia", notes = "ArticuloReferencia updater service")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "ArticuloReferencia successfully updated"),
 			@ApiResponse(code = 404, message = "ArticuloReferencia not found") })
-	public ResponseEntity<ArticuloReferencia> updateAbility(@PathVariable("idArticuloReferencia") Long id, ArticuloReferenciaVo articuloReferenciaVo) {
+	public ResponseEntity<ArticuloReferencia> updateArticuloReferencia(@PathVariable("idArticuloReferencia") Long id, ArticuloReferenciaVo articuloReferenciaVo) {
 
 		return new ResponseEntity<>(service.actualizarArticuloReferencia(id, articuloReferenciaVo), HttpStatus.OK);
 	}

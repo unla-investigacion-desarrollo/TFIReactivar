@@ -70,7 +70,7 @@ public class RubroController {
 	@ApiOperation(value = "Update Rubro", notes = "Rubro updater service")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Rubro successfully updated"),
 			@ApiResponse(code = 404, message = "Rubro not found") })
-	public ResponseEntity<Rubro> updateAbility(@PathVariable("idRubro") Long id, RubroVo rubroVo) {
+	public ResponseEntity<Rubro> updateRubro(@PathVariable("idRubro") Long id, RubroVo rubroVo) {
 
 		return new ResponseEntity<>(service.actualizarRubro(id, rubroVo), HttpStatus.OK);
 	}

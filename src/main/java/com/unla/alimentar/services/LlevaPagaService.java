@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.unla.alimentar.exceptions.ObjectNotFound;
-import com.unla.alimentar.models.LlevaPaga;
+import com.unla.alimentar.models.Promocion;
 import com.unla.alimentar.repositories.LlevaPagaRepository;
 import com.unla.alimentar.vo.LlevaPagaVo;
 
@@ -18,17 +18,17 @@ public class LlevaPagaService {
 	@Autowired
 	private LlevaPagaRepository repository;
 
-	public LlevaPaga traerLlevaPagaPorId(Long id) {
-		return repository.findByIdLlevaPaga(id);
+	public Promocion traerLlevaPagaPorId(Long id) {
+		return repository.findByIdPromocion(id);
 	}
 
-	public List<LlevaPaga> traerTodos() {
+	public List<Promocion> traerTodos() {
 		return repository.findAll();
 	}
 
 	@Transactional
 	public void borrarLlevaPaga(long id) {
-		LlevaPaga registro = repository.findByIdLlevaPaga(id);
+		Promocion registro = repository.findByIdPromocion(id);
 
 		if (registro == null) {
 			throw new ObjectNotFound("LlevaPaga");
@@ -37,12 +37,12 @@ public class LlevaPagaService {
 		repository.delete(registro);
 	}
 
-	public LlevaPaga actualizarLlevaPaga(Long id, LlevaPagaVo llevaPagaVo) {
+	public Promocion actualizarLlevaPaga(Long id, LlevaPagaVo llevaPagaVo) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public LlevaPaga crearLlevaPaga(LlevaPagaVo llevaPagaVo) {
+	public Promocion crearLlevaPaga(LlevaPagaVo llevaPagaVo) {
 		// TODO Auto-generated method stub
 		return null;
 	}

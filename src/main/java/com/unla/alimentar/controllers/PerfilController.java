@@ -70,7 +70,7 @@ public class PerfilController {
 	@ApiOperation(value = "Update Perfil", notes = "Perfil updater service")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Perfil successfully updated"),
 			@ApiResponse(code = 404, message = "Perfil not found") })
-	public ResponseEntity<Perfil> updateAbility(@PathVariable("idPerfil") Long id, PerfilVo perfilVo) {
+	public ResponseEntity<Perfil> updatePerfil(@PathVariable("idPerfil") Long id, PerfilVo perfilVo) {
 
 		return new ResponseEntity<>(service.actualizarPerfil(id, perfilVo), HttpStatus.OK);
 	}

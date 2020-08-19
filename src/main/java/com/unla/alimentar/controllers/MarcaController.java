@@ -70,7 +70,7 @@ public class MarcaController {
 	@ApiOperation(value = "Update Marca", notes = "Marca updater service")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Marca successfully updated"),
 			@ApiResponse(code = 404, message = "Marca not found") })
-	public ResponseEntity<Marca> updateAbility(@PathVariable("idMarca") Long id, MarcaVo marcaVo) {
+	public ResponseEntity<Marca> updateMarca(@PathVariable("idMarca") Long id, MarcaVo marcaVo) {
 
 		return new ResponseEntity<>(service.actualizarMarca(id, marcaVo), HttpStatus.OK);
 	}

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unla.alimentar.models.LlevaPaga;
+import com.unla.alimentar.models.Promocion;
 import com.unla.alimentar.services.LlevaPagaService;
 import com.unla.alimentar.vo.LlevaPagaVo;
 
@@ -35,7 +36,7 @@ public class LlevaPagaController {
 	@ApiOperation(value = "Listar todos los llevaPagas", notes = "Service para listar todos los llevaPagas")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "LlevaPagas encontrados"),
 			@ApiResponse(code = 404, message = "LlevaPagas no encontrados") })
-	public List<LlevaPaga> traerTodos() {
+	public List<Promocion> traerTodos() {
 		return service.traerTodos();
 	}
 	
@@ -43,7 +44,7 @@ public class LlevaPagaController {
 	@ApiOperation(value = "Mostrar un llevaPaga", notes = "Service para mostrar un llevaPaga")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "LlevaPaga encontrado"),
 			@ApiResponse(code = 404, message = "LlevaPaga no encontrado") })
-	public LlevaPaga traerLlevaPaga(@PathVariable ("idLlevaPaga") long id) {
+	public Promocion traerLlevaPaga(@PathVariable ("idLlevaPaga") long id) {
 		return service.traerLlevaPagaPorId(id);
 	}
 	
@@ -51,8 +52,8 @@ public class LlevaPagaController {
 	@ApiOperation(value = "Crear LlevaPaga", notes = "Servicio creador de llevaPagas")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "LlevaPaga successfully created"),
 			@ApiResponse(code = 400, message = "Invalid request") })
-	public ResponseEntity<LlevaPaga> crearLlevaPaga(@RequestBody LlevaPagaVo llevaPagaVo){
-		LlevaPaga llevaPaga = service.crearLlevaPaga(llevaPagaVo);
+	public ResponseEntity<Promocion> crearLlevaPaga(@RequestBody LlevaPagaVo llevaPagaVo){
+		Promocion llevaPaga = service.crearLlevaPaga(llevaPagaVo);
 		
 		return new ResponseEntity<>(llevaPaga, HttpStatus.CREATED);
 	}
@@ -70,7 +71,7 @@ public class LlevaPagaController {
 	@ApiOperation(value = "Update LlevaPaga", notes = "LlevaPaga updater service")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "LlevaPaga successfully updated"),
 			@ApiResponse(code = 404, message = "LlevaPaga not found") })
-	public ResponseEntity<LlevaPaga> updateAbility(@PathVariable("idLlevaPaga") Long id, LlevaPagaVo llevaPagaVo) {
+	public ResponseEntity<Promocion> updateLlevaPaga(@PathVariable("idLlevaPaga") Long id, LlevaPagaVo llevaPagaVo) {
 
 		return new ResponseEntity<>(service.actualizarLlevaPaga(id, llevaPagaVo), HttpStatus.OK);
 	}

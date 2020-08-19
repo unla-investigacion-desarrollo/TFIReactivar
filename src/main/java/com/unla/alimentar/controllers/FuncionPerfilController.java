@@ -70,7 +70,7 @@ public class FuncionPerfilController {
 	@ApiOperation(value = "Update FuncionPerfil", notes = "FuncionPerfil updater service")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "FuncionPerfil successfully updated"),
 			@ApiResponse(code = 404, message = "FuncionPerfil not found") })
-	public ResponseEntity<FuncionPerfil> updateAbility(@PathVariable("idFuncionPerfil") Long id, FuncionPerfilVo funcionPerfilVo) {
+	public ResponseEntity<FuncionPerfil> updateFuncionPerfil(@PathVariable("idFuncionPerfil") Long id, FuncionPerfilVo funcionPerfilVo) {
 
 		return new ResponseEntity<>(service.actualizarFuncionPerfil(id, funcionPerfilVo), HttpStatus.OK);
 	}

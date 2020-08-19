@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.unla.alimentar.models.DtoXUnidad;
+import com.unla.alimentar.models.Promocion;
 import com.unla.alimentar.services.DtoXUnidadService;
 import com.unla.alimentar.vo.DtoXUnidadVo;
 
@@ -35,7 +35,7 @@ public class DtoXUnidadController {
 	@ApiOperation(value = "Listar todos los dtoXUnidads", notes = "Service para listar todos los dtoXUnidads")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "DtoXUnidads encontrados"),
 			@ApiResponse(code = 404, message = "DtoXUnidads no encontrados") })
-	public List<DtoXUnidad> traerTodos() {
+	public List<Promocion> traerTodos() {
 		return service.traerTodos();
 	}
 	
@@ -43,7 +43,7 @@ public class DtoXUnidadController {
 	@ApiOperation(value = "Mostrar un dtoXUnidad", notes = "Service para mostrar un dtoXUnidad")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "DtoXUnidad encontrado"),
 			@ApiResponse(code = 404, message = "DtoXUnidad no encontrado") })
-	public DtoXUnidad traerDtoXUnidad(@PathVariable ("idDtoXUnidad") long id) {
+	public Promocion traerDtoXUnidad(@PathVariable ("idDtoXUnidad") long id) {
 		return service.traerDtoXUnidadPorId(id);
 	}
 	
@@ -51,8 +51,8 @@ public class DtoXUnidadController {
 	@ApiOperation(value = "Crear DtoXUnidad", notes = "Servicio creador de dtoXUnidads")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "DtoXUnidad successfully created"),
 			@ApiResponse(code = 400, message = "Invalid request") })
-	public ResponseEntity<DtoXUnidad> crearDtoXUnidad(@RequestBody DtoXUnidadVo dtoXUnidadVo){
-		DtoXUnidad dtoXUnidad = service.crearDtoXUnidad(dtoXUnidadVo);
+	public ResponseEntity<Promocion> crearDtoXUnidad(@RequestBody DtoXUnidadVo dtoXUnidadVo){
+		Promocion dtoXUnidad = service.crearDtoXUnidad(dtoXUnidadVo);
 		
 		return new ResponseEntity<>(dtoXUnidad, HttpStatus.CREATED);
 	}
@@ -70,7 +70,7 @@ public class DtoXUnidadController {
 	@ApiOperation(value = "Update DtoXUnidad", notes = "DtoXUnidad updater service")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "DtoXUnidad successfully updated"),
 			@ApiResponse(code = 404, message = "DtoXUnidad not found") })
-	public ResponseEntity<DtoXUnidad> updateAbility(@PathVariable("idDtoXUnidad") Long id, DtoXUnidadVo dtoXUnidadVo) {
+	public ResponseEntity<Promocion> updateDtoXUnidad(@PathVariable("idDtoXUnidad") Long id, DtoXUnidadVo dtoXUnidadVo) {
 
 		return new ResponseEntity<>(service.actualizarDtoXUnidad(id, dtoXUnidadVo), HttpStatus.OK);
 	}

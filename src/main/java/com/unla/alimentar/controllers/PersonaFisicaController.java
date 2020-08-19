@@ -70,7 +70,7 @@ public class PersonaFisicaController {
 	@ApiOperation(value = "Update PersonaFisica", notes = "PersonaFisica updater service")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "PersonaFisica successfully updated"),
 			@ApiResponse(code = 404, message = "PersonaFisica not found") })
-	public ResponseEntity<Persona> updateAbility(@PathVariable("idPersonaFisica") Long id, PersonaFisicaVo personaFisicaVo) {
+	public ResponseEntity<Persona> updatePersonaFisica(@PathVariable("idPersonaFisica") Long id, PersonaFisicaVo personaFisicaVo) {
 
 		return new ResponseEntity<>(service.actualizarPersonaFisica(id, personaFisicaVo), HttpStatus.OK);
 	}

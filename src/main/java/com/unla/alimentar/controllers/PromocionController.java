@@ -70,7 +70,7 @@ public class PromocionController {
 	@ApiOperation(value = "Update Promocion", notes = "Promocion updater service")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Promocion successfully updated"),
 			@ApiResponse(code = 404, message = "Promocion not found") })
-	public ResponseEntity<Promocion> updateAbility(@PathVariable("idPromocion") Long id, PromocionVo promocionVo) {
+	public ResponseEntity<Promocion> updatePromocion(@PathVariable("idPromocion") Long id, PromocionVo promocionVo) {
 
 		return new ResponseEntity<>(service.actualizarPromocion(id, promocionVo), HttpStatus.OK);
 	}

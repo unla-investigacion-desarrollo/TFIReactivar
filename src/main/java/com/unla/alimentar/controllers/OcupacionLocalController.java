@@ -70,7 +70,7 @@ public class OcupacionLocalController {
 	@ApiOperation(value = "Update OcupacionLocal", notes = "OcupacionLocal updater service")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OcupacionLocal successfully updated"),
 			@ApiResponse(code = 404, message = "OcupacionLocal not found") })
-	public ResponseEntity<OcupacionLocal> updateAbility(@PathVariable("idOcupacionLocal") Long id, OcupacionLocalVo ocupacionLocalVo) {
+	public ResponseEntity<OcupacionLocal> updateOcupacionLocal(@PathVariable("idOcupacionLocal") Long id, OcupacionLocalVo ocupacionLocalVo) {
 
 		return new ResponseEntity<>(service.actualizarOcupacionLocal(id, ocupacionLocalVo), HttpStatus.OK);
 	}

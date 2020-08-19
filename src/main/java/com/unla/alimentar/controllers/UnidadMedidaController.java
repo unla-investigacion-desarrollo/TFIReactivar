@@ -70,7 +70,7 @@ public class UnidadMedidaController {
 	@ApiOperation(value = "Update UnidadMedida", notes = "UnidadMedida updater service")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "UnidadMedida successfully updated"),
 			@ApiResponse(code = 404, message = "UnidadMedida not found") })
-	public ResponseEntity<UnidadMedida> updateAbility(@PathVariable("idUnidadMedida") Long id, UnidadMedidaVo unidadMedidaVo) {
+	public ResponseEntity<UnidadMedida> updateUnidadMedida(@PathVariable("idUnidadMedida") Long id, UnidadMedidaVo unidadMedidaVo) {
 
 		return new ResponseEntity<>(service.actualizarUnidadMedida(id, unidadMedidaVo), HttpStatus.OK);
 	}

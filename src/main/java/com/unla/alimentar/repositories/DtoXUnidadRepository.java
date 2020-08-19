@@ -3,11 +3,11 @@ package com.unla.alimentar.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.unla.alimentar.models.DtoXUnidad;
+import com.unla.alimentar.models.Promocion;
 
 @Repository
-public interface DtoXUnidadRepository extends JpaRepository<DtoXUnidad, Long>{
+public interface DtoXUnidadRepository extends JpaRepository<Promocion, Long>{
 	
-	public DtoXUnidad findByIdDtoXUnidad(Long idDtoXUnidad);
+	public Promocion findByIdPromocion(Long idDtoXUnidad);
 	
 }

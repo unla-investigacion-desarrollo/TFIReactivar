@@ -70,7 +70,7 @@ public class FuncionController {
 	@ApiOperation(value = "Update Funcion", notes = "Funcion updater service")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Funcion successfully updated"),
 			@ApiResponse(code = 404, message = "Funcion not found") })
-	public ResponseEntity<Funcion> updateAbility(@PathVariable("idFuncion") Long id, FuncionVo funcionVo) {
+	public ResponseEntity<Funcion> updateFuncion(@PathVariable("idFuncion") Long id, FuncionVo funcionVo) {
 
 		return new ResponseEntity<>(service.actualizarFuncion(id, funcionVo), HttpStatus.OK);
 	}

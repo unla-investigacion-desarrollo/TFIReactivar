@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.unla.alimentar.exceptions.ObjectNotFound;
-import com.unla.alimentar.models.DtoXPorcentaje;
+import com.unla.alimentar.models.Promocion;
 import com.unla.alimentar.repositories.DtoXPorcentajeRepository;
 import com.unla.alimentar.vo.DtoXPorcentajeVo;
 
@@ -18,17 +18,17 @@ public class DtoXPorcentajeService {
 	@Autowired
 	private DtoXPorcentajeRepository repository;
 
-	public DtoXPorcentaje traerDtoXPorcentajePorId(Long id) {
-		return repository.findByIdDtoXPorcentaje(id);
+	public Promocion traerDtoXPorcentajePorId(Long id) {
+		return repository.findByIdPromocion(id);
 	}
 
-	public List<DtoXPorcentaje> traerTodos() {
+	public List<Promocion> traerTodos() {
 		return repository.findAll();
 	}
 
 	@Transactional
 	public void borrarDtoXPorcentaje(long id) {
-		DtoXPorcentaje registro = repository.findByIdDtoXPorcentaje(id);
+		Promocion registro = repository.findByIdPromocion(id);
 
 		if (registro == null) {
 			throw new ObjectNotFound("DtoXPorcentaje");
@@ -37,12 +37,12 @@ public class DtoXPorcentajeService {
 		repository.delete(registro);
 	}
 
-	public DtoXPorcentaje actualizarDtoXPorcentaje(Long id, DtoXPorcentajeVo dtoXPorcentajeVo) {
+	public Promocion actualizarDtoXPorcentaje(Long id, DtoXPorcentajeVo dtoXPorcentajeVo) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public DtoXPorcentaje crearDtoXPorcentaje(DtoXPorcentajeVo dtoXPorcentajeVo) {
+	public Promocion crearDtoXPorcentaje(DtoXPorcentajeVo dtoXPorcentajeVo) {
 		// TODO Auto-generated method stub
 		return null;
 	}

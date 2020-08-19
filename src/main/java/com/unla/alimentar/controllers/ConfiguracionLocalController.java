@@ -70,7 +70,7 @@ public class ConfiguracionLocalController {
 	@ApiOperation(value = "Update ConfiguracionLocal", notes = "ConfiguracionLocal updater service")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "ConfiguracionLocal successfully updated"),
 			@ApiResponse(code = 404, message = "ConfiguracionLocal not found") })
-	public ResponseEntity<ConfiguracionLocal> updateAbility(@PathVariable("idConfiguracionLocal") Long id, ConfiguracionLocalVo configuracionLocalVo) {
+	public ResponseEntity<ConfiguracionLocal> updateConfiguracionLocal(@PathVariable("idConfiguracionLocal") Long id, ConfiguracionLocalVo configuracionLocalVo) {
 
 		return new ResponseEntity<>(service.actualizarConfiguracionLocal(id, configuracionLocalVo), HttpStatus.OK);
 	}

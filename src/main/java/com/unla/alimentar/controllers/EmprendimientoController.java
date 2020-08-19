@@ -70,7 +70,7 @@ public class EmprendimientoController {
 	@ApiOperation(value = "Update Emprendimiento", notes = "Emprendimiento updater service")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimiento successfully updated"),
 			@ApiResponse(code = 404, message = "Emprendimiento not found") })
-	public ResponseEntity<Emprendimiento> updateAbility(@PathVariable("idEmprendimiento") Long id, EmprendimientoVo emprendimientoVo) {
+	public ResponseEntity<Emprendimiento> updateEmprendimiento(@PathVariable("idEmprendimiento") Long id, EmprendimientoVo emprendimientoVo) {
 
 		return new ResponseEntity<>(service.actualizarEmprendimiento(id, emprendimientoVo), HttpStatus.OK);
 	}

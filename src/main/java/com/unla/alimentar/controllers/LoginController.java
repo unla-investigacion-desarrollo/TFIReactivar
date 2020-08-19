@@ -70,7 +70,7 @@ public class LoginController {
 	@ApiOperation(value = "Update Login", notes = "Login updater service")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Login successfully updated"),
 			@ApiResponse(code = 404, message = "Login not found") })
-	public ResponseEntity<Login> updateAbility(@PathVariable("idLogin") Long id, LoginVo loginVo) {
+	public ResponseEntity<Login> updateLogin(@PathVariable("idLogin") Long id, LoginVo loginVo) {
 
 		return new ResponseEntity<>(service.actualizarLogin(id, loginVo), HttpStatus.OK);
 	}
