@@ -8,6 +8,6 @@ import com.unla.alimentar.models.Ubicacion;
 @Repository
 public interface UbicacionRepository extends JpaRepository<Ubicacion, Long>{
 	
-	public Ubicacion findByIdUbicacion(Long id);
-
+	public Ubicacion findByIdUbicacion(Long id);	
+	
 }

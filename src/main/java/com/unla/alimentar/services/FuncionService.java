@@ -37,14 +37,26 @@ public class FuncionService {
 		repository.delete(registro);
 	}
 
+	@Transactional
 	public Funcion actualizarFuncion(Long id, FuncionVo funcionVo) {
-		// TODO Auto-generated method stub
-		return null;
+		Funcion funcion = repository.findByIdFuncion(id);
+
+		if (funcion == null) {
+			throw new ObjectNotFound("Funcion");
+		}
+		
+		funcion.setDescripcion(funcionVo.getDescripcion());
+		
+		return repository.save(funcion);
 	}
 
+	@Transactional
 	public Funcion crearFuncion(FuncionVo funcionVo) {
-		// TODO Auto-generated method stub
-		return null;
+		Funcion funcion = new Funcion();
+		
+		funcion.setDescripcion(funcionVo.getDescripcion());
+		
+		return repository.save(funcion);
 	}
 
 }

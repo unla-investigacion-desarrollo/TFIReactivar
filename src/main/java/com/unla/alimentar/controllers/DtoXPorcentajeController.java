@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.unla.alimentar.models.Promocion;
+import com.unla.alimentar.models.DtoXPorcentaje;
 import com.unla.alimentar.services.DtoXPorcentajeService;
 import com.unla.alimentar.vo.DtoXPorcentajeVo;
 
@@ -35,7 +35,7 @@ public class DtoXPorcentajeController {
 	@ApiOperation(value = "Listar todos los dtoXPorcentajes", notes = "Service para listar todos los dtoXPorcentajes")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "DtoXPorcentajes encontrados"),
 			@ApiResponse(code = 404, message = "DtoXPorcentajes no encontrados") })
-	public List<Promocion> traerTodos() {
+	public List<DtoXPorcentaje> traerTodos() {
 		return service.traerTodos();
 	}
 	
@@ -43,7 +43,7 @@ public class DtoXPorcentajeController {
 	@ApiOperation(value = "Mostrar un dtoXPorcentaje", notes = "Service para mostrar un dtoXPorcentaje")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "DtoXPorcentaje encontrado"),
 			@ApiResponse(code = 404, message = "DtoXPorcentaje no encontrado") })
-	public Promocion traerDtoXPorcentaje(@PathVariable ("idDtoXPorcentaje") long id) {
+	public DtoXPorcentaje traerDtoXPorcentaje(@PathVariable ("idDtoXPorcentaje") long id) {
 		return service.traerDtoXPorcentajePorId(id);
 	}
 	
@@ -51,8 +51,8 @@ public class DtoXPorcentajeController {
 	@ApiOperation(value = "Crear DtoXPorcentaje", notes = "Servicio creador de dtoXPorcentajes")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "DtoXPorcentaje successfully created"),
 			@ApiResponse(code = 400, message = "Invalid request") })
-	public ResponseEntity<Promocion> crearDtoXPorcentaje(@RequestBody DtoXPorcentajeVo dtoXPorcentajeVo){
-		Promocion dtoXPorcentaje = service.crearDtoXPorcentaje(dtoXPorcentajeVo);
+	public ResponseEntity<DtoXPorcentaje> crearDtoXPorcentaje(@RequestBody DtoXPorcentajeVo dtoXPorcentajeVo){
+		DtoXPorcentaje dtoXPorcentaje = service.crearDtoXPorcentaje(dtoXPorcentajeVo);
 		
 		return new ResponseEntity<>(dtoXPorcentaje, HttpStatus.CREATED);
 	}
@@ -70,7 +70,7 @@ public class DtoXPorcentajeController {
 	@ApiOperation(value = "Update DtoXPorcentaje", notes = "DtoXPorcentaje updater service")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "DtoXPorcentaje successfully updated"),
 			@ApiResponse(code = 404, message = "DtoXPorcentaje not found") })
-	public ResponseEntity<Promocion> updateDtoXPorcentaje(@PathVariable("idDtoXPorcentaje") Long id, DtoXPorcentajeVo dtoXPorcentajeVo) {
+	public ResponseEntity<DtoXPorcentaje> updateDtoXPorcentaje(@PathVariable("idDtoXPorcentaje") Long id, DtoXPorcentajeVo dtoXPorcentajeVo) {
 
 		return new ResponseEntity<>(service.actualizarDtoXPorcentaje(id, dtoXPorcentajeVo), HttpStatus.OK);
 	}

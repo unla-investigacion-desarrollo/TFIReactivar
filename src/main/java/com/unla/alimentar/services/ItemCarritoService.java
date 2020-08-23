@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.unla.alimentar.exceptions.ObjectNotFound;
+import com.unla.alimentar.models.Articulo;
 import com.unla.alimentar.models.ItemCarrito;
 import com.unla.alimentar.repositories.ItemCarritoRepository;
 import com.unla.alimentar.vo.ItemCarritoVo;
@@ -17,6 +18,9 @@ public class ItemCarritoService {
 
 	@Autowired
 	private ItemCarritoRepository repository;
+	
+	@Autowired
+	private ArticuloService articuloService;
 
 	public ItemCarrito traerItemCarritoPorId(Long id) {
 		return repository.findByIdItemCarrito(id);
@@ -37,14 +41,36 @@ public class ItemCarritoService {
 		repository.delete(registro);
 	}
 
+	@Transactional
 	public ItemCarrito actualizarItemCarrito(Long id, ItemCarritoVo itemCarritoVo) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		ItemCarrito item = repository.findByIdItemCarrito(id);
 
+		if (item == null) {
+			throw new ObjectNotFound("ItemCarrito");
+		}
+		
+		adaptVoToItemCarrito(item, itemCarritoVo);
+		
+		return repository.save(item);
+	}
+	
+	@Transactional
 	public ItemCarrito crearItemCarrito(ItemCarritoVo itemCarritoVo) {
-		// TODO Auto-generated method stub
-		return null;
+		ItemCarrito item = new ItemCarrito();
+		
+		adaptVoToItemCarrito(item, itemCarritoVo);
+		
+		return repository.save(item);
 	}
 
+	private void adaptVoToItemCarrito(ItemCarrito item, ItemCarritoVo itemCarritoVo) {
+		Articulo articulo = articuloService.traerArticuloPorId(itemCarritoVo.getIdArticulo());
+		
+		if(articulo == null) {
+			throw new ObjectNotFound("Articulo");
+		}
+		
+		item.setArticuloPrecio(articulo);
+		item.setCantidad(itemCarritoVo.getCantidad());
+	}
 }

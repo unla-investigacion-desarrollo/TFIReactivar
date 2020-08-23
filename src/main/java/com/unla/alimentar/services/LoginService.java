@@ -37,14 +37,28 @@ public class LoginService {
 		repository.delete(login);
 	}
 
+	@Transactional
 	public Login actualizarLogin(Long id, LoginVo loginVo) {
-		// TODO Auto-generated method stub
-		return null;
+		Login login = repository.findByIdLogin(id);
+
+		if (login == null) {
+			throw new ObjectNotFound("Login");
+		}
+
+		login.setClave(loginVo.getClave());
+		login.setEmailString(loginVo.getEmail());
+		
+		return repository.save(login);
 	}
 
+	@Transactional
 	public Login crearLogin(LoginVo loginVo) {
-		// TODO Auto-generated method stub
-		return null;
+		Login login = new Login();
+		
+		login.setClave(loginVo.getClave());
+		login.setEmailString(loginVo.getEmail());
+		
+		return repository.save(login);
 	}
 
 }

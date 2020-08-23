@@ -8,6 +8,7 @@ import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -15,8 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -32,8 +31,7 @@ discriminatorType = DiscriminatorType.STRING)
 public class Promocion {
 	
 	@Id
-	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long idPromocion ;
 	private Date fechaInicio;
 	private Date fechaFin;
@@ -43,12 +41,12 @@ public class Promocion {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idEmprendimiento", nullable = false)
-	@JsonBackReference
+	@JsonManagedReference
 	private Emprendimiento emprendimiento;
 	
 
 	@OneToMany(mappedBy = "promocion")
-	@JsonManagedReference
+	@JsonBackReference
 	private List<Articulo> listArticulos;
 	
 

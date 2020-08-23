@@ -13,8 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
 
@@ -35,7 +35,7 @@ public class Ubicacion {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idLocalidad", nullable = false)
-	@JsonBackReference
+	@JsonManagedReference
 	private Localidad localidad;
 	
 	@OneToOne(mappedBy = "ubicacion", cascade = CascadeType.ALL)

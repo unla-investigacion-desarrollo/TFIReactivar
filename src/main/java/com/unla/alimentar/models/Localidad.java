@@ -28,24 +28,11 @@ public class Localidad {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idProvincia", nullable = false)
-	@JsonBackReference
+	@JsonManagedReference
 	private Provincia provincia;
 
-
-	/*@OneToMany(mappedBy = "localidad")
-	@JsonManagedReference
-	private List<Usuario> usuarios;*/
-
-	
-	
 	@OneToMany(mappedBy = "localidad")
-	@JsonManagedReference
+	@JsonBackReference
 	private List<Ubicacion> ubicaciones;
-
-	
-	/*@OneToMany(mappedBy = "localidad")
-	@JsonManagedReference
-	private List<Local> locales;*/
-
 
 }

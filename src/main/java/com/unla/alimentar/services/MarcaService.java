@@ -37,14 +37,26 @@ public class MarcaService {
 		repository.delete(registro);
 	}
 
+	@Transactional
 	public Marca actualizarMarca(Long id, MarcaVo marcaVo) {
-		// TODO Auto-generated method stub
-		return null;
+		Marca marca = repository.findByIdMarca(id);
+
+		if (marca == null) {
+			throw new ObjectNotFound("Marca");
+		}
+		
+		marca.setNombre(marcaVo.getNombreMarca());
+		
+		return repository.save(marca);
 	}
 
+	@Transactional
 	public Marca crearMarca(MarcaVo marcaVo) {
-		// TODO Auto-generated method stub
-		return null;
+		Marca marca = new Marca();
+		
+		marca.setNombre(marcaVo.getNombreMarca());
+		
+		return repository.save(marca);
 	}
 
 }

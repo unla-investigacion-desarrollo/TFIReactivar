@@ -9,9 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.unla.alimentar.exceptions.ObjectNotFound;
 import com.unla.alimentar.models.Login;
 import com.unla.alimentar.models.Perfil;
-import com.unla.alimentar.models.Persona;
 import com.unla.alimentar.models.PersonaJuridica;
-import com.unla.alimentar.repositories.PersonaRepository;
+import com.unla.alimentar.repositories.PersonaJuridicaRepository;
 import com.unla.alimentar.vo.PersonaJuridicaVo;
 
 @Service
@@ -19,43 +18,39 @@ import com.unla.alimentar.vo.PersonaJuridicaVo;
 public class PersonaJuridicaService {
 	
 	@Autowired
-	private PersonaRepository personaRepository;
-	
-	@Autowired
-	private LoginService loginService;
+	private PersonaJuridicaRepository personaRepository;
 	
 	@Autowired
 	private PerfilService perfilService;
 	
+	@Autowired
+	private LoginService loginService;
+	
 	@Transactional
-	public Persona crearPersona(PersonaJuridicaVo personaVo) {
+	public PersonaJuridica crearPersona(PersonaJuridicaVo personaVo) {
 		
 		PersonaJuridica persona = new PersonaJuridica();
-		persona.setCelular(personaVo.getCelular());
-		persona.setCuit(personaVo.getCuit());
-		persona.setRazonSocial(personaVo.getRazonSocial());
-		Login login = loginService.traerLoginPorId(personaVo.getIdLogin());
-		Perfil perfil = perfilService.traerPerfilPorId(personaVo.getIdPerfil());
 		
-		if(login == null || perfil == null) {
-			throw new ObjectNotFound("Login o perfil");
-		}
+		adaptVoToPersonaJuridica(persona, personaVo);
+		
+		Login login = loginService.crearLogin(personaVo.getLoginVo());
 		
 		persona.setLogin(login);
-		persona.setPerfil(perfil);
+		
 		return personaRepository.save(persona);
 	}
 
-	public Persona traerPersonaPorId(long idPersona) {
+	public PersonaJuridica traerPersonaPorId(long idPersona) {
 		return personaRepository.findByIdPersona(idPersona);
 	}
 	
-	public List<Persona> traerTodos(){
+	public List<PersonaJuridica> traerTodos(){
 		return personaRepository.findAll();
 	}
 
+	@Transactional
 	public void borrarPersona(long id) {
-		Persona persona = personaRepository.findByIdPersona(id);
+		PersonaJuridica persona = personaRepository.findByIdPersona(id);
 		
 		if(persona == null) {
 			throw new ObjectNotFound("Persona");
@@ -64,9 +59,30 @@ public class PersonaJuridicaService {
 		personaRepository.delete(persona);
 	}
 
-	public Persona actualizarPersonaJuridica(Long id, PersonaJuridicaVo personaJuridicaVo) {
-		// TODO Auto-generated method stub
-		return null;
+	@Transactional
+	public PersonaJuridica actualizarPersonaJuridica(Long id, PersonaJuridicaVo personaVo) {
+		PersonaJuridica persona = personaRepository.findByIdPersona(id);
+		
+		if(persona == null) {
+			throw new ObjectNotFound("Persona");
+		}
+		
+		adaptVoToPersonaJuridica(persona, personaVo);
+
+		return personaRepository.save(persona);
+	}
+	
+	private void adaptVoToPersonaJuridica(PersonaJuridica persona, PersonaJuridicaVo personaVo) {
+		persona.setCelular(personaVo.getCelular());
+		persona.setCuit(personaVo.getCuit());
+		persona.setRazonSocial(personaVo.getRazonSocial());
+		Perfil perfil = perfilService.traerPerfilPorId(personaVo.getIdPerfil());
+		
+		if(perfil == null) {
+			throw new ObjectNotFound("Perfil");
+		}
+		
+		persona.setPerfil(perfil);
 	}
 
 }

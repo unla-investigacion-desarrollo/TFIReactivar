@@ -1,5 +1,6 @@
 package com.unla.alimentar.services;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.unla.alimentar.exceptions.ObjectNotFound;
+import com.unla.alimentar.models.Emprendimiento;
 import com.unla.alimentar.models.OcupacionLocal;
+import com.unla.alimentar.models.Persona;
 import com.unla.alimentar.repositories.OcupacionLocalRepository;
 import com.unla.alimentar.vo.OcupacionLocalVo;
 
@@ -17,6 +20,12 @@ public class OcupacionLocalService {
 
 	@Autowired
 	private OcupacionLocalRepository repository;
+	
+	@Autowired
+	private PersonaService personaService;
+	
+	@Autowired
+	private EmprendimientoService emprendimientoService;
 
 	public OcupacionLocal traerOcupacionLocalPorId(Long id) {
 		return repository.findByIdOcupacionLocal(id);
@@ -37,14 +46,38 @@ public class OcupacionLocalService {
 		repository.delete(registro);
 	}
 
+	@Transactional
 	public OcupacionLocal actualizarOcupacionLocal(Long id, OcupacionLocalVo ocupacionLocalVo) {
-		// TODO Auto-generated method stub
-		return null;
+		OcupacionLocal ocupacion = repository.findByIdOcupacionLocal(id);
+
+		if (ocupacion == null) {
+			throw new ObjectNotFound("OcupacionLocal");
+		}
+		
+		adaptVoToOcupacionLocal(ocupacion, ocupacionLocalVo);
+		
+		return repository.save(ocupacion);
 	}
 
+	@Transactional
 	public OcupacionLocal crearOcupacionLocal(OcupacionLocalVo ocupacionLocalVo) {
-		// TODO Auto-generated method stub
-		return null;
+		OcupacionLocal ocupacion = new OcupacionLocal();
+		
+		adaptVoToOcupacionLocal(ocupacion, ocupacionLocalVo);
+		
+		return repository.save(ocupacion);
+	}
+	
+	private void adaptVoToOcupacionLocal(OcupacionLocal ocupacion, OcupacionLocalVo ocupacionLocalVo) {
+		Persona persona = personaService.traerPersonaPorId(ocupacionLocalVo.getIdPersona());
+		Emprendimiento emprendimiento = emprendimientoService.traerEmprendimientoPorId(ocupacionLocalVo.getIdEmprendimiento());
+		
+		ocupacion.setEmprendimiento(emprendimiento);
+		ocupacion.setPersona(persona);
+		ocupacion.setFechaHoraEntrada(ocupacionLocalVo.getFechaHoraEntrada());
+		ocupacion.setFechaHoraSalida(ocupacionLocalVo.getFechaHoraSalida());
+		ocupacion.setFechaModi(new Date());
+		ocupacion.setUsuarioModi(ocupacionLocalVo.getUsuarioModi());
 	}
 
 }

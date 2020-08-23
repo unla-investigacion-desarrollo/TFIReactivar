@@ -7,7 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.unla.alimentar.exceptions.ObjectNotFound;
-import com.unla.alimentar.models.Promocion;
+import com.unla.alimentar.models.Emprendimiento;
+import com.unla.alimentar.models.LlevaPaga;
 import com.unla.alimentar.repositories.LlevaPagaRepository;
 import com.unla.alimentar.vo.LlevaPagaVo;
 
@@ -17,18 +18,21 @@ public class LlevaPagaService {
 
 	@Autowired
 	private LlevaPagaRepository repository;
+	
+	@Autowired
+	private EmprendimientoService emprendimientoService;
 
-	public Promocion traerLlevaPagaPorId(Long id) {
+	public LlevaPaga traerLlevaPagaPorId(Long id) {
 		return repository.findByIdPromocion(id);
 	}
 
-	public List<Promocion> traerTodos() {
+	public List<LlevaPaga> traerTodos() {
 		return repository.findAll();
 	}
 
 	@Transactional
 	public void borrarLlevaPaga(long id) {
-		Promocion registro = repository.findByIdPromocion(id);
+		LlevaPaga registro = repository.findByIdPromocion(id);
 
 		if (registro == null) {
 			throw new ObjectNotFound("LlevaPaga");
@@ -37,14 +41,42 @@ public class LlevaPagaService {
 		repository.delete(registro);
 	}
 
-	public Promocion actualizarLlevaPaga(Long id, LlevaPagaVo llevaPagaVo) {
-		// TODO Auto-generated method stub
-		return null;
+	@Transactional
+	public LlevaPaga actualizarLlevaPaga(Long id, LlevaPagaVo llevaPagaVo) {
+		LlevaPaga registro = repository.findByIdPromocion(id);
+
+		if (registro == null) {
+			throw new ObjectNotFound("LlevaPaga");
+		}
+		
+		adaptVoToDtoXPorcentaje(registro, llevaPagaVo);
+		
+		return repository.save(registro);
 	}
 
-	public Promocion crearLlevaPaga(LlevaPagaVo llevaPagaVo) {
-		// TODO Auto-generated method stub
-		return null;
+	@Transactional
+	public LlevaPaga crearLlevaPaga(LlevaPagaVo llevaPagaVo) {
+		LlevaPaga dto = new LlevaPaga();
+		
+		adaptVoToDtoXPorcentaje(dto, llevaPagaVo);
+		
+		return repository.save(dto);
+	}
+	
+	private void adaptVoToDtoXPorcentaje(LlevaPaga dto, LlevaPagaVo llevaPagaVo) {
+		Emprendimiento emprendimiento = emprendimientoService.traerEmprendimientoPorId(llevaPagaVo.getIdEmprendimiento());
+
+		if (emprendimiento == null) {
+			throw new ObjectNotFound("Emprendimiento");
+		}
+
+		dto.setDescripcion(llevaPagaVo.getDescripcion());
+		dto.setHabilitada(llevaPagaVo.isHabilitada());
+		dto.setFechaFin(llevaPagaVo.getFechaFin());
+		dto.setFechaInicio(llevaPagaVo.getFechaInicio());
+		dto.setEmprendimiento(emprendimiento);
+		dto.setLleva(llevaPagaVo.getLleva());
+		dto.setPaga(llevaPagaVo.getPaga());
 	}
 
 }

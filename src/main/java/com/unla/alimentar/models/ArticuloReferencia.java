@@ -11,7 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
 
@@ -37,17 +37,17 @@ public class ArticuloReferencia {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="idCategoria",nullable= false)
-	@JsonBackReference
+	@JsonManagedReference
 	private Categoria categoria;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="idMarca",nullable= false)
-	@JsonBackReference
+	@JsonManagedReference
 	private Marca marca;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="idUnidadMedida",nullable= false)
-	@JsonBackReference
+	@JsonManagedReference
 	private UnidadMedida unidadMedida;
 
 }

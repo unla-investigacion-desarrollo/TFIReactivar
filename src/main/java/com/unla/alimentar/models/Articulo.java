@@ -13,18 +13,17 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
 
 @Data
 @Entity
-@Table(name ="articulo")
+@Table(name = "articulo")
 public class Articulo {
-	
+//Managed objeto Back lista
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idArticulo;
 	private String codBarra;
 	private String descripcion;
@@ -34,41 +33,37 @@ public class Articulo {
 	private Date fechaModi;
 	private String usuarioModi;
 	private String peso;
-	
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="idCategoria",nullable= false)
-	@JsonBackReference
+	@JoinColumn(name = "idCategoria", nullable = false)
+    @JsonManagedReference
 	private Categoria categoria;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="idMarca",nullable= false)
-	@JsonBackReference
+	@JoinColumn(name = "idMarca", nullable = false)
+    @JsonManagedReference
 	private Marca marca;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="idUnidadMedida",nullable= false)
-	@JsonBackReference
+	@JoinColumn(name = "idUnidadMedida", nullable = false)
+    @JsonManagedReference
 	private UnidadMedida unidadMedida;
-	
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idEmprendimiento", nullable = false)
-	@JsonBackReference
+	@JoinColumn(name = "idEmprendimiento", nullable = true)
+    @JsonManagedReference
 	private Emprendimiento emprendimiento;
-	
+
 	private boolean activoComercial;
 	private boolean visible;
 
 	@OneToOne(mappedBy = "articuloPrecio", cascade = CascadeType.ALL)
-	@JsonIgnore
+    @JsonManagedReference
 	private ItemCarrito itemCarrito;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idPromocion", nullable = false)
-	@JsonBackReference
+	@JoinColumn(name = "idPromocion", nullable = true)
+    @JsonManagedReference
 	private Promocion promocion;
-	
-	
 
 }

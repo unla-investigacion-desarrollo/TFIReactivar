@@ -5,14 +5,13 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
 
@@ -21,18 +20,17 @@ import lombok.Data;
 @Table(name = "funcionPerfil")
 public class FuncionPerfil {
 	@Id
-	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long idFuncionPerfil;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idPerfil", nullable = false)
-	@JsonBackReference
+	@JsonManagedReference
 	private Perfil perfil;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idFuncion", nullable = false)
-	@JsonBackReference
+	@JsonManagedReference
 	private Funcion funcion;
 	
 	private boolean edicion;

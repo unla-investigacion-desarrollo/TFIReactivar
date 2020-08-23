@@ -1,5 +1,6 @@
 package com.unla.alimentar.services;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,13 +38,31 @@ public class PerfilService {
 		repository.delete(perfil);
 	}
 
+	@Transactional
 	public Perfil actualizarPerfil(Long id, PerfilVo perfilVo) {
-		// TODO Auto-generated method stub
-		return null;
+		Perfil perfil = repository.findByIdPerfil(id);
+		
+		if(perfil == null) {
+			throw new ObjectNotFound("Perfil");
+		}
+		
+		adaptVoToPerfil(perfil, perfilVo);
+		
+		return repository.save(perfil);
 	}
 
-	public Perfil crearPerfil(PerfilVo perfilVo) {
-		// TODO Auto-generated method stub
-		return null;
+	@Transactional
+	public Perfil crearPerfil(PerfilVo perfilVo) {	
+		Perfil perfil = new Perfil();
+		
+		adaptVoToPerfil(perfil, perfilVo);
+		
+		return repository.save(perfil);
+	}
+	
+	private void adaptVoToPerfil(Perfil perfil, PerfilVo perfilVo) {
+		perfil.setNombre(perfilVo.getNombre());
+		perfil.setFechaModi(new Date());
+		perfil.setUsuarioModi(perfilVo.getUsuarioModi());
 	}
 }
