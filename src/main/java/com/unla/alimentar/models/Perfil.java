@@ -13,9 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Data;
 
@@ -34,17 +32,12 @@ public class Perfil {
 	private String nombre;
 	private String usuarioModi;
 	private Date fechaModi;
-	
 
-	/*@OneToMany(mappedBy = "perfil")
-	@JsonManagedReference
-	private List<Usuario> usuarios;*/
-	
 	@OneToMany(mappedBy = "perfil")
-	@JsonManagedReference
+	@JsonBackReference
 	private List<Persona> personas;
 
 	@OneToMany(mappedBy = "perfil")
-	@JsonManagedReference
+	@JsonBackReference
 	private List<FuncionPerfil> funcionesPerfil;
 }

@@ -2,7 +2,6 @@ package com.unla.alimentar.models;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 
 import lombok.Data;
 

@@ -37,14 +37,26 @@ public class EstadoTurnoService {
 		repository.delete(registro);
 	}
 
+	@Transactional
 	public EstadoTurno actualizarEstadoTurno(Long id, EstadoTurnoVo estadoTurnoVo) {
-		// TODO Auto-generated method stub
-		return null;
+		EstadoTurno estado = repository.findByIdEstadoTurno(id);
+
+		if (estado == null) {
+			throw new ObjectNotFound("EstadoTurno");
+		}
+
+		estado.setEstado(estadoTurnoVo.getNombreEstado());
+
+		return repository.save(estado);
 	}
 
+	@Transactional
 	public EstadoTurno crearEstadoTurno(EstadoTurnoVo estadoTurnoVo) {
-		// TODO Auto-generated method stub
-		return null;
+		EstadoTurno estado = new EstadoTurno();
+		
+		estado.setEstado(estadoTurnoVo.getNombreEstado());
+
+		return repository.save(estado);
 	}
 
 }

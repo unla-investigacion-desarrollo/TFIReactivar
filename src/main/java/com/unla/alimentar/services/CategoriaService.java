@@ -37,14 +37,26 @@ public class CategoriaService {
 		repository.delete(registro);
 	}
 
+	@Transactional
 	public Categoria actualizarCategoria(Long id, CategoriaVo categoriaVo) {
-		// TODO Auto-generated method stub
-		return null;
+		Categoria categoria = repository.findByIdCategoria(id);
+		
+		if(categoria == null) {
+			throw new ObjectNotFound("Categoria");
+		}
+		
+		categoria.setNombre(categoriaVo.getNombre());
+		
+		return repository.save(categoria);
 	}
 
+	@Transactional
 	public Categoria crearCategoria(CategoriaVo categoriaVo) {
-		// TODO Auto-generated method stub
-		return null;
+		Categoria categoria = new Categoria();
+
+		categoria.setNombre(categoriaVo.getNombre());
+		
+		return repository.save(categoria);
 	}
 
 }

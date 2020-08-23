@@ -9,12 +9,9 @@ import lombok.Data;
 @Entity(name = "personaFisica")
 @DiscriminatorValue("fisica")
 public class PersonaFisica extends Persona {
+	
 	private String nombre;
 	private String apellido;
 	private String cuil; 
-	
-	  /*@ManyToMany(cascade = CascadeType.ALL)
-	    private List<PersonaJuridica> personasJuridicas;*/
-	
 	
 }

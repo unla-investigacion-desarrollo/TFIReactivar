@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Data;
 
@@ -23,6 +23,6 @@ public class TipoEmprendimiento {
 	private String nombre;
 	
 	@OneToMany(mappedBy = "tipoEmprendimiento")
-	@JsonManagedReference
+	@JsonBackReference
 	private List<Emprendimiento> emprendimientos;
 }

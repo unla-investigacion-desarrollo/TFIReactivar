@@ -37,14 +37,26 @@ public class UnidadMedidaService {
 		repository.delete(registro);
 	}
 
+	@Transactional
 	public UnidadMedida actualizarUnidadMedida(Long id, UnidadMedidaVo unidadMedidaVo) {
-		// TODO Auto-generated method stub
-		return null;
+		UnidadMedida medida = repository.findByIdUnidadMedida(id);
+
+		if (medida == null) {
+			throw new ObjectNotFound("UnidadMedida");
+		}
+		
+		medida.setNombre(unidadMedidaVo.getUnidadMedida());
+		
+		return repository.save(medida);
 	}
 
+	@Transactional
 	public UnidadMedida crearUnidadMedida(UnidadMedidaVo unidadMedidaVo) {
-		// TODO Auto-generated method stub
-		return null;
+		UnidadMedida medida = new UnidadMedida();
+
+		medida.setNombre(unidadMedidaVo.getUnidadMedida());
+		
+		return repository.save(medida);
 	}
 
 }

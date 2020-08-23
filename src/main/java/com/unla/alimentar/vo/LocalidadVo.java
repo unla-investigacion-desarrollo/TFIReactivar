@@ -1,7 +1,11 @@
 package com.unla.alimentar.vo;
 
+import lombok.Data;
+
+@Data
 public class LocalidadVo {
 	
-	private Long idLocalidad;
-
+	private String localidad;
+	private long idProvincia;
+	
 }

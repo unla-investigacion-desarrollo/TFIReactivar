@@ -6,13 +6,12 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -24,30 +23,28 @@ import lombok.Data;
 @Table(name = "carrito")
 public class Carrito {
 	@Id
-	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long idCarrito;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idEmprendimiento", nullable = false)
-	@JsonBackReference
+	@JsonManagedReference
 	private Emprendimiento emprendimiento;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idPersona", nullable = false)
-	@JsonBackReference
+	@JsonManagedReference
 	private Persona persona;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="idItemCarrito",nullable= false)
+	@OneToMany(mappedBy="carrito")
 	@JsonBackReference
-	private ItemCarrito listaItemCarrito;
+	private List<ItemCarrito> listaItemCarrito;
 	
 	private Date fechaHora;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="idEstadoCarrito",nullable= false)
-	@JsonBackReference
+	@JsonManagedReference	
 	private EstadoCarrito estadoCarrito;
 	
 	

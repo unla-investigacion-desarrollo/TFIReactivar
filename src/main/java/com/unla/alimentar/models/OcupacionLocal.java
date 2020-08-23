@@ -8,14 +8,13 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
 
@@ -28,13 +27,12 @@ import lombok.Data;
 @Table(name = "ocupacionLocal")
 public class OcupacionLocal {
 	@Id
-	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
-	private String idOcupacionLocal;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long idOcupacionLocal;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idPersona", nullable = false)
-	@JsonBackReference
+	@JsonManagedReference
 	private Persona persona;
 	
 	private Date fechaHoraEntrada;
@@ -45,19 +43,7 @@ public class OcupacionLocal {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idEmprendimiento", nullable = false)
-	@JsonBackReference
+	@JsonManagedReference
 	private Emprendimiento emprendimiento;
-	
-	
-
-	/*@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idLocal", nullable = false)
-	@JsonBackReference
-	private Local local;*/
-
-	/*@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idUsuario", nullable = false)
-	@JsonBackReference
-	private Usuario usuario;*/
 
 }

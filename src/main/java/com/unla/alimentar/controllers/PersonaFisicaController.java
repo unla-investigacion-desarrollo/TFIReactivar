@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unla.alimentar.models.Persona;
+import com.unla.alimentar.models.PersonaFisica;
 import com.unla.alimentar.services.PersonaFisicaService;
 import com.unla.alimentar.vo.PersonaFisicaVo;
 
@@ -35,7 +36,7 @@ public class PersonaFisicaController {
 	@ApiOperation(value = "Listar todos los personaFisicas", notes = "Service para listar todos los personaFisicas")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "PersonaFisicas encontrados"),
 			@ApiResponse(code = 404, message = "PersonaFisicas no encontrados") })
-	public List<Persona> traerTodos() {
+	public List<PersonaFisica> traerTodos() {
 		return service.traerTodos();
 	}
 	

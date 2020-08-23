@@ -37,14 +37,26 @@ public class EstadoCarritoService {
 		repository.delete(registro);
 	}
 
+	@Transactional
 	public EstadoCarrito actualizarEstadoCarrito(Long id, EstadoCarritoVo estadoCarritoVo) {
-		// TODO Auto-generated method stub
-		return null;
+		EstadoCarrito estado = repository.findByIdEstadoCarrito(id);
+
+		if (estado == null) {
+			throw new ObjectNotFound("EstadoCarrito");
+		}
+
+		estado.setNombre(estadoCarritoVo.getNombreEstado());
+
+		return repository.save(estado);
 	}
 
+	@Transactional
 	public EstadoCarrito crearEstadoCarrito(EstadoCarritoVo estadoCarritoVo) {
-		// TODO Auto-generated method stub
-		return null;
+		EstadoCarrito estado = new EstadoCarrito();
+
+		estado.setNombre(estadoCarritoVo.getNombreEstado());
+
+		return repository.save(estado);
 	}
 
 }

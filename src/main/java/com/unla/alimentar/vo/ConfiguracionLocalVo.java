@@ -1,8 +1,6 @@
 package com.unla.alimentar.vo;
 
 
-import java.sql.Time;
-
 import lombok.Data;
 
 @Data

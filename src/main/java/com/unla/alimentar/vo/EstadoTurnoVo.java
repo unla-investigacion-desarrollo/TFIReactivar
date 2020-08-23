@@ -1,5 +1,10 @@
 package com.unla.alimentar.vo;
 
-public class EstadoTurnoVo {
+import lombok.Data;
 
-}
+@Data
+public class EstadoTurnoVo {
+	
+	private String nombreEstado;
+
+}	

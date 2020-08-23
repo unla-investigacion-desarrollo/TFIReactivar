@@ -37,14 +37,26 @@ public class ProvinciaService {
 		repository.delete(provincia);
 	}
 
+	@Transactional
 	public Provincia actualizarProvincia(Long id, ProvinciaVo provinciaVo) {
-		// TODO Auto-generated method stub
-		return null;
+		Provincia provincia = repository.findByIdProvincia(id);
+		
+		if(provincia == null) {
+			throw new ObjectNotFound("Provincia");
+		}
+		
+		provincia.setNombre(provinciaVo.getProvincia());
+		
+		return repository.save(provincia);
 	}
 
+	@Transactional
 	public Provincia crearProvincia(ProvinciaVo provinciaVo) {
-		// TODO Auto-generated method stub
-		return null;
+		Provincia provincia = new Provincia();
+		
+		provincia.setNombre(provinciaVo.getProvincia());
+		
+		return repository.save(provincia);
 	}
 	
 }

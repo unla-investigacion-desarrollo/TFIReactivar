@@ -12,7 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
 
@@ -26,7 +26,7 @@ public class ConfiguracionLocal {
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "idEmprendimiento", nullable = false)
-	@JsonBackReference
+	@JsonManagedReference
 	private Emprendimiento emprendimiento;
 	
 	private String diaSemana;

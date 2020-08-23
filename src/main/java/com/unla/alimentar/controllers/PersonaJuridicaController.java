@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.unla.alimentar.models.Persona;
+import com.unla.alimentar.models.PersonaJuridica;
 import com.unla.alimentar.services.PersonaJuridicaService;
 import com.unla.alimentar.vo.PersonaJuridicaVo;
 
@@ -35,7 +35,7 @@ public class PersonaJuridicaController {
 	@ApiOperation(value = "Listar todos los personaJuridicas", notes = "Service para listar todos los personaJuridicas")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "PersonaJuridicas encontrados"),
 			@ApiResponse(code = 404, message = "PersonaJuridicas no encontrados") })
-	public List<Persona> traerTodos() {
+	public List<PersonaJuridica> traerTodos() {
 		return service.traerTodos();
 	}
 	
@@ -43,7 +43,7 @@ public class PersonaJuridicaController {
 	@ApiOperation(value = "Mostrar un personaJuridica", notes = "Service para mostrar un personaJuridica")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "PersonaJuridica encontrado"),
 			@ApiResponse(code = 404, message = "PersonaJuridica no encontrado") })
-	public Persona traerPersonaJuridica(@PathVariable ("idPersonaJuridica") long id) {
+	public PersonaJuridica traerPersonaJuridica(@PathVariable ("idPersonaJuridica") long id) {
 		return service.traerPersonaPorId(id);
 	}
 	
@@ -51,8 +51,8 @@ public class PersonaJuridicaController {
 	@ApiOperation(value = "Crear PersonaJuridica", notes = "Servicio creador de personaJuridicas")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "PersonaJuridica successfully created"),
 			@ApiResponse(code = 400, message = "Invalid request") })
-	public ResponseEntity<Persona> crearPersonaJuridica(@RequestBody PersonaJuridicaVo personaJuridicaVo){
-		Persona personaJuridica = service.crearPersona(personaJuridicaVo);
+	public ResponseEntity<PersonaJuridica> crearPersonaJuridica(@RequestBody PersonaJuridicaVo personaJuridicaVo){
+		PersonaJuridica personaJuridica = service.crearPersona(personaJuridicaVo);
 		
 		return new ResponseEntity<>(personaJuridica, HttpStatus.CREATED);
 	}
@@ -70,7 +70,7 @@ public class PersonaJuridicaController {
 	@ApiOperation(value = "Update PersonaJuridica", notes = "PersonaJuridica updater service")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "PersonaJuridica successfully updated"),
 			@ApiResponse(code = 404, message = "PersonaJuridica not found") })
-	public ResponseEntity<Persona> updatePersonaJuridica(@PathVariable("idPersonaJuridica") Long id, PersonaJuridicaVo personaJuridicaVo) {
+	public ResponseEntity<PersonaJuridica> updatePersonaJuridica(@PathVariable("idPersonaJuridica") Long id, PersonaJuridicaVo personaJuridicaVo) {
 
 		return new ResponseEntity<>(service.actualizarPersonaJuridica(id, personaJuridicaVo), HttpStatus.OK);
 	}

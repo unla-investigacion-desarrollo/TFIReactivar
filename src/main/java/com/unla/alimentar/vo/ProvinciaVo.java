@@ -1,5 +1,10 @@
 package com.unla.alimentar.vo;
 
-public class ProvinciaVo {
+import lombok.Data;
 
+@Data
+public class ProvinciaVo {
+	
+	private String provincia;
+	
 }

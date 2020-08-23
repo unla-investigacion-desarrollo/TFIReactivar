@@ -22,29 +22,18 @@ public class UbicacionService {
 
 	@Autowired
 	private LocalidadService localidadService;
-		
 	
 	public Ubicacion traerUbicacionPorId(Long id) {
 		return repository.findByIdUbicacion(id);
 	}
 	
+	@Transactional
 	public Ubicacion crearUbicacion(UbicacionVo ubicacionVo) {
 		Ubicacion ubicacion = new Ubicacion();
 		
-		ubicacion.setCalleNumero(ubicacionVo.getCalleNumero());
-		if(!StringUtils.isBlank(ubicacionVo.getDepartamento()))
-			ubicacion.setDepartamento(ubicacionVo.getDepartamento());
-		if(new Integer(ubicacionVo.getPiso()) != null || ubicacionVo.getPiso() != 0)
-			ubicacion.setPiso(ubicacionVo.getPiso());
-		ubicacion.setLatitud(ubicacionVo.getLatitud());
-		ubicacion.setLongitud(ubicacionVo.getLongitud());
-		Localidad localidad = localidadService.traerLocalidadPorId(ubicacionVo.getIdLocalidad());
-		if(localidad == null) {
-			throw new ObjectNotFound("Localidad");
-		}
-		ubicacion.setLocalidad(localidad);
+		adaptVoToUbicacion(ubicacion, ubicacionVo);
 		
-		return ubicacion;
+		return repository.save(ubicacion);
 	}
 	
 	public List<Ubicacion> traerTodos(){
@@ -62,9 +51,32 @@ public class UbicacionService {
 		repository.delete(ubicacion);
 	}
 
+	@Transactional
 	public Ubicacion actualizarUbicacion(Long id, UbicacionVo ubicacionVo) {
-		// TODO Auto-generated method stub
-		return null;
+		Ubicacion ubicacion = repository.findByIdUbicacion(id);
+		
+		if(ubicacion == null) {
+			throw new ObjectNotFound("Ubicacion");
+		}
+		
+		adaptVoToUbicacion(ubicacion, ubicacionVo);
+		
+		return repository.save(ubicacion);
+	}
+	
+	private void adaptVoToUbicacion(Ubicacion ubicacion, UbicacionVo ubicacionVo) {
+		ubicacion.setCalleNumero(ubicacionVo.getCalleNumero());
+		if(!StringUtils.isBlank(ubicacionVo.getDepartamento()))
+			ubicacion.setDepartamento(ubicacionVo.getDepartamento());
+		if(new Integer(ubicacionVo.getPiso()) != null || ubicacionVo.getPiso() != 0)
+			ubicacion.setPiso(ubicacionVo.getPiso());
+		ubicacion.setLatitud(ubicacionVo.getLatitud());
+		ubicacion.setLongitud(ubicacionVo.getLongitud());
+		Localidad localidad = localidadService.traerLocalidadPorId(ubicacionVo.getIdLocalidad());
+		if(localidad == null) {
+			throw new ObjectNotFound("Localidad");
+		}
+		ubicacion.setLocalidad(localidad);
 	}
 	
 }

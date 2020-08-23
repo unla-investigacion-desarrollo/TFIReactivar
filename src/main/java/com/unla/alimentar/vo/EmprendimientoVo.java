@@ -12,15 +12,10 @@ public class EmprendimientoVo {
 	private String cuit;
 	private String usuarioModi;
 	private Date fechaModi;
-
 	private long idTipoEmprendimiento;
-
 	private UbicacionVo ubicacionVo;
-
 	private long idRubro;
-
 	private long idPersona;
-
 	private List<ConfiguracionLocalVo> configuracionLocales;
 
 }

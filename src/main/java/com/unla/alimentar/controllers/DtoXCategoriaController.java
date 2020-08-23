@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.unla.alimentar.models.Promocion;
+import com.unla.alimentar.models.DtoXCategoria;
 import com.unla.alimentar.services.DtoXCategoriaService;
 import com.unla.alimentar.vo.DtoXCategoriaVo;
 
@@ -35,7 +35,7 @@ public class DtoXCategoriaController {
 	@ApiOperation(value = "Listar todos los dtoXCategorias", notes = "Service para listar todos los dtoXCategorias")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "DtoXCategorias encontrados"),
 			@ApiResponse(code = 404, message = "DtoXCategorias no encontrados") })
-	public List<Promocion> traerTodos() {
+	public List<DtoXCategoria> traerTodos() {
 		return service.traerTodos();
 	}
 	
@@ -43,7 +43,7 @@ public class DtoXCategoriaController {
 	@ApiOperation(value = "Mostrar un dtoXCategoria", notes = "Service para mostrar un dtoXCategoria")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "DtoXCategoria encontrado"),
 			@ApiResponse(code = 404, message = "DtoXCategoria no encontrado") })
-	public Promocion traerDtoXCategoria(@PathVariable ("idDtoXCategoria") long id) {
+	public DtoXCategoria traerDtoXCategoria(@PathVariable ("idDtoXCategoria") long id) {
 		return service.traerDtoXCategoriaPorId(id);
 	}
 	
@@ -51,8 +51,8 @@ public class DtoXCategoriaController {
 	@ApiOperation(value = "Crear DtoXCategoria", notes = "Servicio creador de dtoXCategorias")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "DtoXCategoria successfully created"),
 			@ApiResponse(code = 400, message = "Invalid request") })
-	public ResponseEntity<Promocion> crearDtoXCategoria(@RequestBody DtoXCategoriaVo dtoXCategoriaVo){
-		Promocion dtoXCategoria = service.crearDtoXCategoria(dtoXCategoriaVo);
+	public ResponseEntity<DtoXCategoria> crearDtoXCategoria(@RequestBody DtoXCategoriaVo dtoXCategoriaVo){
+		DtoXCategoria dtoXCategoria = service.crearDtoXCategoria(dtoXCategoriaVo);
 		
 		return new ResponseEntity<>(dtoXCategoria, HttpStatus.CREATED);
 	}
@@ -70,7 +70,7 @@ public class DtoXCategoriaController {
 	@ApiOperation(value = "Update DtoXCategoria", notes = "DtoXCategoria updater service")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "DtoXCategoria successfully updated"),
 			@ApiResponse(code = 404, message = "DtoXCategoria not found") })
-	public ResponseEntity<Promocion> updateDtoXCategoria(@PathVariable("idDtoXCategoria") Long id, DtoXCategoriaVo dtoXCategoriaVo) {
+	public ResponseEntity<DtoXCategoria> updateDtoXCategoria(@PathVariable("idDtoXCategoria") Long id, DtoXCategoriaVo dtoXCategoriaVo) {
 
 		return new ResponseEntity<>(service.actualizarDtoXCategoria(id, dtoXCategoriaVo), HttpStatus.OK);
 	}

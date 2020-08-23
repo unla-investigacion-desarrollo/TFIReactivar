@@ -37,14 +37,26 @@ public class TipoEmprendimientoService {
 		repository.delete(tipoEmprendimiento);
 	}
 
+	@Transactional
 	public TipoEmprendimiento actualizarTipoEmprendimiento(Long id, TipoEmprendimientoVo tipoEmprendimientoVo) {
-		// TODO Auto-generated method stub
-		return null;
+		TipoEmprendimiento tipoEmprendimiento = repository.findByIdTipoEmprendimiento(id);
+		
+		if(tipoEmprendimiento == null) {
+			throw new ObjectNotFound("TipoEmprendimiento");
+		}
+		
+		tipoEmprendimiento.setNombre(tipoEmprendimientoVo.getTipoEmprendimiento());
+		
+		return repository.save(tipoEmprendimiento);
 	}
 
+	@Transactional
 	public TipoEmprendimiento crearTipoEmprendimiento(TipoEmprendimientoVo tipoEmprendimientoVo) {
-		// TODO Auto-generated method stub
-		return null;
+		TipoEmprendimiento tipoEmprendimiento = new TipoEmprendimiento();
+		
+		tipoEmprendimiento.setNombre(tipoEmprendimientoVo.getTipoEmprendimiento());
+		
+		return repository.save(tipoEmprendimiento);
 	}
 	
 }

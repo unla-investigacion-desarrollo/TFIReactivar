@@ -38,14 +38,26 @@ public class RubroService {
 		repository.delete(rubro);
 	}
 
+	@Transactional
 	public Rubro actualizarRubro(Long id, RubroVo rubroVo) {
-		// TODO Auto-generated method stub
-		return null;
+		Rubro rubro = repository.findByIdRubro(id);
+		
+		if(rubro == null) {
+			throw new ObjectNotFound("Rubro");
+		}
+		
+		rubro.setNombre(rubroVo.getRubro());
+		
+		return repository.save(rubro);
 	}
-
+	
+	@Transactional
 	public Rubro crearRubro(RubroVo rubroVo) {
-		// TODO Auto-generated method stub
-		return null;
+		Rubro rubro = new Rubro();
+		
+		rubro.setNombre(rubroVo.getRubro());
+		
+		return repository.save(rubro);
 	}
 
 }

@@ -16,13 +16,9 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-import org.springframework.lang.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -47,7 +43,7 @@ public class Persona {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idPerfil", nullable = false)
-	@JsonBackReference
+	@JsonManagedReference
 	private Perfil perfil;
 	
 	@OneToOne
@@ -59,21 +55,21 @@ public class Persona {
 	private Login login;
 	
 	@OneToMany(mappedBy = "persona")
-	@JsonManagedReference
+	@JsonBackReference
 	private List<Turno> turnos;
 	
 	@OneToMany(mappedBy = "persona")
-	@JsonManagedReference
+	@JsonBackReference
 	private List<OcupacionLocal> ocupacionLocales;
 	
 	@OneToMany(mappedBy = "persona")
-	@JsonManagedReference
+	@JsonBackReference
 	private List<Carrito> carritos;
 	
 	@ManyToMany(cascade = CascadeType.ALL)
     private List<PersonaJuridica> personasJuridicas;
 	
 	@OneToMany(mappedBy = "persona")
-	@JsonManagedReference
+	@JsonBackReference
 	private List<Emprendimiento> emprendimientos;
 }

@@ -4,13 +4,12 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Data;
 
@@ -19,13 +18,12 @@ import lombok.Data;
 @Table(name = "estadoTurno")
 public class EstadoTurno {
 	@Id
-	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long idEstadoTurno;
 	private String estado;
 	
 	@OneToMany(mappedBy = "estadoTurno")
-	@JsonManagedReference
+	@JsonBackReference
 	private List<Turno> turnos;
 	
 }
