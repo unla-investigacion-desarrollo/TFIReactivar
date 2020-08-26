@@ -1,6 +1,5 @@
 package com.unla.alimentar.services;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,7 @@ import com.unla.alimentar.models.EstadoTurno;
 import com.unla.alimentar.models.Persona;
 import com.unla.alimentar.models.Turno;
 import com.unla.alimentar.repositories.TurnoRepository;
+import com.unla.alimentar.utils.DateUtils;
 import com.unla.alimentar.vo.TurnoVo;
 
 @Service
@@ -83,7 +83,7 @@ public class TurnoService {
 		
 		turno.setEmprendimiento(emprendimiento);
 		turno.setEstadoTurno(estadoTurno);
-		turno.setFechaModi(new Date());
+		turno.setFechaModi(DateUtils.fechaHoy());
 		turno.setFechaHora(turnoVo.getFechaHora());
 		turno.setObservaciones(turnoVo.getObservaciones());
 		turno.setPersona(persona);

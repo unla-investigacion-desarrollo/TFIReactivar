@@ -1,6 +1,5 @@
 package com.unla.alimentar.services;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,7 @@ import com.unla.alimentar.models.Funcion;
 import com.unla.alimentar.models.FuncionPerfil;
 import com.unla.alimentar.models.Perfil;
 import com.unla.alimentar.repositories.FuncionPerfilRepository;
+import com.unla.alimentar.utils.DateUtils;
 import com.unla.alimentar.vo.FuncionPerfilVo;
 
 @Service
@@ -77,7 +77,7 @@ public class FuncionPerfilService {
 		}
 		
 		funcion.setEdicion(funcionPerfilVo.isEdicion());
-		funcion.setFechaModi(new Date());
+		funcion.setFechaModi(DateUtils.fechaHoy());
 		funcion.setFuncion(func);
 		funcion.setPerfil(perfil);
 		funcion.setUsuarioModi(funcionPerfilVo.getUsuarioModi());

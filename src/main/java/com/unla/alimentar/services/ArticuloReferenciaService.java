@@ -1,6 +1,5 @@
 package com.unla.alimentar.services;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,7 @@ import com.unla.alimentar.models.Categoria;
 import com.unla.alimentar.models.Marca;
 import com.unla.alimentar.models.UnidadMedida;
 import com.unla.alimentar.repositories.ArticuloReferenciaRepository;
+import com.unla.alimentar.utils.DateUtils;
 import com.unla.alimentar.vo.ArticuloReferenciaVo;
 
 @Service
@@ -87,7 +87,7 @@ public class ArticuloReferenciaService {
 		articulo.setUnidadMedida(unidadMedida);
 		articulo.setCodBarra(articuloReferenciaVo.getCodBarra());
 		articulo.setDescripcion(articuloReferenciaVo.getDescripcion());
-		articulo.setFechaModi(new Date(System.currentTimeMillis()));
+		articulo.setFechaModi(DateUtils.fechaHoy());
 		articulo.setFoto(articuloReferenciaVo.getFoto());
 		articulo.setNombre(articuloReferenciaVo.getNombre());
 		articulo.setPeso(articuloReferenciaVo.getPeso());

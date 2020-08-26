@@ -1,6 +1,5 @@
 package com.unla.alimentar.services;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,7 @@ import com.unla.alimentar.models.Persona;
 import com.unla.alimentar.models.PersonaFisica;
 import com.unla.alimentar.models.Ubicacion;
 import com.unla.alimentar.repositories.PersonaFisicaRepository;
+import com.unla.alimentar.utils.DateUtils;
 import com.unla.alimentar.vo.PersonaFisicaVo;
 
 @Service
@@ -90,7 +90,7 @@ public class PersonaFisicaService {
 		persona.setCuil(personaFisicaVo.getCuil());
 		persona.setCelular(personaFisicaVo.getCelular());
 		persona.setUsuarioModi(personaFisicaVo.getUsuarioModi());
-		persona.setFechaModi(new Date());
+		persona.setFechaModi(DateUtils.fechaHoy());
 		persona.setPerfil(perfil);
 	}
 

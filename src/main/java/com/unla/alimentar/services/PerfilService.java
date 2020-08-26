@@ -1,6 +1,5 @@
 package com.unla.alimentar.services;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.unla.alimentar.exceptions.ObjectNotFound;
 import com.unla.alimentar.models.Perfil;
 import com.unla.alimentar.repositories.PerfilRepository;
+import com.unla.alimentar.utils.DateUtils;
 import com.unla.alimentar.vo.PerfilVo;
 
 @Service
@@ -62,7 +62,7 @@ public class PerfilService {
 	
 	private void adaptVoToPerfil(Perfil perfil, PerfilVo perfilVo) {
 		perfil.setNombre(perfilVo.getNombre());
-		perfil.setFechaModi(new Date());
+		perfil.setFechaModi(DateUtils.fechaHoy());
 		perfil.setUsuarioModi(perfilVo.getUsuarioModi());
 	}
 }

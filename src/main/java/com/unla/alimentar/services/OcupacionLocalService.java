@@ -1,6 +1,5 @@
 package com.unla.alimentar.services;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,7 @@ import com.unla.alimentar.models.Emprendimiento;
 import com.unla.alimentar.models.OcupacionLocal;
 import com.unla.alimentar.models.Persona;
 import com.unla.alimentar.repositories.OcupacionLocalRepository;
+import com.unla.alimentar.utils.DateUtils;
 import com.unla.alimentar.vo.OcupacionLocalVo;
 
 @Service
@@ -76,7 +76,7 @@ public class OcupacionLocalService {
 		ocupacion.setPersona(persona);
 		ocupacion.setFechaHoraEntrada(ocupacionLocalVo.getFechaHoraEntrada());
 		ocupacion.setFechaHoraSalida(ocupacionLocalVo.getFechaHoraSalida());
-		ocupacion.setFechaModi(new Date());
+		ocupacion.setFechaModi(DateUtils.fechaHoy());
 		ocupacion.setUsuarioModi(ocupacionLocalVo.getUsuarioModi());
 	}
 
