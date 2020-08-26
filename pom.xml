@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.unla</groupId>
-	<artifactId>alimentar</artifactId>
+	<artifactId>reactivar</artifactId>
 	<version>1.0.0</version>
-	<name>alimentar</name>
+	<name>reactivar</name>
 	<description>Demo project for Spring Boot</description>
 
 	<packaging>war</packaging>
