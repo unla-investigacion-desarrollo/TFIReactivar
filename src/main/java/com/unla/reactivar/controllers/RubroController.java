@@ -2,8 +2,6 @@ package com.unla.reactivar.controllers;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,14 +31,11 @@ public class RubroController {
 	@Autowired
 	private RubroService service;
 	
-    private final Logger logger = LoggerFactory.getLogger(getClass().getName());
-
 	@GetMapping
 	@ApiOperation(value = "Listar todos los rubros", notes = "Service para listar todos los rubros")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Rubros encontrados"),
 			@ApiResponse(code = 404, message = "Rubros no encontrados") })
 	public List<Rubro> traerTodos() {
-		logger.info("[RubroController - traerTodos] Se intentará traer todos los rubros.");
 		return service.traerTodos();
 	}
 
