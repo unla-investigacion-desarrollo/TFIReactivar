@@ -21,7 +21,7 @@ import lombok.Data;
 @Entity
 @Table(name = "articulo")
 public class Articulo {
-//Managed objeto Back lista
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idArticulo;

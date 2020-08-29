@@ -1,5 +1,6 @@
 package com.unla.reactivar.models;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -28,7 +29,9 @@ import lombok.Data;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="tipoPromocion", 
 discriminatorType = DiscriminatorType.STRING)
-public class Promocion {
+public abstract class Promocion implements Serializable{
+	
+	private static final long serialVersionUID = 3618308926536344259L; 
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

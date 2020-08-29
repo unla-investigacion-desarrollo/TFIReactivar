@@ -38,7 +38,7 @@ public class LlevaPagaService {
 			throw new ObjectNotFound("LlevaPaga");
 		}
 
-		repository.delete(registro);
+		repository.deletePromocion(id);
 	}
 
 	@Transactional

@@ -33,7 +33,7 @@ public class PersonaService {
 			throw new ObjectNotFound("Persona");
 		}
 
-		personaRepository.delete(persona);
+		personaRepository.deletePersona(id);
 	}
 
 }

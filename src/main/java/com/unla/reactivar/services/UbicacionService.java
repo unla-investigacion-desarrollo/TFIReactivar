@@ -11,6 +11,7 @@ import com.unla.reactivar.exceptions.ObjectNotFound;
 import com.unla.reactivar.models.Localidad;
 import com.unla.reactivar.models.Ubicacion;
 import com.unla.reactivar.repositories.UbicacionRepository;
+import com.unla.reactivar.utils.DateUtils;
 import com.unla.reactivar.vo.UbicacionVo;
 
 @Service
@@ -65,13 +66,16 @@ public class UbicacionService {
 	}
 	
 	private void adaptVoToUbicacion(Ubicacion ubicacion, UbicacionVo ubicacionVo) {
-		ubicacion.setCalleNumero(ubicacionVo.getCalleNumero());
+		ubicacion.setCalle(ubicacionVo.getCalle());
+		ubicacion.setNumero(ubicacionVo.getNumero());
 		if(!StringUtils.isBlank(ubicacionVo.getDepartamento()))
 			ubicacion.setDepartamento(ubicacionVo.getDepartamento());
 		if(new Integer(ubicacionVo.getPiso()) != null || ubicacionVo.getPiso() != 0)
 			ubicacion.setPiso(ubicacionVo.getPiso());
 		ubicacion.setLatitud(ubicacionVo.getLatitud());
 		ubicacion.setLongitud(ubicacionVo.getLongitud());
+		ubicacion.setUsuarioModi(ubicacionVo.getUsuarioModi());
+		ubicacion.setFechaModi(DateUtils.fechaHoy());
 		Localidad localidad = localidadService.traerLocalidadPorId(ubicacionVo.getIdLocalidad());
 		if(localidad == null) {
 			throw new ObjectNotFound("Localidad");

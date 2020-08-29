@@ -33,7 +33,7 @@ public class PromocionService {
 			throw new ObjectNotFound("Promocion");
 		}
 
-		repository.delete(registro);
+		repository.deletePromocion(id);
 	}
 
 

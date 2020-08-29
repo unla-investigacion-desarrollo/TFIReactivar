@@ -42,7 +42,7 @@ public class DtoXCategoriaService {
 			throw new ObjectNotFound("DtoXCategoria");
 		}
 
-		repository.delete(registro);
+		repository.deletePromocion(id);
 	}
 
 	@Transactional

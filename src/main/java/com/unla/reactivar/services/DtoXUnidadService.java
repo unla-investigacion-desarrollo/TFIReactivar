@@ -38,7 +38,7 @@ public class DtoXUnidadService {
 			throw new ObjectNotFound("DtoXUnidad");
 		}
 
-		repository.delete(registro);
+		repository.deletePromocion(id);
 	}
 
 	@Transactional

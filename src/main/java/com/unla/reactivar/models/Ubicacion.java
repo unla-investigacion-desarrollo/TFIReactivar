@@ -25,7 +25,8 @@ public class Ubicacion {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long idUbicacion;
-	private String calleNumero;
+	private String calle;
+	private int numero;
 	private int piso;
 	private String departamento;
 	private String latitud;

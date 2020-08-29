@@ -15,6 +15,6 @@ public class DtoXCategoria extends Promocion {
 	private double descuento;
 
 	@OneToOne
-	@JoinColumn(name = "idCategoria", nullable = false)
+	@JoinColumn(name = "idCategoria", nullable = true)
 	private Categoria categoria;
 }

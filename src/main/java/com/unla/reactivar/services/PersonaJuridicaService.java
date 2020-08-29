@@ -10,7 +10,9 @@ import com.unla.reactivar.exceptions.ObjectNotFound;
 import com.unla.reactivar.models.Login;
 import com.unla.reactivar.models.Perfil;
 import com.unla.reactivar.models.PersonaJuridica;
+import com.unla.reactivar.models.Ubicacion;
 import com.unla.reactivar.repositories.PersonaJuridicaRepository;
+import com.unla.reactivar.utils.DateUtils;
 import com.unla.reactivar.vo.PersonaJuridicaVo;
 
 @Service
@@ -24,6 +26,9 @@ public class PersonaJuridicaService {
 	private PerfilService perfilService;
 	
 	@Autowired
+	private UbicacionService ubicacionService;
+	
+	@Autowired
 	private LoginService loginService;
 	
 	@Transactional
@@ -32,6 +37,10 @@ public class PersonaJuridicaService {
 		PersonaJuridica persona = new PersonaJuridica();
 		
 		adaptVoToPersonaJuridica(persona, personaVo);
+		
+		Ubicacion ubicacion = ubicacionService.crearUbicacion(personaVo.getUbicacionVo());
+
+		persona.setUbicacion(ubicacion);
 		
 		Login login = loginService.crearLogin(personaVo.getLoginVo());
 		
@@ -56,7 +65,7 @@ public class PersonaJuridicaService {
 			throw new ObjectNotFound("Persona");
 		}
 		
-		personaRepository.delete(persona);
+		personaRepository.deletePersona(id);
 	}
 
 	@Transactional
@@ -76,6 +85,8 @@ public class PersonaJuridicaService {
 		persona.setCelular(personaVo.getCelular());
 		persona.setCuit(personaVo.getCuit());
 		persona.setRazonSocial(personaVo.getRazonSocial());
+		persona.setFechaModi(DateUtils.fechaHoy());
+		persona.setUsuarioModi(personaVo.getUsuarioModi());
 		Perfil perfil = perfilService.traerPerfilPorId(personaVo.getIdPerfil());
 		
 		if(perfil == null) {

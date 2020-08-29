@@ -38,7 +38,7 @@ public class DtoXPorcentajeService {
 			throw new ObjectNotFound("DtoXPorcentaje");
 		}
 
-		repository.delete(registro);
+		repository.deletePromocion(id);
 	}
 
 	@Transactional

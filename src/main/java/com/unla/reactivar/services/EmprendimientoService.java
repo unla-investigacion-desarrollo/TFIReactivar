@@ -48,6 +48,9 @@ public class EmprendimientoService {
 	public Emprendimiento crearEmprendimiento(EmprendimientoVo emprendimientoVo) {
 		Emprendimiento emprendimiento = new Emprendimiento();
 
+		Ubicacion ubicacion = ubicacionService.crearUbicacion(emprendimientoVo.getUbicacionVo());
+		emprendimiento.setUbicacion(ubicacion);
+		
 		adaptarEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
 
 		return repository.save(emprendimiento);
@@ -71,9 +74,6 @@ public class EmprendimientoService {
 		if (emprendimiento == null) {
 			throw new ObjectNotFound("Emprendimiento");
 		}
-		
-		Ubicacion ubicacion = ubicacionService.crearUbicacion(emprendimientoVo.getUbicacionVo());
-		emprendimiento.setUbicacion(ubicacion);
 
 		adaptarEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
 

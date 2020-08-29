@@ -48,7 +48,7 @@ public class PersonaFisicaService {
 			throw new ObjectNotFound("PersonaFisica");
 		}
 
-		repository.delete(registro);
+		repository.deletePersona(id);
 	}
 
 	@Transactional
@@ -85,7 +85,7 @@ public class PersonaFisicaService {
 			throw new ObjectNotFound("Perfil");
 		}
 		
-		persona.setNombre(personaFisicaVo.getApellido());
+		persona.setNombre(personaFisicaVo.getNombre());
 		persona.setApellido(personaFisicaVo.getApellido());
 		persona.setCuil(personaFisicaVo.getCuil());
 		persona.setCelular(personaFisicaVo.getCelular());
