@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.models.Login;
 import com.unla.reactivar.services.LoginService;
 import com.unla.reactivar.vo.LoginVo;
@@ -39,40 +40,32 @@ public class LoginController {
 		return service.traerTodos();
 	}
 	
-	@GetMapping("/{idLogin}")
-	@ApiOperation(value = "Mostrar un login", notes = "Service para mostrar un login")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Login encontrado"),
-			@ApiResponse(code = 404, message = "Login no encontrado") })
-	public Login traerLogin(@PathVariable ("idLogin") long id) {
-		return service.traerLoginPorId(id);
-	}
-	
 	@PostMapping
-	@ApiOperation(value = "Crear Login", notes = "Servicio creador de logins")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Login successfully created"),
-			@ApiResponse(code = 400, message = "Invalid request") })
-	public ResponseEntity<Login> crearLogin(@RequestBody LoginVo loginVo){
-		Login login = service.crearLogin(loginVo);
-		
-		return new ResponseEntity<>(login, HttpStatus.CREATED);
-	}
-	
-	@DeleteMapping("/{idLogin}")
-	@ApiOperation(value = "Eliminar login", notes = "Servicio elimina Login")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Login eliminado con exito"),
+	@ApiOperation(value = "Mostrar un login", notes = "Service para mostrar un login")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Login encontrado"),
 			@ApiResponse(code = 404, message = "Login no encontrado") })
-	public void eliminarLogin(@PathVariable("idLogin") long id ) {
-		
-		service.borrarLogin(id);
+	public Login realizarLogin(@RequestBody LoginVo loginVo) {
+		return service.realizarLogin(loginVo);
 	}
 	
-	@PutMapping("/{idLogin}")
+	@DeleteMapping("/{email}")
+	@ApiOperation(value = "Eliminar login", notes = "Servicio elimina Login")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Login eliminado con exito"),
+			@ApiResponse(code = 404, message = "Login no encontrado") })
+	public ResponseEntity<Empty> eliminarLogin(@PathVariable ("email") String email) {
+		
+		service.borrarLogin(email);
+		
+		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
+	}
+	
+	@PutMapping("/{email}")
 	@ApiOperation(value = "Update Login", notes = "Login updater service")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Login successfully updated"),
 			@ApiResponse(code = 404, message = "Login not found") })
-	public ResponseEntity<Login> updateLogin(@PathVariable("idLogin") Long id, LoginVo loginVo) {
+	public ResponseEntity<Login> updateLogin(@PathVariable ("email") String email, LoginVo loginVo) {
 
-		return new ResponseEntity<>(service.actualizarLogin(id, loginVo), HttpStatus.OK);
+		return new ResponseEntity<>(service.actualizarLogin(email, loginVo), HttpStatus.OK);
 	}
 
 }

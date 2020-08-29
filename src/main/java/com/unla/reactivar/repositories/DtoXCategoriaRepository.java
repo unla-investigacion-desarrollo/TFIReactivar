@@ -13,11 +13,11 @@ import com.unla.reactivar.models.DtoXCategoria;
 @Repository
 public interface DtoXCategoriaRepository extends JpaRepository<DtoXCategoria, Long>{
 	
-	@Query("SELECT * FROM Promocion p WHERE p.idPromocion = ?1")
+	@Query("SELECT p FROM Promocion p WHERE p.idPromocion = ?1 and tipo_promocion = 'categoria'")
 	public DtoXCategoria findByIdPromocion(Long idDtoXCategoria);
 	
 	@Modifying
-	@Query("SELECT p FROM Promocion p WHERE tipoPromocion = 'categoria'")
+	@Query("SELECT p FROM Promocion p WHERE tipo_promocion = 'categoria'")
 	public List<DtoXCategoria> findAll();
 
 	@Transactional

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.models.Localidad;
 import com.unla.reactivar.services.LocalidadService;
 import com.unla.reactivar.vo.LocalidadVo;
@@ -61,9 +62,11 @@ public class LocalidadController {
 	@ApiOperation(value = "Eliminar localidad", notes = "Servicio elimina Localidad")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Localidad eliminado con exito"),
 			@ApiResponse(code = 404, message = "Localidad no encontrado") })
-	public void eliminarLocalidad(@PathVariable("idLocalidad") long id ) {
+	public ResponseEntity<Empty> eliminarLocalidad(@PathVariable("idLocalidad") long id ) {
 		
 		service.borrarLocalidad(id);
+		
+		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
 	
 	@PutMapping("/{idLocalidad}")

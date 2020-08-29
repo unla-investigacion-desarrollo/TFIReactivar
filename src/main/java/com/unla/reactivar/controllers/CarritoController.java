@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unla.reactivar.models.Carrito;
+import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.services.CarritoService;
 import com.unla.reactivar.vo.CarritoVo;
 
@@ -61,9 +62,11 @@ public class CarritoController {
 	@ApiOperation(value = "Eliminar carrito", notes = "Servicio elimina Carrito")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Carrito eliminado con exito"),
 			@ApiResponse(code = 404, message = "Carrito no encontrado") })
-	public void eliminarCarrito(@PathVariable("idCarrito") long id) {
+	public ResponseEntity<Empty> eliminarCarrito(@PathVariable("idCarrito") long id) {
 
 		service.borrarCarrito(id);
+		
+		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
 
 	@PutMapping("/{idCarrito}")

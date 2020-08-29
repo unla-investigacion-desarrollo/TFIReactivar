@@ -3,9 +3,6 @@ package com.unla.reactivar.models;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import lombok.Data;
 
 @Data

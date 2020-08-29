@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.models.Rubro;
 import com.unla.reactivar.services.RubroService;
 import com.unla.reactivar.vo.RubroVo;
@@ -66,9 +67,11 @@ public class RubroController {
 	@ApiOperation(value = "Eliminar rubro", notes = "Servicio elimina Rubro")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Rubro eliminado con exito"),
 			@ApiResponse(code = 404, message = "Rubro no encontrado") })
-	public void eliminarRubro(@PathVariable("idRubro") long id) {
+	public ResponseEntity<Empty> eliminarRubro(@PathVariable("idRubro") long id) {
 
 		service.borrarRubro(id);
+		
+		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
 
 	@PutMapping("/{idRubro}")

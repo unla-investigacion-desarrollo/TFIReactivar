@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.models.FuncionPerfil;
 import com.unla.reactivar.services.FuncionPerfilService;
 import com.unla.reactivar.vo.FuncionPerfilVo;
@@ -61,9 +62,11 @@ public class FuncionPerfilController {
 	@ApiOperation(value = "Eliminar funcionPerfil", notes = "Servicio elimina FuncionPerfil")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "FuncionPerfil eliminado con exito"),
 			@ApiResponse(code = 404, message = "FuncionPerfil no encontrado") })
-	public void eliminarFuncionPerfil(@PathVariable("idFuncionPerfil") long id ) {
+	public ResponseEntity<Empty> eliminarFuncionPerfil(@PathVariable("idFuncionPerfil") long id ) {
 		
 		service.borrarFuncionPerfil(id);
+		
+		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
 	
 	@PutMapping("/{idFuncionPerfil}")

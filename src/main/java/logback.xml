@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
 <configuration>
+	<!-- DEV <include url="file:C:/Users/Matias/Desktop/UnlaTesis/app-directory/cfg/logback/reactivar-app.xml"/>
+	 -->
 	<include url="file:C:/Users/Matias/Desktop/UnlaTesis/app-directory/cfg/logback/reactivar-app.xml"/>
 </configuration>

@@ -1,5 +1,7 @@
 package com.unla.reactivar.repositories;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -10,8 +12,13 @@ import com.unla.reactivar.models.PersonaJuridica;
 
 @Repository
 public interface PersonaJuridicaRepository extends JpaRepository<PersonaJuridica, Long>{
-	
+		
+	@Query("SELECT p FROM Persona p WHERE p.idPersona = ?1 and tipo_persona = 'juridica'")
 	public PersonaJuridica findByIdPersona(Long idPersona);
+	
+	@Modifying
+	@Query("SELECT p FROM Persona p WHERE tipo_persona = 'juridica'")
+	public List<PersonaJuridica> findAll();
 	
 	@Transactional
 	@Modifying

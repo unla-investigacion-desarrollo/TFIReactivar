@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.models.LlevaPaga;
 import com.unla.reactivar.services.LlevaPagaService;
 import com.unla.reactivar.vo.LlevaPagaVo;
@@ -61,9 +62,11 @@ public class LlevaPagaController {
 	@ApiOperation(value = "Eliminar llevaPaga", notes = "Servicio elimina LlevaPaga")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "LlevaPaga eliminado con exito"),
 			@ApiResponse(code = 404, message = "LlevaPaga no encontrado") })
-	public void eliminarLlevaPaga(@PathVariable("idLlevaPaga") long id ) {
+	public ResponseEntity<Empty> eliminarLlevaPaga(@PathVariable("idLlevaPaga") long id ) {
 		
 		service.borrarLlevaPaga(id);
+		
+		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
 	
 	@PutMapping("/{idLlevaPaga}")

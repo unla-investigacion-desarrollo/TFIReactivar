@@ -15,7 +15,9 @@ public class Login {
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long idLogin;
-	private String emailString;
+	private String email;
 	private String clave;
+	
+	private String token;
 
 }

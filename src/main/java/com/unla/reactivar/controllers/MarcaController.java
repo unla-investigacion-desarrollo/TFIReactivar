@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.models.Marca;
 import com.unla.reactivar.services.MarcaService;
 import com.unla.reactivar.vo.MarcaVo;
@@ -61,9 +62,11 @@ public class MarcaController {
 	@ApiOperation(value = "Eliminar marca", notes = "Servicio elimina Marca")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Marca eliminado con exito"),
 			@ApiResponse(code = 404, message = "Marca no encontrado") })
-	public void eliminarMarca(@PathVariable("idMarca") long id ) {
+	public ResponseEntity<Empty> eliminarMarca(@PathVariable("idMarca") long id ) {
 		
 		service.borrarMarca(id);
+		
+		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
 	
 	@PutMapping("/{idMarca}")

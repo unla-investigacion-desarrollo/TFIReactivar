@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.models.UnidadMedida;
 import com.unla.reactivar.services.UnidadMedidaService;
 import com.unla.reactivar.vo.UnidadMedidaVo;
@@ -61,9 +62,11 @@ public class UnidadMedidaController {
 	@ApiOperation(value = "Eliminar unidadMedida", notes = "Servicio elimina UnidadMedida")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "UnidadMedida eliminado con exito"),
 			@ApiResponse(code = 404, message = "UnidadMedida no encontrado") })
-	public void eliminarUnidadMedida(@PathVariable("idUnidadMedida") long id ) {
+	public ResponseEntity<Empty> eliminarUnidadMedida(@PathVariable("idUnidadMedida") long id ) {
 		
 		service.borrarUnidadMedida(id);
+		
+		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
 	
 	@PutMapping("/{idUnidadMedida}")

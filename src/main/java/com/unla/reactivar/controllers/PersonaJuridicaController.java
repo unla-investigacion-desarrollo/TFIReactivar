@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.models.PersonaJuridica;
 import com.unla.reactivar.services.PersonaJuridicaService;
 import com.unla.reactivar.vo.PersonaJuridicaVo;
@@ -61,9 +62,11 @@ public class PersonaJuridicaController {
 	@ApiOperation(value = "Eliminar personaJuridica", notes = "Servicio elimina PersonaJuridica")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "PersonaJuridica eliminado con exito"),
 			@ApiResponse(code = 404, message = "PersonaJuridica no encontrado") })
-	public void eliminarPersonaJuridica(@PathVariable("idPersonaJuridica") long id ) {
+	public ResponseEntity<Empty> eliminarPersonaJuridica(@PathVariable("idPersonaJuridica") long id ) {
 		
 		service.borrarPersona(id);
+		
+		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
 	
 	@PutMapping("/{idPersonaJuridica}")

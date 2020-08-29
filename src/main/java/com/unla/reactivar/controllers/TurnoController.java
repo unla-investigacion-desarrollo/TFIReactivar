@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.models.Turno;
 import com.unla.reactivar.services.TurnoService;
 import com.unla.reactivar.vo.TurnoVo;
@@ -61,9 +62,11 @@ public class TurnoController {
 	@ApiOperation(value = "Eliminar turno", notes = "Servicio elimina Turno")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Turno eliminado con exito"),
 			@ApiResponse(code = 404, message = "Turno no encontrado") })
-	public void eliminarTurno(@PathVariable("idTurno") long id ) {
+	public ResponseEntity<Empty> eliminarTurno(@PathVariable("idTurno") long id ) {
 		
 		service.borrarTurno(id);
+		
+		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
 	
 	@PutMapping("/{idTurno}")

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unla.reactivar.models.DtoXUnidad;
+import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.models.Promocion;
 import com.unla.reactivar.services.DtoXUnidadService;
 import com.unla.reactivar.vo.DtoXUnidadVo;
@@ -62,9 +63,11 @@ public class DtoXUnidadController {
 	@ApiOperation(value = "Eliminar dtoXUnidad", notes = "Servicio elimina DtoXUnidad")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "DtoXUnidad eliminado con exito"),
 			@ApiResponse(code = 404, message = "DtoXUnidad no encontrado") })
-	public void eliminarDtoXUnidad(@PathVariable("idDtoXUnidad") long id ) {
+	public ResponseEntity<Empty> eliminarDtoXUnidad(@PathVariable("idDtoXUnidad") long id ) {
 		
 		service.borrarDtoXUnidad(id);
+		
+		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
 	
 	@PutMapping("/{idDtoXUnidad}")

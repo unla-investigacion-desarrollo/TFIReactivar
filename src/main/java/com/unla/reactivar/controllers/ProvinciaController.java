@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.models.Provincia;
 import com.unla.reactivar.services.ProvinciaService;
 import com.unla.reactivar.vo.ProvinciaVo;
@@ -61,9 +62,11 @@ public class ProvinciaController {
 	@ApiOperation(value = "Eliminar provincia", notes = "Servicio elimina Provincia")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Provincia eliminado con exito"),
 			@ApiResponse(code = 404, message = "Provincia no encontrado") })
-	public void eliminarProvincia(@PathVariable("idProvincia") long id ) {
+	public ResponseEntity<Empty> eliminarProvincia(@PathVariable("idProvincia") long id ) {
 		
 		service.borrarProvincia(id);
+		
+		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
 	
 	@PutMapping("/{idProvincia}")

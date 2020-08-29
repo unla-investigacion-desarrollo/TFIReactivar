@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.models.OcupacionLocal;
 import com.unla.reactivar.services.OcupacionLocalService;
 import com.unla.reactivar.vo.OcupacionLocalVo;
@@ -61,9 +62,11 @@ public class OcupacionLocalController {
 	@ApiOperation(value = "Eliminar ocupacionLocal", notes = "Servicio elimina OcupacionLocal")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "OcupacionLocal eliminado con exito"),
 			@ApiResponse(code = 404, message = "OcupacionLocal no encontrado") })
-	public void eliminarOcupacionLocal(@PathVariable("idOcupacionLocal") long id ) {
+	public ResponseEntity<Empty> eliminarOcupacionLocal(@PathVariable("idOcupacionLocal") long id ) {
 		
 		service.borrarOcupacionLocal(id);
+		
+		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
 	
 	@PutMapping("/{idOcupacionLocal}")

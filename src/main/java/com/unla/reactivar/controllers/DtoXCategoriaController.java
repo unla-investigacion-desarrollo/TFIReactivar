@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unla.reactivar.models.DtoXCategoria;
+import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.services.DtoXCategoriaService;
 import com.unla.reactivar.vo.DtoXCategoriaVo;
 
@@ -61,9 +62,11 @@ public class DtoXCategoriaController {
 	@ApiOperation(value = "Eliminar dtoXCategoria", notes = "Servicio elimina DtoXCategoria")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "DtoXCategoria eliminado con exito"),
 			@ApiResponse(code = 404, message = "DtoXCategoria no encontrado") })
-	public void eliminarDtoXCategoria(@PathVariable("idDtoXCategoria") long id ) {
+	public ResponseEntity<Empty> eliminarDtoXCategoria(@PathVariable("idDtoXCategoria") long id ) {
 		
 		service.borrarDtoXCategoria(id);
+		
+		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
 	
 	@PutMapping("/{idDtoXCategoria}")

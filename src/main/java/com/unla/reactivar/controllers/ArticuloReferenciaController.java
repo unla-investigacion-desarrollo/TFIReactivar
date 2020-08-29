@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unla.reactivar.models.ArticuloReferencia;
+import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.services.ArticuloReferenciaService;
 import com.unla.reactivar.vo.ArticuloReferenciaVo;
 
@@ -61,9 +62,11 @@ public class ArticuloReferenciaController {
 	@ApiOperation(value = "Eliminar articuloReferencia", notes = "Servicio elimina ArticuloReferencia")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "ArticuloReferencia eliminado con exito"),
 			@ApiResponse(code = 404, message = "ArticuloReferencia no encontrado") })
-	public void eliminarArticuloReferencia(@PathVariable("idArticuloReferencia") long id ) {
+	public ResponseEntity<Empty> eliminarArticuloReferencia(@PathVariable("idArticuloReferencia") long id ) {
 		
 		service.borrarArticuloReferencia(id);
+		
+		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
 	
 	@PutMapping("/{idArticuloReferencia}")

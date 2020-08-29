@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.models.Persona;
 import com.unla.reactivar.models.PersonaFisica;
 import com.unla.reactivar.services.PersonaFisicaService;
@@ -62,9 +63,11 @@ public class PersonaFisicaController {
 	@ApiOperation(value = "Eliminar personaFisica", notes = "Servicio elimina PersonaFisica")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "PersonaFisica eliminado con exito"),
 			@ApiResponse(code = 404, message = "PersonaFisica no encontrado") })
-	public void eliminarPersonaFisica(@PathVariable("idPersonaFisica") long id ) {
+	public ResponseEntity<Empty> eliminarPersonaFisica(@PathVariable("idPersonaFisica") long id ) {
 		
 		service.borrarPersonaFisica(id);
+		
+		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
 	
 	@PutMapping("/{idPersonaFisica}")

@@ -3,12 +3,15 @@ package com.unla.reactivar.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.models.Promocion;
 import com.unla.reactivar.services.PromocionService;
 
@@ -45,9 +48,11 @@ public class PromocionController {
 	@ApiOperation(value = "Eliminar promocion", notes = "Servicio elimina Promocion")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Promocion eliminado con exito"),
 			@ApiResponse(code = 404, message = "Promocion no encontrado") })
-	public void eliminarPromocion(@PathVariable("idPromocion") long id ) {
+	public ResponseEntity<Empty> eliminarPromocion(@PathVariable("idPromocion") long id ) {
 		
 		service.borrarPromocion(id);
+		
+		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
 	
 }

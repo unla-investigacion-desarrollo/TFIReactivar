@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unla.reactivar.models.ConfiguracionLocal;
+import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.services.ConfiguracionLocalService;
 import com.unla.reactivar.vo.ConfiguracionLocalVo;
 
@@ -61,9 +62,11 @@ public class ConfiguracionLocalController {
 	@ApiOperation(value = "Eliminar configuracionLocal", notes = "Servicio elimina ConfiguracionLocal")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "ConfiguracionLocal eliminado con exito"),
 			@ApiResponse(code = 404, message = "ConfiguracionLocal no encontrado") })
-	public void eliminarConfiguracionLocal(@PathVariable("idConfiguracionLocal") long id ) {
+	public ResponseEntity<Empty> eliminarConfiguracionLocal(@PathVariable("idConfiguracionLocal") long id ) {
 		
 		service.borrarConfiguracionLocal(id);
+		
+		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
 	
 	@PutMapping("/{idConfiguracionLocal}")

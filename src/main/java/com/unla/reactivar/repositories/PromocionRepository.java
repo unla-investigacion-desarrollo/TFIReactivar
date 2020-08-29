@@ -1,5 +1,7 @@
 package com.unla.reactivar.repositories;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -10,8 +12,13 @@ import com.unla.reactivar.models.Promocion;
 
 @Repository
 public interface PromocionRepository extends JpaRepository<Promocion, Long>{
+		
+	@Query("SELECT p FROM Promocion p WHERE p.idPromocion = ?1")
+	public Promocion findByIdPromocion(Long idLlevaPaga);
 	
-	public Promocion findByIdPromocion(Long idPromocion);
+	@Modifying
+	@Query("SELECT p FROM Promocion p")
+	public List<Promocion> findAll();
 	
 	@Transactional
 	@Modifying

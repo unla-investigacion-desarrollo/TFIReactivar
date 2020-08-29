@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unla.reactivar.models.DtoXPorcentaje;
+import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.services.DtoXPorcentajeService;
 import com.unla.reactivar.vo.DtoXPorcentajeVo;
 
@@ -61,9 +62,11 @@ public class DtoXPorcentajeController {
 	@ApiOperation(value = "Eliminar dtoXPorcentaje", notes = "Servicio elimina DtoXPorcentaje")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "DtoXPorcentaje eliminado con exito"),
 			@ApiResponse(code = 404, message = "DtoXPorcentaje no encontrado") })
-	public void eliminarDtoXPorcentaje(@PathVariable("idDtoXPorcentaje") long id ) {
+	public ResponseEntity<Empty> eliminarDtoXPorcentaje(@PathVariable("idDtoXPorcentaje") long id ) {
 		
 		service.borrarDtoXPorcentaje(id);
+		
+		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
 	
 	@PutMapping("/{idDtoXPorcentaje}")

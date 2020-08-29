@@ -7,7 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -23,8 +22,9 @@ public class ItemCarrito {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long idItemCarrito;
 	
-	@OneToOne
-	@JoinColumn(name = "itemCarrito", nullable = false)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idArticulo", nullable = false)
+    @JsonManagedReference
 	private Articulo articuloPrecio;
 	
 	private int cantidad;

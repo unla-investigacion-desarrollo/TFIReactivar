@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.models.TipoEmprendimiento;
 import com.unla.reactivar.services.TipoEmprendimientoService;
 import com.unla.reactivar.vo.TipoEmprendimientoVo;
@@ -61,9 +62,11 @@ public class TipoEmprendimientoController {
 	@ApiOperation(value = "Eliminar tipoEmprendimiento", notes = "Servicio elimina TipoEmprendimiento")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "TipoEmprendimiento eliminado con exito"),
 			@ApiResponse(code = 404, message = "TipoEmprendimiento no encontrado") })
-	public void eliminarTipoEmprendimiento(@PathVariable("idTipoEmprendimiento") long id ) {
+	public ResponseEntity<Empty> eliminarTipoEmprendimiento(@PathVariable("idTipoEmprendimiento") long id ) {
 		
 		service.borrarTipoEmprendimiento(id);
+		
+		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
 	
 	@PutMapping("/{idTipoEmprendimiento}")

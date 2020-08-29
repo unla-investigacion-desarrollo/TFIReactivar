@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unla.reactivar.models.Categoria;
+import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.services.CategoriaService;
 import com.unla.reactivar.vo.CategoriaVo;
 
@@ -61,9 +62,11 @@ public class CategoriaController {
 	@ApiOperation(value = "Eliminar categoria", notes = "Servicio elimina Categoria")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Categoria eliminado con exito"),
 			@ApiResponse(code = 404, message = "Categoria no encontrado") })
-	public void eliminarCategoria(@PathVariable("idCategoria") long id ) {
+	public ResponseEntity<Empty> eliminarCategoria(@PathVariable("idCategoria") long id ) {
 		
 		service.borrarCategoria(id);
+		
+		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
 	
 	@PutMapping("/{idCategoria}")

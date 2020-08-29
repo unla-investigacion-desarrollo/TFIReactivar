@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.models.Funcion;
 import com.unla.reactivar.services.FuncionService;
 import com.unla.reactivar.vo.FuncionVo;
@@ -61,9 +62,11 @@ public class FuncionController {
 	@ApiOperation(value = "Eliminar funcion", notes = "Servicio elimina Funcion")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Funcion eliminado con exito"),
 			@ApiResponse(code = 404, message = "Funcion no encontrado") })
-	public void eliminarFuncion(@PathVariable("idFuncion") long id ) {
+	public ResponseEntity<Empty> eliminarFuncion(@PathVariable("idFuncion") long id ) {
 		
 		service.borrarFuncion(id);
+		
+		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
 	
 	@PutMapping("/{idFuncion}")
