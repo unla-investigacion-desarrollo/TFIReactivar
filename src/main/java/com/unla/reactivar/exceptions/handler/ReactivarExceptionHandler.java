@@ -9,18 +9,19 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.unla.reactivar.exceptions.IncorrectUserOrPassword;
 import com.unla.reactivar.exceptions.ObjectNotFound;
 import com.unla.reactivar.exceptions.models.GenericError;
 
 @ControllerAdvice
 @Order(Ordered.LOWEST_PRECEDENCE)
-public class AlimentarExceptionHandler {
+public class ReactivarExceptionHandler {
 
 	
 	@ExceptionHandler(ObjectNotFound.class)
 	@ResponseStatus(value = HttpStatus.NOT_FOUND)
 	@ResponseBody
-	protected GenericError servletRequestBindingExceptionHandler(ObjectNotFound ex){
+	protected GenericError ObjectNotFoundExceptionHandler(ObjectNotFound ex){
 		
 		String message = "El objeto seleccionado no fue encontrado.";
 		
@@ -28,7 +29,19 @@ public class AlimentarExceptionHandler {
 			message = new StringBuilder(message).append(" (").append(ex.getErrorMessage()).append(")").toString();
 		}
 		
-		GenericError error = new GenericError("error.alimentar.object.not_found", message);
+		GenericError error = new GenericError("error.reactivar.object.not_found", message);
+		
+		return error;
+	}
+	
+	@ExceptionHandler(IncorrectUserOrPassword.class)
+	@ResponseStatus(value = HttpStatus.NOT_FOUND)
+	@ResponseBody
+	protected GenericError incorrectUserOrPasswordExceptionHandler(IncorrectUserOrPassword ex){
+		
+		String message = "Usuario y/o Contraseña incorrecto";
+		
+		GenericError error = new GenericError("error.reactivar.incorrect.user_password", message);
 		
 		return error;
 	}
