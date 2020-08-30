@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,10 @@ public class LoginService {
 
 	@Autowired
 	private LoginRepository repository;
-
+	
+    @Value("${token_auth.duration}")
+	private long timeToExpire;
+	
 	public Login realizarLogin(LoginVo loginVo) {
 		Login login = repository.findByEmailAndPwd(loginVo.getEmail(), loginVo.getClave());
 
@@ -87,7 +91,7 @@ public class LoginService {
 		String token = Jwts.builder().setId("reactivar").setSubject(username)
 				.claim("authorities",
 						grantedAuthorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
-				.setIssuedAt(DateUtils.fechaHoy()).setExpiration(new Date(DateUtils.fechaHoy().getTime() + 600000))
+				.setIssuedAt(DateUtils.fechaHoy()).setExpiration(new Date(DateUtils.fechaHoy().getTime() + timeToExpire))
 				.signWith(SignatureAlgorithm.HS512, secretKey.getBytes()).compact();
 
 		return token;
