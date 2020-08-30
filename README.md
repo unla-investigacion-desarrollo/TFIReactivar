@@ -12,6 +12,8 @@ Lo utilizaremos para almacenar todos los archivos externos necesarios.
 
 [Link al repositorio](https://github.com/unla-investigacion-desarrollo/app-directory)
 
+### Base de Datos ###
+Antes de levantar el servidor, es necesario tener una base de datos mysql con el nombre "reactivardb"
 
 ### Servidor Tomcat ###
 * Descargar Servidor Tomcat 8 ([Ir a Tomcat](https://tomcat.apache.org/download-80.cgi))
