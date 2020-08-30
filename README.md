@@ -24,7 +24,7 @@ Antes de levantar el servidor, es necesario tener una base de datos mysql con el
 set "root.path=C:/Users/Matias/Desktop/UnlaTesis"
   exit /b 0
 ```
-  * Linux: {{Path Tomcat}}/bin/setenv.sh:
+   * Linux: {{Path Tomcat}}/bin/setenv.sh:
 ```bash
 root.path=/user/UnlaTesis
 ```
