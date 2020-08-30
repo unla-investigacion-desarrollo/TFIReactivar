@@ -28,7 +28,7 @@ public class LoginService {
 	@Autowired
 	private LoginRepository repository;
 	
-    @Value("${token_auth.duration}")
+    @Value("${token_auth.duration:200000}")
 	private long timeToExpire;
 	
 	public Login realizarLogin(LoginVo loginVo) {

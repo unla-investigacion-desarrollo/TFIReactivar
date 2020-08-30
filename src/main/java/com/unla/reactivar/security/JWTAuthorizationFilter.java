@@ -27,7 +27,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter{
 
 	private final String HEADER = "token_auth";
 
-    @Value("${token_auth.key}")
+    @Value("${token_auth.key:q4t6w9z$C&F)J@NcRfUjXn2r5u8x!A%D}")
 	private String secret;
     
 	@Override
