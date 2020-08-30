@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.unla.reactivar.security.JWTAuthorizationFilter;
 
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class }, scanBasePackages = { "com.unla.reactivar" })
 public class ReactivarApplication extends SpringBootServletInitializer {
@@ -40,13 +39,7 @@ public class ReactivarApplication extends SpringBootServletInitializer {
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			http.csrf().disable()
-				.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
-				.authorizeRequests()
-				.antMatchers(HttpMethod.POST, "/api/login").permitAll()
-				.antMatchers(HttpMethod.POST, "/api/fisica").permitAll()
-				.antMatchers(HttpMethod.POST, "/api/juridica").permitAll()
-				.antMatchers(AUTH_WHITELIST).permitAll()
-				.anyRequest().authenticated();
+				.authorizeRequests().anyRequest().permitAll();
 		}
 	}
 

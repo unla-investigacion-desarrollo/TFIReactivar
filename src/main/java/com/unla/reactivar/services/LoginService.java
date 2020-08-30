@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
@@ -28,8 +27,7 @@ public class LoginService {
 	@Autowired
 	private LoginRepository repository;
 	
-    @Value("${token_auth.duration:200000}")
-	private long timeToExpire;
+	private long timeToExpire = 200000;
 	
 	public Login realizarLogin(LoginVo loginVo) {
 		Login login = repository.findByEmailAndPwd(loginVo.getEmail(), loginVo.getClave());
