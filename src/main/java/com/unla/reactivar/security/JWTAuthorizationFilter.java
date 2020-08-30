@@ -9,9 +9,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.Claims;
@@ -20,11 +22,14 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 
+@Component
 public class JWTAuthorizationFilter extends OncePerRequestFilter{
 
 	private final String HEADER = "token_auth";
-	private final String SECRET = "q4t6w9z$C&F)J@NcRfUjXn2r5u8x!A%D";
 
+    @Value("${token_auth.key}")
+	private String secret;
+    
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
 		try {
@@ -48,7 +53,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter{
 
 	private Claims validateToken(HttpServletRequest request) {
 		String jwtToken = request.getHeader(HEADER);
-		return Jwts.parser().setSigningKey(SECRET.getBytes()).parseClaimsJws(jwtToken).getBody();
+		return Jwts.parser().setSigningKey(secret.getBytes()).parseClaimsJws(jwtToken).getBody();
 	}
 
 	/**

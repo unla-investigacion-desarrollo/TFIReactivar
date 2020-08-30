@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.unla.reactivar.exceptions.IncorrectUserOrPassword;
 import com.unla.reactivar.exceptions.ObjectNotFound;
 import com.unla.reactivar.models.Login;
 import com.unla.reactivar.repositories.LoginRepository;
@@ -25,18 +27,21 @@ public class LoginService {
 
 	@Autowired
 	private LoginRepository repository;
-
+	
+    @Value("${token_auth.duration}")
+	private long timeToExpire;
+	
 	public Login realizarLogin(LoginVo loginVo) {
 		Login login = repository.findByEmailAndPwd(loginVo.getEmail(), loginVo.getClave());
-		
-		if(login == null) {
-			throw new ObjectNotFound("Login");
+
+		if (login == null) {
+			throw new IncorrectUserOrPassword();
 		}
-		
+
 		login.setToken(getJWTToken(login.getEmail()));
 
 		repository.save(login);
-		
+
 		return login;
 	}
 
@@ -65,40 +70,30 @@ public class LoginService {
 
 		login.setClave(loginVo.getClave());
 		login.setEmail(loginVo.getEmail());
-		
+
 		return repository.save(login);
 	}
 
 	@Transactional
 	public Login crearLogin(LoginVo loginVo) {
 		Login login = new Login();
-				
+
 		login.setClave(loginVo.getClave());
 		login.setEmail(loginVo.getEmail());
-		
+
 		return repository.save(login);
 	}
-	
+
 	private String getJWTToken(String username) {
 		String secretKey = "q4t6w9z$C&F)J@NcRfUjXn2r5u8x!A%D";
-		List<GrantedAuthority> grantedAuthorities = AuthorityUtils
-				.commaSeparatedStringToAuthorityList("ROLE_USER");
-				
-		String token = Jwts
-				.builder()
-				.setId("reactivar")
-				.setSubject(username)
+		List<GrantedAuthority> grantedAuthorities = AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER");
+
+		String token = Jwts.builder().setId("reactivar").setSubject(username)
 				.claim("authorities",
-						grantedAuthorities.stream()
-								.map(GrantedAuthority::getAuthority)
-								.collect(Collectors.toList()))
-				.setIssuedAt(DateUtils.fechaHoy())
-				.setExpiration(new Date(DateUtils.fechaHoy().getTime() + 600000))
-				.signWith(SignatureAlgorithm.HS512,
-						secretKey.getBytes()).compact();
+						grantedAuthorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+				.setIssuedAt(DateUtils.fechaHoy()).setExpiration(new Date(DateUtils.fechaHoy().getTime() + timeToExpire))
+				.signWith(SignatureAlgorithm.HS512, secretKey.getBytes()).compact();
 
 		return token;
 	}
 }
-
-
