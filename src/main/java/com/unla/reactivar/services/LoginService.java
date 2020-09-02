@@ -31,6 +31,9 @@ public class LoginService {
     @Value("${token_auth.duration}")
 	private long timeToExpire;
 	
+    @Value("${token_auth.key}")
+    private String secretKey;
+    
 	public Login realizarLogin(LoginVo loginVo) {
 		Login login = repository.findByEmailAndPwd(loginVo.getEmail(), loginVo.getClave());
 
@@ -85,7 +88,6 @@ public class LoginService {
 	}
 
 	private String getJWTToken(String username) {
-		String secretKey = "q4t6w9z$C&F)J@NcRfUjXn2r5u8x!A%D";
 		List<GrantedAuthority> grantedAuthorities = AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER");
 
 		String token = Jwts.builder().setId("reactivar").setSubject(username)
