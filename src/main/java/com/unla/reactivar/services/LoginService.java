@@ -2,8 +2,8 @@ package com.unla.reactivar.services;
 
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,6 +18,7 @@ import com.unla.reactivar.repositories.LoginRepository;
 import com.unla.reactivar.utils.DateUtils;
 import com.unla.reactivar.vo.LoginVo;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -27,23 +28,24 @@ public class LoginService {
 
 	@Autowired
 	private LoginRepository repository;
-	
-    @Value("${token_auth.duration}")
-	private long timeToExpire;
-	
-    @Value("${token_auth.key}")
-    private String secretKey;
-    
-	public Login realizarLogin(LoginVo loginVo) {
-		Login login = repository.findByEmailAndPwd(loginVo.getEmail(), loginVo.getClave());
 
-		if (login == null) {
+	@Value("${token_auth.duration}")
+	private long timeToExpire;
+
+	@Value("${token_auth.key}")
+	private String secretKey;
+
+	public Login realizarLogin(LoginVo loginVo) {
+		Login login = repository.findByEmail(loginVo.getEmail());
+
+		String passwordHash = DigestUtils.sha256Hex(loginVo.getClave());
+
+		if (login == null || !login.getClave().equals(passwordHash)) {
 			throw new IncorrectUserOrPassword();
 		}
 
 		login.setToken(getJWTToken(login.getEmail()));
-
-		repository.save(login);
+		login.setClave(null);
 
 		return login;
 	}
@@ -81,19 +83,17 @@ public class LoginService {
 	public Login crearLogin(LoginVo loginVo) {
 		Login login = new Login();
 
-		login.setClave(loginVo.getClave());
+		login.setClave(DigestUtils.sha256Hex(loginVo.getClave()));
 		login.setEmail(loginVo.getEmail());
 
 		return repository.save(login);
 	}
 
 	private String getJWTToken(String username) {
-		List<GrantedAuthority> grantedAuthorities = AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER");
+		Claims claims = Jwts.claims().setSubject(username);
 
-		String token = Jwts.builder().setId("reactivar").setSubject(username)
-				.claim("authorities",
-						grantedAuthorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
-				.setIssuedAt(DateUtils.fechaHoy()).setExpiration(new Date(DateUtils.fechaHoy().getTime() + timeToExpire))
+		String token = Jwts.builder().setSubject(username).setClaims(claims).setIssuedAt(DateUtils.fechaHoy())
+				.setExpiration(new Date(DateUtils.fechaHoy().getTime() + timeToExpire))
 				.signWith(SignatureAlgorithm.HS512, secretKey.getBytes()).compact();
 
 		return token;
