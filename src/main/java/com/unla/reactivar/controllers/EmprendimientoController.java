@@ -1,6 +1,12 @@
 package com.unla.reactivar.controllers;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,9 +20,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.zxing.WriterException;
+import com.lowagie.text.DocumentException;
 import com.unla.reactivar.models.Emprendimiento;
 import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.services.EmprendimientoService;
+import com.unla.reactivar.utils.DateUtils;
+import com.unla.reactivar.utils.QREmprendimientoPDFExporter;
 import com.unla.reactivar.vo.EmprendimientoVo;
 
 import io.swagger.annotations.Api;
@@ -28,10 +38,10 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/api/emprendimiento")
 @Api(tags = "Emprendimiento")
 public class EmprendimientoController {
-	
+
 	@Autowired
 	private EmprendimientoService service;
-	
+
 	@GetMapping
 	@ApiOperation(value = "Listar todos los emprendimientos", notes = "Service para listar todos los emprendimientos")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Emprendimientos encontrados"),
@@ -39,43 +49,70 @@ public class EmprendimientoController {
 	public List<Emprendimiento> traerTodos() {
 		return service.traerTodos();
 	}
-	
+
 	@GetMapping("/{idEmprendimiento}")
 	@ApiOperation(value = "Mostrar un emprendimiento", notes = "Service para mostrar un emprendimiento")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Emprendimiento encontrado"),
 			@ApiResponse(code = 404, message = "Emprendimiento no encontrado") })
-	public Emprendimiento traerEmprendimiento(@PathVariable ("idEmprendimiento") long id) {
+	public Emprendimiento traerEmprendimiento(@PathVariable("idEmprendimiento") long id) {
 		return service.traerEmprendimientoPorId(id);
 	}
-	
+
 	@PostMapping
 	@ApiOperation(value = "Crear Emprendimiento", notes = "Servicio creador de emprendimientos")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Emprendimiento successfully created"),
 			@ApiResponse(code = 400, message = "Invalid request") })
-	public ResponseEntity<Emprendimiento> crearEmprendimiento(@RequestBody EmprendimientoVo emprendimientoVo){
+	public ResponseEntity<Emprendimiento> crearEmprendimiento(@RequestBody EmprendimientoVo emprendimientoVo) {
 		Emprendimiento emprendimiento = service.crearEmprendimiento(emprendimientoVo);
-		
+
 		return new ResponseEntity<>(emprendimiento, HttpStatus.CREATED);
 	}
-	
+
 	@DeleteMapping("/{idEmprendimiento}")
 	@ApiOperation(value = "Eliminar emprendimiento", notes = "Servicio elimina Emprendimiento")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Emprendimiento eliminado con exito"),
 			@ApiResponse(code = 404, message = "Emprendimiento no encontrado") })
-	public ResponseEntity<Empty> eliminarEmprendimiento(@PathVariable("idEmprendimiento") long id ) {
-		
+	public ResponseEntity<Empty> eliminarEmprendimiento(@PathVariable("idEmprendimiento") long id) {
+
 		service.borrarEmprendimiento(id);
-		
+
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/{idEmprendimiento}")
 	@ApiOperation(value = "Update Emprendimiento", notes = "Emprendimiento updater service")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimiento successfully updated"),
 			@ApiResponse(code = 404, message = "Emprendimiento not found") })
-	public ResponseEntity<Emprendimiento> updateEmprendimiento(@PathVariable("idEmprendimiento") Long id, EmprendimientoVo emprendimientoVo) {
+	public ResponseEntity<Emprendimiento> updateEmprendimiento(@PathVariable("idEmprendimiento") Long id,
+			EmprendimientoVo emprendimientoVo) {
 
 		return new ResponseEntity<>(service.actualizarEmprendimiento(id, emprendimientoVo), HttpStatus.OK);
+	}
+
+	@GetMapping("/export/pdf/{idEmprendimiento}")
+	public void exportToPDF(HttpServletResponse response,@PathVariable("idEmprendimiento") Long id) throws DocumentException, IOException {
+		response.setContentType("application/pdf");
+		
+		String currentDateTime = DateUtils.fechaHoy().toString();
+		String headerKey = "Content-Disposition";
+		String headerValue = "attachment; filename=QREmprendimiento.pdf";
+		response.setHeader(headerKey, headerValue);
+		try {
+		Emprendimiento emprendimiento = service.traerEmprendimientoPorId(id);
+
+		QREmprendimientoPDFExporter exporter = new QREmprendimientoPDFExporter(emprendimiento);
+		
+			exporter.export(response);
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (WriterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
