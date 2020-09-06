@@ -29,22 +29,6 @@ public class QREmprendimientoPDFExporter {
 		this.emprendimiento = emp;
 	}
 
-	private void writeTableHeader(PdfPTable table) {
-		PdfPCell cell = new PdfPCell();
-		cell.setBackgroundColor(new Color(26, 203, 209));
-		cell.setPadding(5);
-		Font font = FontFactory.getFont(FontFactory.HELVETICA);
-		font.setColor(Color.WHITE);
-
-		cell.setPhrase(new Phrase("Día", font));
-
-		table.addCell(cell);
-
-		cell.setPhrase(new Phrase("Horario", font));
-		table.addCell(cell);
-
-	}
-
 	private void writeTableData(PdfPTable table) {
 
 		for (ConfiguracionLocal horario : emprendimiento.getConfiguracionLocales()) {
@@ -101,8 +85,6 @@ public class QREmprendimientoPDFExporter {
 		table.setWidthPercentage(100f);
 		table.setWidths(new float[] { 1.2f,2f, 4f });
 
-
-		//writeTableHeader(table);
 		writeTableData(table);
 
 		document.add(table);
