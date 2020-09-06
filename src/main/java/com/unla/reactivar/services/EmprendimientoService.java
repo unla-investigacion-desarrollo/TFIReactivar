@@ -20,6 +20,7 @@ import com.unla.reactivar.models.Rubro;
 import com.unla.reactivar.models.TipoEmprendimiento;
 import com.unla.reactivar.models.Ubicacion;
 import com.unla.reactivar.repositories.EmprendimientoRepository;
+import com.unla.reactivar.utils.DateUtils;
 import com.unla.reactivar.utils.QREmprendimientoPDFExporter;
 import com.unla.reactivar.vo.ConfiguracionLocalVo;
 import com.unla.reactivar.vo.EmprendimientoVo;
@@ -104,7 +105,8 @@ public class EmprendimientoService {
 		if (persona == null || rubro == null || tipoEmprendimiento == null) {
 			throw new ObjectNotFound("Persona, rubro o tipoEmprendimiento");
 		}
-
+		emprendimiento.setFechaModi(DateUtils.fechaHoy());
+		emprendimiento.setUsuarioModi(emprendimientoVo.getUsuarioModi());
 		emprendimiento.setPersona(persona);
 		emprendimiento.setRubro(rubro);
 		emprendimiento.setTipoEmprendimiento(tipoEmprendimiento);

@@ -20,10 +20,10 @@ public class OcupacionLocalService {
 
 	@Autowired
 	private OcupacionLocalRepository repository;
-	
+
 	@Autowired
 	private PersonaService personaService;
-	
+
 	@Autowired
 	private EmprendimientoService emprendimientoService;
 
@@ -53,29 +53,41 @@ public class OcupacionLocalService {
 		if (ocupacion == null) {
 			throw new ObjectNotFound("OcupacionLocal");
 		}
-		
+
 		adaptVoToOcupacionLocal(ocupacion, ocupacionLocalVo);
-		
+
 		return repository.save(ocupacion);
 	}
 
 	@Transactional
 	public OcupacionLocal crearOcupacionLocal(OcupacionLocalVo ocupacionLocalVo) {
-		OcupacionLocal ocupacion = new OcupacionLocal();
-		
-		adaptVoToOcupacionLocal(ocupacion, ocupacionLocalVo);
-		
+		OcupacionLocal ocupacion = repository.findByEmprendimientoPersona(ocupacionLocalVo.getIdEmprendimiento(),
+				ocupacionLocalVo.getIdPersona());
+
+		if (ocupacion != null) {
+			ocupacion.setFechaHoraSalida(DateUtils.fechaHoy());
+			ocupacion.setFechaModi(DateUtils.fechaHoy());
+			ocupacion.setUsuarioModi(ocupacionLocalVo.getUsuarioModi());
+		} else {
+			ocupacion = new OcupacionLocal();
+			ocupacion.setFechaHoraEntrada(DateUtils.fechaHoy());
+			adaptVoToOcupacionLocal(ocupacion, ocupacionLocalVo);
+		}
+
 		return repository.save(ocupacion);
 	}
-	
+
 	private void adaptVoToOcupacionLocal(OcupacionLocal ocupacion, OcupacionLocalVo ocupacionLocalVo) {
 		Persona persona = personaService.traerPersonaPorId(ocupacionLocalVo.getIdPersona());
-		Emprendimiento emprendimiento = emprendimientoService.traerEmprendimientoPorId(ocupacionLocalVo.getIdEmprendimiento());
-		
+		Emprendimiento emprendimiento = emprendimientoService
+				.traerEmprendimientoPorId(ocupacionLocalVo.getIdEmprendimiento());
+
+		if (persona == null || emprendimiento == null) {
+			throw new ObjectNotFound("Persona/Emprendimiento");
+		}
+
 		ocupacion.setEmprendimiento(emprendimiento);
 		ocupacion.setPersona(persona);
-		ocupacion.setFechaHoraEntrada(ocupacionLocalVo.getFechaHoraEntrada());
-		ocupacion.setFechaHoraSalida(ocupacionLocalVo.getFechaHoraSalida());
 		ocupacion.setFechaModi(DateUtils.fechaHoy());
 		ocupacion.setUsuarioModi(ocupacionLocalVo.getUsuarioModi());
 	}
