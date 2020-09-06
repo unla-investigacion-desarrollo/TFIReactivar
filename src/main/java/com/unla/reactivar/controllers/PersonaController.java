@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.models.Persona;
 import com.unla.reactivar.services.PersonaService;
+import com.unla.reactivar.vo.CoordenadasVo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -42,6 +43,14 @@ public class PersonaController {
 			@ApiResponse(code = 404, message = "Persona no encontrado") })
 	public Persona traerPersona(@PathVariable ("idPersona") long id) {
 		return service.traerPersonaPorId(id);
+	}
+	
+	@GetMapping("/{idPersona}/coordenadas")
+	@ApiOperation(value = "Mostrar coordenadas de una persona", notes = "Service para mostrar coordenadas de una persona")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Persona encontrada"),
+			@ApiResponse(code = 404, message = "Persona no encontrada") })
+	public CoordenadasVo traerCoordenadas(@PathVariable ("idPersona") long id) {
+		return service.traerCoordenadas(id);
 	}
 	
 	@DeleteMapping("/{idPersona}")

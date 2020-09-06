@@ -32,6 +32,7 @@ public class Emprendimiento {
 	private String cuit;
 	private String usuarioModi;
 	private Date fechaModi;
+	private int capacidad;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
 	@JoinColumn(name = "idTipoEmprendimiento", nullable = false)
@@ -41,9 +42,7 @@ public class Emprendimiento {
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "idUbicacion", nullable = false)
 	private Ubicacion ubicacion;
-	
-	//private IPersona persona;
-	
+		
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idRubro", nullable = false)
 	@JsonManagedReference

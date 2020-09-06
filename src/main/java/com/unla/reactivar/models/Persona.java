@@ -48,8 +48,8 @@ public abstract class Persona implements Serializable {
 	@JsonManagedReference
 	private Perfil perfil;
 
-	@OneToOne
-	@JoinColumn(name = "idUbicacion", nullable = true)
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idUbicacion", nullable = false)
 	private Ubicacion ubicacion;
 
 	@OneToOne

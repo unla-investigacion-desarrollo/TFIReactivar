@@ -1,9 +1,6 @@
 package com.unla.reactivar.controllers;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -20,13 +17,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.zxing.WriterException;
 import com.lowagie.text.DocumentException;
 import com.unla.reactivar.models.Emprendimiento;
 import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.services.EmprendimientoService;
-import com.unla.reactivar.utils.DateUtils;
-import com.unla.reactivar.utils.QREmprendimientoPDFExporter;
 import com.unla.reactivar.vo.EmprendimientoVo;
 
 import io.swagger.annotations.Api;
@@ -89,30 +83,13 @@ public class EmprendimientoController {
 		return new ResponseEntity<>(service.actualizarEmprendimiento(id, emprendimientoVo), HttpStatus.OK);
 	}
 
-	@GetMapping("/export/pdf/{idEmprendimiento}")
-	public void exportToPDF(HttpServletResponse response,@PathVariable("idEmprendimiento") Long id) throws DocumentException, IOException {
-		response.setContentType("application/pdf");
-		
-		String currentDateTime = DateUtils.fechaHoy().toString();
-		String headerKey = "Content-Disposition";
-		String headerValue = "attachment; filename=QREmprendimiento.pdf";
-		response.setHeader(headerKey, headerValue);
-		try {
-		Emprendimiento emprendimiento = service.traerEmprendimientoPorId(id);
-
-		QREmprendimientoPDFExporter exporter = new QREmprendimientoPDFExporter(emprendimiento);
-		
-			exporter.export(response);
-		} catch (DocumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (WriterException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	@GetMapping("/{idEmprendimiento}/exportpdf")
+	@ApiOperation(value = "Exportar PDF", notes = "PDF exporter service")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "PDF successfully exported"),
+			@ApiResponse(code = 404, message = "Emprendimiento not found") })
+	public void exportToPDF(HttpServletResponse response, @PathVariable("idEmprendimiento") Long id)
+			throws DocumentException, IOException {
+		service.exportPDF(response, id);
 	}
 
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unla.reactivar.models.Empty;
+import com.unla.reactivar.models.Localidad;
 import com.unla.reactivar.models.Provincia;
 import com.unla.reactivar.services.ProvinciaService;
 import com.unla.reactivar.vo.ProvinciaVo;
@@ -38,6 +39,14 @@ public class ProvinciaController {
 			@ApiResponse(code = 404, message = "Provincias no encontrados") })
 	public List<Provincia> traerTodos() {
 		return service.traerTodos();
+	}
+	
+	@GetMapping("/{idProvincia}/localidades")
+	@ApiOperation(value = "Listar todos los provincias", notes = "Service para listar todos los provincias")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Provincias encontrados"),
+			@ApiResponse(code = 404, message = "Provincias no encontrados") })
+	public List<Localidad> traerLocalidades(@PathVariable ("idProvincia") long id) {
+		return service.traerLocalidades(id);
 	}
 	
 	@GetMapping("/{idProvincia}")

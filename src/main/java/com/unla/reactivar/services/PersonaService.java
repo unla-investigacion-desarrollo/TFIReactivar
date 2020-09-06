@@ -8,7 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.unla.reactivar.exceptions.ObjectNotFound;
 import com.unla.reactivar.models.Persona;
+import com.unla.reactivar.models.Ubicacion;
 import com.unla.reactivar.repositories.PersonaRepository;
+import com.unla.reactivar.vo.CoordenadasVo;
 
 @Service
 @Transactional(readOnly = true)
@@ -34,6 +36,18 @@ public class PersonaService {
 		}
 
 		personaRepository.deletePersona(id);
+	}
+	
+	public CoordenadasVo traerCoordenadas(Long id) {
+		Persona persona = personaRepository.findByIdPersona(id);
+
+		if (persona == null) {
+			throw new ObjectNotFound("Persona");
+		}
+		
+		Ubicacion ubicacion = persona.getUbicacion();
+		
+		return new CoordenadasVo(ubicacion.getLatitud(), ubicacion.getLongitud());
 	}
 
 }

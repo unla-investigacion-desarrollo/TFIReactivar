@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.unla.reactivar.exceptions.IncorrectUserOrPassword;
 import com.unla.reactivar.exceptions.ObjectNotFound;
+import com.unla.reactivar.exceptions.QrExporterException;
 import com.unla.reactivar.exceptions.models.GenericError;
 
 @ControllerAdvice
@@ -42,6 +43,18 @@ public class ReactivarExceptionHandler {
 		String message = "Usuario y/o Contraseña incorrecto";
 		
 		GenericError error = new GenericError("error.reactivar.incorrect.user_password", message);
+		
+		return error;
+	}
+	
+	@ExceptionHandler(QrExporterException.class)
+	@ResponseStatus(value = HttpStatus.NOT_FOUND)
+	@ResponseBody
+	protected GenericError qrExporterExceptionHandler(QrExporterException ex){
+		
+		String message = "Ha ocurrido un error al generar PDF.";
+		
+		GenericError error = new GenericError("error.reactivar.exporter.pdf", message);
 		
 		return error;
 	}

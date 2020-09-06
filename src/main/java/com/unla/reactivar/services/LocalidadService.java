@@ -73,4 +73,8 @@ public class LocalidadService {
 		localidad.setProvincia(provincia);
 		localidad.setNombre(localidadVo.getLocalidad());
 	}
+
+	public List<Localidad> traerLocalidadesPorProvincia(Long idProvincia) {		
+		return repository.findAllByProvincia(idProvincia);
+	}
 }

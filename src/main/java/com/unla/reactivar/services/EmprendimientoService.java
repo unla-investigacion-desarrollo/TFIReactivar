@@ -1,12 +1,18 @@
 package com.unla.reactivar.services;
 
+import java.io.IOException;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.zxing.WriterException;
+import com.lowagie.text.DocumentException;
 import com.unla.reactivar.exceptions.ObjectNotFound;
+import com.unla.reactivar.exceptions.QrExporterException;
 import com.unla.reactivar.models.ConfiguracionLocal;
 import com.unla.reactivar.models.Emprendimiento;
 import com.unla.reactivar.models.Persona;
@@ -14,6 +20,7 @@ import com.unla.reactivar.models.Rubro;
 import com.unla.reactivar.models.TipoEmprendimiento;
 import com.unla.reactivar.models.Ubicacion;
 import com.unla.reactivar.repositories.EmprendimientoRepository;
+import com.unla.reactivar.utils.QREmprendimientoPDFExporter;
 import com.unla.reactivar.vo.ConfiguracionLocalVo;
 import com.unla.reactivar.vo.EmprendimientoVo;
 
@@ -50,7 +57,7 @@ public class EmprendimientoService {
 
 		Ubicacion ubicacion = ubicacionService.crearUbicacion(emprendimientoVo.getUbicacionVo());
 		emprendimiento.setUbicacion(ubicacion);
-		
+
 		adaptarEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
 
 		return repository.save(emprendimiento);
@@ -80,7 +87,8 @@ public class EmprendimientoService {
 		return repository.save(emprendimiento);
 	}
 
-	private void adaptarEmprendimientoVoAEmprendimiento(EmprendimientoVo emprendimientoVo, Emprendimiento emprendimiento) {
+	private void adaptarEmprendimientoVoAEmprendimiento(EmprendimientoVo emprendimientoVo,
+			Emprendimiento emprendimiento) {
 		for (int i = 0; i < emprendimientoVo.getConfiguracionLocales().size(); i++) {
 			emprendimiento.getConfiguracionLocales()
 					.add(adaptarConfiguracionLocal(emprendimientoVo.getConfiguracionLocales().get(i)));
@@ -115,6 +123,27 @@ public class EmprendimientoService {
 		config.setTurno2Hasta(configuracionLocales.getTurno2Hasta());
 
 		return config;
+	}
+
+	public void exportPDF(HttpServletResponse response, Long id) {
+		response.setContentType("application/pdf");
+
+		String headerKey = "Content-Disposition";
+		String headerValue = "attachment; filename=QREmprendimiento.pdf";
+		response.setHeader(headerKey, headerValue);
+
+		Emprendimiento emprendimiento = repository.findByIdEmprendimiento(id);
+
+		if (emprendimiento == null) {
+			throw new ObjectNotFound("Emprendimiento");
+		}
+
+		try {
+			QREmprendimientoPDFExporter exporter = new QREmprendimientoPDFExporter(emprendimiento);
+			exporter.export(response);
+		} catch (DocumentException | IOException | WriterException e) {
+			throw new QrExporterException();
+		}
 	}
 
 }

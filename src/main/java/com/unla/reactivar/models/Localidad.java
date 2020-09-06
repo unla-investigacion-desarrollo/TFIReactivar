@@ -26,7 +26,7 @@ public class Localidad {
 	private Long idLocalidad;
 	private String nombre;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "idProvincia", nullable = false)
 	@JsonManagedReference
 	private Provincia provincia;
@@ -34,5 +34,6 @@ public class Localidad {
 	@OneToMany(mappedBy = "localidad")
 	@JsonBackReference
 	private List<Ubicacion> ubicaciones;
+	
 
 }
