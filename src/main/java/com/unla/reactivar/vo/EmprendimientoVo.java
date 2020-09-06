@@ -17,5 +17,6 @@ public class EmprendimientoVo {
 	private long idRubro;
 	private long idPersona;
 	private List<ConfiguracionLocalVo> configuracionLocales;
+	private int capacidad;
 
 }

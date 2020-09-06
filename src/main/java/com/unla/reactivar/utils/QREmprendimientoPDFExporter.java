@@ -1,6 +1,7 @@
 package com.unla.reactivar.utils;
 
 import java.awt.Color;
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
@@ -72,8 +73,9 @@ public class QREmprendimientoPDFExporter {
 	}
 
 	public void export(HttpServletResponse response) throws DocumentException, IOException, WriterException {
-		GenerateQRCode.generateQRCode(String.valueOf(emprendimiento.getIdEmprendimiento()), 350, 350,
-				"src/main/resources/image/QR.jpg");
+		String rutaImagenQR ="src/main/resources/image/QR_Emp_"+emprendimiento.getIdEmprendimiento()+".jpg";
+		
+		GenerateQRCode.generateQRCode(String.valueOf(emprendimiento.getIdEmprendimiento()), 350, 350,rutaImagenQR);
 
 		Document document = new Document(PageSize.A4);
 		PdfWriter.getInstance(document, response.getOutputStream());
@@ -89,7 +91,7 @@ public class QREmprendimientoPDFExporter {
 
 		document.add(p);
 
-		Image qrImage = Image.getInstance("src/main/resources/image/QR.jpg");
+		Image qrImage = Image.getInstance(rutaImagenQR);
 
 		qrImage.setAlignment(qrImage.ALIGN_CENTER);
 
@@ -105,7 +107,7 @@ public class QREmprendimientoPDFExporter {
 
 		document.add(table);
 		
-		p = new Paragraph("MAXIMO 3 PERSONAS DENTRO DEL LOCAL", font);
+		p = new Paragraph("MAXIMO "+emprendimiento.getCapacidad()+" PERSONAS DENTRO DEL LOCAL", font);
 		p.setAlignment(Paragraph.ALIGN_CENTER);
 		p.setSpacingBefore(20);
 		font.setSize(24);
@@ -122,6 +124,9 @@ public class QREmprendimientoPDFExporter {
         document.add(qrImage3);
         
 		document.close();
+		
+		File archivo1 = new File(rutaImagenQR);
+        archivo1.delete();
 
 	}
 

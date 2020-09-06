@@ -108,6 +108,7 @@ public class EmprendimientoService {
 		emprendimiento.setPersona(persona);
 		emprendimiento.setRubro(rubro);
 		emprendimiento.setTipoEmprendimiento(tipoEmprendimiento);
+		emprendimiento.setCapacidad(emprendimientoVo.getCapacidad());
 
 	}
 
