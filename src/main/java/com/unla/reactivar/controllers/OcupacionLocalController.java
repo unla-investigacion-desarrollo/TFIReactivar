@@ -40,17 +40,9 @@ public class OcupacionLocalController {
 		return service.traerTodos();
 	}
 	
-	@GetMapping("/{idOcupacionLocal}")
-	@ApiOperation(value = "Mostrar un ocupacionLocal", notes = "Service para mostrar un ocupacionLocal")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "OcupacionLocal encontrado"),
-			@ApiResponse(code = 404, message = "OcupacionLocal no encontrado") })
-	public OcupacionLocal traerOcupacionLocal(@PathVariable ("idOcupacionLocal") long id) {
-		return service.traerOcupacionLocalPorId(id);
-	}
-	
 	@PostMapping
-	@ApiOperation(value = "Crear OcupacionLocal", notes = "Servicio creador de ocupacionLocals")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "OcupacionLocal successfully created"),
+	@ApiOperation(value = "Entrada/Salida OcupacionLocal", notes = "Servicio Entrada/Salida de ocupacionLocals")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "OcupacionLocal Entrada/Salida successfully created"),
 			@ApiResponse(code = 400, message = "Invalid request") })
 	public ResponseEntity<OcupacionLocal> crearOcupacionLocal(@RequestBody OcupacionLocalVo ocupacionLocalVo){
 		OcupacionLocal ocupacionLocal = service.crearOcupacionLocal(ocupacionLocalVo);
