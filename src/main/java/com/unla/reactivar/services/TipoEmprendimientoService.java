@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.unla.reactivar.exceptions.ObjectAlreadyExists;
 import com.unla.reactivar.exceptions.ObjectNotFound;
 import com.unla.reactivar.models.TipoEmprendimiento;
 import com.unla.reactivar.repositories.TipoEmprendimientoRepository;
@@ -47,7 +48,13 @@ public class TipoEmprendimientoService {
 		
 		tipoEmprendimiento.setNombre(tipoEmprendimientoVo.getTipoEmprendimiento());
 		
-		return repository.save(tipoEmprendimiento);
+		try {
+			tipoEmprendimiento = repository.save(tipoEmprendimiento);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+
+		return tipoEmprendimiento;
 	}
 
 	@Transactional
@@ -56,7 +63,13 @@ public class TipoEmprendimientoService {
 		
 		tipoEmprendimiento.setNombre(tipoEmprendimientoVo.getTipoEmprendimiento());
 		
-		return repository.save(tipoEmprendimiento);
+		try {
+			tipoEmprendimiento = repository.save(tipoEmprendimiento);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+
+		return tipoEmprendimiento;
 	}
 	
 }

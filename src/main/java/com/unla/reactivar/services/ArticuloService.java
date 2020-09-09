@@ -6,8 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.unla.reactivar.exceptions.ObjectAlreadyExists;
 import com.unla.reactivar.exceptions.ObjectNotFound;
-import com.unla.reactivar.models.Articulo;
+import com.unla.reactivar.models.ReqArticulo;
 import com.unla.reactivar.models.Categoria;
 import com.unla.reactivar.models.Marca;
 import com.unla.reactivar.models.UnidadMedida;
@@ -31,17 +32,17 @@ public class ArticuloService {
 	@Autowired
 	private UnidadMedidaService umService;
 	
-	public Articulo traerArticuloPorId(Long id) {
+	public ReqArticulo traerArticuloPorId(Long id) {
 		return repository.findByIdArticulo(id);
 	}
 
-	public List<Articulo> traerTodos() {
+	public List<ReqArticulo> traerTodos() {
 		return repository.findAll();
 	}
 
 	@Transactional
 	public void borrarArticulo(long id) {
-		Articulo articulo = repository.findByIdArticulo(id);
+		ReqArticulo articulo = repository.findByIdArticulo(id);
 
 		if (articulo == null) {
 			throw new ObjectNotFound("Articulo");
@@ -51,17 +52,23 @@ public class ArticuloService {
 	}
 
 	@Transactional
-	public Articulo crearArticulo(ArticuloVo articuloVo) {
-		Articulo articulo = new Articulo();
+	public ReqArticulo crearArticulo(ArticuloVo articuloVo) {
+		ReqArticulo articulo = new ReqArticulo();
 		
 		adaptVoToArticulo(articulo, articuloVo);
 		
-		return repository.save(articulo);
+		try {
+			articulo = repository.save(articulo);
+		}catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+		
+		return articulo;
 	}
 
 	@Transactional
-	public Articulo actualizarArticulo(Long id, ArticuloVo articuloVo) {
-		Articulo articulo = repository.findByIdArticulo(id);
+	public ReqArticulo actualizarArticulo(Long id, ArticuloVo articuloVo) {
+		ReqArticulo articulo = repository.findByIdArticulo(id);
 		
 		if(articulo == null) {
 			throw new ObjectNotFound("Articulo");
@@ -69,10 +76,16 @@ public class ArticuloService {
 		
 		adaptVoToArticulo(articulo, articuloVo);
 		
-		return repository.save(articulo);
+		try {
+			articulo = repository.save(articulo);
+		}catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+		
+		return articulo;
 	}
 	
-	private void adaptVoToArticulo(Articulo articulo, ArticuloVo articuloVo) {
+	private void adaptVoToArticulo(ReqArticulo articulo, ArticuloVo articuloVo) {
 		
 		Categoria categoria = categoriaService.traerCategoriaPorId(articuloVo.getIdCategoria());
 		Marca marca = marcaService.traerMarcaPorId(articuloVo.getIdMarca());

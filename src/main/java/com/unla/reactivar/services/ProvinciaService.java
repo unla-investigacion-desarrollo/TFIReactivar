@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.unla.reactivar.exceptions.ObjectAlreadyExists;
 import com.unla.reactivar.exceptions.ObjectNotFound;
 import com.unla.reactivar.models.Localidad;
 import com.unla.reactivar.models.Provincia;
@@ -51,7 +52,13 @@ public class ProvinciaService {
 		
 		provincia.setNombre(provinciaVo.getProvincia());
 		
-		return repository.save(provincia);
+		try {
+			provincia = repository.save(provincia);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+
+		return provincia;
 	}
 
 	@Transactional
@@ -60,7 +67,13 @@ public class ProvinciaService {
 		
 		provincia.setNombre(provinciaVo.getProvincia());
 		
-		return repository.save(provincia);
+		try {
+			provincia = repository.save(provincia);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+
+		return provincia;
 	}
 
 	public List<Localidad> traerLocalidades(Long id) {		

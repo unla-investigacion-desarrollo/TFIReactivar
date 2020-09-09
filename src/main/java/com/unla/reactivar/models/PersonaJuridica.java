@@ -2,12 +2,10 @@ package com.unla.reactivar.models;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import lombok.Data;
 
@@ -17,6 +15,7 @@ import lombok.Data;
 public class PersonaJuridica extends Persona {
 
 	private String razonSocial;
+	@Column(unique = true)
 	private String cuit;
 
 	@ManyToMany(mappedBy = "personasJuridicas")

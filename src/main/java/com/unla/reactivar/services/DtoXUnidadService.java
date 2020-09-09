@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.unla.reactivar.exceptions.ObjectAlreadyExists;
 import com.unla.reactivar.exceptions.ObjectNotFound;
 import com.unla.reactivar.models.DtoXUnidad;
 import com.unla.reactivar.models.Emprendimiento;
@@ -51,7 +52,13 @@ public class DtoXUnidadService {
 
 		adaptVoToDtoXPorcentaje(dto, dtoXUnidadVo);
 
-		return repository.save(dto);
+		try {
+			dto = repository.save(dto);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+		
+		return dto;
 	}
 
 	@Transactional
@@ -60,7 +67,13 @@ public class DtoXUnidadService {
 
 		adaptVoToDtoXPorcentaje(dto, dtoXUnidadVo);
 
-		return repository.save(dto);
+		try {
+			dto = repository.save(dto);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+		
+		return dto;
 	}
 
 	private void adaptVoToDtoXPorcentaje(DtoXUnidad dto, DtoXUnidadVo dtoXUnidadVo) {

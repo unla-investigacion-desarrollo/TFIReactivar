@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.unla.reactivar.exceptions.IncorrectUserOrPassword;
+import com.unla.reactivar.exceptions.ObjectAlreadyExists;
 import com.unla.reactivar.exceptions.ObjectNotFound;
 import com.unla.reactivar.models.Login;
 import com.unla.reactivar.repositories.LoginRepository;
@@ -76,7 +77,13 @@ public class LoginService {
 		login.setClave(loginVo.getClave());
 		login.setEmail(loginVo.getEmail());
 
-		return repository.save(login);
+		try {
+			login = repository.save(login);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+
+		return login;
 	}
 
 	@Transactional
@@ -86,7 +93,13 @@ public class LoginService {
 		login.setClave(DigestUtils.sha256Hex(loginVo.getClave()));
 		login.setEmail(loginVo.getEmail());
 
-		return repository.save(login);
+		try {
+			login = repository.save(login);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+
+		return login;
 	}
 
 	private String getJWTToken(String username) {

@@ -1,5 +1,5 @@
 
-package com.unla.reactivar.models;
+package com.unla.reactivar.vo;
 
 import java.io.Serializable;
 

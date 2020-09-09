@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.unla.reactivar.exceptions.ObjectAlreadyExists;
 import com.unla.reactivar.exceptions.ObjectNotFound;
 import com.unla.reactivar.models.Emprendimiento;
 import com.unla.reactivar.models.EstadoTurno;
@@ -60,7 +61,13 @@ public class TurnoService {
 		
 		adaptVoToTurno(turno, turnoVo);
 		
-		return repository.save(turno);
+		try {
+			turno = repository.save(turno);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+
+		return turno;
 	}
 
 	@Transactional
@@ -69,7 +76,13 @@ public class TurnoService {
 			
 		adaptVoToTurno(turno, turnoVo);
 		
-		return repository.save(turno);
+		try {
+			turno = repository.save(turno);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+
+		return turno;
 	}
 	
 	private void adaptVoToTurno(Turno turno, TurnoVo turnoVo) {

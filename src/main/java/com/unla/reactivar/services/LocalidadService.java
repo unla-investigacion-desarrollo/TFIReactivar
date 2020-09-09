@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.unla.reactivar.exceptions.ObjectAlreadyExists;
 import com.unla.reactivar.exceptions.ObjectNotFound;
 import com.unla.reactivar.models.Localidad;
 import com.unla.reactivar.models.Provincia;
@@ -18,63 +19,75 @@ public class LocalidadService {
 
 	@Autowired
 	private LocalidadRepository repository;
-	
+
 	@Autowired
 	private ProvinciaService provinciaService;
-	
+
 	public Localidad traerLocalidadPorId(Long id) {
 		return repository.findByIdLocalidad(id);
 	}
-	
-	public List<Localidad> traerTodos(){
+
+	public List<Localidad> traerTodos() {
 		return repository.findAll();
 	}
-	
+
 	@Transactional
 	public void borrarLocalidad(long id) {
 		Localidad localidad = repository.findByIdLocalidad(id);
-		
-		if(localidad == null) {
+
+		if (localidad == null) {
 			throw new ObjectNotFound("Localidad");
 		}
-		
+
 		repository.delete(localidad);
 	}
+
 	@Transactional
 	public Localidad actualizarLocalidad(Long id, LocalidadVo localidadVo) {
 		Localidad localidad = repository.findByIdLocalidad(id);
-		
-		if(localidad == null) {
+
+		if (localidad == null) {
 			throw new ObjectNotFound("Localidad");
 		}
-		
+
 		adaptVoToLocalidad(localidad, localidadVo);
-		
-		return repository.save(localidad);
+
+		try {
+			localidad = repository.save(localidad);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+
+		return localidad;
 	}
 
 	@Transactional
 	public Localidad crearLocalidad(LocalidadVo localidadVo) {
 		Localidad localidad = new Localidad();
-		
+
 		adaptVoToLocalidad(localidad, localidadVo);
-		
-		return repository.save(localidad);
+
+		try {
+			localidad = repository.save(localidad);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+
+		return localidad;
 	}
-	
 
 	private void adaptVoToLocalidad(Localidad localidad, LocalidadVo localidadVo) {
 		Provincia provincia = provinciaService.traerProvinciaPorId(localidadVo.getIdProvincia());
-		
-		if(provincia == null) {
+
+		if (provincia == null) {
 			throw new ObjectNotFound("Provincia");
 		}
-		
+
 		localidad.setProvincia(provincia);
 		localidad.setNombre(localidadVo.getLocalidad());
 	}
 
-	public List<Localidad> traerLocalidadesPorProvincia(Long idProvincia) {		
+	public List<Localidad> traerLocalidadesPorProvincia(Long idProvincia) {
 		return repository.findAllByProvincia(idProvincia);
 	}
 }

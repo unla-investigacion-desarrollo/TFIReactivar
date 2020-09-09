@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.unla.reactivar.exceptions.ObjectAlreadyExists;
 import com.unla.reactivar.exceptions.ObjectNotFound;
 import com.unla.reactivar.models.Login;
 import com.unla.reactivar.models.Perfil;
@@ -62,7 +63,13 @@ public class PersonaFisicaService {
 		persona.setUbicacion(ubicacion);
 		persona.setLogin(login);
 		
-		return repository.save(persona);
+		try {
+			persona = repository.save(persona);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+
+		return persona;
 	}
 
 	@Transactional
@@ -75,7 +82,13 @@ public class PersonaFisicaService {
 		
 		adaptVoToPersonaFisica(persona, personaFisicaVo);
 		
-		return repository.save(persona);
+		try {
+			persona = repository.save(persona);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+
+		return persona;
 	}
 	
 	private void adaptVoToPersonaFisica(PersonaFisica persona, PersonaFisicaVo personaFisicaVo) {

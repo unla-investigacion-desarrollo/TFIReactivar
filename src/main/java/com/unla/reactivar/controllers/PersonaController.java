@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.models.Persona;
 import com.unla.reactivar.services.PersonaService;
 import com.unla.reactivar.vo.CoordenadasVo;
+import com.unla.reactivar.vo.Empty;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.unla.reactivar.exceptions.ObjectAlreadyExists;
 import com.unla.reactivar.exceptions.ObjectNotFound;
 import com.unla.reactivar.models.UnidadMedida;
 import com.unla.reactivar.repositories.UnidadMedidaRepository;
@@ -44,10 +45,16 @@ public class UnidadMedidaService {
 		if (medida == null) {
 			throw new ObjectNotFound("UnidadMedida");
 		}
-		
+
 		medida.setNombre(unidadMedidaVo.getUnidadMedida());
-		
-		return repository.save(medida);
+
+		try {
+			medida = repository.save(medida);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+
+		return medida;
 	}
 
 	@Transactional
@@ -55,8 +62,14 @@ public class UnidadMedidaService {
 		UnidadMedida medida = new UnidadMedida();
 
 		medida.setNombre(unidadMedidaVo.getUnidadMedida());
-		
-		return repository.save(medida);
+
+		try {
+			medida = repository.save(medida);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+
+		return medida;
 	}
 
 }

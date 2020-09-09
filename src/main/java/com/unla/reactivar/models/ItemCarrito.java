@@ -25,7 +25,7 @@ public class ItemCarrito {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idArticulo", nullable = false)
     @JsonManagedReference
-	private Articulo articuloPrecio;
+	private ReqArticulo articuloPrecio;
 	
 	private int cantidad;
 	

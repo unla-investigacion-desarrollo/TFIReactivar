@@ -1,6 +1,5 @@
 package com.unla.reactivar.controllers;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -17,11 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lowagie.text.DocumentException;
 import com.unla.reactivar.models.Emprendimiento;
-import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.services.EmprendimientoService;
 import com.unla.reactivar.vo.EmprendimientoVo;
+import com.unla.reactivar.vo.Empty;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -87,8 +85,7 @@ public class EmprendimientoController {
 	@ApiOperation(value = "Exportar PDF", notes = "PDF exporter service")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "PDF successfully exported"),
 			@ApiResponse(code = 404, message = "Emprendimiento not found") })
-	public void exportToPDF(HttpServletResponse response, @PathVariable("idEmprendimiento") Long id)
-			throws DocumentException, IOException {
+	public void exportToPDF(HttpServletResponse response, @PathVariable("idEmprendimiento") Long id){
 		service.exportPDF(response, id);
 	}
 

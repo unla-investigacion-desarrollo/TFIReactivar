@@ -3,7 +3,7 @@ package com.unla.reactivar.vo;
 import lombok.Data;
 
 @Data
-public class ArticuloReferenciaVo {
+public class ReqArticuloReferenciaVo {
 
 	private String codBarra;
 	private String descripcion;

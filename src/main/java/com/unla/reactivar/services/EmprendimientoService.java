@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.zxing.WriterException;
 import com.lowagie.text.DocumentException;
+import com.unla.reactivar.exceptions.ObjectAlreadyExists;
 import com.unla.reactivar.exceptions.ObjectNotFound;
 import com.unla.reactivar.exceptions.QrExporterException;
 import com.unla.reactivar.models.ConfiguracionLocal;
@@ -61,7 +62,13 @@ public class EmprendimientoService {
 
 		adaptarEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
 
-		return repository.save(emprendimiento);
+		try {
+			emprendimiento = repository.save(emprendimiento);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+		
+		return emprendimiento;
 	}
 
 	@Transactional
@@ -85,7 +92,13 @@ public class EmprendimientoService {
 
 		adaptarEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
 
-		return repository.save(emprendimiento);
+		try {
+			emprendimiento = repository.save(emprendimiento);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+		
+		return emprendimiento;
 	}
 
 	private void adaptarEmprendimientoVoAEmprendimiento(EmprendimientoVo emprendimientoVo,

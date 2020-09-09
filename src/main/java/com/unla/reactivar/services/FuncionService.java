@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.unla.reactivar.exceptions.ObjectAlreadyExists;
 import com.unla.reactivar.exceptions.ObjectNotFound;
 import com.unla.reactivar.models.Funcion;
 import com.unla.reactivar.repositories.FuncionRepository;
@@ -44,19 +45,31 @@ public class FuncionService {
 		if (funcion == null) {
 			throw new ObjectNotFound("Funcion");
 		}
-		
+
 		funcion.setDescripcion(funcionVo.getDescripcion());
-		
-		return repository.save(funcion);
+
+		try {
+			funcion = repository.save(funcion);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+
+		return funcion;
 	}
 
 	@Transactional
 	public Funcion crearFuncion(FuncionVo funcionVo) {
 		Funcion funcion = new Funcion();
-		
+
 		funcion.setDescripcion(funcionVo.getDescripcion());
-		
-		return repository.save(funcion);
+
+		try {
+			funcion = repository.save(funcion);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+
+		return funcion;
 	}
 
 }

@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.models.PersonaJuridica;
 import com.unla.reactivar.services.PersonaJuridicaService;
+import com.unla.reactivar.vo.Empty;
 import com.unla.reactivar.vo.PersonaJuridicaVo;
 
 import io.swagger.annotations.Api;
