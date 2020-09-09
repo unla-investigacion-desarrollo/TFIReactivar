@@ -2,6 +2,7 @@ package com.unla.reactivar.models;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,7 +21,8 @@ public class Marca {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long idMarca ;
+	private long idMarca;
+	@Column(unique = true)
 	private String nombre;
 	
 	@OneToMany(mappedBy="marca")
@@ -29,7 +31,7 @@ public class Marca {
 	
 	@OneToMany(mappedBy="marca")
 	@JsonBackReference
-	private List<Articulo> articulos;
+	private List<ReqArticulo> articulos;
 
 
 

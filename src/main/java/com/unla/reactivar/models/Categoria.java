@@ -3,6 +3,7 @@ package com.unla.reactivar.models;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,7 +24,8 @@ public class Categoria {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long idCategoria ;
+	private long idCategoria;
+	@Column(unique = true)
 	private String nombre;
 
 	@OneToMany(mappedBy="categoria")
@@ -32,7 +34,7 @@ public class Categoria {
 	
 	@OneToMany(mappedBy="categoria")
 	@JsonBackReference
-	private List<Articulo> articulos;
+	private List<ReqArticulo> articulos;
 		
 	@OneToOne(mappedBy = "categoria", cascade = CascadeType.ALL)
 	@JsonIgnore

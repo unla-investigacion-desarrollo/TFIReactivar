@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unla.reactivar.models.DtoXPorcentaje;
-import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.services.DtoXPorcentajeService;
 import com.unla.reactivar.vo.DtoXPorcentajeVo;
+import com.unla.reactivar.vo.Empty;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

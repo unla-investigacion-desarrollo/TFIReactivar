@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.unla.reactivar.exceptions.ObjectAlreadyExists;
 import com.unla.reactivar.exceptions.ObjectNotFound;
 import com.unla.reactivar.models.Perfil;
 import com.unla.reactivar.repositories.PerfilRepository;
@@ -48,7 +49,13 @@ public class PerfilService {
 		
 		adaptVoToPerfil(perfil, perfilVo);
 		
-		return repository.save(perfil);
+		try {
+			perfil = repository.save(perfil);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+
+		return perfil;
 	}
 
 	@Transactional
@@ -57,7 +64,13 @@ public class PerfilService {
 		
 		adaptVoToPerfil(perfil, perfilVo);
 		
-		return repository.save(perfil);
+		try {
+			perfil = repository.save(perfil);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+
+		return perfil;
 	}
 	
 	private void adaptVoToPerfil(Perfil perfil, PerfilVo perfilVo) {

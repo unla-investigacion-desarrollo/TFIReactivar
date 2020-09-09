@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unla.reactivar.models.ArticuloReferencia;
-import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.services.ArticuloReferenciaService;
-import com.unla.reactivar.vo.ArticuloReferenciaVo;
+import com.unla.reactivar.vo.ReqArticuloReferenciaVo;
+import com.unla.reactivar.vo.Empty;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -52,7 +52,7 @@ public class ArticuloReferenciaController {
 	@ApiOperation(value = "Crear ArticuloReferencia", notes = "Servicio creador de articuloReferencias")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "ArticuloReferencia successfully created"),
 			@ApiResponse(code = 400, message = "Invalid request") })
-	public ResponseEntity<ArticuloReferencia> crearArticuloReferencia(@RequestBody ArticuloReferenciaVo articuloReferenciaVo){
+	public ResponseEntity<ArticuloReferencia> crearArticuloReferencia(@RequestBody ReqArticuloReferenciaVo articuloReferenciaVo){
 		ArticuloReferencia articuloReferencia = service.crearArticuloReferencia(articuloReferenciaVo);
 		
 		return new ResponseEntity<>(articuloReferencia, HttpStatus.CREATED);
@@ -73,7 +73,7 @@ public class ArticuloReferenciaController {
 	@ApiOperation(value = "Update ArticuloReferencia", notes = "ArticuloReferencia updater service")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "ArticuloReferencia successfully updated"),
 			@ApiResponse(code = 404, message = "ArticuloReferencia not found") })
-	public ResponseEntity<ArticuloReferencia> updateArticuloReferencia(@PathVariable("idArticuloReferencia") Long id, ArticuloReferenciaVo articuloReferenciaVo) {
+	public ResponseEntity<ArticuloReferencia> updateArticuloReferencia(@PathVariable("idArticuloReferencia") Long id, ReqArticuloReferenciaVo articuloReferenciaVo) {
 
 		return new ResponseEntity<>(service.actualizarArticuloReferencia(id, articuloReferenciaVo), HttpStatus.OK);
 	}

@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.models.LlevaPaga;
 import com.unla.reactivar.services.LlevaPagaService;
+import com.unla.reactivar.vo.Empty;
 import com.unla.reactivar.vo.LlevaPagaVo;
 
 import io.swagger.annotations.Api;

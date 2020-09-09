@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unla.reactivar.models.DtoXUnidad;
-import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.models.Promocion;
 import com.unla.reactivar.services.DtoXUnidadService;
 import com.unla.reactivar.vo.DtoXUnidadVo;
+import com.unla.reactivar.vo.Empty;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
@@ -39,7 +40,7 @@ public class Carrito {
 	@OneToMany(mappedBy="carrito")
 	@JsonBackReference
 	private List<ItemCarrito> listaItemCarrito;
-	
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date fechaHora;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

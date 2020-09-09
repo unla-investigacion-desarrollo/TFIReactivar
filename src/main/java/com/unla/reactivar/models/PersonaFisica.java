@@ -1,5 +1,6 @@
 package com.unla.reactivar.models;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
@@ -12,6 +13,7 @@ public class PersonaFisica extends Persona {
 	
 	private String nombre;
 	private String apellido;
+	@Column(unique = true)
 	private String cuil; 
 	
 }

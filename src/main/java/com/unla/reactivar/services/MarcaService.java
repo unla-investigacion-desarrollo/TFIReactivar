@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.unla.reactivar.exceptions.ObjectAlreadyExists;
 import com.unla.reactivar.exceptions.ObjectNotFound;
 import com.unla.reactivar.models.Marca;
 import com.unla.reactivar.repositories.MarcaRepository;
@@ -47,7 +48,13 @@ public class MarcaService {
 		
 		marca.setNombre(marcaVo.getNombreMarca());
 		
-		return repository.save(marca);
+		try {
+			marca = repository.save(marca);
+		}catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+		
+		return marca;
 	}
 
 	@Transactional
@@ -56,7 +63,13 @@ public class MarcaService {
 		
 		marca.setNombre(marcaVo.getNombreMarca());
 		
-		return repository.save(marca);
+		try {
+			marca = repository.save(marca);
+		}catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+		
+		return marca;
 	}
 
 }

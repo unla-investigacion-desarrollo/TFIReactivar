@@ -2,6 +2,7 @@ package com.unla.reactivar.models;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -11,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
@@ -24,12 +26,14 @@ public class ArticuloReferencia {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long idArticuloReferencia ;
+	private long idArticuloReferencia;
+	@Column(unique = true)
 	private String codBarra;
 	private String descripcion;
 	private String nombre;
 	private String foto;
 	private double precioRefencia;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date fechaModi;
 	private String usuarioModi;
 	private String peso;

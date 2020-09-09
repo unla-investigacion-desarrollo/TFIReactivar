@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.unla.reactivar.exceptions.ObjectAlreadyExists;
 import com.unla.reactivar.exceptions.ObjectNotFound;
 import com.unla.reactivar.models.Categoria;
 import com.unla.reactivar.models.DtoXCategoria;
@@ -55,7 +56,13 @@ public class DtoXCategoriaService {
 		
 		adaptVoToDtoXCategoria(dto, dtoXCategoriaVo);
 		
-		return repository.save(dto);
+		try {
+			dto = repository.save(dto);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+		
+		return dto;
 	}
 
 	@Transactional
@@ -64,7 +71,13 @@ public class DtoXCategoriaService {
 		
 		adaptVoToDtoXCategoria(dto, dtoXCategoriaVo);
 		
-		return repository.save(dto);
+		try {
+			dto = repository.save(dto);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+		
+		return dto;
 	}
 
 	private void adaptVoToDtoXCategoria(DtoXCategoria dto, DtoXCategoriaVo dtoXCategoriaVo) {

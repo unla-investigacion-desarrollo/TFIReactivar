@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.unla.reactivar.exceptions.IncorrectUserOrPassword;
+import com.unla.reactivar.exceptions.ObjectAlreadyExists;
 import com.unla.reactivar.exceptions.ObjectNotFound;
 import com.unla.reactivar.exceptions.QrExporterException;
 import com.unla.reactivar.exceptions.models.GenericError;
@@ -55,6 +56,18 @@ public class ReactivarExceptionHandler {
 		String message = "Ha ocurrido un error al generar PDF.";
 		
 		GenericError error = new GenericError("error.reactivar.exporter.pdf", message);
+		
+		return error;
+	}
+	
+	@ExceptionHandler(ObjectAlreadyExists.class)
+	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+	@ResponseBody
+	protected GenericError ObjectAlreadyExistsExceptionHandler(ObjectAlreadyExists ex){
+		
+		String message = "El objeto ya exite dentro de la BD.";
+		
+		GenericError error = new GenericError("error.reactivar.db.registro_ya_existente", message);
 		
 		return error;
 	}

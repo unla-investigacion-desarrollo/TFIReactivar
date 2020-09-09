@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.unla.reactivar.exceptions.ObjectAlreadyExists;
 import com.unla.reactivar.exceptions.ObjectNotFound;
 import com.unla.reactivar.models.Carrito;
 import com.unla.reactivar.models.Emprendimiento;
@@ -60,6 +61,12 @@ public class CarritoService {
 		
 		adaptVoToCarrito(carrito, carritoVo);
 		
+		try {
+			carrito = repository.save(carrito);
+		}catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+		
 		return carrito;
 	}
 
@@ -72,6 +79,12 @@ public class CarritoService {
 		}
 		
 		adaptVoToCarrito(carrito, carritoVo);
+		
+		try {
+			carrito = repository.save(carrito);
+		}catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
 		
 		return carrito;
 	}

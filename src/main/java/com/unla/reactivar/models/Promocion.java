@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
@@ -19,6 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
@@ -35,10 +37,13 @@ public abstract class Promocion implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long idPromocion ;
+	private long idPromocion;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date fechaInicio;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date fechaFin;
 	private boolean habilitada;
+	@Column(unique = true)
 	private String descripcion;
 	
 	
@@ -50,7 +55,7 @@ public abstract class Promocion implements Serializable{
 
 	@OneToMany(mappedBy = "promocion")
 	@JsonBackReference
-	private List<Articulo> listArticulos;
+	private List<ReqArticulo> listArticulos;
 	
 
 }

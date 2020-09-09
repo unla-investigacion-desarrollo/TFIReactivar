@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.unla.reactivar.exceptions.ObjectAlreadyExists;
 import com.unla.reactivar.exceptions.ObjectNotFound;
 import com.unla.reactivar.models.ArticuloReferencia;
 import com.unla.reactivar.models.Categoria;
@@ -13,7 +14,7 @@ import com.unla.reactivar.models.Marca;
 import com.unla.reactivar.models.UnidadMedida;
 import com.unla.reactivar.repositories.ArticuloReferenciaRepository;
 import com.unla.reactivar.utils.DateUtils;
-import com.unla.reactivar.vo.ArticuloReferenciaVo;
+import com.unla.reactivar.vo.ReqArticuloReferenciaVo;
 
 @Service
 @Transactional(readOnly = true)
@@ -21,16 +22,16 @@ public class ArticuloReferenciaService {
 
 	@Autowired
 	private ArticuloReferenciaRepository repository;
-	
+
 	@Autowired
 	private CategoriaService categoriaService;
-	
+
 	@Autowired
 	private MarcaService marcaService;
 
 	@Autowired
 	private UnidadMedidaService umService;
-	
+
 	public ArticuloReferencia traerArticuloReferenciaPorId(Long id) {
 		return repository.findByIdArticuloReferencia(id);
 	}
@@ -51,37 +52,46 @@ public class ArticuloReferenciaService {
 	}
 
 	@Transactional
-	public ArticuloReferencia crearArticuloReferencia(ArticuloReferenciaVo articuloReferenciaVo) {
+	public ArticuloReferencia crearArticuloReferencia(ReqArticuloReferenciaVo articuloReferenciaVo) {
 		ArticuloReferencia articulo = new ArticuloReferencia();
-		
+
 		adaptVoToArticuloReferencia(articulo, articuloReferenciaVo);
-		
-		return repository.save(articulo);
+		try {
+			articulo = repository.save(articulo);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+		return articulo;
 	}
-	
+
 	@Transactional
-	public ArticuloReferencia actualizarArticuloReferencia(Long id, ArticuloReferenciaVo articuloReferenciaVo) {
+	public ArticuloReferencia actualizarArticuloReferencia(Long id, ReqArticuloReferenciaVo articuloReferenciaVo) {
 		ArticuloReferencia articulo = repository.findByIdArticuloReferencia(id);
-		
-		if(articulo == null) {
+
+		if (articulo == null) {
 			throw new ObjectNotFound("ArticuloReferencia");
 		}
-		
+
 		adaptVoToArticuloReferencia(articulo, articuloReferenciaVo);
-		
-		return repository.save(articulo);
+
+		try {
+			articulo = repository.save(articulo);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+		return articulo;
 	}
-	
-	private void adaptVoToArticuloReferencia(ArticuloReferencia articulo, ArticuloReferenciaVo articuloReferenciaVo) {
-		
+
+	private void adaptVoToArticuloReferencia(ArticuloReferencia articulo, ReqArticuloReferenciaVo articuloReferenciaVo) {
+
 		Categoria categoria = categoriaService.traerCategoriaPorId(articuloReferenciaVo.getIdCategoria());
 		Marca marca = marcaService.traerMarcaPorId(articuloReferenciaVo.getIdMarca());
 		UnidadMedida unidadMedida = umService.traerUnidadMedidaPorId(articuloReferenciaVo.getIdUnidadMedida());
-		
-		if(categoria == null || marca == null || unidadMedida == null) {
+
+		if (categoria == null || marca == null || unidadMedida == null) {
 			throw new ObjectNotFound("Categoria / Marca / UnidadMedida");
 		}
-		
+
 		articulo.setCategoria(categoria);
 		articulo.setMarca(marca);
 		articulo.setUnidadMedida(unidadMedida);

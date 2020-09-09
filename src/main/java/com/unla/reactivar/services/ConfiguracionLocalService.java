@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.unla.reactivar.exceptions.ObjectAlreadyExists;
 import com.unla.reactivar.exceptions.ObjectNotFound;
 import com.unla.reactivar.models.ConfiguracionLocal;
 import com.unla.reactivar.repositories.ConfiguracionLocalRepository;
@@ -17,22 +18,28 @@ public class ConfiguracionLocalService {
 
 	@Autowired
 	private ConfiguracionLocalRepository repository;
-	
+
 	public ConfiguracionLocal traerConfiguracionLocalPorId(Long id) {
 		return repository.findByIdConfiguracionLocal(id);
 	}
-	
-	public List<ConfiguracionLocal> traerTodos(){
+
+	public List<ConfiguracionLocal> traerTodos() {
 		return repository.findAll();
 	}
 
 	@Transactional
 	public ConfiguracionLocal crearConfiguracion(ConfiguracionLocalVo configuracionLocales) {
 		ConfiguracionLocal config = new ConfiguracionLocal();
-		
+
 		adaptVoToConfiguracionLocal(configuracionLocales, config);
 
-		return repository.save(config);
+		try {
+			config = repository.save(config);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+
+		return config;
 	}
 
 	private void adaptVoToConfiguracionLocal(ConfiguracionLocalVo configuracionLocales, ConfiguracionLocal config) {
@@ -44,7 +51,7 @@ public class ConfiguracionLocalService {
 		config.setTurno2Desde(configuracionLocales.getTurno2Desde());
 		config.setTurno2Hasta(configuracionLocales.getTurno2Hasta());
 	}
-	
+
 	@Transactional
 	public void borrarConfiguracionLocal(long id) {
 		ConfiguracionLocal configuracionLocal = repository.findByIdConfiguracionLocal(id);
@@ -55,7 +62,7 @@ public class ConfiguracionLocalService {
 
 		repository.delete(configuracionLocal);
 	}
-	
+
 	@Transactional
 	public ConfiguracionLocal actualizarConfiguracionLocal(Long id, ConfiguracionLocalVo configuracionLocalVo) {
 		ConfiguracionLocal configuracionLocal = repository.findByIdConfiguracionLocal(id);
@@ -63,11 +70,16 @@ public class ConfiguracionLocalService {
 		if (configuracionLocal == null) {
 			throw new ObjectNotFound("ConfiguracionLocal");
 		}
-		
+
 		adaptVoToConfiguracionLocal(configuracionLocalVo, configuracionLocal);
 		
-		return repository.save(configuracionLocal);
+		try {
+			configuracionLocal = repository.save(configuracionLocal);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+
+		return configuracionLocal;
 	}
-	
-	
+
 }

@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.models.Rubro;
 import com.unla.reactivar.services.RubroService;
+import com.unla.reactivar.vo.Empty;
 import com.unla.reactivar.vo.RubroVo;
 
 import io.swagger.annotations.Api;

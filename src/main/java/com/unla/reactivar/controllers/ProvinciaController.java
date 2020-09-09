@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.models.Localidad;
 import com.unla.reactivar.models.Provincia;
 import com.unla.reactivar.services.ProvinciaService;
+import com.unla.reactivar.vo.Empty;
 import com.unla.reactivar.vo.ProvinciaVo;
 
 import io.swagger.annotations.Api;

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.unla.reactivar.exceptions.ObjectAlreadyExists;
 import com.unla.reactivar.exceptions.ObjectNotFound;
 import com.unla.reactivar.models.Emprendimiento;
 import com.unla.reactivar.models.OcupacionLocal;
@@ -56,7 +57,13 @@ public class OcupacionLocalService {
 
 		adaptVoToOcupacionLocal(ocupacion, ocupacionLocalVo);
 
-		return repository.save(ocupacion);
+		try {
+			ocupacion = repository.save(ocupacion);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+
+		return ocupacion;
 	}
 
 	@Transactional
@@ -74,7 +81,13 @@ public class OcupacionLocalService {
 			adaptVoToOcupacionLocal(ocupacion, ocupacionLocalVo);
 		}
 
-		return repository.save(ocupacion);
+		try {
+			ocupacion = repository.save(ocupacion);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+
+		return ocupacion;
 	}
 
 	private void adaptVoToOcupacionLocal(OcupacionLocal ocupacion, OcupacionLocalVo ocupacionLocalVo) {

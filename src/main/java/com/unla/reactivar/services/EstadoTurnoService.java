@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.unla.reactivar.exceptions.ObjectAlreadyExists;
 import com.unla.reactivar.exceptions.ObjectNotFound;
 import com.unla.reactivar.models.EstadoTurno;
 import com.unla.reactivar.repositories.EstadoTurnoRepository;
@@ -47,7 +48,13 @@ public class EstadoTurnoService {
 
 		estado.setEstado(estadoTurnoVo.getNombreEstado());
 
-		return repository.save(estado);
+		try {
+			estado = repository.save(estado);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+		
+		return estado;
 	}
 
 	@Transactional
@@ -56,7 +63,13 @@ public class EstadoTurnoService {
 		
 		estado.setEstado(estadoTurnoVo.getNombreEstado());
 
-		return repository.save(estado);
+		try {
+			estado = repository.save(estado);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+		
+		return estado;
 	}
 
 }

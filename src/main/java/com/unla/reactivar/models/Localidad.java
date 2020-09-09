@@ -2,6 +2,7 @@ package com.unla.reactivar.models;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -24,9 +25,10 @@ public class Localidad {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long idLocalidad;
+	@Column(unique = true)
 	private String nombre;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idProvincia", nullable = false)
 	@JsonManagedReference
 	private Provincia provincia;

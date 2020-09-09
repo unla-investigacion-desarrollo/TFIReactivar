@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -17,6 +18,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
@@ -29,8 +31,10 @@ public class Emprendimiento {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long idEmprendimiento;
 	private String nombre;
+	@Column(unique = true)
 	private String cuit;
 	private String usuarioModi;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date fechaModi;
 	private int capacidad;
 	
@@ -67,7 +71,7 @@ public class Emprendimiento {
 	
 	@OneToMany(mappedBy = "emprendimiento")
 	@JsonBackReference
-	private List<Articulo> articulos;
+	private List<ReqArticulo> articulos;
 	
 	@OneToMany(mappedBy = "emprendimiento", cascade=CascadeType.ALL)
 	@JsonBackReference

@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.unla.reactivar.models.Empty;
 import com.unla.reactivar.models.Persona;
 import com.unla.reactivar.models.PersonaFisica;
 import com.unla.reactivar.services.PersonaFisicaService;
+import com.unla.reactivar.vo.Empty;
 import com.unla.reactivar.vo.PersonaFisicaVo;
 
 import io.swagger.annotations.Api;
