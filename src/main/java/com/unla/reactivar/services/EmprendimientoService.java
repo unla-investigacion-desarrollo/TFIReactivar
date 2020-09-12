@@ -53,6 +53,11 @@ public class EmprendimientoService {
 		return repository.findAll();
 	}
 
+	
+	public List<Emprendimiento> traerPorRubro(long idRubro){
+		return repository.traerPorRubro(idRubro);
+	}
+	
 	@Transactional
 	public Emprendimiento crearEmprendimiento(EmprendimientoVo emprendimientoVo) {
 		Emprendimiento emprendimiento = new Emprendimiento();

@@ -13,8 +13,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -28,7 +31,7 @@ import lombok.Data;
 @Table(name = "emprendimiento")
 public class Emprendimiento {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idEmprendimiento;
 	private String nombre;
 	@Column(unique = true)
@@ -37,30 +40,30 @@ public class Emprendimiento {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date fechaModi;
 	private int capacidad;
-	
-	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "idTipoEmprendimiento", nullable = false)
 	@JsonManagedReference
 	private TipoEmprendimiento tipoEmprendimiento;
-	
-	@OneToOne(cascade=CascadeType.ALL)
+
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "idUbicacion", nullable = false)
 	private Ubicacion ubicacion;
-		
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idRubro", nullable = false)
 	@JsonManagedReference
 	private Rubro rubro;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idPersona", nullable = false)
 	@JsonManagedReference
 	private Persona persona;
-	
+
 	@OneToMany(mappedBy = "emprendimiento")
 	@JsonBackReference
 	private List<Promocion> promociones;
-	
+
 	@OneToMany(mappedBy = "emprendimiento")
 	@JsonBackReference
 	private List<Carrito> carrito;
@@ -68,12 +71,12 @@ public class Emprendimiento {
 	@OneToMany(mappedBy = "emprendimiento", cascade = CascadeType.ALL)
 	@JsonBackReference
 	private List<Turno> turnos;
-	
+
 	@OneToMany(mappedBy = "emprendimiento")
 	@JsonBackReference
 	private List<ReqArticulo> articulos;
-	
-	@OneToMany(mappedBy = "emprendimiento", cascade=CascadeType.ALL)
+
+	@OneToMany(mappedBy = "emprendimiento", cascade = CascadeType.ALL)
 	@JsonBackReference
 	private List<ConfiguracionLocal> configuracionLocales = new ArrayList<>();
 
@@ -81,3 +84,8 @@ public class Emprendimiento {
 	@JsonBackReference
 	private List<OcupacionLocal> ocupacionLocales;
 }
+
+
+
+
+

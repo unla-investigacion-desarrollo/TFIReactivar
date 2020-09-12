@@ -50,6 +50,16 @@ public class EmprendimientoController {
 		return service.traerEmprendimientoPorId(id);
 	}
 
+	@GetMapping("/traerPorRubro/{idRubro}")
+	@ApiOperation(value = "Mostrar emprendimientos por un Rubro especifico", notes = "Service para mostrar emprendimientos de un rubro")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Emprendimientos encontrados"),
+			@ApiResponse(code = 404, message = "Emprendimiento no encontrado") })
+	public ResponseEntity<List<Emprendimiento>> traerPorRubro(long idRubro) {
+		List<Emprendimiento> traerPorRubro = service.traerPorRubro(idRubro);
+		return new ResponseEntity(traerPorRubro, HttpStatus.OK);
+	}
+
+	
 	@PostMapping
 	@ApiOperation(value = "Crear Emprendimiento", notes = "Servicio creador de emprendimientos")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Emprendimiento successfully created"),
