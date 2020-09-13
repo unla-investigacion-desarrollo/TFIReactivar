@@ -16,6 +16,7 @@ import com.unla.reactivar.models.Ubicacion;
 import com.unla.reactivar.repositories.PersonaFisicaRepository;
 import com.unla.reactivar.utils.DateUtils;
 import com.unla.reactivar.vo.PersonaFisicaVo;
+import com.unla.reactivar.vo.ReqPutPersonaFisicaVo;
 
 @Service
 @Transactional(readOnly = true)
@@ -58,11 +59,6 @@ public class PersonaFisicaService {
 
 		adaptVoToPersonaFisica(persona, personaFisicaVo);
 		
-		Ubicacion ubicacion = ubicacionService.crearUbicacion(personaFisicaVo.getUbicacionVo());
-		Login login = loginService.crearLogin(personaFisicaVo.getLoginVo());
-		persona.setUbicacion(ubicacion);
-		persona.setLogin(login);
-		
 		try {
 			persona = repository.save(persona);
 		} catch (Exception e) {
@@ -73,14 +69,14 @@ public class PersonaFisicaService {
 	}
 
 	@Transactional
-	public Persona actualizarPersonaFisica(Long id, PersonaFisicaVo personaFisicaVo) {
+	public Persona actualizarPersonaFisica(Long id, ReqPutPersonaFisicaVo personaFisicaVo) {
 		PersonaFisica persona = repository.findByIdPersona(id);
 		
 		if(persona == null) {
 			throw new ObjectNotFound("Persona");
 		}
 		
-		adaptVoToPersonaFisica(persona, personaFisicaVo);
+		adaptPutVoToPersonaFisica(persona, personaFisicaVo);
 		
 		try {
 			persona = repository.save(persona);
@@ -97,6 +93,26 @@ public class PersonaFisicaService {
 		if(perfil == null) {
 			throw new ObjectNotFound("Perfil");
 		}
+		Ubicacion ubicacion = ubicacionService.crearUbicacion(personaFisicaVo.getUbicacionVo());
+		Login login = loginService.crearLogin(personaFisicaVo.getLoginVo());
+		
+		persona.setNombre(personaFisicaVo.getNombre());
+		persona.setApellido(personaFisicaVo.getApellido());
+		persona.setCuil(personaFisicaVo.getCuil());
+		persona.setCelular(personaFisicaVo.getCelular());
+		persona.setUsuarioModi(personaFisicaVo.getUsuarioModi());
+		persona.setFechaModi(DateUtils.fechaHoy());
+		persona.setPerfil(perfil);
+		persona.setUbicacion(ubicacion);
+		persona.setLogin(login);
+	}
+	
+	private void adaptPutVoToPersonaFisica(PersonaFisica persona, ReqPutPersonaFisicaVo personaFisicaVo) {
+		Perfil perfil = perfilService.traerPerfilPorId(personaFisicaVo.getIdPerfil());
+		
+		if(perfil == null) {
+			throw new ObjectNotFound("Perfil");
+		}
 		
 		persona.setNombre(personaFisicaVo.getNombre());
 		persona.setApellido(personaFisicaVo.getApellido());
@@ -106,5 +122,5 @@ public class PersonaFisicaService {
 		persona.setFechaModi(DateUtils.fechaHoy());
 		persona.setPerfil(perfil);
 	}
-
+	
 }

@@ -25,6 +25,7 @@ import com.unla.reactivar.utils.DateUtils;
 import com.unla.reactivar.utils.QREmprendimientoPDFExporter;
 import com.unla.reactivar.vo.ConfiguracionLocalVo;
 import com.unla.reactivar.vo.EmprendimientoVo;
+import com.unla.reactivar.vo.ReqPutEmprendimientoVo;
 
 @Service
 @Transactional(readOnly = true)
@@ -57,9 +58,6 @@ public class EmprendimientoService {
 	public Emprendimiento crearEmprendimiento(EmprendimientoVo emprendimientoVo) {
 		Emprendimiento emprendimiento = new Emprendimiento();
 
-		Ubicacion ubicacion = ubicacionService.crearUbicacion(emprendimientoVo.getUbicacionVo());
-		emprendimiento.setUbicacion(ubicacion);
-
 		adaptarEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
 
 		try {
@@ -83,14 +81,14 @@ public class EmprendimientoService {
 	}
 
 	@Transactional
-	public Emprendimiento actualizarEmprendimiento(Long id, EmprendimientoVo emprendimientoVo) {
+	public Emprendimiento actualizarEmprendimiento(Long id, ReqPutEmprendimientoVo emprendimientoVo) {
 		Emprendimiento emprendimiento = repository.findByIdEmprendimiento(id);
 
 		if (emprendimiento == null) {
 			throw new ObjectNotFound("Emprendimiento");
 		}
 
-		adaptarEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
+		adaptarPutEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
 
 		try {
 			emprendimiento = repository.save(emprendimiento);
@@ -108,6 +106,8 @@ public class EmprendimientoService {
 					.add(adaptarConfiguracionLocal(emprendimientoVo.getConfiguracionLocales().get(i)));
 			emprendimiento.getConfiguracionLocales().get(i).setEmprendimiento(emprendimiento);
 		}
+		Ubicacion ubicacion = ubicacionService.crearUbicacion(emprendimientoVo.getUbicacionVo());
+		emprendimiento.setUbicacion(ubicacion);
 		emprendimiento.setCuit(emprendimientoVo.getCuit());
 		emprendimiento.setNombre(emprendimientoVo.getNombre());
 		Persona persona = personaService.traerPersonaPorId(emprendimientoVo.getIdPersona());
@@ -127,6 +127,27 @@ public class EmprendimientoService {
 
 	}
 
+	private void adaptarPutEmprendimientoVoAEmprendimiento(ReqPutEmprendimientoVo emprendimientoVo,
+			Emprendimiento emprendimiento) {
+		emprendimiento.setCuit(emprendimientoVo.getCuit());
+		emprendimiento.setNombre(emprendimientoVo.getNombre());
+		Persona persona = personaService.traerPersonaPorId(emprendimientoVo.getIdPersona());
+		Rubro rubro = rubroService.traerRubroPorId(emprendimientoVo.getIdRubro());
+		TipoEmprendimiento tipoEmprendimiento = tipoEmprendimientoService
+				.traerTipoEmprendimientoPorId(emprendimientoVo.getIdTipoEmprendimiento());
+
+		if (persona == null || rubro == null || tipoEmprendimiento == null) {
+			throw new ObjectNotFound("Persona, rubro o tipoEmprendimiento");
+		}
+		emprendimiento.setFechaModi(DateUtils.fechaHoy());
+		emprendimiento.setUsuarioModi(emprendimientoVo.getUsuarioModi());
+		emprendimiento.setPersona(persona);
+		emprendimiento.setRubro(rubro);
+		emprendimiento.setTipoEmprendimiento(tipoEmprendimiento);
+		emprendimiento.setCapacidad(emprendimientoVo.getCapacidad());
+
+	}
+	
 	private ConfiguracionLocal adaptarConfiguracionLocal(ConfiguracionLocalVo configuracionLocales) {
 
 		ConfiguracionLocal config = new ConfiguracionLocal();
