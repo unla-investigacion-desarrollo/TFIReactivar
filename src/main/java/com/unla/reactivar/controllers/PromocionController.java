@@ -32,8 +32,8 @@ public class PromocionController {
 	@ApiOperation(value = "Listar todos los promocions", notes = "Service para listar todos los promocions")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Promocions encontrados"),
 			@ApiResponse(code = 404, message = "Promocions no encontrados") })
-	public List<Promocion> traerTodos() {
-		return service.traerTodos();
+	public List<Promocion> traerTodasPromociones() {
+		return service.traerTodasPromociones();
 	}
 	
 	@GetMapping("/{idPromocion}")

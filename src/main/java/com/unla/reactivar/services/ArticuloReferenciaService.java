@@ -36,7 +36,7 @@ public class ArticuloReferenciaService {
 		return repository.findByIdArticuloReferencia(id);
 	}
 
-	public List<ArticuloReferencia> traerTodos() {
+	public List<ArticuloReferencia> traerTodosArticulosReferencia() {
 		return repository.findAll();
 	}
 

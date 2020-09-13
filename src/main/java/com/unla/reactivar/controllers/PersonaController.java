@@ -33,8 +33,8 @@ public class PersonaController {
 	@ApiOperation(value = "Listar todos los personas", notes = "Service para listar todos los personas")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Personas encontrados"),
 			@ApiResponse(code = 404, message = "Personas no encontrados") })
-	public List<Persona> traerTodos() {
-		return service.traerTodos();
+	public List<Persona> traerTodasPersonas() {
+		return service.traerTodasPersonas();
 	}
 	
 	@GetMapping("/{idPersona}")

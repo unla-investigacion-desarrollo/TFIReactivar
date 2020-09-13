@@ -24,7 +24,7 @@ public class RubroService {
 		return rubro;
 	}
 
-	public List<Rubro> traerTodos() {
+	public List<Rubro> traerTodosRubros() {
 		return repository.findAll();
 	}
 

@@ -36,8 +36,8 @@ public class UbicacionController {
 	@ApiOperation(value = "Listar todos los ubicacions", notes = "Service para listar todos los ubicacions")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Ubicacions encontrados"),
 			@ApiResponse(code = 404, message = "Ubicacions no encontrados") })
-	public List<Ubicacion> traerTodos() {
-		return service.traerTodos();
+	public List<Ubicacion> traerTodasUbicaciones() {
+		return service.traerTodasUbicaciones();
 	}
 	
 	@GetMapping("/{idUbicacion}")

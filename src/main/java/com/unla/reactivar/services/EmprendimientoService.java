@@ -50,7 +50,7 @@ public class EmprendimientoService {
 		return repository.findByIdEmprendimiento(id);
 	}
 
-	public List<Emprendimiento> traerTodos() {
+	public List<Emprendimiento> traerTodosEmprendimientos() {
 		return repository.findAll();
 	}
 

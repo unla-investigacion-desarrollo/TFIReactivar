@@ -23,7 +23,7 @@ public class CategoriaService {
 		return repository.findByIdCategoria(id);
 	}
 
-	public List<Categoria> traerTodos() {
+	public List<Categoria> traerTodasCategorias() {
 		return repository.findAll();
 	}
 

@@ -27,7 +27,7 @@ public class ItemCarritoService {
 		return repository.findByIdItemCarrito(id);
 	}
 
-	public List<ItemCarrito> traerTodos() {
+	public List<ItemCarrito> traerTodosItemsCarrito() {
 		return repository.findAll();
 	}
 

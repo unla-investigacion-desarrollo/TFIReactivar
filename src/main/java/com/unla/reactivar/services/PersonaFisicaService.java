@@ -38,7 +38,7 @@ public class PersonaFisicaService {
 		return repository.findByIdPersona(id);
 	}
 
-	public List<PersonaFisica> traerTodos() {
+	public List<PersonaFisica> traerTodasPersonasFisicas() {
 		return repository.findAll();
 	}
 

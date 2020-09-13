@@ -40,9 +40,9 @@ public class RubroController {
 	@ApiOperation(value = "Listar todos los rubros", notes = "Service para listar todos los rubros")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Rubros encontrados"),
 			@ApiResponse(code = 404, message = "Rubros no encontrados") })
-	public List<Rubro> traerTodos() {
+	public List<Rubro> traerTodosRubros() {
 		logger.info("[RubroController - traerTodos] Se intentará traer todos los rubros.");
-		return service.traerTodos();
+		return service.traerTodosRubros();
 	}
 
 	@GetMapping("/{idRubro}")

@@ -23,7 +23,7 @@ public class EstadoTurnoService {
 		return repository.findByIdEstadoTurno(id);
 	}
 
-	public List<EstadoTurno> traerTodos() {
+	public List<EstadoTurno> traerTodosEstadosTurno() {
 		return repository.findAll();
 	}
 

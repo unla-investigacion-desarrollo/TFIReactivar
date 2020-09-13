@@ -36,8 +36,8 @@ public class CategoriaController {
 	@ApiOperation(value = "Listar todos los categorias", notes = "Service para listar todos los categorias")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Categorias encontrados"),
 			@ApiResponse(code = 404, message = "Categorias no encontrados") })
-	public List<Categoria> traerTodos() {
-		return service.traerTodos();
+	public List<Categoria> traerTodasCategorias() {
+		return service.traerTodasCategorias();
 	}
 	
 	@GetMapping("/{idCategoria}")

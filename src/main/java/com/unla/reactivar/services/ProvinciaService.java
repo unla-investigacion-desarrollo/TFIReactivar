@@ -27,7 +27,7 @@ public class ProvinciaService {
 		return repository.findByIdProvincia(id);
 	}
 	
-	public List<Provincia> traerTodos(){
+	public List<Provincia> traerTodasProvincias(){
 		return repository.findAll();
 	}
 	

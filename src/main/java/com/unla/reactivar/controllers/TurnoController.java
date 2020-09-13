@@ -36,8 +36,8 @@ public class TurnoController {
 	@ApiOperation(value = "Listar todos los turnos", notes = "Service para listar todos los turnos")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Turnos encontrados"),
 			@ApiResponse(code = 404, message = "Turnos no encontrados") })
-	public List<Turno> traerTodos() {
-		return service.traerTodos();
+	public List<Turno> traerTodosTurnos() {
+		return service.traerTodosTurnos();
 	}
 	
 	@GetMapping("/{idTurno}")

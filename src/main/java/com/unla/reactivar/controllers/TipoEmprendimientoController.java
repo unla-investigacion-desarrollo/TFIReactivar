@@ -36,8 +36,8 @@ public class TipoEmprendimientoController {
 	@ApiOperation(value = "Listar todos los tipoEmprendimientos", notes = "Service para listar todos los tipoEmprendimientos")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "TipoEmprendimientos encontrados"),
 			@ApiResponse(code = 404, message = "TipoEmprendimientos no encontrados") })
-	public List<TipoEmprendimiento> traerTodos() {
-		return service.traerTodos();
+	public List<TipoEmprendimiento> traerTodosTiposEmprendimientos() {
+		return service.traerTodosTiposEmprendimientos();
 	}
 	
 	@GetMapping("/{idTipoEmprendimiento}")

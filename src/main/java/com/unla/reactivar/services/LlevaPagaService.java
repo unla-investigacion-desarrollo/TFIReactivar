@@ -27,7 +27,7 @@ public class LlevaPagaService {
 		return repository.findByIdPromocion(id);
 	}
 
-	public List<LlevaPaga> traerTodos() {
+	public List<LlevaPaga> traerTodosLlevaPaga() {
 		return repository.findAll();
 	}
 

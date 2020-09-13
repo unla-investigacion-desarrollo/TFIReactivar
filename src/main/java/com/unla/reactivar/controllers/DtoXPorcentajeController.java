@@ -36,8 +36,8 @@ public class DtoXPorcentajeController {
 	@ApiOperation(value = "Listar todos los dtoXPorcentajes", notes = "Service para listar todos los dtoXPorcentajes")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "DtoXPorcentajes encontrados"),
 			@ApiResponse(code = 404, message = "DtoXPorcentajes no encontrados") })
-	public List<DtoXPorcentaje> traerTodos() {
-		return service.traerTodos();
+	public List<DtoXPorcentaje> traerTodosDtosXPorcentaje() {
+		return service.traerTodosDtosXPorcentaje();
 	}
 	
 	@GetMapping("/{idDtoXPorcentaje}")

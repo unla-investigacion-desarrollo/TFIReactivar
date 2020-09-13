@@ -44,7 +44,7 @@ public class ArticuloService {
 		return repository.findByIdArticulo(id);
 	}
 
-	public List<ReqArticulo> traerTodos() {
+	public List<ReqArticulo> traerTodosArticulos() {
 		return repository.findAll();
 	}
 

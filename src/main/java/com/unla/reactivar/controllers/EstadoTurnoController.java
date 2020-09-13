@@ -36,8 +36,8 @@ public class EstadoTurnoController {
 	@ApiOperation(value = "Listar todos los estadoTurnos", notes = "Service para listar todos los estadoTurnos")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "EstadoTurnos encontrados"),
 			@ApiResponse(code = 404, message = "EstadoTurnos no encontrados") })
-	public List<EstadoTurno> traerTodos() {
-		return service.traerTodos();
+	public List<EstadoTurno> traerTodosEstadosTurno() {
+		return service.traerTodosEstadosTurno();
 	}
 	
 	@GetMapping("/{idEstadoTurno}")

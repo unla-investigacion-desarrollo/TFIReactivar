@@ -36,8 +36,8 @@ public class PersonaJuridicaController {
 	@ApiOperation(value = "Listar todos los personaJuridicas", notes = "Service para listar todos los personaJuridicas")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "PersonaJuridicas encontrados"),
 			@ApiResponse(code = 404, message = "PersonaJuridicas no encontrados") })
-	public List<PersonaJuridica> traerTodos() {
-		return service.traerTodos();
+	public List<PersonaJuridica> traerTodasPersonasJuridicas() {
+		return service.traerTodasPersonasJuridicas();
 	}
 	
 	@GetMapping("/{idPersonaJuridica}")

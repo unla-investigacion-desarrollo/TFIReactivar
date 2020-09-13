@@ -36,8 +36,8 @@ public class OcupacionLocalController {
 	@ApiOperation(value = "Listar todos los ocupacionLocals", notes = "Service para listar todos los ocupacionLocals")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "OcupacionLocals encontrados"),
 			@ApiResponse(code = 404, message = "OcupacionLocals no encontrados") })
-	public List<OcupacionLocal> traerTodos() {
-		return service.traerTodos();
+	public List<OcupacionLocal> traerTodasOcupacionesLocales() {
+		return service.traerTodasOcupacionesLocales();
 	}
 	
 	@PostMapping

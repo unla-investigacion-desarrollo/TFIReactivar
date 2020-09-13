@@ -24,7 +24,7 @@ public class PerfilService {
 		return repository.findByIdPerfil(idPerfil);
 	}
 	
-	public List<Perfil> traerTodos(){
+	public List<Perfil> traerTodosPerfiles(){
 		return repository.findAll();
 	}
 

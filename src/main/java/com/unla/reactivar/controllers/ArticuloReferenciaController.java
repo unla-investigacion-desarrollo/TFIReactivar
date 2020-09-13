@@ -36,8 +36,8 @@ public class ArticuloReferenciaController {
 	@ApiOperation(value = "Listar todos los articuloReferencias", notes = "Service para listar todos los articuloReferencias")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "ArticuloReferencias encontrados"),
 			@ApiResponse(code = 404, message = "ArticuloReferencias no encontrados") })
-	public List<ArticuloReferencia> traerTodos() {
-		return service.traerTodos();
+	public List<ArticuloReferencia> traerTodosArticulosReferencia() {
+		return service.traerTodosArticulosReferencia();
 	}
 	
 	@GetMapping("/{idArticuloReferencia}")

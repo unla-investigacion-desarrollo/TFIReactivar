@@ -36,7 +36,7 @@ public class TurnoService {
 		return repository.findByIdTurno(id);
 	}
 
-	public List<Turno> traerTodos() {
+	public List<Turno> traerTodosTurnos() {
 		return repository.findAll();
 	}
 

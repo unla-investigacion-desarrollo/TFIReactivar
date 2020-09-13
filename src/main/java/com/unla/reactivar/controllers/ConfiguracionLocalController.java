@@ -36,8 +36,8 @@ public class ConfiguracionLocalController {
 	@ApiOperation(value = "Listar todos los configuracionLocals", notes = "Service para listar todos los configuracionLocals")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "ConfiguracionLocals encontrados"),
 			@ApiResponse(code = 404, message = "ConfiguracionLocals no encontrados") })
-	public List<ConfiguracionLocal> traerTodos() {
-		return service.traerTodos();
+	public List<ConfiguracionLocal> traerTodasConfiguracionesLocales() {
+		return service.traerTodasConfiguracionesLocales();
 	}
 	
 	@GetMapping("/{idConfiguracionLocal}")

@@ -23,7 +23,7 @@ public class PersonaService {
 		return personaRepository.findByIdPersona(idPersona);
 	}
 	
-	public List<Persona> traerTodos(){
+	public List<Persona> traerTodasPersonas(){
 		return personaRepository.findAll();
 	}
 

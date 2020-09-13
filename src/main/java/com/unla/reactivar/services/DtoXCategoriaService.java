@@ -31,7 +31,7 @@ public class DtoXCategoriaService {
 		return repository.findByIdPromocion(id);
 	}
 
-	public List<DtoXCategoria> traerTodos() {
+	public List<DtoXCategoria> traerTodosDtosXCategorias() {
 		return repository.findAll();
 	}
 

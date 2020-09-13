@@ -36,8 +36,8 @@ public class ArticuloController {
 	@ApiOperation(value = "Listar todos los articulos", notes = "Service para listar todos los articulos")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Articulos encontrados"),
 			@ApiResponse(code = 404, message = "Articulos no encontrados") })
-	public List<ReqArticulo> traerTodos() {
-		return service.traerTodos();
+	public List<ReqArticulo> traerTodosArticulos() {
+		return service.traerTodosArticulos();
 	}
 	
 	@GetMapping("/{idArticulo}")

@@ -27,7 +27,7 @@ public class DtoXPorcentajeService {
 		return repository.findByIdPromocion(id);
 	}
 
-	public List<DtoXPorcentaje> traerTodos() {
+	public List<DtoXPorcentaje> traerTodosDtosXPorcentaje() {
 		return repository.findAll();
 	}
 

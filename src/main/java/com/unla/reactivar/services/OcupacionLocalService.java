@@ -32,7 +32,7 @@ public class OcupacionLocalService {
 		return repository.findByIdOcupacionLocal(id);
 	}
 
-	public List<OcupacionLocal> traerTodos() {
+	public List<OcupacionLocal> traerTodasOcupacionesLocales() {
 		return repository.findAll();
 	}
 

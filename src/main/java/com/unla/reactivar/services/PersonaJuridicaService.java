@@ -60,7 +60,7 @@ public class PersonaJuridicaService {
 		return personaRepository.findByIdPersona(idPersona);
 	}
 	
-	public List<PersonaJuridica> traerTodos(){
+	public List<PersonaJuridica> traerTodasPersonasJuridicas(){
 		return personaRepository.findAll();
 	}
 

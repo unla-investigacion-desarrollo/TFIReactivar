@@ -37,8 +37,8 @@ public class ProvinciaController {
 	@ApiOperation(value = "Listar todos los provincias", notes = "Service para listar todos los provincias")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Provincias encontrados"),
 			@ApiResponse(code = 404, message = "Provincias no encontrados") })
-	public List<Provincia> traerTodos() {
-		return service.traerTodos();
+	public List<Provincia> traerTodasProvincias() {
+		return service.traerTodasProvincias();
 	}
 	
 	@GetMapping("/{idProvincia}/localidades")

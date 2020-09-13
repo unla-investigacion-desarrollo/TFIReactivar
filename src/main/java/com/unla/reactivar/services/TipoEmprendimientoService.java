@@ -23,7 +23,7 @@ public class TipoEmprendimientoService {
 		return repository.findByIdTipoEmprendimiento(id);
 	}
 	
-	public List<TipoEmprendimiento> traerTodos(){
+	public List<TipoEmprendimiento> traerTodosTiposEmprendimientos(){
 		return repository.findAll();
 	}
 	

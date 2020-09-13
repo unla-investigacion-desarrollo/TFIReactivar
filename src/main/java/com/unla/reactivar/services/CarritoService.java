@@ -42,7 +42,7 @@ public class CarritoService {
 		return repository.findByIdCarrito(id);
 	}
 
-	public List<Carrito> traerTodos() {
+	public List<Carrito> traerTodosCarritos() {
 		return repository.findAll();
 	}
 

@@ -27,7 +27,7 @@ public class LocalidadService {
 		return repository.findByIdLocalidad(id);
 	}
 
-	public List<Localidad> traerTodos() {
+	public List<Localidad> traerTodasLocalidades() {
 		return repository.findAll();
 	}
 

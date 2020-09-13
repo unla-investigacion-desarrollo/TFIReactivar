@@ -27,7 +27,7 @@ public class DtoXUnidadService {
 		return repository.findByIdPromocion(id);
 	}
 
-	public List<DtoXUnidad> traerTodos() {
+	public List<DtoXUnidad> traerTodosDtosXUnidades() {
 		return repository.findAll();
 	}
 

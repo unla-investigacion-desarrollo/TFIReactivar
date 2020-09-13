@@ -36,8 +36,8 @@ public class LocalidadController {
 	@ApiOperation(value = "Listar todos los localidads", notes = "Service para listar todos los localidads")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Localidads encontrados"),
 			@ApiResponse(code = 404, message = "Localidads no encontrados") })
-	public List<Localidad> traerTodos() {
-		return service.traerTodos();
+	public List<Localidad> traerTodasLocalidades() {
+		return service.traerTodasLocalidades();
 	}
 	
 	@GetMapping("/{idLocalidad}")

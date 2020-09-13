@@ -32,7 +32,7 @@ public class FuncionPerfilService {
 		return repository.findByIdFuncionPerfil(id);
 	}
 
-	public List<FuncionPerfil> traerTodos() {
+	public List<FuncionPerfil> traerTodasFuncionesPerfil() {
 		return repository.findAll();
 	}
 

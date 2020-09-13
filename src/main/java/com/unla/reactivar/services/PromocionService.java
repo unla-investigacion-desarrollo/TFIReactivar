@@ -21,7 +21,7 @@ public class PromocionService {
 		return repository.findByIdPromocion(id);
 	}
 
-	public List<Promocion> traerTodos() {
+	public List<Promocion> traerTodasPromociones() {
 		return repository.findAll();
 	}
 

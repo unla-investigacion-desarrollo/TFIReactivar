@@ -37,8 +37,8 @@ public class DtoXUnidadController {
 	@ApiOperation(value = "Listar todos los dtoXUnidads", notes = "Service para listar todos los dtoXUnidads")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "DtoXUnidads encontrados"),
 			@ApiResponse(code = 404, message = "DtoXUnidads no encontrados") })
-	public List<DtoXUnidad> traerTodos() {
-		return service.traerTodos();
+	public List<DtoXUnidad> traerTodosDtosXUnidades() {
+		return service.traerTodosDtosXUnidades();
 	}
 	
 	@GetMapping("/{idDtoXUnidad}")

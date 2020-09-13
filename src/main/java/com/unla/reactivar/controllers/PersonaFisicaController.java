@@ -38,8 +38,8 @@ public class PersonaFisicaController {
 	@ApiOperation(value = "Listar todos los personaFisicas", notes = "Service para listar todos los personaFisicas")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "PersonaFisicas encontrados"),
 			@ApiResponse(code = 404, message = "PersonaFisicas no encontrados") })
-	public List<PersonaFisica> traerTodos() {
-		return service.traerTodos();
+	public List<PersonaFisica> traerTodasPersonasFisicas() {
+		return service.traerTodasPersonasFisicas();
 	}
 	
 	@GetMapping("/{idPersonaFisica}")

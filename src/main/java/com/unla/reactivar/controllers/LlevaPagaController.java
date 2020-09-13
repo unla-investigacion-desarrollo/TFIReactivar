@@ -36,8 +36,8 @@ public class LlevaPagaController {
 	@ApiOperation(value = "Listar todos los llevaPagas", notes = "Service para listar todos los llevaPagas")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "LlevaPagas encontrados"),
 			@ApiResponse(code = 404, message = "LlevaPagas no encontrados") })
-	public List<LlevaPaga> traerTodos() {
-		return service.traerTodos();
+	public List<LlevaPaga> traerTodosLlevaPaga() {
+		return service.traerTodosLlevaPaga();
 	}
 	
 	@GetMapping("/{idLlevaPaga}")

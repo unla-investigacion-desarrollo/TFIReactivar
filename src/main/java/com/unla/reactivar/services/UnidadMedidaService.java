@@ -23,7 +23,7 @@ public class UnidadMedidaService {
 		return repository.findByIdUnidadMedida(id);
 	}
 
-	public List<UnidadMedida> traerTodos() {
+	public List<UnidadMedida> traerTodasUnidadesMedida() {
 		return repository.findAll();
 	}
 

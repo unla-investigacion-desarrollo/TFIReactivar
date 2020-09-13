@@ -23,7 +23,7 @@ public class MarcaService {
 		return repository.findByIdMarca(id);
 	}
 
-	public List<Marca> traerTodos() {
+	public List<Marca> traerTodasMarcas() {
 		return repository.findAll();
 	}
 

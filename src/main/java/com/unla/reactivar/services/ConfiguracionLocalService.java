@@ -23,7 +23,7 @@ public class ConfiguracionLocalService {
 		return repository.findByIdConfiguracionLocal(id);
 	}
 
-	public List<ConfiguracionLocal> traerTodos() {
+	public List<ConfiguracionLocal> traerTodasConfiguracionesLocales() {
 		return repository.findAll();
 	}
 

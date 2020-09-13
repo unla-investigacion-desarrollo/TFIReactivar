@@ -51,7 +51,7 @@ public class LoginService {
 		return login;
 	}
 
-	public List<Login> traerTodos() {
+	public List<Login> traerTodosLogins() {
 		return repository.findAll();
 	}
 

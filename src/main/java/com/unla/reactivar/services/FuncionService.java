@@ -23,7 +23,7 @@ public class FuncionService {
 		return repository.findByIdFuncion(id);
 	}
 
-	public List<Funcion> traerTodos() {
+	public List<Funcion> traerTodasFunciones() {
 		return repository.findAll();
 	}
 

@@ -44,7 +44,7 @@ public class UbicacionService {
 		return ubicacion;
 	}
 	
-	public List<Ubicacion> traerTodos(){
+	public List<Ubicacion> traerTodasUbicaciones(){
 		return repository.findAll();
 	}
 	

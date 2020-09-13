@@ -36,8 +36,8 @@ public class CarritoController {
 	@ApiOperation(value = "Listar todos los carritos", notes = "Service para listar todos los carritos")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Carritos encontrados"),
 			@ApiResponse(code = 404, message = "Carritos no encontrados") })
-	public List<Carrito> traerTodos() {
-		return service.traerTodos();
+	public List<Carrito> traerTodosCarritos() {
+		return service.traerTodosCarritos();
 	}
 
 	@GetMapping("/{idCarrito}")

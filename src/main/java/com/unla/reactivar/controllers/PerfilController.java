@@ -36,8 +36,8 @@ public class PerfilController {
 	@ApiOperation(value = "Listar todos los perfils", notes = "Service para listar todos los perfils")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Perfils encontrados"),
 			@ApiResponse(code = 404, message = "Perfils no encontrados") })
-	public List<Perfil> traerTodos() {
-		return service.traerTodos();
+	public List<Perfil> traerTodosPerfiles() {
+		return service.traerTodosPerfiles();
 	}
 	
 	@GetMapping("/{idPerfil}")

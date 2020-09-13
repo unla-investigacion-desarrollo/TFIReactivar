@@ -23,7 +23,7 @@ public class EstadoCarritoService {
 		return repository.findByIdEstadoCarrito(id);
 	}
 
-	public List<EstadoCarrito> traerTodos() {
+	public List<EstadoCarrito> traerTodosEstadosCarrito() {
 		return repository.findAll();
 	}
 

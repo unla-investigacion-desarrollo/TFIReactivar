@@ -36,8 +36,8 @@ public class FuncionPerfilController {
 	@ApiOperation(value = "Listar todos los funcionPerfils", notes = "Service para listar todos los funcionPerfils")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "FuncionPerfils encontrados"),
 			@ApiResponse(code = 404, message = "FuncionPerfils no encontrados") })
-	public List<FuncionPerfil> traerTodos() {
-		return service.traerTodos();
+	public List<FuncionPerfil> traerTodasFuncionesPerfil() {
+		return service.traerTodasFuncionesPerfil();
 	}
 	
 	@GetMapping("/{idFuncionPerfil}")
