@@ -19,6 +19,7 @@ import com.unla.reactivar.models.PersonaFisica;
 import com.unla.reactivar.services.PersonaFisicaService;
 import com.unla.reactivar.vo.Empty;
 import com.unla.reactivar.vo.PersonaFisicaVo;
+import com.unla.reactivar.vo.ReqPutPersonaFisicaVo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -74,7 +75,7 @@ public class PersonaFisicaController {
 	@ApiOperation(value = "Update PersonaFisica", notes = "PersonaFisica updater service")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "PersonaFisica successfully updated"),
 			@ApiResponse(code = 404, message = "PersonaFisica not found") })
-	public ResponseEntity<Persona> updatePersonaFisica(@PathVariable("idPersonaFisica") Long id, PersonaFisicaVo personaFisicaVo) {
+	public ResponseEntity<Persona> updatePersonaFisica(@PathVariable("idPersonaFisica") Long id, ReqPutPersonaFisicaVo personaFisicaVo) {
 
 		return new ResponseEntity<>(service.actualizarPersonaFisica(id, personaFisicaVo), HttpStatus.OK);
 	}

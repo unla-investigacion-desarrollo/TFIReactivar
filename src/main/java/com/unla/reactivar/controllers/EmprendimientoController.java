@@ -20,6 +20,7 @@ import com.unla.reactivar.models.Emprendimiento;
 import com.unla.reactivar.services.EmprendimientoService;
 import com.unla.reactivar.vo.EmprendimientoVo;
 import com.unla.reactivar.vo.Empty;
+import com.unla.reactivar.vo.ReqPutEmprendimientoVo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -76,7 +77,7 @@ public class EmprendimientoController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimiento successfully updated"),
 			@ApiResponse(code = 404, message = "Emprendimiento not found") })
 	public ResponseEntity<Emprendimiento> updateEmprendimiento(@PathVariable("idEmprendimiento") Long id,
-			EmprendimientoVo emprendimientoVo) {
+			ReqPutEmprendimientoVo emprendimientoVo) {
 
 		return new ResponseEntity<>(service.actualizarEmprendimiento(id, emprendimientoVo), HttpStatus.OK);
 	}
@@ -85,8 +86,9 @@ public class EmprendimientoController {
 	@ApiOperation(value = "Exportar PDF", notes = "PDF exporter service")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "PDF successfully exported"),
 			@ApiResponse(code = 404, message = "Emprendimiento not found") })
-	public void exportToPDF(HttpServletResponse response, @PathVariable("idEmprendimiento") Long id){
+	public ResponseEntity<Empty> exportToPDF(HttpServletResponse response, @PathVariable("idEmprendimiento") Long id){
 		service.exportPDF(response, id);
+		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
 
 }
