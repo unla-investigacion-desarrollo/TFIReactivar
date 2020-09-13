@@ -14,8 +14,9 @@ public class ArticuloVo {
 	private String peso;
 	private long idCategoria;
 	private long idMarca;
-	private long idUnidadMedida;	
+	private long idUnidadMedida;
 	private boolean activoComercial;
 	private boolean visible;
-	
+	private long idEmprendimiento;
+	private long idPromocion;
 }

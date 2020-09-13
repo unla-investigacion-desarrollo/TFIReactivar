@@ -8,8 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.unla.reactivar.exceptions.ObjectAlreadyExists;
 import com.unla.reactivar.exceptions.ObjectNotFound;
-import com.unla.reactivar.models.ReqArticulo;
 import com.unla.reactivar.models.ItemCarrito;
+import com.unla.reactivar.models.ReqArticulo;
 import com.unla.reactivar.repositories.ItemCarritoRepository;
 import com.unla.reactivar.vo.ItemCarritoVo;
 
@@ -73,6 +73,8 @@ public class ItemCarritoService {
 			throw new ObjectAlreadyExists();
 		}
 
+		item = repository.save(item);
+
 		return item;
 	}
 
@@ -85,5 +87,7 @@ public class ItemCarritoService {
 
 		item.setArticuloPrecio(articulo);
 		item.setCantidad(itemCarritoVo.getCantidad());
+
 	}
+
 }

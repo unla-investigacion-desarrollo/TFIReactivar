@@ -3,6 +3,7 @@ package com.unla.reactivar.models;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -37,7 +38,7 @@ public class Carrito {
 	@JsonManagedReference
 	private Persona persona;
 	
-	@OneToMany(mappedBy="carrito")
+	@OneToMany(mappedBy="carrito", cascade=CascadeType.ALL)
 	@JsonBackReference
 	private List<ItemCarrito> listaItemCarrito;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
