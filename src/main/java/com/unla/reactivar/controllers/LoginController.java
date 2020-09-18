@@ -28,42 +28,42 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/api/login")
 @Api(tags = "Login")
 public class LoginController {
-	
+
 	@Autowired
 	private LoginService service;
-	
+
 	@GetMapping
-	@ApiOperation(value = "Listar todos los logins", notes = "Service para listar todos los logins")
+	@ApiOperation(value = "Listar todos los Logins", notes = "Servicio para listar todos los Logins")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Logins encontrados"),
 			@ApiResponse(code = 404, message = "Logins no encontrados") })
 	public List<Login> traerTodos() {
 		return service.traerTodos();
 	}
-	
+
 	@PostMapping
-	@ApiOperation(value = "Mostrar un login", notes = "Service para mostrar un login")
+	@ApiOperation(value = "Generar un Login", notes = "Servicio para generar un Login")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Login encontrado"),
 			@ApiResponse(code = 404, message = "Login no encontrado") })
 	public Login realizarLogin(@RequestBody LoginVo loginVo) {
 		return service.realizarLogin(loginVo);
 	}
-	
+
 	@DeleteMapping("/{email}")
-	@ApiOperation(value = "Eliminar login", notes = "Servicio elimina Login")
+	@ApiOperation(value = "Eliminar un login por Email", notes = "Servicio elimina Login a partir de un Email")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Login eliminado con exito"),
 			@ApiResponse(code = 404, message = "Login no encontrado") })
-	public ResponseEntity<Empty> eliminarLogin(@PathVariable ("email") String email) {
-		
+	public ResponseEntity<Empty> eliminarLogin(@PathVariable("email") String email) {
+
 		service.borrarLogin(email);
-		
+
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/{email}")
-	@ApiOperation(value = "Update Login", notes = "Login updater service")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Login successfully updated"),
-			@ApiResponse(code = 404, message = "Login not found") })
-	public ResponseEntity<Login> updateLogin(@PathVariable ("email") String email, LoginVo loginVo) {
+	@ApiOperation(value = "Modificar un Login por Email", notes = "Servicio para modificar un Login a partir de un Email")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Login modificado correctamente"),
+			@ApiResponse(code = 404, message = "Login no encontrado") })
+	public ResponseEntity<Login> updateLogin(@PathVariable("email") String email, LoginVo loginVo) {
 
 		return new ResponseEntity<>(service.actualizarLogin(email, loginVo), HttpStatus.OK);
 	}

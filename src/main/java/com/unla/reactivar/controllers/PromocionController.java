@@ -29,25 +29,25 @@ public class PromocionController {
 	private PromocionService service;
 	
 	@GetMapping
-	@ApiOperation(value = "Listar todos los promocions", notes = "Service para listar todos los promocions")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Promocions encontrados"),
-			@ApiResponse(code = 404, message = "Promocions no encontrados") })
+	@ApiOperation(value = "Listar todas las Promociones", notes = "Servicio para listar todas las Promociones")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Promociones encontradas"),
+			@ApiResponse(code = 404, message = "Promociones no encontradas") })
 	public List<Promocion> traerTodos() {
 		return service.traerTodos();
 	}
 	
 	@GetMapping("/{idPromocion}")
-	@ApiOperation(value = "Mostrar un promocion", notes = "Service para mostrar un promocion")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Promocion encontrado"),
-			@ApiResponse(code = 404, message = "Promocion no encontrado") })
+	@ApiOperation(value = "Mostrar una Promoción por ID", notes = "Servicio para mostrar una Promoción a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Promoción encontrada"),
+			@ApiResponse(code = 404, message = "Promoción no encontrada") })
 	public Promocion traerPromocion(@PathVariable ("idPromocion") long id) {
 		return service.traerPromocionPorId(id);
 	}
 	
 	@DeleteMapping("/{idPromocion}")
-	@ApiOperation(value = "Eliminar promocion", notes = "Servicio elimina Promocion")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Promocion eliminado con exito"),
-			@ApiResponse(code = 404, message = "Promocion no encontrado") })
+	@ApiOperation(value = "Eliminar una Promoción por ID", notes = "Servicio para eliminar una Promoción a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Promoción eliminada con exito"),
+			@ApiResponse(code = 404, message = "Promoción no encontrada") })
 	public ResponseEntity<Empty> eliminarPromocion(@PathVariable("idPromocion") long id ) {
 		
 		service.borrarPromocion(id);

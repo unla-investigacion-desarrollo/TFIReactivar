@@ -33,25 +33,25 @@ public class UbicacionController {
 	private UbicacionService service;
 	
 	@GetMapping
-	@ApiOperation(value = "Listar todos los ubicacions", notes = "Service para listar todos los ubicacions")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Ubicacions encontrados"),
-			@ApiResponse(code = 404, message = "Ubicacions no encontrados") })
+	@ApiOperation(value = "Listar todas las Ubicaciones", notes = "Servicio para listar todas las Ubicaciones")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Ubicaciones encontradas"),
+			@ApiResponse(code = 404, message = "Ubicaciones no encontradas") })
 	public List<Ubicacion> traerTodos() {
 		return service.traerTodos();
 	}
 	
 	@GetMapping("/{idUbicacion}")
-	@ApiOperation(value = "Mostrar un ubicacion", notes = "Service para mostrar un ubicacion")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Ubicacion encontrado"),
-			@ApiResponse(code = 404, message = "Ubicacion no encontrado") })
+	@ApiOperation(value = "Mostrar una Ubicación por ID", notes = "Servicio para mostrar una Ubicación")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Ubicación encontrada"),
+			@ApiResponse(code = 404, message = "Ubicación no encontrada") })
 	public Ubicacion traerUbicacion(@PathVariable ("idUbicacion") long id) {
 		return service.traerUbicacionPorId(id);
 	}
 	
 	@PostMapping
-	@ApiOperation(value = "Crear Ubicacion", notes = "Servicio creador de ubicacions")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Ubicacion successfully created"),
-			@ApiResponse(code = 400, message = "Invalid request") })
+	@ApiOperation(value = "Crear una Ubicación", notes = "Servicio para crear una Ubicación")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Ubicación creada exitosamente"),
+			@ApiResponse(code = 400, message = "No se pudo crear Ubicación") })
 	public ResponseEntity<Ubicacion> crearUbicacion(@RequestBody UbicacionVo ubicacionVo){
 		Ubicacion ubicacion = service.crearUbicacion(ubicacionVo);
 		
@@ -59,9 +59,9 @@ public class UbicacionController {
 	}
 	
 	@DeleteMapping("/{idUbicacion}")
-	@ApiOperation(value = "Eliminar ubicacion", notes = "Servicio elimina Ubicacion")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Ubicacion eliminado con exito"),
-			@ApiResponse(code = 404, message = "Ubicacion no encontrado") })
+	@ApiOperation(value = "Eliminar una Ubicación por ID", notes = "Servicio para eliminar una Ubicación a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Ubicación eliminada con exito"),
+			@ApiResponse(code = 404, message = "Ubicación no encontrada") })
 	public ResponseEntity<Empty> eliminarUbicacion(@PathVariable("idUbicacion") long id ) {
 		
 		service.borrarUbicacion(id);
@@ -70,9 +70,9 @@ public class UbicacionController {
 	}
 	
 	@PutMapping("/{idUbicacion}")
-	@ApiOperation(value = "Update Ubicacion", notes = "Ubicacion updater service")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Ubicacion successfully updated"),
-			@ApiResponse(code = 404, message = "Ubicacion not found") })
+	@ApiOperation(value = "Modificar una Ubicación por ID", notes = "Servicio para modificar una Ubicación")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Ubicación modificada exitosamente"),
+			@ApiResponse(code = 404, message = "Ubicación no encontrada") })
 	public ResponseEntity<Ubicacion> updateUbicacion(@PathVariable("idUbicacion") Long id, UbicacionVo ubicacionVo) {
 
 		return new ResponseEntity<>(service.actualizarUbicacion(id, ubicacionVo), HttpStatus.OK);

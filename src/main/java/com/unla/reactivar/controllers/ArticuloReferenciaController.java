@@ -33,25 +33,25 @@ public class ArticuloReferenciaController {
 	private ArticuloReferenciaService service;
 	
 	@GetMapping
-	@ApiOperation(value = "Listar todos los articuloReferencias", notes = "Service para listar todos los articuloReferencias")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "ArticuloReferencias encontrados"),
-			@ApiResponse(code = 404, message = "ArticuloReferencias no encontrados") })
+	@ApiOperation(value = "Listar todos los Articulo Referencia", notes = "Servicio para listar todos los Articulo Referencia")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Articulos Referencia encontrados"),
+			@ApiResponse(code = 404, message = "Articulos Referencia no encontrados") })
 	public List<ArticuloReferencia> traerTodos() {
 		return service.traerTodos();
 	}
 	
 	@GetMapping("/{idArticuloReferencia}")
-	@ApiOperation(value = "Mostrar un articuloReferencia", notes = "Service para mostrar un articuloReferencia")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "ArticuloReferencia encontrado"),
-			@ApiResponse(code = 404, message = "ArticuloReferencia no encontrado") })
+	@ApiOperation(value = "Mostrar un Articulo Referencia por ID", notes = "Servicio para mostrar un Articulo Referencia a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Articulo Referencia encontrado"),
+			@ApiResponse(code = 404, message = "Articulo Referencia no encontrado") })
 	public ArticuloReferencia traerArticuloReferencia(@PathVariable ("idArticuloReferencia") long id) {
 		return service.traerArticuloReferenciaPorId(id);
 	}
 	
 	@PostMapping
-	@ApiOperation(value = "Crear ArticuloReferencia", notes = "Servicio creador de articuloReferencias")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "ArticuloReferencia successfully created"),
-			@ApiResponse(code = 400, message = "Invalid request") })
+	@ApiOperation(value = "Crear un Articulo Referencia", notes = "Servicio creador de Articulos Referencia")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Articulo Referencia creado existosamente"),
+			@ApiResponse(code = 400, message = "No se pudo crear Articulo Referencia") })
 	public ResponseEntity<ArticuloReferencia> crearArticuloReferencia(@RequestBody ReqArticuloReferenciaVo articuloReferenciaVo){
 		ArticuloReferencia articuloReferencia = service.crearArticuloReferencia(articuloReferenciaVo);
 		
@@ -59,9 +59,9 @@ public class ArticuloReferenciaController {
 	}
 	
 	@DeleteMapping("/{idArticuloReferencia}")
-	@ApiOperation(value = "Eliminar articuloReferencia", notes = "Servicio elimina ArticuloReferencia")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "ArticuloReferencia eliminado con exito"),
-			@ApiResponse(code = 404, message = "ArticuloReferencia no encontrado") })
+	@ApiOperation(value = "Eliminar un Articulo Referencia por ID", notes = "Servicio para eliminar un Articulo Referencia a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Articulo Referencia eliminado con exito"),
+			@ApiResponse(code = 404, message = "No se pudo eliminar Articulo Referencia") })
 	public ResponseEntity<Empty> eliminarArticuloReferencia(@PathVariable("idArticuloReferencia") long id ) {
 		
 		service.borrarArticuloReferencia(id);
@@ -70,9 +70,9 @@ public class ArticuloReferenciaController {
 	}
 	
 	@PutMapping("/{idArticuloReferencia}")
-	@ApiOperation(value = "Update ArticuloReferencia", notes = "ArticuloReferencia updater service")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "ArticuloReferencia successfully updated"),
-			@ApiResponse(code = 404, message = "ArticuloReferencia not found") })
+	@ApiOperation(value = "Modificar Articulo Referencia por ID", notes = "Servicio para modificar Articulo Referencia a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Articulo Referencia modificado exitosamente"),
+			@ApiResponse(code = 404, message = "Articulo Referencia no encontrado") })
 	public ResponseEntity<ArticuloReferencia> updateArticuloReferencia(@PathVariable("idArticuloReferencia") Long id, ReqArticuloReferenciaVo articuloReferenciaVo) {
 
 		return new ResponseEntity<>(service.actualizarArticuloReferencia(id, articuloReferenciaVo), HttpStatus.OK);

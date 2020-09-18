@@ -33,25 +33,25 @@ public class PersonaJuridicaController {
 	private PersonaJuridicaService service;
 	
 	@GetMapping
-	@ApiOperation(value = "Listar todos los personaJuridicas", notes = "Service para listar todos los personaJuridicas")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "PersonaJuridicas encontrados"),
-			@ApiResponse(code = 404, message = "PersonaJuridicas no encontrados") })
+	@ApiOperation(value = "Listar todas las Personas Juridicas", notes = "Servicio para listar todas las Personas Juridicas")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Personas Juridicas encontradas"),
+			@ApiResponse(code = 404, message = "Personas Juridicas no encontradas") })
 	public List<PersonaJuridica> traerTodos() {
 		return service.traerTodos();
 	}
 	
 	@GetMapping("/{idPersonaJuridica}")
-	@ApiOperation(value = "Mostrar un personaJuridica", notes = "Service para mostrar un personaJuridica")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "PersonaJuridica encontrado"),
-			@ApiResponse(code = 404, message = "PersonaJuridica no encontrado") })
+	@ApiOperation(value = "Mostrar una Persona Juridica por ID", notes = "Servicio para mostrar una Persona Juridica a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Persona Juridica encontrada"),
+			@ApiResponse(code = 404, message = "Persona Juridica no encontrada") })
 	public PersonaJuridica traerPersonaJuridica(@PathVariable ("idPersonaJuridica") long id) {
 		return service.traerPersonaPorId(id);
 	}
 	
 	@PostMapping
-	@ApiOperation(value = "Crear PersonaJuridica", notes = "Servicio creador de personaJuridicas")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "PersonaJuridica successfully created"),
-			@ApiResponse(code = 400, message = "Invalid request") })
+	@ApiOperation(value = "Crear una Persona Juridica", notes = "Servicio para crear Persona Juridica")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Persona Juridica creada exitosamente"),
+			@ApiResponse(code = 400, message = "No se pudo crear Persona Juridica") })
 	public ResponseEntity<PersonaJuridica> crearPersonaJuridica(@RequestBody PersonaJuridicaVo personaJuridicaVo){
 		PersonaJuridica personaJuridica = service.crearPersona(personaJuridicaVo);
 		
@@ -59,9 +59,9 @@ public class PersonaJuridicaController {
 	}
 	
 	@DeleteMapping("/{idPersonaJuridica}")
-	@ApiOperation(value = "Eliminar personaJuridica", notes = "Servicio elimina PersonaJuridica")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "PersonaJuridica eliminado con exito"),
-			@ApiResponse(code = 404, message = "PersonaJuridica no encontrado") })
+	@ApiOperation(value = "Eliminar uan Persona Juridica por ID", notes = "Servicio para eliminar una Persona Juridica a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Persona Juridica eliminada con exito"),
+			@ApiResponse(code = 404, message = "Persona Juridica no encontrada") })
 	public ResponseEntity<Empty> eliminarPersonaJuridica(@PathVariable("idPersonaJuridica") long id ) {
 		
 		service.borrarPersona(id);
@@ -70,9 +70,9 @@ public class PersonaJuridicaController {
 	}
 	
 	@PutMapping("/{idPersonaJuridica}")
-	@ApiOperation(value = "Update PersonaJuridica", notes = "PersonaJuridica updater service")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "PersonaJuridica successfully updated"),
-			@ApiResponse(code = 404, message = "PersonaJuridica not found") })
+	@ApiOperation(value = "Modificar una Persona Juridica por ID", notes = "Servicio para modificar una Persona Juridica a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Persona Juridica modificada exitosamente"),
+			@ApiResponse(code = 404, message = "Persona Juridica no encontrada") })
 	public ResponseEntity<PersonaJuridica> updatePersonaJuridica(@PathVariable("idPersonaJuridica") Long id, PersonaJuridicaVo personaJuridicaVo) {
 
 		return new ResponseEntity<>(service.actualizarPersonaJuridica(id, personaJuridicaVo), HttpStatus.OK);

@@ -28,52 +28,54 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/api/configuracionLocal")
 @Api(tags = "ConfiguracionLocal")
 public class ConfiguracionLocalController {
-	
+
 	@Autowired
 	private ConfiguracionLocalService service;
-	
+
 	@GetMapping
-	@ApiOperation(value = "Listar todos los configuracionLocals", notes = "Service para listar todos los configuracionLocals")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "ConfiguracionLocals encontrados"),
-			@ApiResponse(code = 404, message = "ConfiguracionLocals no encontrados") })
+	@ApiOperation(value = "Listar todos las Configuraciones de Locales", notes = "Service para listar todas las Configuraciones de Locales")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Configuraciones de Locales encontradas"),
+			@ApiResponse(code = 404, message = "Configuraciones de Locales no encontradas") })
 	public List<ConfiguracionLocal> traerTodos() {
 		return service.traerTodos();
 	}
-	
+
 	@GetMapping("/{idConfiguracionLocal}")
-	@ApiOperation(value = "Mostrar un configuracionLocal", notes = "Service para mostrar un configuracionLocal")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "ConfiguracionLocal encontrado"),
-			@ApiResponse(code = 404, message = "ConfiguracionLocal no encontrado") })
-	public ConfiguracionLocal traerConfiguracionLocal(@PathVariable ("idConfiguracionLocal") long id) {
+	@ApiOperation(value = "Mostrar una Configuración de Local por ID", notes = "Servicio para mostrar una Configuración Local a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Configuracion Local encontrada"),
+			@ApiResponse(code = 404, message = "Configuracion Local no encontrada") })
+	public ConfiguracionLocal traerConfiguracionLocal(@PathVariable("idConfiguracionLocal") long id) {
 		return service.traerConfiguracionLocalPorId(id);
 	}
-	
+
 	@PostMapping
-	@ApiOperation(value = "Crear ConfiguracionLocal", notes = "Servicio creador de configuracionLocales")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "ConfiguracionLocal successfully created"),
-			@ApiResponse(code = 400, message = "Invalid request") })
-	public ResponseEntity<ConfiguracionLocal> crearConfiguracionLocal(@RequestBody ConfiguracionLocalVo configuracionLocalVo){
+	@ApiOperation(value = "Crear Configuracion Local", notes = "Servicio para crear una Configuracion Local")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Configuracion Local creado exitosamente"),
+			@ApiResponse(code = 400, message = "No se pudo crear una Configuracion Local") })
+	public ResponseEntity<ConfiguracionLocal> crearConfiguracionLocal(
+			@RequestBody ConfiguracionLocalVo configuracionLocalVo) {
 		ConfiguracionLocal configuracionLocal = service.crearConfiguracion(configuracionLocalVo);
-		
+
 		return new ResponseEntity<>(configuracionLocal, HttpStatus.CREATED);
 	}
-	
+
 	@DeleteMapping("/{idConfiguracionLocal}")
-	@ApiOperation(value = "Eliminar configuracionLocal", notes = "Servicio elimina ConfiguracionLocal")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "ConfiguracionLocal eliminado con exito"),
-			@ApiResponse(code = 404, message = "ConfiguracionLocal no encontrado") })
-	public ResponseEntity<Empty> eliminarConfiguracionLocal(@PathVariable("idConfiguracionLocal") long id ) {
-		
+	@ApiOperation(value = "Eliminar Configuracion Local por ID", notes = "Servicio para eliminar una Configuracion Local a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Configuracion Local eliminado con exito"),
+			@ApiResponse(code = 404, message = "Configuracion Local no encontrada") })
+	public ResponseEntity<Empty> eliminarConfiguracionLocal(@PathVariable("idConfiguracionLocal") long id) {
+
 		service.borrarConfiguracionLocal(id);
-		
+
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/{idConfiguracionLocal}")
-	@ApiOperation(value = "Update ConfiguracionLocal", notes = "ConfiguracionLocal updater service")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "ConfiguracionLocal successfully updated"),
-			@ApiResponse(code = 404, message = "ConfiguracionLocal not found") })
-	public ResponseEntity<ConfiguracionLocal> updateConfiguracionLocal(@PathVariable("idConfiguracionLocal") Long id, ConfiguracionLocalVo configuracionLocalVo) {
+	@ApiOperation(value = "Modificar Configuracion Local por ID", notes = "Servicio para modificar una Configuracion Local a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Configuracion Local modificada con exito"),
+			@ApiResponse(code = 404, message = "Configuracion Local no encontrada") })
+	public ResponseEntity<ConfiguracionLocal> updateConfiguracionLocal(@PathVariable("idConfiguracionLocal") Long id,
+			ConfiguracionLocalVo configuracionLocalVo) {
 
 		return new ResponseEntity<>(service.actualizarConfiguracionLocal(id, configuracionLocalVo), HttpStatus.OK);
 	}

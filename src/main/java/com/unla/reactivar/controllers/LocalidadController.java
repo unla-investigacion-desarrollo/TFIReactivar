@@ -28,51 +28,51 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/api/localidad")
 @Api(tags = "Localidad")
 public class LocalidadController {
-	
+
 	@Autowired
 	private LocalidadService service;
-	
+
 	@GetMapping
-	@ApiOperation(value = "Listar todos los localidads", notes = "Service para listar todos los localidads")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Localidads encontrados"),
-			@ApiResponse(code = 404, message = "Localidads no encontrados") })
+	@ApiOperation(value = "Listar todas las Localidades", notes = "Servicio para listar todas las Localidades")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Localidades no encontradas"),
+			@ApiResponse(code = 404, message = "Localidades no encontradas") })
 	public List<Localidad> traerTodos() {
 		return service.traerTodos();
 	}
-	
+
 	@GetMapping("/{idLocalidad}")
-	@ApiOperation(value = "Mostrar un localidad", notes = "Service para mostrar un localidad")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Localidad encontrado"),
-			@ApiResponse(code = 404, message = "Localidad no encontrado") })
-	public Localidad traerLocalidad(@PathVariable ("idLocalidad") long id) {
+	@ApiOperation(value = "Mostrar una Localidad por ID", notes = "Servicio para mostrar una Localidad a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Localidad encontrada"),
+			@ApiResponse(code = 404, message = "Localidad no encontrada") })
+	public Localidad traerLocalidad(@PathVariable("idLocalidad") long id) {
 		return service.traerLocalidadPorId(id);
 	}
-	
+
 	@PostMapping
-	@ApiOperation(value = "Crear Localidad", notes = "Servicio creador de localidads")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Localidad successfully created"),
-			@ApiResponse(code = 400, message = "Invalid request") })
-	public ResponseEntity<Localidad> crearLocalidad(@RequestBody LocalidadVo localidadVo){
+	@ApiOperation(value = "Crear una Localidad", notes = "Servicio para crear una Localidad")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Localidad creada exitosamente"),
+			@ApiResponse(code = 400, message = "No se pudo crear una Localidad") })
+	public ResponseEntity<Localidad> crearLocalidad(@RequestBody LocalidadVo localidadVo) {
 		Localidad localidad = service.crearLocalidad(localidadVo);
-		
+
 		return new ResponseEntity<>(localidad, HttpStatus.CREATED);
 	}
-	
+
 	@DeleteMapping("/{idLocalidad}")
-	@ApiOperation(value = "Eliminar localidad", notes = "Servicio elimina Localidad")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Localidad eliminado con exito"),
-			@ApiResponse(code = 404, message = "Localidad no encontrado") })
-	public ResponseEntity<Empty> eliminarLocalidad(@PathVariable("idLocalidad") long id ) {
-		
+	@ApiOperation(value = "Eliminar una Localidad a partir de un ID", notes = "Servicio para eliminar una Localidad a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Localidad eliminada con exito"),
+			@ApiResponse(code = 404, message = "Localidad no encontrada") })
+	public ResponseEntity<Empty> eliminarLocalidad(@PathVariable("idLocalidad") long id) {
+
 		service.borrarLocalidad(id);
-		
+
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/{idLocalidad}")
-	@ApiOperation(value = "Update Localidad", notes = "Localidad updater service")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Localidad successfully updated"),
-			@ApiResponse(code = 404, message = "Localidad not found") })
+	@ApiOperation(value = "Modificar una Localidad por ID", notes = "Servicio para modificar una Localidad a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Localidad modificada correctamente"),
+			@ApiResponse(code = 404, message = "Localidad no encontrada") })
 	public ResponseEntity<Localidad> updateLocalidad(@PathVariable("idLocalidad") Long id, LocalidadVo localidadVo) {
 
 		return new ResponseEntity<>(service.actualizarLocalidad(id, localidadVo), HttpStatus.OK);

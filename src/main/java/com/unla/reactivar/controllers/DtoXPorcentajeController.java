@@ -28,52 +28,53 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/api/dtoXPorcentaje")
 @Api(tags = "DtoXPorcentaje")
 public class DtoXPorcentajeController {
-	
+
 	@Autowired
 	private DtoXPorcentajeService service;
-	
+
 	@GetMapping
-	@ApiOperation(value = "Listar todos los dtoXPorcentajes", notes = "Service para listar todos los dtoXPorcentajes")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "DtoXPorcentajes encontrados"),
-			@ApiResponse(code = 404, message = "DtoXPorcentajes no encontrados") })
+	@ApiOperation(value = "Listar todos los Descuentos por Porcentajes", notes = "Servicio para listar todos los Descuento por Porcentajes")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Descuento por Porcentajes encontrados"),
+			@ApiResponse(code = 404, message = "Descuento por Porcentajes no encontrados") })
 	public List<DtoXPorcentaje> traerTodos() {
 		return service.traerTodos();
 	}
-	
+
 	@GetMapping("/{idDtoXPorcentaje}")
-	@ApiOperation(value = "Mostrar un dtoXPorcentaje", notes = "Service para mostrar un dtoXPorcentaje")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "DtoXPorcentaje encontrado"),
-			@ApiResponse(code = 404, message = "DtoXPorcentaje no encontrado") })
-	public DtoXPorcentaje traerDtoXPorcentaje(@PathVariable ("idDtoXPorcentaje") long id) {
+	@ApiOperation(value = "Mostrar un Descuento por Porcentaje por ID", notes = "Servicio para mostrar un Descuento por Porcentaje a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Descuento por Porcentaje encontrado"),
+			@ApiResponse(code = 404, message = "Descuento por Porcentaje no encontrado") })
+	public DtoXPorcentaje traerDtoXPorcentaje(@PathVariable("idDtoXPorcentaje") long id) {
 		return service.traerDtoXPorcentajePorId(id);
 	}
-	
+
 	@PostMapping
-	@ApiOperation(value = "Crear DtoXPorcentaje", notes = "Servicio creador de dtoXPorcentajes")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "DtoXPorcentaje successfully created"),
-			@ApiResponse(code = 400, message = "Invalid request") })
-	public ResponseEntity<DtoXPorcentaje> crearDtoXPorcentaje(@RequestBody DtoXPorcentajeVo dtoXPorcentajeVo){
+	@ApiOperation(value = "Crear un Descuento por Porcentaje", notes = "Servicio para crear un Descuento por Porcentaje")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Descuento por Porcentaje creado exitosamente"),
+			@ApiResponse(code = 400, message = "No se pudo crear Descuento por Porcentaje") })
+	public ResponseEntity<DtoXPorcentaje> crearDtoXPorcentaje(@RequestBody DtoXPorcentajeVo dtoXPorcentajeVo) {
 		DtoXPorcentaje dtoXPorcentaje = service.crearDtoXPorcentaje(dtoXPorcentajeVo);
-		
+
 		return new ResponseEntity<>(dtoXPorcentaje, HttpStatus.CREATED);
 	}
-	
+
 	@DeleteMapping("/{idDtoXPorcentaje}")
-	@ApiOperation(value = "Eliminar dtoXPorcentaje", notes = "Servicio elimina DtoXPorcentaje")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "DtoXPorcentaje eliminado con exito"),
-			@ApiResponse(code = 404, message = "DtoXPorcentaje no encontrado") })
-	public ResponseEntity<Empty> eliminarDtoXPorcentaje(@PathVariable("idDtoXPorcentaje") long id ) {
-		
+	@ApiOperation(value = "Eliminar un Descuento por Porcentaje por ID", notes = "Servicio para eliminar un Descuento por Porcentaje a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Descuento por Porcentaje eliminado con exito"),
+			@ApiResponse(code = 404, message = "Descuento por Porcentaje no encontrado") })
+	public ResponseEntity<Empty> eliminarDtoXPorcentaje(@PathVariable("idDtoXPorcentaje") long id) {
+
 		service.borrarDtoXPorcentaje(id);
-		
+
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/{idDtoXPorcentaje}")
-	@ApiOperation(value = "Update DtoXPorcentaje", notes = "DtoXPorcentaje updater service")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "DtoXPorcentaje successfully updated"),
-			@ApiResponse(code = 404, message = "DtoXPorcentaje not found") })
-	public ResponseEntity<DtoXPorcentaje> updateDtoXPorcentaje(@PathVariable("idDtoXPorcentaje") Long id, DtoXPorcentajeVo dtoXPorcentajeVo) {
+	@ApiOperation(value = "Modificar un Descuento por Porcentaje por ID", notes = "Servicio para modificar un Descuento por Porcentaje a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Descuento por Porcentaje modificado con exito"),
+			@ApiResponse(code = 404, message = "Descuento por Porcentaje no encontrado") })
+	public ResponseEntity<DtoXPorcentaje> updateDtoXPorcentaje(@PathVariable("idDtoXPorcentaje") Long id,
+			DtoXPorcentajeVo dtoXPorcentajeVo) {
 
 		return new ResponseEntity<>(service.actualizarDtoXPorcentaje(id, dtoXPorcentajeVo), HttpStatus.OK);
 	}

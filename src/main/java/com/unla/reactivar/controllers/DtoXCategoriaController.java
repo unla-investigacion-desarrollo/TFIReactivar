@@ -33,25 +33,25 @@ public class DtoXCategoriaController {
 	private DtoXCategoriaService service;
 	
 	@GetMapping
-	@ApiOperation(value = "Listar todos los dtoXCategorias", notes = "Service para listar todos los dtoXCategorias")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "DtoXCategorias encontrados"),
-			@ApiResponse(code = 404, message = "DtoXCategorias no encontrados") })
+	@ApiOperation(value = "Listar todos los Descuentos por Categoria", notes = "servicio para listar todos los Descuentos por Categoria")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Descuentos por Categoria encontrados"),
+			@ApiResponse(code = 404, message = "Descuentos por Categoria no encontrados") })
 	public List<DtoXCategoria> traerTodos() {
 		return service.traerTodos();
 	}
 	
 	@GetMapping("/{idDtoXCategoria}")
-	@ApiOperation(value = "Mostrar un dtoXCategoria", notes = "Service para mostrar un dtoXCategoria")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "DtoXCategoria encontrado"),
-			@ApiResponse(code = 404, message = "DtoXCategoria no encontrado") })
+	@ApiOperation(value = "Mostrar un Descuento por Categoria por ID", notes = "Servicio para mostrar un Descuento por Categoria a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Descuento por Categoria encontrado"),
+			@ApiResponse(code = 404, message = "Descuento por Categoria no encontrado") })
 	public DtoXCategoria traerDtoXCategoria(@PathVariable ("idDtoXCategoria") long id) {
 		return service.traerDtoXCategoriaPorId(id);
 	}
 	
 	@PostMapping
-	@ApiOperation(value = "Crear DtoXCategoria", notes = "Servicio creador de dtoXCategorias")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "DtoXCategoria successfully created"),
-			@ApiResponse(code = 400, message = "Invalid request") })
+	@ApiOperation(value = "Crear un Descuento por Categoria", notes = "Servicio para crear un Descuento por Categoria")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Descuento por Categoria creado exitosamente"),
+			@ApiResponse(code = 400, message = "No se pudo crear Descuento por Categoria") })
 	public ResponseEntity<DtoXCategoria> crearDtoXCategoria(@RequestBody DtoXCategoriaVo dtoXCategoriaVo){
 		DtoXCategoria dtoXCategoria = service.crearDtoXCategoria(dtoXCategoriaVo);
 		
@@ -59,9 +59,9 @@ public class DtoXCategoriaController {
 	}
 	
 	@DeleteMapping("/{idDtoXCategoria}")
-	@ApiOperation(value = "Eliminar dtoXCategoria", notes = "Servicio elimina DtoXCategoria")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "DtoXCategoria eliminado con exito"),
-			@ApiResponse(code = 404, message = "DtoXCategoria no encontrado") })
+	@ApiOperation(value = "Eliminar Descuento por Categoria por ID", notes = "Servicio para eliminar un Descuento por Categoria a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Descuento por Categoria eliminado con exito"),
+			@ApiResponse(code = 404, message = "Descuento por Categoria no encontrado") })
 	public ResponseEntity<Empty> eliminarDtoXCategoria(@PathVariable("idDtoXCategoria") long id ) {
 		
 		service.borrarDtoXCategoria(id);
@@ -70,9 +70,9 @@ public class DtoXCategoriaController {
 	}
 	
 	@PutMapping("/{idDtoXCategoria}")
-	@ApiOperation(value = "Update DtoXCategoria", notes = "DtoXCategoria updater service")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "DtoXCategoria successfully updated"),
-			@ApiResponse(code = 404, message = "DtoXCategoria not found") })
+	@ApiOperation(value = "Modificar Descuento por Categoria por ID", notes = "Servicio para modificar Descuento por Categoria a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Descuento por Categoria modificado correctamente"),
+			@ApiResponse(code = 404, message = "Descuento por Categoria no encontrado") })
 	public ResponseEntity<DtoXCategoria> updateDtoXCategoria(@PathVariable("idDtoXCategoria") Long id, DtoXCategoriaVo dtoXCategoriaVo) {
 
 		return new ResponseEntity<>(service.actualizarDtoXCategoria(id, dtoXCategoriaVo), HttpStatus.OK);

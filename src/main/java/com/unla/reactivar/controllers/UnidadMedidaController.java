@@ -33,25 +33,25 @@ public class UnidadMedidaController {
 	private UnidadMedidaService service;
 	
 	@GetMapping
-	@ApiOperation(value = "Listar todos los unidadMedidas", notes = "Service para listar todos los unidadMedidas")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "UnidadMedidas encontrados"),
-			@ApiResponse(code = 404, message = "UnidadMedidas no encontrados") })
+	@ApiOperation(value = "Listar todas las Unidades de Medida", notes = "Servicio para listar todas las Unidades de Medida")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Unidades de Medida encontradas"),
+			@ApiResponse(code = 404, message = "Unidades de Medida no encontradas") })
 	public List<UnidadMedida> traerTodos() {
 		return service.traerTodos();
 	}
 	
 	@GetMapping("/{idUnidadMedida}")
-	@ApiOperation(value = "Mostrar un unidadMedida", notes = "Service para mostrar un unidadMedida")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "UnidadMedida encontrado"),
-			@ApiResponse(code = 404, message = "UnidadMedida no encontrado") })
+	@ApiOperation(value = "Mostrar una Unidad de Medida por ID", notes = "Servicio para mostrar una Unidad de Medida a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Unidad de Medida encontrada"),
+			@ApiResponse(code = 404, message = "Unidad de Medida no encontrada") })
 	public UnidadMedida traerUnidadMedida(@PathVariable ("idUnidadMedida") long id) {
 		return service.traerUnidadMedidaPorId(id);
 	}
 	
 	@PostMapping
-	@ApiOperation(value = "Crear UnidadMedida", notes = "Servicio creador de unidadMedidas")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "UnidadMedida successfully created"),
-			@ApiResponse(code = 400, message = "Invalid request") })
+	@ApiOperation(value = "Crear una Unidad de Medida", notes = "Servicio para crear una Unidad de Medida")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Unidad de Medida creada exitosamente"),
+			@ApiResponse(code = 400, message = "No se pudo crear Unidad de Medida") })
 	public ResponseEntity<UnidadMedida> crearUnidadMedida(@RequestBody UnidadMedidaVo unidadMedidaVo){
 		UnidadMedida unidadMedida = service.crearUnidadMedida(unidadMedidaVo);
 		
@@ -59,9 +59,9 @@ public class UnidadMedidaController {
 	}
 	
 	@DeleteMapping("/{idUnidadMedida}")
-	@ApiOperation(value = "Eliminar unidadMedida", notes = "Servicio elimina UnidadMedida")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "UnidadMedida eliminado con exito"),
-			@ApiResponse(code = 404, message = "UnidadMedida no encontrado") })
+	@ApiOperation(value = "Eliminar una Unidad de Medida por ID", notes = "Servicio para eliminar una Unidad de Medida a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Unidad de Medida eliminada con exito"),
+			@ApiResponse(code = 404, message = "Unidad de Medida no encontrada") })
 	public ResponseEntity<Empty> eliminarUnidadMedida(@PathVariable("idUnidadMedida") long id ) {
 		
 		service.borrarUnidadMedida(id);
@@ -70,9 +70,9 @@ public class UnidadMedidaController {
 	}
 	
 	@PutMapping("/{idUnidadMedida}")
-	@ApiOperation(value = "Update UnidadMedida", notes = "UnidadMedida updater service")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "UnidadMedida successfully updated"),
-			@ApiResponse(code = 404, message = "UnidadMedida not found") })
+	@ApiOperation(value = "Modificar una Unidad de Medida por ID", notes = "Servicio para modificar una Unidad de Medida a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Unidad de Medida modificada exitosamente"),
+			@ApiResponse(code = 404, message = "Unidad de Medida no encontrada") })
 	public ResponseEntity<UnidadMedida> updateUnidadMedida(@PathVariable("idUnidadMedida") Long id, UnidadMedidaVo unidadMedidaVo) {
 
 		return new ResponseEntity<>(service.actualizarUnidadMedida(id, unidadMedidaVo), HttpStatus.OK);

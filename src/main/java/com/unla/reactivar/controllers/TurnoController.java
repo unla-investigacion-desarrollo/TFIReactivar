@@ -33,7 +33,7 @@ public class TurnoController {
 	private TurnoService service;
 	
 	@GetMapping
-	@ApiOperation(value = "Listar todos los turnos", notes = "Service para listar todos los turnos")
+	@ApiOperation(value = "Listar todos los Turnos", notes = "Servicio para listar todos los Turnos")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Turnos encontrados"),
 			@ApiResponse(code = 404, message = "Turnos no encontrados") })
 	public List<Turno> traerTodos() {
@@ -41,7 +41,7 @@ public class TurnoController {
 	}
 	
 	@GetMapping("/{idTurno}")
-	@ApiOperation(value = "Mostrar un turno", notes = "Service para mostrar un turno")
+	@ApiOperation(value = "Mostrar un Turno por ID", notes = "Servicio para mostrar un Turno a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Turno encontrado"),
 			@ApiResponse(code = 404, message = "Turno no encontrado") })
 	public Turno traerTurno(@PathVariable ("idTurno") long id) {
@@ -49,9 +49,9 @@ public class TurnoController {
 	}
 	
 	@PostMapping
-	@ApiOperation(value = "Crear Turno", notes = "Servicio creador de turnos")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Turno successfully created"),
-			@ApiResponse(code = 400, message = "Invalid request") })
+	@ApiOperation(value = "Crear un Turno", notes = "Servicio para crear un Turno")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Turno creado exitosamente"),
+			@ApiResponse(code = 400, message = "No se pudo crear Turno") })
 	public ResponseEntity<Turno> crearTurno(@RequestBody TurnoVo turnoVo){
 		Turno turno = service.crearTurno(turnoVo);
 		
@@ -59,7 +59,7 @@ public class TurnoController {
 	}
 	
 	@DeleteMapping("/{idTurno}")
-	@ApiOperation(value = "Eliminar turno", notes = "Servicio elimina Turno")
+	@ApiOperation(value = "Eliminar un Turno por ID", notes = "Servicio para eliminar un Turno a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Turno eliminado con exito"),
 			@ApiResponse(code = 404, message = "Turno no encontrado") })
 	public ResponseEntity<Empty> eliminarTurno(@PathVariable("idTurno") long id ) {
@@ -70,9 +70,9 @@ public class TurnoController {
 	}
 	
 	@PutMapping("/{idTurno}")
-	@ApiOperation(value = "Update Turno", notes = "Turno updater service")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Turno successfully updated"),
-			@ApiResponse(code = 404, message = "Turno not found") })
+	@ApiOperation(value = "Modificar un Turno por ID", notes = "Servicio para modificar un Turno a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Turno modificado exitosamente"),
+			@ApiResponse(code = 404, message = "Turno no encontrado") })
 	public ResponseEntity<Turno> updateTurno(@PathVariable("idTurno") Long id, TurnoVo turnoVo) {
 
 		return new ResponseEntity<>(service.actualizarTurno(id, turnoVo), HttpStatus.OK);

@@ -28,44 +28,45 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/api/ocupacionLocal")
 @Api(tags = "OcupacionLocal")
 public class OcupacionLocalController {
-	
+
 	@Autowired
 	private OcupacionLocalService service;
-	
+
 	@GetMapping
-	@ApiOperation(value = "Listar todos los ocupacionLocals", notes = "Service para listar todos los ocupacionLocals")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "OcupacionLocals encontrados"),
-			@ApiResponse(code = 404, message = "OcupacionLocals no encontrados") })
+	@ApiOperation(value = "Listar todas las Ocupaciones Local", notes = "Servicio para listar todas las Ocupaciones Local")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Ocupaciones Local encontradas"),
+			@ApiResponse(code = 404, message = "Ocupaciones Local no encontradas") })
 	public List<OcupacionLocal> traerTodos() {
 		return service.traerTodos();
 	}
-	
+
 	@PostMapping
-	@ApiOperation(value = "Entrada/Salida OcupacionLocal", notes = "Servicio Entrada/Salida de ocupacionLocals")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "OcupacionLocal Entrada/Salida successfully created"),
-			@ApiResponse(code = 400, message = "Invalid request") })
-	public ResponseEntity<OcupacionLocal> crearOcupacionLocal(@RequestBody OcupacionLocalVo ocupacionLocalVo){
+	@ApiOperation(value = "Marcar Entrada/Salida Ocupación Local", notes = "Servicio para marcar la Entrada/Salida de Ocupación Local")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Ocupación Local de Entrada/Salida creada exitosamente"),
+			@ApiResponse(code = 400, message = "No se pudo crear Ocupación Local") })
+	public ResponseEntity<OcupacionLocal> crearOcupacionLocal(@RequestBody OcupacionLocalVo ocupacionLocalVo) {
 		OcupacionLocal ocupacionLocal = service.crearOcupacionLocal(ocupacionLocalVo);
-		
+
 		return new ResponseEntity<>(ocupacionLocal, HttpStatus.CREATED);
 	}
-	
+
 	@DeleteMapping("/{idOcupacionLocal}")
-	@ApiOperation(value = "Eliminar ocupacionLocal", notes = "Servicio elimina OcupacionLocal")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "OcupacionLocal eliminado con exito"),
-			@ApiResponse(code = 404, message = "OcupacionLocal no encontrado") })
-	public ResponseEntity<Empty> eliminarOcupacionLocal(@PathVariable("idOcupacionLocal") long id ) {
-		
+	@ApiOperation(value = "Eliminar una Ocupación Local por Id", notes = "Servicio para eliminar una Ocupación Local a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Ocupación Local eliminada con exito"),
+			@ApiResponse(code = 404, message = "Ocupación Local no encontrada") })
+	public ResponseEntity<Empty> eliminarOcupacionLocal(@PathVariable("idOcupacionLocal") long id) {
+
 		service.borrarOcupacionLocal(id);
-		
+
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/{idOcupacionLocal}")
-	@ApiOperation(value = "Update OcupacionLocal", notes = "OcupacionLocal updater service")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "OcupacionLocal successfully updated"),
-			@ApiResponse(code = 404, message = "OcupacionLocal not found") })
-	public ResponseEntity<OcupacionLocal> updateOcupacionLocal(@PathVariable("idOcupacionLocal") Long id, OcupacionLocalVo ocupacionLocalVo) {
+	@ApiOperation(value = "Modificar una Ocupación Local por ID", notes = "Servicio para modificar una Ocupación Local a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Ocupación Local modificada exitosamente"),
+			@ApiResponse(code = 404, message = "Ocupación Local no encontrada") })
+	public ResponseEntity<OcupacionLocal> updateOcupacionLocal(@PathVariable("idOcupacionLocal") Long id,
+			OcupacionLocalVo ocupacionLocalVo) {
 
 		return new ResponseEntity<>(service.actualizarOcupacionLocal(id, ocupacionLocalVo), HttpStatus.OK);
 	}

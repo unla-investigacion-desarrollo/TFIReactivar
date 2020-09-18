@@ -33,25 +33,25 @@ public class TipoEmprendimientoController {
 	private TipoEmprendimientoService service;
 	
 	@GetMapping
-	@ApiOperation(value = "Listar todos los tipoEmprendimientos", notes = "Service para listar todos los tipoEmprendimientos")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "TipoEmprendimientos encontrados"),
-			@ApiResponse(code = 404, message = "TipoEmprendimientos no encontrados") })
+	@ApiOperation(value = "Listar todos los Tipos de Emprendimiento", notes = "Servicio para listar todos los Tipos de Emprendimiento")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Tipos de Emprendimiento encontrados"),
+			@ApiResponse(code = 404, message = "Tipos de Emprendimiento no encontrados") })
 	public List<TipoEmprendimiento> traerTodos() {
 		return service.traerTodos();
 	}
 	
 	@GetMapping("/{idTipoEmprendimiento}")
-	@ApiOperation(value = "Mostrar un tipoEmprendimiento", notes = "Service para mostrar un tipoEmprendimiento")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "TipoEmprendimiento encontrado"),
-			@ApiResponse(code = 404, message = "TipoEmprendimiento no encontrado") })
+	@ApiOperation(value = "Mostrar un Tipo de Emprendimiento por ID", notes = "Servicio para mostrar un Tipo de Emprendimiento a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Tipo de Emprendimiento encontrado"),
+			@ApiResponse(code = 404, message = "Tipo de Emprendimiento no encontrado") })
 	public TipoEmprendimiento traerTipoEmprendimiento(@PathVariable ("idTipoEmprendimiento") long id) {
 		return service.traerTipoEmprendimientoPorId(id);
 	}
 	
 	@PostMapping
-	@ApiOperation(value = "Crear TipoEmprendimiento", notes = "Servicio creador de tipoEmprendimientos")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "TipoEmprendimiento successfully created"),
-			@ApiResponse(code = 400, message = "Invalid request") })
+	@ApiOperation(value = "Crear un Tipo de Emprendimiento", notes = "Servicio para crear un Tipo de Emprendimiento")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Tipo de Emprendimiento creado exitosamente"),
+			@ApiResponse(code = 400, message = "No se pudo crear Tipo de Emprendimiento") })
 	public ResponseEntity<TipoEmprendimiento> crearTipoEmprendimiento(@RequestBody TipoEmprendimientoVo tipoEmprendimientoVo){
 		TipoEmprendimiento tipoEmprendimiento = service.crearTipoEmprendimiento(tipoEmprendimientoVo);
 		
@@ -59,9 +59,9 @@ public class TipoEmprendimientoController {
 	}
 	
 	@DeleteMapping("/{idTipoEmprendimiento}")
-	@ApiOperation(value = "Eliminar tipoEmprendimiento", notes = "Servicio elimina TipoEmprendimiento")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "TipoEmprendimiento eliminado con exito"),
-			@ApiResponse(code = 404, message = "TipoEmprendimiento no encontrado") })
+	@ApiOperation(value = "Eliminar un Tipo de Emprendimiento por ID", notes = "Servicio para eliminar un Tipo de Emprendimiento a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Tipo de Emprendimiento eliminado con exito"),
+			@ApiResponse(code = 404, message = "Tipo Emprendimiento no encontrado") })
 	public ResponseEntity<Empty> eliminarTipoEmprendimiento(@PathVariable("idTipoEmprendimiento") long id ) {
 		
 		service.borrarTipoEmprendimiento(id);
@@ -70,9 +70,9 @@ public class TipoEmprendimientoController {
 	}
 	
 	@PutMapping("/{idTipoEmprendimiento}")
-	@ApiOperation(value = "Update TipoEmprendimiento", notes = "TipoEmprendimiento updater service")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "TipoEmprendimiento successfully updated"),
-			@ApiResponse(code = 404, message = "TipoEmprendimiento not found") })
+	@ApiOperation(value = "Modificar un Tipo de Emprendimiento por ID", notes = "Servicio para modificar un Tipo de Emprendimiento a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Tipo de Emprendimiento creado exitosamente"),
+			@ApiResponse(code = 404, message = "Tipo de Emprendimiento no encontrado") })
 	public ResponseEntity<TipoEmprendimiento> updateTipoEmprendimiento(@PathVariable("idTipoEmprendimiento") Long id, TipoEmprendimientoVo tipoEmprendimientoVo) {
 
 		return new ResponseEntity<>(service.actualizarTipoEmprendimiento(id, tipoEmprendimientoVo), HttpStatus.OK);

@@ -28,51 +28,51 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/api/perfil")
 @Api(tags = "Perfil")
 public class PerfilController {
-	
+
 	@Autowired
 	private PerfilService service;
-	
+
 	@GetMapping
-	@ApiOperation(value = "Listar todos los perfils", notes = "Service para listar todos los perfils")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Perfils encontrados"),
+	@ApiOperation(value = "Listar todos los Perfiles", notes = "Servicio para listar todos los Perfiles")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Perfiles encontrados"),
 			@ApiResponse(code = 404, message = "Perfils no encontrados") })
 	public List<Perfil> traerTodos() {
 		return service.traerTodos();
 	}
-	
+
 	@GetMapping("/{idPerfil}")
-	@ApiOperation(value = "Mostrar un perfil", notes = "Service para mostrar un perfil")
+	@ApiOperation(value = "Mostrar un Perfil por ID", notes = "Servicio para mostrar un Perfil a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Perfil encontrado"),
 			@ApiResponse(code = 404, message = "Perfil no encontrado") })
-	public Perfil traerPerfil(@PathVariable ("idPerfil") long id) {
+	public Perfil traerPerfil(@PathVariable("idPerfil") long id) {
 		return service.traerPerfilPorId(id);
 	}
-	
+
 	@PostMapping
-	@ApiOperation(value = "Crear Perfil", notes = "Servicio creador de perfils")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Perfil successfully created"),
-			@ApiResponse(code = 400, message = "Invalid request") })
-	public ResponseEntity<Perfil> crearPerfil(@RequestBody PerfilVo perfilVo){
+	@ApiOperation(value = "Crear un Perfil", notes = "Servicio para crear un Perfil")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Perfil creado exitosamente"),
+			@ApiResponse(code = 400, message = "No se pudo crear un Perfil") })
+	public ResponseEntity<Perfil> crearPerfil(@RequestBody PerfilVo perfilVo) {
 		Perfil perfil = service.crearPerfil(perfilVo);
-		
+
 		return new ResponseEntity<>(perfil, HttpStatus.CREATED);
 	}
-	
+
 	@DeleteMapping("/{idPerfil}")
-	@ApiOperation(value = "Eliminar perfil", notes = "Servicio elimina Perfil")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Perfil eliminado con exito"),
+	@ApiOperation(value = "Eliminar un Perfil por ID", notes = "Servicio para eliminar un Perfil a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Perfil eliminado exitosamente"),
 			@ApiResponse(code = 404, message = "Perfil no encontrado") })
-	public ResponseEntity<Empty> eliminarPerfil(@PathVariable("idPerfil") long id ) {
-		
+	public ResponseEntity<Empty> eliminarPerfil(@PathVariable("idPerfil") long id) {
+
 		service.borrarPerfil(id);
-		
+
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/{idPerfil}")
-	@ApiOperation(value = "Update Perfil", notes = "Perfil updater service")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Perfil successfully updated"),
-			@ApiResponse(code = 404, message = "Perfil not found") })
+	@ApiOperation(value = "Modificar un Perfil por ID", notes = "Servicio para modificar un Perfil a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Perfil modificado exitosamente"),
+			@ApiResponse(code = 404, message = "Perfil no encontrado") })
 	public ResponseEntity<Perfil> updatePerfil(@PathVariable("idPerfil") Long id, PerfilVo perfilVo) {
 
 		return new ResponseEntity<>(service.actualizarPerfil(id, perfilVo), HttpStatus.OK);
