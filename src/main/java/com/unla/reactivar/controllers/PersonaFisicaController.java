@@ -33,7 +33,7 @@ public class PersonaFisicaController {
 
 	@Autowired
 	private PersonaFisicaService service;
-	
+
 	@GetMapping
 	@ApiOperation(value = "Listar todas las Personas Fisicas", notes = "Servicio para listar todas las Personas Fisicas")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Personas Fisicas encontradas"),
@@ -41,43 +41,44 @@ public class PersonaFisicaController {
 	public List<PersonaFisica> traerTodos() {
 		return service.traerTodos();
 	}
-	
+
 	@GetMapping("/{idPersonaFisica}")
 	@ApiOperation(value = "Mostrar una Persona Fisica por ID", notes = "Servicio para mostrar una Persona Fisica a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Persona Fisica encontrada"),
 			@ApiResponse(code = 404, message = "Persona Fisica no encontrada") })
-	public Persona traerPersonaFisica(@PathVariable ("idPersonaFisica") long id) {
+	public Persona traerPersonaFisica(@PathVariable("idPersonaFisica") long id) {
 		return service.traerPersonaFisicaPorId(id);
 	}
-	
+
 	@PostMapping
 	@ApiOperation(value = "Crear una PersonaFisica", notes = "Servicio para crear una Persona Fisica")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Persona Fisica creada exitosamente"),
 			@ApiResponse(code = 400, message = "No se pudo crear Persona Fisica") })
-	public ResponseEntity<Persona> crearPersonaFisica(@RequestBody PersonaFisicaVo personaFisicaVo){
+	public ResponseEntity<Persona> crearPersonaFisica(@RequestBody PersonaFisicaVo personaFisicaVo) {
 		Persona personaFisica = service.crearPersonaFisica(personaFisicaVo);
-		
+
 		return new ResponseEntity<>(personaFisica, HttpStatus.CREATED);
 	}
-	
+
 	@DeleteMapping("/{idPersonaFisica}")
 	@ApiOperation(value = "Eliminar una Persona Fisica por ID", notes = "Servicio para eliminar una Persona Fisica a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Persona Fisica eliminada con exito"),
 			@ApiResponse(code = 404, message = "Persona Fisica no encontrada") })
-	public ResponseEntity<Empty> eliminarPersonaFisica(@PathVariable("idPersonaFisica") long id ) {
-		
+	public ResponseEntity<Empty> eliminarPersonaFisica(@PathVariable("idPersonaFisica") long id) {
+
 		service.borrarPersonaFisica(id);
-		
+
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/{idPersonaFisica}")
 	@ApiOperation(value = "Modificar una Persona Fisica por ID", notes = "Modificar una Persona Fisica a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Persona Fisica modificada exitosamente"),
 			@ApiResponse(code = 404, message = "Persona Fisica no encontrada") })
-	public ResponseEntity<Persona> updatePersonaFisica(@PathVariable("idPersonaFisica") Long id, ReqPutPersonaFisicaVo personaFisicaVo) {
+	public ResponseEntity<Persona> updatePersonaFisica(@PathVariable("idPersonaFisica") Long id,
+			ReqPutPersonaFisicaVo personaFisicaVo) {
 
 		return new ResponseEntity<>(service.actualizarPersonaFisica(id, personaFisicaVo), HttpStatus.OK);
 	}
-	
+
 }

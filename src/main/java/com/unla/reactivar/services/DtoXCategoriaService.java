@@ -20,10 +20,10 @@ public class DtoXCategoriaService {
 
 	@Autowired
 	private DtoXCategoriaRepository repository;
-	
+
 	@Autowired
 	private CategoriaService categoriaService;
-	
+
 	@Autowired
 	private EmprendimientoService emprendimientoService;
 
@@ -49,45 +49,46 @@ public class DtoXCategoriaService {
 	@Transactional
 	public DtoXCategoria actualizarDtoXCategoria(Long id, DtoXCategoriaVo dtoXCategoriaVo) {
 		DtoXCategoria dto = repository.findByIdPromocion(id);
-		
-		if(dto == null) {
+
+		if (dto == null) {
 			throw new ObjectNotFound("Descuento");
 		}
-		
+
 		adaptVoToDtoXCategoria(dto, dtoXCategoriaVo);
-		
+
 		try {
 			dto = repository.save(dto);
 		} catch (Exception e) {
 			throw new ObjectAlreadyExists();
 		}
-		
+
 		return dto;
 	}
 
 	@Transactional
 	public DtoXCategoria crearDtoXCategoria(DtoXCategoriaVo dtoXCategoriaVo) {
 		DtoXCategoria dto = new DtoXCategoria();
-		
+
 		adaptVoToDtoXCategoria(dto, dtoXCategoriaVo);
-		
+
 		try {
 			dto = repository.save(dto);
 		} catch (Exception e) {
 			throw new ObjectAlreadyExists();
 		}
-		
+
 		return dto;
 	}
 
 	private void adaptVoToDtoXCategoria(DtoXCategoria dto, DtoXCategoriaVo dtoXCategoriaVo) {
 		Categoria categoria = categoriaService.traerCategoriaPorId(dtoXCategoriaVo.getIdCategoria());
-		Emprendimiento emprendimiento = emprendimientoService.traerEmprendimientoPorId(dtoXCategoriaVo.getIdEmprendimiento());
-		
-		if(categoria == null || emprendimiento == null) {
+		Emprendimiento emprendimiento = emprendimientoService
+				.traerEmprendimientoPorId(dtoXCategoriaVo.getIdEmprendimiento());
+
+		if (categoria == null || emprendimiento == null) {
 			throw new ObjectNotFound("Categoria / Emprendimiento");
 		}
-		
+
 		dto.setCategoria(categoria);
 		dto.setDescripcion(dtoXCategoriaVo.getDescripcion());
 		dto.setDescuento(dtoXCategoriaVo.getDescuento());

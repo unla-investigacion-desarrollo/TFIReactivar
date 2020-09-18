@@ -28,14 +28,14 @@ import lombok.Data;
 @Table(name = "ocupacionLocal")
 public class OcupacionLocal {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idOcupacionLocal;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idPersona", nullable = false)
 	@JsonManagedReference
 	private Persona persona;
-	
+
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date fechaHoraEntrada;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -43,8 +43,7 @@ public class OcupacionLocal {
 	private String usuarioModi;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date fechaModi;
-	
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idEmprendimiento", nullable = false)
 	@JsonManagedReference

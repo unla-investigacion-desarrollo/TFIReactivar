@@ -28,10 +28,10 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/api/unidadMedida")
 @Api(tags = "UnidadMedida")
 public class UnidadMedidaController {
-	
+
 	@Autowired
 	private UnidadMedidaService service;
-	
+
 	@GetMapping
 	@ApiOperation(value = "Listar todas las Unidades de Medida", notes = "Servicio para listar todas las Unidades de Medida")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Unidades de Medida encontradas"),
@@ -39,41 +39,42 @@ public class UnidadMedidaController {
 	public List<UnidadMedida> traerTodos() {
 		return service.traerTodos();
 	}
-	
+
 	@GetMapping("/{idUnidadMedida}")
 	@ApiOperation(value = "Mostrar una Unidad de Medida por ID", notes = "Servicio para mostrar una Unidad de Medida a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Unidad de Medida encontrada"),
 			@ApiResponse(code = 404, message = "Unidad de Medida no encontrada") })
-	public UnidadMedida traerUnidadMedida(@PathVariable ("idUnidadMedida") long id) {
+	public UnidadMedida traerUnidadMedida(@PathVariable("idUnidadMedida") long id) {
 		return service.traerUnidadMedidaPorId(id);
 	}
-	
+
 	@PostMapping
 	@ApiOperation(value = "Crear una Unidad de Medida", notes = "Servicio para crear una Unidad de Medida")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Unidad de Medida creada exitosamente"),
 			@ApiResponse(code = 400, message = "No se pudo crear Unidad de Medida") })
-	public ResponseEntity<UnidadMedida> crearUnidadMedida(@RequestBody UnidadMedidaVo unidadMedidaVo){
+	public ResponseEntity<UnidadMedida> crearUnidadMedida(@RequestBody UnidadMedidaVo unidadMedidaVo) {
 		UnidadMedida unidadMedida = service.crearUnidadMedida(unidadMedidaVo);
-		
+
 		return new ResponseEntity<>(unidadMedida, HttpStatus.CREATED);
 	}
-	
+
 	@DeleteMapping("/{idUnidadMedida}")
 	@ApiOperation(value = "Eliminar una Unidad de Medida por ID", notes = "Servicio para eliminar una Unidad de Medida a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Unidad de Medida eliminada con exito"),
 			@ApiResponse(code = 404, message = "Unidad de Medida no encontrada") })
-	public ResponseEntity<Empty> eliminarUnidadMedida(@PathVariable("idUnidadMedida") long id ) {
-		
+	public ResponseEntity<Empty> eliminarUnidadMedida(@PathVariable("idUnidadMedida") long id) {
+
 		service.borrarUnidadMedida(id);
-		
+
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/{idUnidadMedida}")
 	@ApiOperation(value = "Modificar una Unidad de Medida por ID", notes = "Servicio para modificar una Unidad de Medida a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Unidad de Medida modificada exitosamente"),
 			@ApiResponse(code = 404, message = "Unidad de Medida no encontrada") })
-	public ResponseEntity<UnidadMedida> updateUnidadMedida(@PathVariable("idUnidadMedida") Long id, UnidadMedidaVo unidadMedidaVo) {
+	public ResponseEntity<UnidadMedida> updateUnidadMedida(@PathVariable("idUnidadMedida") Long id,
+			UnidadMedidaVo unidadMedidaVo) {
 
 		return new ResponseEntity<>(service.actualizarUnidadMedida(id, unidadMedidaVo), HttpStatus.OK);
 	}

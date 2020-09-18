@@ -25,10 +25,10 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/api/persona")
 @Api(tags = "Persona")
 public class PersonaController {
-	
+
 	@Autowired
 	private PersonaService service;
-	
+
 	@GetMapping
 	@ApiOperation(value = "Listar todas las Personas", notes = "Servicio para listar todas las Personas")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Personas encontradas"),
@@ -36,33 +36,32 @@ public class PersonaController {
 	public List<Persona> traerTodos() {
 		return service.traerTodos();
 	}
-	
+
 	@GetMapping("/{idPersona}")
 	@ApiOperation(value = "Mostrar una Persona por ID", notes = "Servicio para mostrar una Persona")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Persona encontrada"),
 			@ApiResponse(code = 404, message = "Persona no encontrada") })
-	public Persona traerPersona(@PathVariable ("idPersona") long id) {
+	public Persona traerPersona(@PathVariable("idPersona") long id) {
 		return service.traerPersonaPorId(id);
 	}
-	
+
 	@GetMapping("/{idPersona}/coordenadas")
 	@ApiOperation(value = "Mostrar coordenadas de una Persona por ID", notes = "Service para mostrar coordenadas de una Persona a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Persona encontrada"),
 			@ApiResponse(code = 404, message = "Persona no encontrada") })
-	public CoordenadasVo traerCoordenadas(@PathVariable ("idPersona") long id) {
+	public CoordenadasVo traerCoordenadas(@PathVariable("idPersona") long id) {
 		return service.traerCoordenadas(id);
 	}
-	
+
 	@DeleteMapping("/{idPersona}")
 	@ApiOperation(value = "Eliminar una Persona por ID", notes = "Servicio para eliminar una Persona a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Persona eliminada con exito"),
 			@ApiResponse(code = 404, message = "Persona no encontrada") })
-	public ResponseEntity<Empty> eliminarPersona(@PathVariable("idPersona") long id ) {
-		
+	public ResponseEntity<Empty> eliminarPersona(@PathVariable("idPersona") long id) {
+
 		service.borrarPersona(id);
-		
+
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
-
 
 }

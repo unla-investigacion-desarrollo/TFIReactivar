@@ -22,13 +22,13 @@ public class TurnoService {
 
 	@Autowired
 	private TurnoRepository repository;
-	
+
 	@Autowired
 	private PersonaService personaService;
-	
+
 	@Autowired
 	private EmprendimientoService emprendimientoService;
-	
+
 	@Autowired
 	private EstadoTurnoService estadoService;
 
@@ -58,9 +58,9 @@ public class TurnoService {
 		if (turno == null) {
 			throw new ObjectNotFound("Turno");
 		}
-		
+
 		adaptVoToTurno(turno, turnoVo);
-		
+
 		try {
 			turno = repository.save(turno);
 		} catch (Exception e) {
@@ -73,9 +73,9 @@ public class TurnoService {
 	@Transactional
 	public Turno crearTurno(TurnoVo turnoVo) {
 		Turno turno = new Turno();
-			
+
 		adaptVoToTurno(turno, turnoVo);
-		
+
 		try {
 			turno = repository.save(turno);
 		} catch (Exception e) {
@@ -84,16 +84,16 @@ public class TurnoService {
 
 		return turno;
 	}
-	
+
 	private void adaptVoToTurno(Turno turno, TurnoVo turnoVo) {
 		Emprendimiento emprendimiento = emprendimientoService.traerEmprendimientoPorId(turnoVo.getIdEmprendimiento());
 		EstadoTurno estadoTurno = estadoService.traerEstadoTurnoPorId(turnoVo.getIdEstadoTurno());
 		Persona persona = personaService.traerPersonaPorId(turnoVo.getIdPersona());
-		
-		if(emprendimiento == null || estadoTurno == null || persona == null) {
+
+		if (emprendimiento == null || estadoTurno == null || persona == null) {
 			throw new ObjectNotFound("Emprendimiento / EstadoTurno / Persona");
 		}
-		
+
 		turno.setEmprendimiento(emprendimiento);
 		turno.setEstadoTurno(estadoTurno);
 		turno.setFechaModi(DateUtils.fechaHoy());

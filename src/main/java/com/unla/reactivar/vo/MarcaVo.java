@@ -6,5 +6,5 @@ import lombok.Data;
 public class MarcaVo {
 
 	private String nombreMarca;
-	
+
 }

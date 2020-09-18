@@ -6,8 +6,8 @@ import org.springframework.stereotype.Repository;
 import com.unla.reactivar.models.FuncionPerfil;
 
 @Repository
-public interface FuncionPerfilRepository extends JpaRepository<FuncionPerfil, Long>{
-	
+public interface FuncionPerfilRepository extends JpaRepository<FuncionPerfil, Long> {
+
 	public FuncionPerfil findByIdFuncionPerfil(Long idFuncionPerfil);
-	
+
 }

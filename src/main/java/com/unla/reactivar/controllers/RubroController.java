@@ -33,8 +33,8 @@ public class RubroController {
 
 	@Autowired
 	private RubroService service;
-	
-    private final Logger logger = LoggerFactory.getLogger(getClass().getName());
+
+	private final Logger logger = LoggerFactory.getLogger(getClass().getName());
 
 	@GetMapping
 	@ApiOperation(value = "Listar todos los Rubros", notes = "Servicio para listar todos los Rubros")
@@ -70,7 +70,7 @@ public class RubroController {
 	public ResponseEntity<Empty> eliminarRubro(@PathVariable("idRubro") long id) {
 
 		service.borrarRubro(id);
-		
+
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
 

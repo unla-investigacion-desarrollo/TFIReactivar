@@ -19,39 +19,39 @@ public class ProvinciaService {
 
 	@Autowired
 	private ProvinciaRepository repository;
-	
+
 	@Autowired
 	private LocalidadService localidadService;
-	
+
 	public Provincia traerProvinciaPorId(Long id) {
 		return repository.findByIdProvincia(id);
 	}
-	
-	public List<Provincia> traerTodos(){
+
+	public List<Provincia> traerTodos() {
 		return repository.findAll();
 	}
-	
+
 	@Transactional
 	public void borrarProvincia(long id) {
 		Provincia provincia = repository.findByIdProvincia(id);
-		
-		if(provincia == null) {
+
+		if (provincia == null) {
 			throw new ObjectNotFound("Provincia");
 		}
-		
+
 		repository.delete(provincia);
 	}
 
 	@Transactional
 	public Provincia actualizarProvincia(Long id, ProvinciaVo provinciaVo) {
 		Provincia provincia = repository.findByIdProvincia(id);
-		
-		if(provincia == null) {
+
+		if (provincia == null) {
 			throw new ObjectNotFound("Provincia");
 		}
-		
+
 		provincia.setNombre(provinciaVo.getProvincia());
-		
+
 		try {
 			provincia = repository.save(provincia);
 		} catch (Exception e) {
@@ -64,9 +64,9 @@ public class ProvinciaService {
 	@Transactional
 	public Provincia crearProvincia(ProvinciaVo provinciaVo) {
 		Provincia provincia = new Provincia();
-		
+
 		provincia.setNombre(provinciaVo.getProvincia());
-		
+
 		try {
 			provincia = repository.save(provincia);
 		} catch (Exception e) {
@@ -76,14 +76,14 @@ public class ProvinciaService {
 		return provincia;
 	}
 
-	public List<Localidad> traerLocalidades(Long id) {		
+	public List<Localidad> traerLocalidades(Long id) {
 		Provincia provincia = repository.findByIdProvincia(id);
-		
-		if(provincia == null) {
+
+		if (provincia == null) {
 			throw new ObjectNotFound("Provincia");
 		}
-				
+
 		return localidadService.traerLocalidadesPorProvincia(id);
 	}
-	
+
 }

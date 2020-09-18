@@ -18,18 +18,18 @@ import lombok.Data;
 @Entity
 @Table(name = "unidadMedida")
 public class UnidadMedida {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idUnidadMedida;
 	@Column(unique = true)
 	private String nombre;
 
-	@OneToMany(mappedBy="unidadMedida")
+	@OneToMany(mappedBy = "unidadMedida")
 	@JsonBackReference
 	private List<ArticuloReferencia> articulosReferencia;
-	
-	@OneToMany(mappedBy="unidadMedida")
+
+	@OneToMany(mappedBy = "unidadMedida")
 	@JsonBackReference
 	private List<ReqArticulo> articulos;
 }

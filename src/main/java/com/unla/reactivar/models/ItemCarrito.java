@@ -19,20 +19,19 @@ import lombok.Data;
 public class ItemCarrito {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idItemCarrito;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idArticulo", nullable = false)
-    @JsonManagedReference
+	@JsonManagedReference
 	private ReqArticulo articuloPrecio;
-	
+
 	private int cantidad;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="idCarrito",nullable= false)
+	@JoinColumn(name = "idCarrito", nullable = false)
 	@JsonManagedReference
 	private Carrito carrito;
-	
 
 }

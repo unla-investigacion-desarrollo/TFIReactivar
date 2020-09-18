@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 @Entity
 @DiscriminatorValue("porcentaje")
-public class DtoXPorcentaje extends Promocion  {
+public class DtoXPorcentaje extends Promocion {
 
 	private double descuento;
 }

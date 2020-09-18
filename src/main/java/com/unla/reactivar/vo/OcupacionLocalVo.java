@@ -8,5 +8,5 @@ public class OcupacionLocalVo {
 	private long idPersona;
 	private String usuarioModi;
 	private long idEmprendimiento;
-	
+
 }

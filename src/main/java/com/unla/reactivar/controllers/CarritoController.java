@@ -65,7 +65,7 @@ public class CarritoController {
 	public ResponseEntity<Empty> eliminarCarrito(@PathVariable("idCarrito") long id) {
 
 		service.borrarCarrito(id);
-		
+
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
 
@@ -73,8 +73,7 @@ public class CarritoController {
 	@ApiOperation(value = "Modificar Carrito por ID", notes = "Servicio para modificar un Carrito a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Carrito modificado exitosamente"),
 			@ApiResponse(code = 404, message = "Carrito no encontrado") })
-	public ResponseEntity<Carrito> updateCarrito(@PathVariable("idCarrito") Long id,
-			CarritoVo carritoVo) {
+	public ResponseEntity<Carrito> updateCarrito(@PathVariable("idCarrito") Long id, CarritoVo carritoVo) {
 
 		return new ResponseEntity<>(service.actualizarCarrito(id, carritoVo), HttpStatus.OK);
 	}

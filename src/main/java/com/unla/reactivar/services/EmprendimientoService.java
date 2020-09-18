@@ -65,7 +65,7 @@ public class EmprendimientoService {
 		} catch (Exception e) {
 			throw new ObjectAlreadyExists();
 		}
-		
+
 		return emprendimiento;
 	}
 
@@ -95,7 +95,7 @@ public class EmprendimientoService {
 		} catch (Exception e) {
 			throw new ObjectAlreadyExists();
 		}
-		
+
 		return emprendimiento;
 	}
 
@@ -147,7 +147,7 @@ public class EmprendimientoService {
 		emprendimiento.setCapacidad(emprendimientoVo.getCapacidad());
 
 	}
-	
+
 	private ConfiguracionLocal adaptarConfiguracionLocal(ConfiguracionLocalVo configuracionLocales) {
 
 		ConfiguracionLocal config = new ConfiguracionLocal();

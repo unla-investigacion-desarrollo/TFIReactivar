@@ -14,5 +14,5 @@ public class DtoXUnidadVo {
 	private double porcDescuento;
 	private int cantidad;
 	private long idEmprendimiento;
-	
+
 }

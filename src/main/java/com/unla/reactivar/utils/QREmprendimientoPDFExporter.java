@@ -41,25 +41,25 @@ public class QREmprendimientoPDFExporter {
 			table.addCell(cell);
 			cell.setPhrase(new Phrase(horario.getDiaSemana().toUpperCase(), font));
 			cell.setHorizontalAlignment(cell.ALIGN_LEFT);
-		
+
 			table.addCell(cell);
-			String horarioDia = (horario.getTurno1Desde()!= null
+			String horarioDia = (horario.getTurno1Desde() != null
 					? horario.getTurno1Desde() + " - " + horario.getTurno1Hasta()
 					: "CERRADO")
-					+ (horario.getTurno2Desde()!= null
+					+ (horario.getTurno2Desde() != null
 							? " | " + horario.getTurno2Desde() + " - " + horario.getTurno2Hasta()
 							: "	");
 			cell.setPhrase(new Phrase(horarioDia, font));
-			
+
 			table.addCell(cell);
 
 		}
 	}
 
 	public void export(HttpServletResponse response) throws DocumentException, IOException, WriterException {
-		String rutaImagenQR ="src/main/resources/image/QR_Emp_"+emprendimiento.getIdEmprendimiento()+".jpg";
-		
-		GenerateQRCode.generateQRCode(String.valueOf(emprendimiento.getIdEmprendimiento()), 350, 350,rutaImagenQR);
+		String rutaImagenQR = "src/main/resources/image/QR_Emp_" + emprendimiento.getIdEmprendimiento() + ".jpg";
+
+		GenerateQRCode.generateQRCode(String.valueOf(emprendimiento.getIdEmprendimiento()), 350, 350, rutaImagenQR);
 
 		Document document = new Document(PageSize.A4);
 		PdfWriter.getInstance(document, response.getOutputStream());
@@ -71,7 +71,6 @@ public class QREmprendimientoPDFExporter {
 
 		Paragraph p = new Paragraph(emprendimiento.getNombre().toUpperCase(), font);
 		p.setAlignment(Paragraph.ALIGN_CENTER);
-	
 
 		document.add(p);
 
@@ -83,32 +82,31 @@ public class QREmprendimientoPDFExporter {
 
 		PdfPTable table = new PdfPTable(3);
 		table.setWidthPercentage(100f);
-		table.setWidths(new float[] { 1.2f,2f, 4f });
+		table.setWidths(new float[] { 1.2f, 2f, 4f });
 
 		writeTableData(table);
 
 		document.add(table);
-		
-		p = new Paragraph("MAXIMO "+emprendimiento.getCapacidad()+" PERSONAS DENTRO DEL LOCAL", font);
+
+		p = new Paragraph("MAXIMO " + emprendimiento.getCapacidad() + " PERSONAS DENTRO DEL LOCAL", font);
 		p.setAlignment(Paragraph.ALIGN_CENTER);
 		p.setSpacingBefore(20);
 		font.setSize(24);
 		font.setColor(Color.RED);
 		document.add(p);
-		
 
 		Image qrImage2 = Image.getInstance("src/main/resources/image/StoreApp.jpg");
 		qrImage2.setAbsolutePosition(33, 0);
 		document.add(qrImage2);
-        
-        Image qrImage3 = Image.getInstance("src/main/resources/image/Reactivar.jpg");
-        qrImage3.setAbsolutePosition(438, 22);
-        document.add(qrImage3);
-        
+
+		Image qrImage3 = Image.getInstance("src/main/resources/image/Reactivar.jpg");
+		qrImage3.setAbsolutePosition(438, 22);
+		document.add(qrImage3);
+
 		document.close();
-		
+
 		File archivo1 = new File(rutaImagenQR);
-        archivo1.delete();
+		archivo1.delete();
 
 	}
 

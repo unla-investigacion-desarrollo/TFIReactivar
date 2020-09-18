@@ -17,15 +17,13 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
 
-
-
 @Data
 @Entity
-@Table(name ="articuloReferencia")
+@Table(name = "articuloReferencia")
 public class ArticuloReferencia {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idArticuloReferencia;
 	@Column(unique = true)
 	private String codBarra;
@@ -37,20 +35,19 @@ public class ArticuloReferencia {
 	private Date fechaModi;
 	private String usuarioModi;
 	private String peso;
-	
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="idCategoria",nullable= false)
+	@JoinColumn(name = "idCategoria", nullable = false)
 	@JsonManagedReference
 	private Categoria categoria;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="idMarca",nullable= false)
+	@JoinColumn(name = "idMarca", nullable = false)
 	@JsonManagedReference
 	private Marca marca;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="idUnidadMedida",nullable= false)
+	@JoinColumn(name = "idUnidadMedida", nullable = false)
 	@JsonManagedReference
 	private UnidadMedida unidadMedida;
 

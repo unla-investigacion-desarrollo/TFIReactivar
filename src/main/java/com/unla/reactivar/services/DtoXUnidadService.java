@@ -22,7 +22,7 @@ public class DtoXUnidadService {
 
 	@Autowired
 	private EmprendimientoService emprendimientoService;
-	
+
 	public DtoXUnidad traerDtoXUnidadPorId(Long id) {
 		return repository.findByIdPromocion(id);
 	}
@@ -57,7 +57,7 @@ public class DtoXUnidadService {
 		} catch (Exception e) {
 			throw new ObjectAlreadyExists();
 		}
-		
+
 		return dto;
 	}
 
@@ -72,12 +72,13 @@ public class DtoXUnidadService {
 		} catch (Exception e) {
 			throw new ObjectAlreadyExists();
 		}
-		
+
 		return dto;
 	}
 
 	private void adaptVoToDtoXPorcentaje(DtoXUnidad dto, DtoXUnidadVo dtoXUnidadVo) {
-		Emprendimiento emprendimiento = emprendimientoService.traerEmprendimientoPorId(dtoXUnidadVo.getIdEmprendimiento());
+		Emprendimiento emprendimiento = emprendimientoService
+				.traerEmprendimientoPorId(dtoXUnidadVo.getIdEmprendimiento());
 
 		if (emprendimiento == null) {
 			throw new ObjectNotFound("Emprendimiento");

@@ -6,8 +6,8 @@ import org.springframework.stereotype.Repository;
 import com.unla.reactivar.models.TipoEmprendimiento;
 
 @Repository
-public interface TipoEmprendimientoRepository extends JpaRepository<TipoEmprendimiento, Long>{
-	
+public interface TipoEmprendimientoRepository extends JpaRepository<TipoEmprendimiento, Long> {
+
 	public TipoEmprendimiento findByIdTipoEmprendimiento(Long id);
 
 }

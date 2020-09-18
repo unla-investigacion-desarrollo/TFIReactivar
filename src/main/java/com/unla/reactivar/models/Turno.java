@@ -27,11 +27,11 @@ import lombok.Data;
 @Entity
 @Table(name = "turno")
 public class Turno {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idTurno;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idEmprendimiento", nullable = false)
 	@JsonManagedReference
@@ -41,7 +41,7 @@ public class Turno {
 	@JoinColumn(name = "idEstadoTurno", nullable = false)
 	@JsonManagedReference
 	private EstadoTurno estadoTurno;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idPersona", nullable = false)
 	@JsonManagedReference

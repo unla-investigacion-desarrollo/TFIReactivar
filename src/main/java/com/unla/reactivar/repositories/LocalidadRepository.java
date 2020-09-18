@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository;
 import com.unla.reactivar.models.Localidad;
 
 @Repository
-public interface LocalidadRepository extends JpaRepository<Localidad, Long>{
-	
+public interface LocalidadRepository extends JpaRepository<Localidad, Long> {
+
 	public Localidad findByIdLocalidad(Long id);
 
 	@Query("SELECT l FROM Localidad l WHERE id_provincia = ?1")

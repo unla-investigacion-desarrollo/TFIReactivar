@@ -18,7 +18,7 @@ import lombok.Data;
 @Table(name = "login")
 public class Login {
 	@Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idLogin;
 	@Column(unique = true)
 	private String email;

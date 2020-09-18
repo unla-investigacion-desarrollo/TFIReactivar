@@ -7,5 +7,5 @@ public class PerfilVo {
 
 	private String nombre;
 	private String usuarioModi;
-	
+
 }

@@ -19,12 +19,12 @@ import lombok.Data;
 @Table(name = "estadoCarrito")
 public class EstadoCarrito {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idEstadoCarrito;
 	@Column(unique = true)
 	private String nombre;
-	
-	@OneToMany(mappedBy="estadoCarrito")
+
+	@OneToMany(mappedBy = "estadoCarrito")
 	@JsonBackReference
 	private List<Carrito> carrito;
 

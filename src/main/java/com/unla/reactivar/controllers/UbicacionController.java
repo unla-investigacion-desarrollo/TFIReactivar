@@ -28,10 +28,10 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/api/ubicacion")
 @Api(tags = "Ubicacion")
 public class UbicacionController {
-	
+
 	@Autowired
 	private UbicacionService service;
-	
+
 	@GetMapping
 	@ApiOperation(value = "Listar todas las Ubicaciones", notes = "Servicio para listar todas las Ubicaciones")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Ubicaciones encontradas"),
@@ -39,36 +39,36 @@ public class UbicacionController {
 	public List<Ubicacion> traerTodos() {
 		return service.traerTodos();
 	}
-	
+
 	@GetMapping("/{idUbicacion}")
 	@ApiOperation(value = "Mostrar una Ubicación por ID", notes = "Servicio para mostrar una Ubicación")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Ubicación encontrada"),
 			@ApiResponse(code = 404, message = "Ubicación no encontrada") })
-	public Ubicacion traerUbicacion(@PathVariable ("idUbicacion") long id) {
+	public Ubicacion traerUbicacion(@PathVariable("idUbicacion") long id) {
 		return service.traerUbicacionPorId(id);
 	}
-	
+
 	@PostMapping
 	@ApiOperation(value = "Crear una Ubicación", notes = "Servicio para crear una Ubicación")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Ubicación creada exitosamente"),
 			@ApiResponse(code = 400, message = "No se pudo crear Ubicación") })
-	public ResponseEntity<Ubicacion> crearUbicacion(@RequestBody UbicacionVo ubicacionVo){
+	public ResponseEntity<Ubicacion> crearUbicacion(@RequestBody UbicacionVo ubicacionVo) {
 		Ubicacion ubicacion = service.crearUbicacion(ubicacionVo);
-		
+
 		return new ResponseEntity<>(ubicacion, HttpStatus.CREATED);
 	}
-	
+
 	@DeleteMapping("/{idUbicacion}")
 	@ApiOperation(value = "Eliminar una Ubicación por ID", notes = "Servicio para eliminar una Ubicación a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Ubicación eliminada con exito"),
 			@ApiResponse(code = 404, message = "Ubicación no encontrada") })
-	public ResponseEntity<Empty> eliminarUbicacion(@PathVariable("idUbicacion") long id ) {
-		
+	public ResponseEntity<Empty> eliminarUbicacion(@PathVariable("idUbicacion") long id) {
+
 		service.borrarUbicacion(id);
-		
+
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/{idUbicacion}")
 	@ApiOperation(value = "Modificar una Ubicación por ID", notes = "Servicio para modificar una Ubicación")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Ubicación modificada exitosamente"),

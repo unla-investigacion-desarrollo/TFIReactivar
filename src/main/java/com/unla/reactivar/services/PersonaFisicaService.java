@@ -27,13 +27,13 @@ public class PersonaFisicaService {
 
 	@Autowired
 	private PerfilService perfilService;
-	
+
 	@Autowired
 	private UbicacionService ubicacionService;
-	
+
 	@Autowired
 	private LoginService loginService;
-	
+
 	public Persona traerPersonaFisicaPorId(Long id) {
 		return repository.findByIdPersona(id);
 	}
@@ -58,7 +58,7 @@ public class PersonaFisicaService {
 		PersonaFisica persona = new PersonaFisica();
 
 		adaptVoToPersonaFisica(persona, personaFisicaVo);
-		
+
 		try {
 			persona = repository.save(persona);
 		} catch (Exception e) {
@@ -71,13 +71,13 @@ public class PersonaFisicaService {
 	@Transactional
 	public Persona actualizarPersonaFisica(Long id, ReqPutPersonaFisicaVo personaFisicaVo) {
 		PersonaFisica persona = repository.findByIdPersona(id);
-		
-		if(persona == null) {
+
+		if (persona == null) {
 			throw new ObjectNotFound("Persona");
 		}
-		
+
 		adaptPutVoToPersonaFisica(persona, personaFisicaVo);
-		
+
 		try {
 			persona = repository.save(persona);
 		} catch (Exception e) {
@@ -86,16 +86,16 @@ public class PersonaFisicaService {
 
 		return persona;
 	}
-	
+
 	private void adaptVoToPersonaFisica(PersonaFisica persona, PersonaFisicaVo personaFisicaVo) {
 		Perfil perfil = perfilService.traerPerfilPorId(personaFisicaVo.getIdPerfil());
-		
-		if(perfil == null) {
+
+		if (perfil == null) {
 			throw new ObjectNotFound("Perfil");
 		}
 		Ubicacion ubicacion = ubicacionService.crearUbicacion(personaFisicaVo.getUbicacionVo());
 		Login login = loginService.crearLogin(personaFisicaVo.getLoginVo());
-		
+
 		persona.setNombre(personaFisicaVo.getNombre());
 		persona.setApellido(personaFisicaVo.getApellido());
 		persona.setCuil(personaFisicaVo.getCuil());
@@ -106,14 +106,14 @@ public class PersonaFisicaService {
 		persona.setUbicacion(ubicacion);
 		persona.setLogin(login);
 	}
-	
+
 	private void adaptPutVoToPersonaFisica(PersonaFisica persona, ReqPutPersonaFisicaVo personaFisicaVo) {
 		Perfil perfil = perfilService.traerPerfilPorId(personaFisicaVo.getIdPerfil());
-		
-		if(perfil == null) {
+
+		if (perfil == null) {
 			throw new ObjectNotFound("Perfil");
 		}
-		
+
 		persona.setNombre(personaFisicaVo.getNombre());
 		persona.setApellido(personaFisicaVo.getApellido());
 		persona.setCuil(personaFisicaVo.getCuil());
@@ -122,5 +122,5 @@ public class PersonaFisicaService {
 		persona.setFechaModi(DateUtils.fechaHoy());
 		persona.setPerfil(perfil);
 	}
-	
+
 }

@@ -6,8 +6,8 @@ import org.springframework.stereotype.Repository;
 import com.unla.reactivar.models.EstadoTurno;
 
 @Repository
-public interface EstadoTurnoRepository extends JpaRepository<EstadoTurno, Long>{
-	
+public interface EstadoTurnoRepository extends JpaRepository<EstadoTurno, Long> {
+
 	public EstadoTurno findByIdEstadoTurno(Long idEstadoTurno);
-	
+
 }

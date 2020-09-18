@@ -10,10 +10,10 @@ import lombok.Data;
 @Entity(name = "personaFisica")
 @DiscriminatorValue("fisica")
 public class PersonaFisica extends Persona {
-	
+
 	private String nombre;
 	private String apellido;
 	@Column(unique = true)
-	private String cuil; 
-	
+	private String cuil;
+
 }

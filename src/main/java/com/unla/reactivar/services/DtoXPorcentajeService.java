@@ -19,7 +19,7 @@ public class DtoXPorcentajeService {
 
 	@Autowired
 	private DtoXPorcentajeRepository repository;
-	
+
 	@Autowired
 	private EmprendimientoService emprendimientoService;
 
@@ -57,7 +57,7 @@ public class DtoXPorcentajeService {
 		} catch (Exception e) {
 			throw new ObjectAlreadyExists();
 		}
-		
+
 		return dto;
 	}
 
@@ -66,18 +66,19 @@ public class DtoXPorcentajeService {
 		DtoXPorcentaje dto = new DtoXPorcentaje();
 
 		adaptVoToDtoXPorcentaje(dto, dtoXPorcentajeVo);
-		
+
 		try {
 			dto = repository.save(dto);
 		} catch (Exception e) {
 			throw new ObjectAlreadyExists();
 		}
-		
+
 		return dto;
 	}
 
 	private void adaptVoToDtoXPorcentaje(DtoXPorcentaje dto, DtoXPorcentajeVo dtoXPorcentajeVo) {
-		Emprendimiento emprendimiento = emprendimientoService.traerEmprendimientoPorId(dtoXPorcentajeVo.getIdEmprendimiento());
+		Emprendimiento emprendimiento = emprendimientoService
+				.traerEmprendimientoPorId(dtoXPorcentajeVo.getIdEmprendimiento());
 
 		if (emprendimiento == null) {
 			throw new ObjectNotFound("Emprendimiento");

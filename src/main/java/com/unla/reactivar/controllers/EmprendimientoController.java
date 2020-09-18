@@ -86,7 +86,7 @@ public class EmprendimientoController {
 	@ApiOperation(value = "Exportar QR en PDF", notes = "Servicio para exportar el QR del Emprendimiento en formato PDF a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "PDF exportado exitosamente"),
 			@ApiResponse(code = 404, message = "Emprendimiento no encontrado, no se pudo exportar") })
-	public ResponseEntity<Empty> exportToPDF(HttpServletResponse response, @PathVariable("idEmprendimiento") Long id){
+	public ResponseEntity<Empty> exportToPDF(HttpServletResponse response, @PathVariable("idEmprendimiento") Long id) {
 		service.exportPDF(response, id);
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}

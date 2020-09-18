@@ -6,8 +6,8 @@ import org.springframework.stereotype.Repository;
 import com.unla.reactivar.models.Funcion;
 
 @Repository
-public interface FuncionRepository extends JpaRepository<Funcion, Long>{
-	
+public interface FuncionRepository extends JpaRepository<Funcion, Long> {
+
 	public Funcion findByIdFuncion(Long idFuncion);
-	
+
 }

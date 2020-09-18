@@ -6,5 +6,5 @@ import lombok.Data;
 public class RubroVo {
 
 	private String rubro;
-	
+
 }

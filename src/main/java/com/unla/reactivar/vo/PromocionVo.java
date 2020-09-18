@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class PromocionVo {
-	
+
 	private Date fechaInicio;
 	private Date fechaFin;
 	private boolean habilitada;

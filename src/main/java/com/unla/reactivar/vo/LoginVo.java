@@ -7,5 +7,5 @@ public class LoginVo {
 
 	private String email;
 	private String clave;
-	
+
 }

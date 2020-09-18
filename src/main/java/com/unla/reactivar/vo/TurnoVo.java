@@ -13,5 +13,5 @@ public class TurnoVo {
 	private Date fechaHora;
 	private String observaciones;
 	private String usuarioModi;
-	
+
 }

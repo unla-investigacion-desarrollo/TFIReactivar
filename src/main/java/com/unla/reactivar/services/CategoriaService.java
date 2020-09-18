@@ -41,19 +41,19 @@ public class CategoriaService {
 	@Transactional
 	public Categoria actualizarCategoria(Long id, CategoriaVo categoriaVo) {
 		Categoria categoria = repository.findByIdCategoria(id);
-		
-		if(categoria == null) {
+
+		if (categoria == null) {
 			throw new ObjectNotFound("Categoria");
 		}
-		
+
 		categoria.setNombre(categoriaVo.getNombre());
-		
+
 		try {
 			categoria = repository.save(categoria);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			throw new ObjectAlreadyExists();
 		}
-		
+
 		return categoria;
 	}
 
@@ -62,13 +62,13 @@ public class CategoriaService {
 		Categoria categoria = new Categoria();
 
 		categoria.setNombre(categoriaVo.getNombre());
-		
+
 		try {
 			categoria = repository.save(categoria);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			throw new ObjectAlreadyExists();
 		}
-		
+
 		return categoria;
 	}
 

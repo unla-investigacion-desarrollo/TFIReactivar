@@ -6,5 +6,5 @@ import lombok.Data;
 public class TipoEmprendimientoVo {
 
 	private String tipoEmprendimiento;
-	
+
 }

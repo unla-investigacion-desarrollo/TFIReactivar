@@ -6,8 +6,8 @@ import org.springframework.stereotype.Repository;
 import com.unla.reactivar.models.ArticuloReferencia;
 
 @Repository
-public interface ArticuloReferenciaRepository extends JpaRepository<ArticuloReferencia, Long>{
-	
+public interface ArticuloReferenciaRepository extends JpaRepository<ArticuloReferencia, Long> {
+
 	public ArticuloReferencia findByIdArticuloReferencia(Long idArticuloReferencia);
-	
+
 }

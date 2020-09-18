@@ -11,11 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.unla.reactivar.models.Persona;
 
 @Repository
-public interface PersonaRepository extends JpaRepository<Persona, Long>{
-	
+public interface PersonaRepository extends JpaRepository<Persona, Long> {
+
 	@Query("SELECT p FROM Persona p WHERE p.idPersona = ?1")
 	public Persona findByIdPersona(Long idPersona);
-	
+
 	@Modifying
 	@Query("SELECT p FROM Persona p")
 	public List<Persona> findAll();

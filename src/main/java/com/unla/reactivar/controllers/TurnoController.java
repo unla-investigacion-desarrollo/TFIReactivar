@@ -28,10 +28,10 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/api/turno")
 @Api(tags = "Turno")
 public class TurnoController {
-	
+
 	@Autowired
 	private TurnoService service;
-	
+
 	@GetMapping
 	@ApiOperation(value = "Listar todos los Turnos", notes = "Servicio para listar todos los Turnos")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Turnos encontrados"),
@@ -39,36 +39,36 @@ public class TurnoController {
 	public List<Turno> traerTodos() {
 		return service.traerTodos();
 	}
-	
+
 	@GetMapping("/{idTurno}")
 	@ApiOperation(value = "Mostrar un Turno por ID", notes = "Servicio para mostrar un Turno a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Turno encontrado"),
 			@ApiResponse(code = 404, message = "Turno no encontrado") })
-	public Turno traerTurno(@PathVariable ("idTurno") long id) {
+	public Turno traerTurno(@PathVariable("idTurno") long id) {
 		return service.traerTurnoPorId(id);
 	}
-	
+
 	@PostMapping
 	@ApiOperation(value = "Crear un Turno", notes = "Servicio para crear un Turno")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Turno creado exitosamente"),
 			@ApiResponse(code = 400, message = "No se pudo crear Turno") })
-	public ResponseEntity<Turno> crearTurno(@RequestBody TurnoVo turnoVo){
+	public ResponseEntity<Turno> crearTurno(@RequestBody TurnoVo turnoVo) {
 		Turno turno = service.crearTurno(turnoVo);
-		
+
 		return new ResponseEntity<>(turno, HttpStatus.CREATED);
 	}
-	
+
 	@DeleteMapping("/{idTurno}")
 	@ApiOperation(value = "Eliminar un Turno por ID", notes = "Servicio para eliminar un Turno a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Turno eliminado con exito"),
 			@ApiResponse(code = 404, message = "Turno no encontrado") })
-	public ResponseEntity<Empty> eliminarTurno(@PathVariable("idTurno") long id ) {
-		
+	public ResponseEntity<Empty> eliminarTurno(@PathVariable("idTurno") long id) {
+
 		service.borrarTurno(id);
-		
+
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/{idTurno}")
 	@ApiOperation(value = "Modificar un Turno por ID", notes = "Servicio para modificar un Turno a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Turno modificado exitosamente"),

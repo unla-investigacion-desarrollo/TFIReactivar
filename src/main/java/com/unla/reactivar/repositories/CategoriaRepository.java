@@ -6,8 +6,8 @@ import org.springframework.stereotype.Repository;
 import com.unla.reactivar.models.Categoria;
 
 @Repository
-public interface CategoriaRepository extends JpaRepository<Categoria, Long>{
-	
+public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
+
 	public Categoria findByIdCategoria(Long idCategoria);
-	
+
 }
