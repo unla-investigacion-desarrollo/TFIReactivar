@@ -34,7 +34,7 @@ public class DtoXCategoriaController {
 
 	@GetMapping
 	@ApiOperation(value = "Listar todos los Descuentos por Categoria", notes = "servicio para listar todos los Descuentos por Categoria")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Descuentos por Categoria encontrados"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Descuentos por Categoria encontrados"),
 			@ApiResponse(code = 404, message = "Descuentos por Categoria no encontrados") })
 	public List<DtoXCategoria> traerTodos() {
 		return service.traerTodos();
@@ -42,7 +42,7 @@ public class DtoXCategoriaController {
 
 	@GetMapping("/{idDtoXCategoria}")
 	@ApiOperation(value = "Mostrar un Descuento por Categoria por ID", notes = "Servicio para mostrar un Descuento por Categoria a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Descuento por Categoria encontrado"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Descuento por Categoria encontrado"),
 			@ApiResponse(code = 404, message = "Descuento por Categoria no encontrado") })
 	public DtoXCategoria traerDtoXCategoria(@PathVariable("idDtoXCategoria") long id) {
 		return service.traerDtoXCategoriaPorId(id);
@@ -60,7 +60,7 @@ public class DtoXCategoriaController {
 
 	@DeleteMapping("/{idDtoXCategoria}")
 	@ApiOperation(value = "Eliminar Descuento por Categoria por ID", notes = "Servicio para eliminar un Descuento por Categoria a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Descuento por Categoria eliminado con exito"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Descuento por Categoria eliminado con exito"),
 			@ApiResponse(code = 404, message = "Descuento por Categoria no encontrado") })
 	public ResponseEntity<Empty> eliminarDtoXCategoria(@PathVariable("idDtoXCategoria") long id) {
 

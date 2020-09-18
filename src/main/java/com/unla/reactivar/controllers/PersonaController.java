@@ -31,7 +31,7 @@ public class PersonaController {
 
 	@GetMapping
 	@ApiOperation(value = "Listar todas las Personas", notes = "Servicio para listar todas las Personas")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Personas encontradas"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Personas encontradas"),
 			@ApiResponse(code = 404, message = "Personas no encontradas") })
 	public List<Persona> traerTodos() {
 		return service.traerTodos();
@@ -39,7 +39,7 @@ public class PersonaController {
 
 	@GetMapping("/{idPersona}")
 	@ApiOperation(value = "Mostrar una Persona por ID", notes = "Servicio para mostrar una Persona")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Persona encontrada"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Persona encontrada"),
 			@ApiResponse(code = 404, message = "Persona no encontrada") })
 	public Persona traerPersona(@PathVariable("idPersona") long id) {
 		return service.traerPersonaPorId(id);
@@ -47,7 +47,7 @@ public class PersonaController {
 
 	@GetMapping("/{idPersona}/coordenadas")
 	@ApiOperation(value = "Mostrar coordenadas de una Persona por ID", notes = "Service para mostrar coordenadas de una Persona a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Persona encontrada"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Persona encontrada"),
 			@ApiResponse(code = 404, message = "Persona no encontrada") })
 	public CoordenadasVo traerCoordenadas(@PathVariable("idPersona") long id) {
 		return service.traerCoordenadas(id);
@@ -55,7 +55,7 @@ public class PersonaController {
 
 	@DeleteMapping("/{idPersona}")
 	@ApiOperation(value = "Eliminar una Persona por ID", notes = "Servicio para eliminar una Persona a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Persona eliminada con exito"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Persona eliminada con exito"),
 			@ApiResponse(code = 404, message = "Persona no encontrada") })
 	public ResponseEntity<Empty> eliminarPersona(@PathVariable("idPersona") long id) {
 

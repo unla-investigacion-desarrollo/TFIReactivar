@@ -34,7 +34,7 @@ public class FuncionPerfilController {
 
 	@GetMapping
 	@ApiOperation(value = "Listar todas las Funciones de Perfil", notes = "Servicio para listar todas las Funciones de Perfil")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Funciones de Perfil encontradas"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Funciones de Perfil encontradas"),
 			@ApiResponse(code = 404, message = "Funciones de Perfil no encontradas") })
 	public List<FuncionPerfil> traerTodos() {
 		return service.traerTodos();
@@ -42,7 +42,7 @@ public class FuncionPerfilController {
 
 	@GetMapping("/{idFuncionPerfil}")
 	@ApiOperation(value = "Mostrar una Función de Perfil por ID", notes = "Servicio para mostrar una Función de Perfil a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Función de Perfil encontrada"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Función de Perfil encontrada"),
 			@ApiResponse(code = 404, message = "Función de Perfil no encontrada") })
 	public FuncionPerfil traerFuncionPerfil(@PathVariable("idFuncionPerfil") long id) {
 		return service.traerFuncionPerfilPorId(id);
@@ -60,7 +60,7 @@ public class FuncionPerfilController {
 
 	@DeleteMapping("/{idFuncionPerfil}")
 	@ApiOperation(value = "Eliminar una Función de Perfil por ID", notes = "Servicio para eliminar una Función de Perfil a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Función de Perfil eliminada con exito"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Función de Perfil eliminada con exito"),
 			@ApiResponse(code = 404, message = "Función de Perfil no encontrada") })
 	public ResponseEntity<Empty> eliminarFuncionPerfil(@PathVariable("idFuncionPerfil") long id) {
 

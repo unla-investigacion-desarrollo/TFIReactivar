@@ -30,7 +30,7 @@ public class PromocionController {
 
 	@GetMapping
 	@ApiOperation(value = "Listar todas las Promociones", notes = "Servicio para listar todas las Promociones")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Promociones encontradas"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Promociones encontradas"),
 			@ApiResponse(code = 404, message = "Promociones no encontradas") })
 	public List<Promocion> traerTodos() {
 		return service.traerTodos();
@@ -38,7 +38,7 @@ public class PromocionController {
 
 	@GetMapping("/{idPromocion}")
 	@ApiOperation(value = "Mostrar una Promoción por ID", notes = "Servicio para mostrar una Promoción a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Promoción encontrada"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Promoción encontrada"),
 			@ApiResponse(code = 404, message = "Promoción no encontrada") })
 	public Promocion traerPromocion(@PathVariable("idPromocion") long id) {
 		return service.traerPromocionPorId(id);
@@ -46,7 +46,7 @@ public class PromocionController {
 
 	@DeleteMapping("/{idPromocion}")
 	@ApiOperation(value = "Eliminar una Promoción por ID", notes = "Servicio para eliminar una Promoción a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Promoción eliminada con exito"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Promoción eliminada con exito"),
 			@ApiResponse(code = 404, message = "Promoción no encontrada") })
 	public ResponseEntity<Empty> eliminarPromocion(@PathVariable("idPromocion") long id) {
 

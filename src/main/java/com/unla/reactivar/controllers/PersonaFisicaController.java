@@ -36,7 +36,7 @@ public class PersonaFisicaController {
 
 	@GetMapping
 	@ApiOperation(value = "Listar todas las Personas Fisicas", notes = "Servicio para listar todas las Personas Fisicas")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Personas Fisicas encontradas"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Personas Fisicas encontradas"),
 			@ApiResponse(code = 404, message = "Personas Fisicas no encontradas") })
 	public List<PersonaFisica> traerTodos() {
 		return service.traerTodos();
@@ -44,7 +44,7 @@ public class PersonaFisicaController {
 
 	@GetMapping("/{idPersonaFisica}")
 	@ApiOperation(value = "Mostrar una Persona Fisica por ID", notes = "Servicio para mostrar una Persona Fisica a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Persona Fisica encontrada"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Persona Fisica encontrada"),
 			@ApiResponse(code = 404, message = "Persona Fisica no encontrada") })
 	public Persona traerPersonaFisica(@PathVariable("idPersonaFisica") long id) {
 		return service.traerPersonaFisicaPorId(id);
@@ -62,7 +62,7 @@ public class PersonaFisicaController {
 
 	@DeleteMapping("/{idPersonaFisica}")
 	@ApiOperation(value = "Eliminar una Persona Fisica por ID", notes = "Servicio para eliminar una Persona Fisica a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Persona Fisica eliminada con exito"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Persona Fisica eliminada con exito"),
 			@ApiResponse(code = 404, message = "Persona Fisica no encontrada") })
 	public ResponseEntity<Empty> eliminarPersonaFisica(@PathVariable("idPersonaFisica") long id) {
 

@@ -34,7 +34,7 @@ public class MarcaController {
 
 	@GetMapping
 	@ApiOperation(value = "Listar todas las Marcas", notes = "Servicio para listar todas las Marcas")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Marcas encontradas"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Marcas encontradas"),
 			@ApiResponse(code = 404, message = "Marcas no encontradas") })
 	public List<Marca> traerTodos() {
 		return service.traerTodos();
@@ -42,7 +42,7 @@ public class MarcaController {
 
 	@GetMapping("/{idMarca}")
 	@ApiOperation(value = "Mostrar una Marca por ID", notes = "Servicio para mostrar una Marca a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Marca encontrada"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Marca encontrada"),
 			@ApiResponse(code = 404, message = "Marca no encontrada") })
 	public Marca traerMarca(@PathVariable("idMarca") long id) {
 		return service.traerMarcaPorId(id);
@@ -60,7 +60,7 @@ public class MarcaController {
 
 	@DeleteMapping("/{idMarca}")
 	@ApiOperation(value = "Eliminar una Marca por ID", notes = "Servicio para eliminar una Marca a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Marca eliminada con exito"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Marca eliminada con exito"),
 			@ApiResponse(code = 404, message = "Marca no encontrada") })
 	public ResponseEntity<Empty> eliminarMarca(@PathVariable("idMarca") long id) {
 

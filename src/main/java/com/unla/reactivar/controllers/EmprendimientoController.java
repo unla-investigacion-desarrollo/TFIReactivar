@@ -37,7 +37,7 @@ public class EmprendimientoController {
 
 	@GetMapping
 	@ApiOperation(value = "Listar todos los Emprendimientos", notes = "Servicio para listar todos los Emprendimientos")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Emprendimientos encontrados"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimientos encontrados"),
 			@ApiResponse(code = 404, message = "Emprendimientos no encontrados") })
 	public List<Emprendimiento> traerTodos() {
 		return service.traerTodos();
@@ -45,7 +45,7 @@ public class EmprendimientoController {
 
 	@GetMapping("/{idEmprendimiento}")
 	@ApiOperation(value = "Mostrar un Emprendimiento por ID", notes = "Servicio para mostrar un Emprendimiento a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Emprendimiento encontrado"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimiento encontrado"),
 			@ApiResponse(code = 404, message = "Emprendimiento no encontrado") })
 	public Emprendimiento traerEmprendimiento(@PathVariable("idEmprendimiento") long id) {
 		return service.traerEmprendimientoPorId(id);
@@ -63,7 +63,7 @@ public class EmprendimientoController {
 
 	@DeleteMapping("/{idEmprendimiento}")
 	@ApiOperation(value = "Eliminar emprendimiento por ID", notes = "Servicio para eliminar un Emprendimiento a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Emprendimiento eliminado con exito"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimiento eliminado con exito"),
 			@ApiResponse(code = 404, message = "Emprendimiento no encontrado") })
 	public ResponseEntity<Empty> eliminarEmprendimiento(@PathVariable("idEmprendimiento") long id) {
 

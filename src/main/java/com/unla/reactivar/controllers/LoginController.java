@@ -34,7 +34,7 @@ public class LoginController {
 
 	@GetMapping
 	@ApiOperation(value = "Listar todos los Logins", notes = "Servicio para listar todos los Logins")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Logins encontrados"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Logins encontrados"),
 			@ApiResponse(code = 404, message = "Logins no encontrados") })
 	public List<Login> traerTodos() {
 		return service.traerTodos();

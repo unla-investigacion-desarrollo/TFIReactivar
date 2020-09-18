@@ -34,7 +34,7 @@ public class LlevaPagaController {
 
 	@GetMapping
 	@ApiOperation(value = "Listar todas las promociones de Lleva y Paga", notes = "Servicio para listar todas las promociones de Lleva y Paga")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Promociones Lleva y Paga encontradas"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Promociones Lleva y Paga encontradas"),
 			@ApiResponse(code = 404, message = "Promociones Lleva y Paga no encontradas") })
 	public List<LlevaPaga> traerTodos() {
 		return service.traerTodos();
@@ -42,7 +42,7 @@ public class LlevaPagaController {
 
 	@GetMapping("/{idLlevaPaga}")
 	@ApiOperation(value = "Mostrar una promoción Lleva y Paga por ID", notes = "Servicio para mostrar una promoción Lleva y Paga a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Promoción Lleva y Paga encontrada"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Promoción Lleva y Paga encontrada"),
 			@ApiResponse(code = 404, message = "Promoción Lleva y Paga no encontrada") })
 	public LlevaPaga traerLlevaPaga(@PathVariable("idLlevaPaga") long id) {
 		return service.traerLlevaPagaPorId(id);
@@ -60,7 +60,7 @@ public class LlevaPagaController {
 
 	@DeleteMapping("/{idLlevaPaga}")
 	@ApiOperation(value = "Eliminar un promoción Lleva y Paga por ID", notes = "Servicio para eliminar una promoción Lleva y Paga a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Promoción Lleva y Paga eliminada con exito"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Promoción Lleva y Paga eliminada con exito"),
 			@ApiResponse(code = 404, message = "Promoción Lleva y Paga no encontrada") })
 	public ResponseEntity<Empty> eliminarLlevaPaga(@PathVariable("idLlevaPaga") long id) {
 

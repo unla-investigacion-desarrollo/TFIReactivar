@@ -34,7 +34,7 @@ public class FuncionController {
 
 	@GetMapping
 	@ApiOperation(value = "Listar todas las Funciones", notes = "Servicio para listar todas las Funciones")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Funciones encontradas"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Funciones encontradas"),
 			@ApiResponse(code = 404, message = "Funciones no encontradas") })
 	public List<Funcion> traerTodos() {
 		return service.traerTodos();
@@ -42,7 +42,7 @@ public class FuncionController {
 
 	@GetMapping("/{idFuncion}")
 	@ApiOperation(value = "Mostrar una Función por ID", notes = "Servicio para mostrar un Función a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Función encontrada"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Función encontrada"),
 			@ApiResponse(code = 404, message = "Función no encontrada") })
 	public Funcion traerFuncion(@PathVariable("idFuncion") long id) {
 		return service.traerFuncionPorId(id);
@@ -60,7 +60,7 @@ public class FuncionController {
 
 	@DeleteMapping("/{idFuncion}")
 	@ApiOperation(value = "Eliminar una Función por ID", notes = "Servicio para eliminar una Función a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Función eliminada con exito"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Función eliminada con exito"),
 			@ApiResponse(code = 404, message = "Función no encontrada") })
 	public ResponseEntity<Empty> eliminarFuncion(@PathVariable("idFuncion") long id) {
 

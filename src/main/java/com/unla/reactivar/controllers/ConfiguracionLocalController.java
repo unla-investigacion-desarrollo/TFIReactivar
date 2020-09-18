@@ -34,7 +34,7 @@ public class ConfiguracionLocalController {
 
 	@GetMapping
 	@ApiOperation(value = "Listar todos las Configuraciones de Locales", notes = "Service para listar todas las Configuraciones de Locales")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Configuraciones de Locales encontradas"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Configuraciones de Locales encontradas"),
 			@ApiResponse(code = 404, message = "Configuraciones de Locales no encontradas") })
 	public List<ConfiguracionLocal> traerTodos() {
 		return service.traerTodos();
@@ -42,7 +42,7 @@ public class ConfiguracionLocalController {
 
 	@GetMapping("/{idConfiguracionLocal}")
 	@ApiOperation(value = "Mostrar una Configuración de Local por ID", notes = "Servicio para mostrar una Configuración Local a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Configuracion Local encontrada"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Configuracion Local encontrada"),
 			@ApiResponse(code = 404, message = "Configuracion Local no encontrada") })
 	public ConfiguracionLocal traerConfiguracionLocal(@PathVariable("idConfiguracionLocal") long id) {
 		return service.traerConfiguracionLocalPorId(id);
@@ -61,7 +61,7 @@ public class ConfiguracionLocalController {
 
 	@DeleteMapping("/{idConfiguracionLocal}")
 	@ApiOperation(value = "Eliminar Configuracion Local por ID", notes = "Servicio para eliminar una Configuracion Local a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Configuracion Local eliminado con exito"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Configuracion Local eliminado con exito"),
 			@ApiResponse(code = 404, message = "Configuracion Local no encontrada") })
 	public ResponseEntity<Empty> eliminarConfiguracionLocal(@PathVariable("idConfiguracionLocal") long id) {
 

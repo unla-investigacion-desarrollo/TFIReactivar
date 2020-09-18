@@ -35,7 +35,7 @@ public class DtoXUnidadController {
 
 	@GetMapping
 	@ApiOperation(value = "Listar todos los Descuentos por Unidades", notes = "Servicio para listar todos los Descuentos por Unidades")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Descuentos por Unidades encontrados"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Descuentos por Unidades encontrados"),
 			@ApiResponse(code = 404, message = "Descuentos por Unidades no encontrados") })
 	public List<DtoXUnidad> traerTodos() {
 		return service.traerTodos();
@@ -43,7 +43,7 @@ public class DtoXUnidadController {
 
 	@GetMapping("/{idDtoXUnidad}")
 	@ApiOperation(value = "Mostrar un Descuento por Unidad por ID", notes = "Servicio para mostrar un Descuento por Unidad a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Descuento por Unidad encontrado"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Descuento por Unidad encontrado"),
 			@ApiResponse(code = 404, message = "Descuento por Unidad no encontrado") })
 	public Promocion traerDtoXUnidad(@PathVariable("idDtoXUnidad") long id) {
 		return service.traerDtoXUnidadPorId(id);
@@ -61,7 +61,7 @@ public class DtoXUnidadController {
 
 	@DeleteMapping("/{idDtoXUnidad}")
 	@ApiOperation(value = "Eliminar un Descuento por Unidad por ID", notes = "Servicio para eliminar un Descuento por Unidad a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Descuento por Unidad eliminado con exito"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Descuento por Unidad eliminado con exito"),
 			@ApiResponse(code = 404, message = "Descuento por Unidad no encontrado") })
 	public ResponseEntity<Empty> eliminarDtoXUnidad(@PathVariable("idDtoXUnidad") long id) {
 

@@ -38,7 +38,7 @@ public class RubroController {
 
 	@GetMapping
 	@ApiOperation(value = "Listar todos los Rubros", notes = "Servicio para listar todos los Rubros")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Rubros encontrados"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Rubros encontrados"),
 			@ApiResponse(code = 404, message = "Rubros no encontrados") })
 	public List<Rubro> traerTodos() {
 		logger.info("[RubroController - traerTodos] Se intentará traer todos los rubros.");
@@ -47,7 +47,7 @@ public class RubroController {
 
 	@GetMapping("/{idRubro}")
 	@ApiOperation(value = "Mostrar un Rubro por ID", notes = "Servicio para mostrar un Rubro a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Rubro encontrado"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Rubro encontrado"),
 			@ApiResponse(code = 404, message = "Rubro no encontrado") })
 	public Rubro traerRubro(@PathVariable("idRubro") long id) {
 		return service.traerRubroPorId(id);
@@ -65,7 +65,7 @@ public class RubroController {
 
 	@DeleteMapping("/{idRubro}")
 	@ApiOperation(value = "Eliminar un Rubro por ID", notes = "Servicio para eliminar un Rubro a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Rubro eliminado con exito"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Rubro eliminado con exito"),
 			@ApiResponse(code = 404, message = "Rubro no encontrado") })
 	public ResponseEntity<Empty> eliminarRubro(@PathVariable("idRubro") long id) {
 

@@ -34,7 +34,7 @@ public class PerfilController {
 
 	@GetMapping
 	@ApiOperation(value = "Listar todos los Perfiles", notes = "Servicio para listar todos los Perfiles")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Perfiles encontrados"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Perfiles encontrados"),
 			@ApiResponse(code = 404, message = "Perfils no encontrados") })
 	public List<Perfil> traerTodos() {
 		return service.traerTodos();
@@ -42,7 +42,7 @@ public class PerfilController {
 
 	@GetMapping("/{idPerfil}")
 	@ApiOperation(value = "Mostrar un Perfil por ID", notes = "Servicio para mostrar un Perfil a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Perfil encontrado"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Perfil encontrado"),
 			@ApiResponse(code = 404, message = "Perfil no encontrado") })
 	public Perfil traerPerfil(@PathVariable("idPerfil") long id) {
 		return service.traerPerfilPorId(id);
@@ -60,7 +60,7 @@ public class PerfilController {
 
 	@DeleteMapping("/{idPerfil}")
 	@ApiOperation(value = "Eliminar un Perfil por ID", notes = "Servicio para eliminar un Perfil a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Perfil eliminado exitosamente"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Perfil eliminado exitosamente"),
 			@ApiResponse(code = 404, message = "Perfil no encontrado") })
 	public ResponseEntity<Empty> eliminarPerfil(@PathVariable("idPerfil") long id) {
 

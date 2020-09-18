@@ -34,7 +34,7 @@ public class UnidadMedidaController {
 
 	@GetMapping
 	@ApiOperation(value = "Listar todas las Unidades de Medida", notes = "Servicio para listar todas las Unidades de Medida")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Unidades de Medida encontradas"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Unidades de Medida encontradas"),
 			@ApiResponse(code = 404, message = "Unidades de Medida no encontradas") })
 	public List<UnidadMedida> traerTodos() {
 		return service.traerTodos();
@@ -42,7 +42,7 @@ public class UnidadMedidaController {
 
 	@GetMapping("/{idUnidadMedida}")
 	@ApiOperation(value = "Mostrar una Unidad de Medida por ID", notes = "Servicio para mostrar una Unidad de Medida a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Unidad de Medida encontrada"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Unidad de Medida encontrada"),
 			@ApiResponse(code = 404, message = "Unidad de Medida no encontrada") })
 	public UnidadMedida traerUnidadMedida(@PathVariable("idUnidadMedida") long id) {
 		return service.traerUnidadMedidaPorId(id);
@@ -60,7 +60,7 @@ public class UnidadMedidaController {
 
 	@DeleteMapping("/{idUnidadMedida}")
 	@ApiOperation(value = "Eliminar una Unidad de Medida por ID", notes = "Servicio para eliminar una Unidad de Medida a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Unidad de Medida eliminada con exito"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Unidad de Medida eliminada con exito"),
 			@ApiResponse(code = 404, message = "Unidad de Medida no encontrada") })
 	public ResponseEntity<Empty> eliminarUnidadMedida(@PathVariable("idUnidadMedida") long id) {
 

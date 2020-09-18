@@ -34,7 +34,7 @@ public class UbicacionController {
 
 	@GetMapping
 	@ApiOperation(value = "Listar todas las Ubicaciones", notes = "Servicio para listar todas las Ubicaciones")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Ubicaciones encontradas"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Ubicaciones encontradas"),
 			@ApiResponse(code = 404, message = "Ubicaciones no encontradas") })
 	public List<Ubicacion> traerTodos() {
 		return service.traerTodos();
@@ -42,7 +42,7 @@ public class UbicacionController {
 
 	@GetMapping("/{idUbicacion}")
 	@ApiOperation(value = "Mostrar una Ubicación por ID", notes = "Servicio para mostrar una Ubicación")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Ubicación encontrada"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Ubicación encontrada"),
 			@ApiResponse(code = 404, message = "Ubicación no encontrada") })
 	public Ubicacion traerUbicacion(@PathVariable("idUbicacion") long id) {
 		return service.traerUbicacionPorId(id);
@@ -60,7 +60,7 @@ public class UbicacionController {
 
 	@DeleteMapping("/{idUbicacion}")
 	@ApiOperation(value = "Eliminar una Ubicación por ID", notes = "Servicio para eliminar una Ubicación a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Ubicación eliminada con exito"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Ubicación eliminada con exito"),
 			@ApiResponse(code = 404, message = "Ubicación no encontrada") })
 	public ResponseEntity<Empty> eliminarUbicacion(@PathVariable("idUbicacion") long id) {
 

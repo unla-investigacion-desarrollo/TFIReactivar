@@ -34,7 +34,7 @@ public class ArticuloController {
 
 	@GetMapping
 	@ApiOperation(value = "Listar todos los articulos", notes = "Servicio para listar todos los articulos")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Articulos encontrados"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Articulos encontrados"),
 			@ApiResponse(code = 404, message = "Articulos no encontrados") })
 	public List<ReqArticulo> traerTodos() {
 		return service.traerTodos();
@@ -42,7 +42,7 @@ public class ArticuloController {
 
 	@GetMapping("/{idArticulo}")
 	@ApiOperation(value = "Traer un articulo por ID", notes = "Servicio para mostrar un articulo a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Articulo encontrado"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Articulo encontrado"),
 			@ApiResponse(code = 404, message = "Articulo no encontrado") })
 	public ReqArticulo traerArticulo(@PathVariable("idArticulo") long id) {
 		return service.traerArticuloPorId(id);
@@ -60,7 +60,7 @@ public class ArticuloController {
 
 	@DeleteMapping("/{idArticulo}")
 	@ApiOperation(value = "Eliminar un articulo por ID", notes = "Servicio para eliminar Articulos a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Articulo eliminado con exito"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Articulo eliminado con exito"),
 			@ApiResponse(code = 404, message = "Articulo no encontrado") })
 	public ResponseEntity<Empty> eliminarArticulo(@PathVariable("idArticulo") long id) {
 

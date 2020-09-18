@@ -34,7 +34,7 @@ public class DtoXPorcentajeController {
 
 	@GetMapping
 	@ApiOperation(value = "Listar todos los Descuentos por Porcentajes", notes = "Servicio para listar todos los Descuento por Porcentajes")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Descuento por Porcentajes encontrados"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Descuento por Porcentajes encontrados"),
 			@ApiResponse(code = 404, message = "Descuento por Porcentajes no encontrados") })
 	public List<DtoXPorcentaje> traerTodos() {
 		return service.traerTodos();
@@ -42,7 +42,7 @@ public class DtoXPorcentajeController {
 
 	@GetMapping("/{idDtoXPorcentaje}")
 	@ApiOperation(value = "Mostrar un Descuento por Porcentaje por ID", notes = "Servicio para mostrar un Descuento por Porcentaje a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Descuento por Porcentaje encontrado"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Descuento por Porcentaje encontrado"),
 			@ApiResponse(code = 404, message = "Descuento por Porcentaje no encontrado") })
 	public DtoXPorcentaje traerDtoXPorcentaje(@PathVariable("idDtoXPorcentaje") long id) {
 		return service.traerDtoXPorcentajePorId(id);
@@ -60,7 +60,7 @@ public class DtoXPorcentajeController {
 
 	@DeleteMapping("/{idDtoXPorcentaje}")
 	@ApiOperation(value = "Eliminar un Descuento por Porcentaje por ID", notes = "Servicio para eliminar un Descuento por Porcentaje a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Descuento por Porcentaje eliminado con exito"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Descuento por Porcentaje eliminado con exito"),
 			@ApiResponse(code = 404, message = "Descuento por Porcentaje no encontrado") })
 	public ResponseEntity<Empty> eliminarDtoXPorcentaje(@PathVariable("idDtoXPorcentaje") long id) {
 

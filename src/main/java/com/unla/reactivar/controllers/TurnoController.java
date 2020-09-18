@@ -34,7 +34,7 @@ public class TurnoController {
 
 	@GetMapping
 	@ApiOperation(value = "Listar todos los Turnos", notes = "Servicio para listar todos los Turnos")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Turnos encontrados"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Turnos encontrados"),
 			@ApiResponse(code = 404, message = "Turnos no encontrados") })
 	public List<Turno> traerTodos() {
 		return service.traerTodos();
@@ -42,7 +42,7 @@ public class TurnoController {
 
 	@GetMapping("/{idTurno}")
 	@ApiOperation(value = "Mostrar un Turno por ID", notes = "Servicio para mostrar un Turno a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Turno encontrado"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Turno encontrado"),
 			@ApiResponse(code = 404, message = "Turno no encontrado") })
 	public Turno traerTurno(@PathVariable("idTurno") long id) {
 		return service.traerTurnoPorId(id);
@@ -60,7 +60,7 @@ public class TurnoController {
 
 	@DeleteMapping("/{idTurno}")
 	@ApiOperation(value = "Eliminar un Turno por ID", notes = "Servicio para eliminar un Turno a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Turno eliminado con exito"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Turno eliminado con exito"),
 			@ApiResponse(code = 404, message = "Turno no encontrado") })
 	public ResponseEntity<Empty> eliminarTurno(@PathVariable("idTurno") long id) {
 

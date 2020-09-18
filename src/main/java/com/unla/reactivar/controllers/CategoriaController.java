@@ -34,7 +34,7 @@ public class CategoriaController {
 
 	@GetMapping
 	@ApiOperation(value = "Listar todos las Categorias", notes = "Servicio para listar todas las Categorias")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Categorias encontrados"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Categorias encontrados"),
 			@ApiResponse(code = 404, message = "Categorias no encontradas") })
 	public List<Categoria> traerTodos() {
 		return service.traerTodos();
@@ -42,7 +42,7 @@ public class CategoriaController {
 
 	@GetMapping("/{idCategoria}")
 	@ApiOperation(value = "Mostrar un categoria por ID", notes = "Servicio para mostrar una Categoria a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Categoria encontrado"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Categoria encontrado"),
 			@ApiResponse(code = 404, message = "Categoria no encontrada") })
 	public Categoria traerCategoria(@PathVariable("idCategoria") long id) {
 		return service.traerCategoriaPorId(id);
@@ -60,7 +60,7 @@ public class CategoriaController {
 
 	@DeleteMapping("/{idCategoria}")
 	@ApiOperation(value = "Eliminar categoria por ID", notes = "Servicio para eliminar una Categoria a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Categoria eliminada con exito"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Categoria eliminada con exito"),
 			@ApiResponse(code = 404, message = "Categoria no encontrada") })
 	public ResponseEntity<Empty> eliminarCategoria(@PathVariable("idCategoria") long id) {
 

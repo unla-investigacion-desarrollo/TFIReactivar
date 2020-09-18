@@ -34,7 +34,7 @@ public class EstadoCarritoController {
 
 	@GetMapping
 	@ApiOperation(value = "Listar todos los Estados Carritos", notes = "Servicio para listar todos los Estados Carritos")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Estados Carritos encontrados"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Estados Carritos encontrados"),
 			@ApiResponse(code = 404, message = "Estados Carritos no encontrados") })
 	public List<EstadoCarrito> traerTodos() {
 		return service.traerTodos();
@@ -42,7 +42,7 @@ public class EstadoCarritoController {
 
 	@GetMapping("/{idEstadoCarrito}")
 	@ApiOperation(value = "Mostrar un Estado Carrito por ID", notes = "Servicio para mostrar un Estado Carrito a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Estado Carrito encontrado"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Estado Carrito encontrado"),
 			@ApiResponse(code = 404, message = "Estado Carrito no encontrado") })
 	public EstadoCarrito traerEstadoCarrito(@PathVariable("idEstadoCarrito") long id) {
 		return service.traerEstadoCarritoPorId(id);
@@ -60,7 +60,7 @@ public class EstadoCarritoController {
 
 	@DeleteMapping("/{idEstadoCarrito}")
 	@ApiOperation(value = "Eliminar Estado Carrito por ID", notes = "Servicio para eliminar un Estado Carrito a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Estado Carrito eliminado con exito"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Estado Carrito eliminado con exito"),
 			@ApiResponse(code = 404, message = "Estado Carrito no encontrado") })
 	public ResponseEntity<Empty> eliminarEstadoCarrito(@PathVariable("idEstadoCarrito") long id) {
 

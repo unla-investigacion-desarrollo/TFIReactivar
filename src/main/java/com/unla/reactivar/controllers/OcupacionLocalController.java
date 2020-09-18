@@ -34,7 +34,7 @@ public class OcupacionLocalController {
 
 	@GetMapping
 	@ApiOperation(value = "Listar todas las Ocupaciones Local", notes = "Servicio para listar todas las Ocupaciones Local")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Ocupaciones Local encontradas"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Ocupaciones Local encontradas"),
 			@ApiResponse(code = 404, message = "Ocupaciones Local no encontradas") })
 	public List<OcupacionLocal> traerTodos() {
 		return service.traerTodos();
@@ -52,7 +52,7 @@ public class OcupacionLocalController {
 
 	@DeleteMapping("/{idOcupacionLocal}")
 	@ApiOperation(value = "Eliminar una Ocupación Local por Id", notes = "Servicio para eliminar una Ocupación Local a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Ocupación Local eliminada con exito"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Ocupación Local eliminada con exito"),
 			@ApiResponse(code = 404, message = "Ocupación Local no encontrada") })
 	public ResponseEntity<Empty> eliminarOcupacionLocal(@PathVariable("idOcupacionLocal") long id) {
 

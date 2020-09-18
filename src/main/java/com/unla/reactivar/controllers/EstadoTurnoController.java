@@ -34,7 +34,7 @@ public class EstadoTurnoController {
 
 	@GetMapping
 	@ApiOperation(value = "Listar todos los Estados Turnos", notes = "Servicio para listar todos los Estados Turnos")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Estados Turnos encontrados"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Estados Turnos encontrados"),
 			@ApiResponse(code = 404, message = "Estados Turnos no encontrados") })
 	public List<EstadoTurno> traerTodos() {
 		return service.traerTodos();
@@ -42,7 +42,7 @@ public class EstadoTurnoController {
 
 	@GetMapping("/{idEstadoTurno}")
 	@ApiOperation(value = "Mostrar un Estado Turno por ID", notes = "Servicio para mostrar un Estado Turno a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Estado Turno encontrado"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Estado Turno encontrado"),
 			@ApiResponse(code = 404, message = "Estado Turno no encontrado") })
 	public EstadoTurno traerEstadoTurno(@PathVariable("idEstadoTurno") long id) {
 		return service.traerEstadoTurnoPorId(id);
@@ -60,7 +60,7 @@ public class EstadoTurnoController {
 
 	@DeleteMapping("/{idEstadoTurno}")
 	@ApiOperation(value = "Eliminar Estado Turno por ID", notes = "Servicio para eliminar un Estado Turno a partir de un  ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Estado Turno eliminado con exito"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Estado Turno eliminado con exito"),
 			@ApiResponse(code = 404, message = "Estado Turno no encontrado") })
 	public ResponseEntity<Empty> eliminarEstadoTurno(@PathVariable("idEstadoTurno") long id) {
 

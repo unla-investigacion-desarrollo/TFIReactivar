@@ -34,7 +34,7 @@ public class LocalidadController {
 
 	@GetMapping
 	@ApiOperation(value = "Listar todas las Localidades", notes = "Servicio para listar todas las Localidades")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Localidades no encontradas"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Localidades no encontradas"),
 			@ApiResponse(code = 404, message = "Localidades no encontradas") })
 	public List<Localidad> traerTodos() {
 		return service.traerTodos();
@@ -42,7 +42,7 @@ public class LocalidadController {
 
 	@GetMapping("/{idLocalidad}")
 	@ApiOperation(value = "Mostrar una Localidad por ID", notes = "Servicio para mostrar una Localidad a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Localidad encontrada"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Localidad encontrada"),
 			@ApiResponse(code = 404, message = "Localidad no encontrada") })
 	public Localidad traerLocalidad(@PathVariable("idLocalidad") long id) {
 		return service.traerLocalidadPorId(id);
@@ -60,7 +60,7 @@ public class LocalidadController {
 
 	@DeleteMapping("/{idLocalidad}")
 	@ApiOperation(value = "Eliminar una Localidad a partir de un ID", notes = "Servicio para eliminar una Localidad a partir de un ID")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Localidad eliminada con exito"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Localidad eliminada con exito"),
 			@ApiResponse(code = 404, message = "Localidad no encontrada") })
 	public ResponseEntity<Empty> eliminarLocalidad(@PathVariable("idLocalidad") long id) {
 
