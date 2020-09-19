@@ -3,11 +3,11 @@ package com.unla.reactivar.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.unla.reactivar.models.ReqArticulo;
+import com.unla.reactivar.models.Articulo;
 
 @Repository
-public interface ArticuloRepository extends JpaRepository<ReqArticulo, Long>{
+public interface ArticuloRepository extends JpaRepository<Articulo, Long>{
 	
-	public ReqArticulo findByIdArticulo(Long idArticulo);
+	public Articulo findByIdArticulo(Long idArticulo);
 	
 }

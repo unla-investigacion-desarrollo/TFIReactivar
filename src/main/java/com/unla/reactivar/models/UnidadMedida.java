@@ -31,5 +31,5 @@ public class UnidadMedida {
 
 	@OneToMany(mappedBy = "unidadMedida")
 	@JsonBackReference
-	private List<ReqArticulo> articulos;
+	private List<Articulo> articulos;
 }

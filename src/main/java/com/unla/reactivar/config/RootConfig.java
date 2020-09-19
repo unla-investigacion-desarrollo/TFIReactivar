@@ -10,6 +10,7 @@ import org.springframework.context.annotation.PropertySource;
 		"com.unla.reactivar.security", "com.unla.reactivar.services" })
 @Configuration
 @PropertySource("file:${root.path}/app-directory/cfg/security/config.properties")
+@PropertySource("file:${root.path}/app-directory/cfg/mail/config.properties")
 public class RootConfig {
 
 }

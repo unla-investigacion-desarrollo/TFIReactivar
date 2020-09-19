@@ -8,10 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.unla.reactivar.exceptions.ObjectAlreadyExists;
 import com.unla.reactivar.exceptions.ObjectNotFound;
+import com.unla.reactivar.models.Articulo;
+import com.unla.reactivar.models.Carrito;
 import com.unla.reactivar.models.ItemCarrito;
-import com.unla.reactivar.models.ReqArticulo;
 import com.unla.reactivar.repositories.ItemCarritoRepository;
 import com.unla.reactivar.vo.ItemCarritoVo;
+import com.unla.reactivar.vo.ReqPostItemCarritoVo;
 
 @Service
 @Transactional(readOnly = true)
@@ -22,6 +24,9 @@ public class ItemCarritoService {
 
 	@Autowired
 	private ArticuloService articuloService;
+	
+	@Autowired
+	private CarritoService carritoService;
 
 	public ItemCarrito traerItemCarritoPorId(Long id) {
 		return repository.findByIdItemCarrito(id);
@@ -62,10 +67,10 @@ public class ItemCarritoService {
 	}
 
 	@Transactional
-	public ItemCarrito crearItemCarrito(ItemCarritoVo itemCarritoVo) {
+	public ItemCarrito crearItemCarrito(ReqPostItemCarritoVo itemCarritoVo) {
 		ItemCarrito item = new ItemCarrito();
 
-		adaptVoToItemCarrito(item, itemCarritoVo);
+		adaptPostVoToItemCarrito(item, itemCarritoVo);
 
 		try {
 			item = repository.save(item);
@@ -79,7 +84,7 @@ public class ItemCarritoService {
 	}
 
 	private void adaptVoToItemCarrito(ItemCarrito item, ItemCarritoVo itemCarritoVo) {
-		ReqArticulo articulo = articuloService.traerArticuloPorId(itemCarritoVo.getIdArticulo());
+		Articulo articulo = articuloService.traerArticuloPorId(itemCarritoVo.getIdArticulo());
 
 		if (articulo == null) {
 			throw new ObjectNotFound("Articulo");
@@ -88,6 +93,19 @@ public class ItemCarritoService {
 		item.setArticuloPrecio(articulo);
 		item.setCantidad(itemCarritoVo.getCantidad());
 
+	}
+	
+	private void adaptPostVoToItemCarrito(ItemCarrito item, ReqPostItemCarritoVo itemCarritoVo) {
+		Articulo articulo = articuloService.traerArticuloPorId(itemCarritoVo.getIdArticulo());
+		Carrito carrito = carritoService.traerCarritoPorId(itemCarritoVo.getIdCarrito());
+		
+		if (articulo == null) {
+			throw new ObjectNotFound("Articulo");
+		}
+
+		item.setArticuloPrecio(articulo);
+		item.setCantidad(itemCarritoVo.getCantidad());
+		item.setCarrito(carrito);
 	}
 
 }
