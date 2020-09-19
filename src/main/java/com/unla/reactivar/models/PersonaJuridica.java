@@ -20,5 +20,5 @@ public class PersonaJuridica extends Persona {
 
 	@ManyToMany(mappedBy = "personasJuridicas")
 	private List<Persona> personas;
-	
+
 }

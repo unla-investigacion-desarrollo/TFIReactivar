@@ -9,5 +9,5 @@ public class FuncionPerfilVo {
 	private long idFuncion;
 	private boolean edicion;
 	private String usuarioModi;
-	
+
 }

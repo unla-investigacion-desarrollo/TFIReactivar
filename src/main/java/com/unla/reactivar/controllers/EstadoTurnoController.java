@@ -28,52 +28,53 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/api/estadoTurno")
 @Api(tags = "EstadoTurno")
 public class EstadoTurnoController {
-	
+
 	@Autowired
 	private EstadoTurnoService service;
-	
+
 	@GetMapping
-	@ApiOperation(value = "Listar todos los estadoTurnos", notes = "Service para listar todos los estadoTurnos")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "EstadoTurnos encontrados"),
-			@ApiResponse(code = 404, message = "EstadoTurnos no encontrados") })
-	public List<EstadoTurno> traerTodosEstadosTurno() {
-		return service.traerTodosEstadosTurno();
+	@ApiOperation(value = "Listar todos los Estados Turnos", notes = "Servicio para listar todos los Estados Turnos")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Estados Turnos encontrados"),
+			@ApiResponse(code = 404, message = "Estados Turnos no encontrados") })
+	public List<EstadoTurno> traerTodos() {
+		return service.traerTodos();
 	}
-	
+
 	@GetMapping("/{idEstadoTurno}")
-	@ApiOperation(value = "Mostrar un estadoTurno", notes = "Service para mostrar un estadoTurno")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "EstadoTurno encontrado"),
-			@ApiResponse(code = 404, message = "EstadoTurno no encontrado") })
-	public EstadoTurno traerEstadoTurno(@PathVariable ("idEstadoTurno") long id) {
+	@ApiOperation(value = "Mostrar un Estado Turno por ID", notes = "Servicio para mostrar un Estado Turno a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Estado Turno encontrado"),
+			@ApiResponse(code = 404, message = "Estado Turno no encontrado") })
+	public EstadoTurno traerEstadoTurno(@PathVariable("idEstadoTurno") long id) {
 		return service.traerEstadoTurnoPorId(id);
 	}
-	
+
 	@PostMapping
-	@ApiOperation(value = "Crear EstadoTurno", notes = "Servicio creador de estadoTurnos")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "EstadoTurno successfully created"),
-			@ApiResponse(code = 400, message = "Invalid request") })
-	public ResponseEntity<EstadoTurno> crearEstadoTurno(@RequestBody EstadoTurnoVo estadoTurnoVo){
+	@ApiOperation(value = "Crear un Estado Turno", notes = "Servicio para crear un Estado Turno")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Estado Turno creado exitosamente"),
+			@ApiResponse(code = 400, message = "No se pudo crear Estado Turno") })
+	public ResponseEntity<EstadoTurno> crearEstadoTurno(@RequestBody EstadoTurnoVo estadoTurnoVo) {
 		EstadoTurno estadoTurno = service.crearEstadoTurno(estadoTurnoVo);
-		
+
 		return new ResponseEntity<>(estadoTurno, HttpStatus.CREATED);
 	}
-	
+
 	@DeleteMapping("/{idEstadoTurno}")
-	@ApiOperation(value = "Eliminar estadoTurno", notes = "Servicio elimina EstadoTurno")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "EstadoTurno eliminado con exito"),
-			@ApiResponse(code = 404, message = "EstadoTurno no encontrado") })
-	public ResponseEntity<Empty> eliminarEstadoTurno(@PathVariable("idEstadoTurno") long id ) {
-		
+	@ApiOperation(value = "Eliminar Estado Turno por ID", notes = "Servicio para eliminar un Estado Turno a partir de un  ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Estado Turno eliminado con exito"),
+			@ApiResponse(code = 404, message = "Estado Turno no encontrado") })
+	public ResponseEntity<Empty> eliminarEstadoTurno(@PathVariable("idEstadoTurno") long id) {
+
 		service.borrarEstadoTurno(id);
-		
+
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/{idEstadoTurno}")
-	@ApiOperation(value = "Update EstadoTurno", notes = "EstadoTurno updater service")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "EstadoTurno successfully updated"),
-			@ApiResponse(code = 404, message = "EstadoTurno not found") })
-	public ResponseEntity<EstadoTurno> updateEstadoTurno(@PathVariable("idEstadoTurno") Long id, EstadoTurnoVo estadoTurnoVo) {
+	@ApiOperation(value = "Modificar Estado Turno por ID", notes = "Servicio para modificar un Estado Turno a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Estado Turno modificado exitosamente"),
+			@ApiResponse(code = 404, message = "Estado Turno no encontrado") })
+	public ResponseEntity<EstadoTurno> updateEstadoTurno(@PathVariable("idEstadoTurno") Long id,
+			EstadoTurnoVo estadoTurnoVo) {
 
 		return new ResponseEntity<>(service.actualizarEstadoTurno(id, estadoTurnoVo), HttpStatus.OK);
 	}

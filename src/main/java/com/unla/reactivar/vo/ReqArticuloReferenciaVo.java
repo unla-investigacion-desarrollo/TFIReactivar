@@ -15,5 +15,5 @@ public class ReqArticuloReferenciaVo {
 	private long idCategoria;
 	private long idMarca;
 	private long idUnidadMedida;
-	
+
 }

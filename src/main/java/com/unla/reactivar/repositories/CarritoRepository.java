@@ -6,8 +6,8 @@ import org.springframework.stereotype.Repository;
 import com.unla.reactivar.models.Carrito;
 
 @Repository
-public interface CarritoRepository extends JpaRepository<Carrito, Long>{
-	
+public interface CarritoRepository extends JpaRepository<Carrito, Long> {
+
 	public Carrito findByIdCarrito(Long idCarrito);
-	
+
 }

@@ -11,15 +11,15 @@ import org.springframework.transaction.annotation.Transactional;
 import com.unla.reactivar.models.DtoXPorcentaje;
 
 @Repository
-public interface DtoXPorcentajeRepository extends JpaRepository<DtoXPorcentaje, Long>{
-	
+public interface DtoXPorcentajeRepository extends JpaRepository<DtoXPorcentaje, Long> {
+
 	@Query("SELECT p FROM Promocion p WHERE p.idPromocion = ?1 and tipo_promocion = 'porcentaje'")
 	public DtoXPorcentaje findByIdPromocion(Long idDtoXPorcentaje);
-	
+
 	@Modifying
 	@Query("SELECT p FROM Promocion p WHERE tipo_promocion = 'porcentaje'")
 	public List<DtoXPorcentaje> findAll();
-	
+
 	@Transactional
 	@Modifying
 	@Query("DELETE FROM Promocion p WHERE p.idPromocion = ?1")

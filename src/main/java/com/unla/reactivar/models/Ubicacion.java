@@ -24,7 +24,7 @@ import lombok.Data;
 @Table(name = "ubicacion")
 public class Ubicacion {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idUbicacion;
 	private String calle;
 	private int numero;
@@ -35,18 +35,18 @@ public class Ubicacion {
 	private String usuarioModi;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date fechaModi;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idLocalidad", nullable = false)
 	@JsonManagedReference
 	private Localidad localidad;
-	
+
 	@OneToOne(mappedBy = "ubicacion", cascade = CascadeType.ALL)
 	@JsonIgnore
 	private Emprendimiento emprendimiento;
-	
+
 	@OneToOne(mappedBy = "ubicacion", cascade = CascadeType.ALL)
 	@JsonIgnore
 	private Persona persona;
-	
+
 }

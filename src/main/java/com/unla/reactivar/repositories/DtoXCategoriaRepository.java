@@ -11,11 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.unla.reactivar.models.DtoXCategoria;
 
 @Repository
-public interface DtoXCategoriaRepository extends JpaRepository<DtoXCategoria, Long>{
-	
+public interface DtoXCategoriaRepository extends JpaRepository<DtoXCategoria, Long> {
+
 	@Query("SELECT p FROM Promocion p WHERE p.idPromocion = ?1 and tipo_promocion = 'categoria'")
 	public DtoXCategoria findByIdPromocion(Long idDtoXCategoria);
-	
+
 	@Modifying
 	@Query("SELECT p FROM Promocion p WHERE tipo_promocion = 'categoria'")
 	public List<DtoXCategoria> findAll();
@@ -24,7 +24,5 @@ public interface DtoXCategoriaRepository extends JpaRepository<DtoXCategoria, Lo
 	@Modifying
 	@Query("DELETE FROM Promocion p WHERE p.idPromocion = ?1")
 	public void deletePromocion(Long idPromocion);
-	
-	
-	
+
 }

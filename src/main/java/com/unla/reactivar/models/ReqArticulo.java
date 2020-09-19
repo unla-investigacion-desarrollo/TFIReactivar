@@ -41,22 +41,22 @@ public class ReqArticulo {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idCategoria", nullable = false)
-    @JsonManagedReference
+	@JsonManagedReference
 	private Categoria categoria;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idMarca", nullable = false)
-    @JsonManagedReference
+	@JsonManagedReference
 	private Marca marca;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idUnidadMedida", nullable = false)
-    @JsonManagedReference
+	@JsonManagedReference
 	private UnidadMedida unidadMedida;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idEmprendimiento", nullable = true)
-    @JsonManagedReference
+	@JsonManagedReference
 	private Emprendimiento emprendimiento;
 
 	private boolean activoComercial;
@@ -68,7 +68,7 @@ public class ReqArticulo {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idPromocion", nullable = true)
-    @JsonManagedReference
+	@JsonManagedReference
 	private Promocion promocion;
 
 }

@@ -11,5 +11,5 @@ public class CarritoVo {
 	private long idPersona;
 	private long idEstadoCarrito;
 	private List<ItemCarritoVo> listaItemCarrito;
-	
+
 }

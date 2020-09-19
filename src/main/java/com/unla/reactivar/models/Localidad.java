@@ -23,7 +23,7 @@ import lombok.Data;
 @Table(name = "localidad")
 public class Localidad {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idLocalidad;
 	@Column(unique = true)
 	private String nombre;
@@ -36,6 +36,5 @@ public class Localidad {
 	@OneToMany(mappedBy = "localidad")
 	@JsonBackReference
 	private List<Ubicacion> ubicaciones;
-	
 
 }

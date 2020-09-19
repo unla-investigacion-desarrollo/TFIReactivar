@@ -6,5 +6,5 @@ import lombok.Data;
 public class FuncionVo {
 
 	private String descripcion;
-	
+
 }

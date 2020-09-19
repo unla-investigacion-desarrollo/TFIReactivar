@@ -28,51 +28,51 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/api/marca")
 @Api(tags = "Marca")
 public class MarcaController {
-	
+
 	@Autowired
 	private MarcaService service;
-	
+
 	@GetMapping
-	@ApiOperation(value = "Listar todos los marcas", notes = "Service para listar todos los marcas")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Marcas encontrados"),
-			@ApiResponse(code = 404, message = "Marcas no encontrados") })
-	public List<Marca> traerTodasMarcas() {
-		return service.traerTodasMarcas();
+	@ApiOperation(value = "Listar todas las Marcas", notes = "Servicio para listar todas las Marcas")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Marcas encontradas"),
+			@ApiResponse(code = 404, message = "Marcas no encontradas") })
+	public List<Marca> traerTodos() {
+		return service.traerTodos();
 	}
-	
+
 	@GetMapping("/{idMarca}")
-	@ApiOperation(value = "Mostrar un marca", notes = "Service para mostrar un marca")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Marca encontrado"),
-			@ApiResponse(code = 404, message = "Marca no encontrado") })
-	public Marca traerMarca(@PathVariable ("idMarca") long id) {
+	@ApiOperation(value = "Mostrar una Marca por ID", notes = "Servicio para mostrar una Marca a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Marca encontrada"),
+			@ApiResponse(code = 404, message = "Marca no encontrada") })
+	public Marca traerMarca(@PathVariable("idMarca") long id) {
 		return service.traerMarcaPorId(id);
 	}
-	
+
 	@PostMapping
-	@ApiOperation(value = "Crear Marca", notes = "Servicio creador de marcas")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Marca successfully created"),
-			@ApiResponse(code = 400, message = "Invalid request") })
-	public ResponseEntity<Marca> crearMarca(@RequestBody MarcaVo marcaVo){
+	@ApiOperation(value = "Crear una Marca", notes = "Servicio para crear una Marca")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Marca creada exitosamente"),
+			@ApiResponse(code = 400, message = "No se pudo crear Marca") })
+	public ResponseEntity<Marca> crearMarca(@RequestBody MarcaVo marcaVo) {
 		Marca marca = service.crearMarca(marcaVo);
-		
+
 		return new ResponseEntity<>(marca, HttpStatus.CREATED);
 	}
-	
+
 	@DeleteMapping("/{idMarca}")
-	@ApiOperation(value = "Eliminar marca", notes = "Servicio elimina Marca")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Marca eliminado con exito"),
-			@ApiResponse(code = 404, message = "Marca no encontrado") })
-	public ResponseEntity<Empty> eliminarMarca(@PathVariable("idMarca") long id ) {
-		
+	@ApiOperation(value = "Eliminar una Marca por ID", notes = "Servicio para eliminar una Marca a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Marca eliminada con exito"),
+			@ApiResponse(code = 404, message = "Marca no encontrada") })
+	public ResponseEntity<Empty> eliminarMarca(@PathVariable("idMarca") long id) {
+
 		service.borrarMarca(id);
-		
+
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/{idMarca}")
-	@ApiOperation(value = "Update Marca", notes = "Marca updater service")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Marca successfully updated"),
-			@ApiResponse(code = 404, message = "Marca not found") })
+	@ApiOperation(value = "Modificar una Marca por ID", notes = "Servicio para modificar una Marca a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Marca modificada correctamente"),
+			@ApiResponse(code = 404, message = "Marca no encontrada") })
 	public ResponseEntity<Marca> updateMarca(@PathVariable("idMarca") Long id, MarcaVo marcaVo) {
 
 		return new ResponseEntity<>(service.actualizarMarca(id, marcaVo), HttpStatus.OK);

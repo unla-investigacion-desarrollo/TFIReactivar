@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class EmprendimientoVo {
-	
+
 	private String nombre;
 	private String cuit;
 	private String usuarioModi;

@@ -36,25 +36,25 @@ public class EmprendimientoController {
 	private EmprendimientoService service;
 
 	@GetMapping
-	@ApiOperation(value = "Listar todos los emprendimientos", notes = "Service para listar todos los emprendimientos")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Emprendimientos encontrados"),
+	@ApiOperation(value = "Listar todos los Emprendimientos", notes = "Servicio para listar todos los Emprendimientos")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimientos encontrados"),
 			@ApiResponse(code = 404, message = "Emprendimientos no encontrados") })
 	public List<Emprendimiento> traerTodosEmprendimientos() {
 		return service.traerTodosEmprendimientos();
 	}
 
 	@GetMapping("/{idEmprendimiento}")
-	@ApiOperation(value = "Mostrar un emprendimiento", notes = "Service para mostrar un emprendimiento")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Emprendimiento encontrado"),
+	@ApiOperation(value = "Mostrar un Emprendimiento por ID", notes = "Servicio para mostrar un Emprendimiento a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimiento encontrado"),
 			@ApiResponse(code = 404, message = "Emprendimiento no encontrado") })
 	public Emprendimiento traerEmprendimiento(@PathVariable("idEmprendimiento") long id) {
 		return service.traerEmprendimientoPorId(id);
 	}
 
 	@PostMapping
-	@ApiOperation(value = "Crear Emprendimiento", notes = "Servicio creador de emprendimientos")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Emprendimiento successfully created"),
-			@ApiResponse(code = 400, message = "Invalid request") })
+	@ApiOperation(value = "Crear Emprendimiento", notes = "Servicio para crear un Emprendimiento")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Emprendimiento creado exitosamente"),
+			@ApiResponse(code = 400, message = "No se pudo crear Emprendimiento") })
 	public ResponseEntity<Emprendimiento> crearEmprendimiento(@RequestBody EmprendimientoVo emprendimientoVo) {
 		Emprendimiento emprendimiento = service.crearEmprendimiento(emprendimientoVo);
 
@@ -62,8 +62,8 @@ public class EmprendimientoController {
 	}
 
 	@DeleteMapping("/{idEmprendimiento}")
-	@ApiOperation(value = "Eliminar emprendimiento", notes = "Servicio elimina Emprendimiento")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Emprendimiento eliminado con exito"),
+	@ApiOperation(value = "Eliminar emprendimiento por ID", notes = "Servicio para eliminar un Emprendimiento a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimiento eliminado con exito"),
 			@ApiResponse(code = 404, message = "Emprendimiento no encontrado") })
 	public ResponseEntity<Empty> eliminarEmprendimiento(@PathVariable("idEmprendimiento") long id) {
 
@@ -73,9 +73,9 @@ public class EmprendimientoController {
 	}
 
 	@PutMapping("/{idEmprendimiento}")
-	@ApiOperation(value = "Update Emprendimiento", notes = "Emprendimiento updater service")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimiento successfully updated"),
-			@ApiResponse(code = 404, message = "Emprendimiento not found") })
+	@ApiOperation(value = "Modificar un Emprendimiento por ID", notes = "Servicio para modificar un Emprendimiento a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimiento modificado correctamente"),
+			@ApiResponse(code = 404, message = "Emprendimiento no encontrado") })
 	public ResponseEntity<Emprendimiento> updateEmprendimiento(@PathVariable("idEmprendimiento") Long id,
 			ReqPutEmprendimientoVo emprendimientoVo) {
 
@@ -83,10 +83,10 @@ public class EmprendimientoController {
 	}
 
 	@GetMapping("/{idEmprendimiento}/exportpdf")
-	@ApiOperation(value = "Exportar PDF", notes = "PDF exporter service")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "PDF successfully exported"),
-			@ApiResponse(code = 404, message = "Emprendimiento not found") })
-	public ResponseEntity<Empty> exportToPDF(HttpServletResponse response, @PathVariable("idEmprendimiento") Long id){
+	@ApiOperation(value = "Exportar QR en PDF", notes = "Servicio para exportar el QR del Emprendimiento en formato PDF a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "PDF exportado exitosamente"),
+			@ApiResponse(code = 404, message = "Emprendimiento no encontrado, no se pudo exportar") })
+	public ResponseEntity<Empty> exportToPDF(HttpServletResponse response, @PathVariable("idEmprendimiento") Long id) {
 		service.exportPDF(response, id);
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}

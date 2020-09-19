@@ -29,7 +29,7 @@ import lombok.Data;
 public class Perfil {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idPerfil;
 	@Column(unique = true)
 	private String nombre;

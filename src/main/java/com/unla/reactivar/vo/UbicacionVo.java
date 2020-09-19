@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class UbicacionVo {
-	
+
 	private String calle;
 	private int numero;
 	private int piso;

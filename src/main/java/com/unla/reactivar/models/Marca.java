@@ -16,23 +16,21 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name ="marca")
+@Table(name = "marca")
 public class Marca {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idMarca;
 	@Column(unique = true)
 	private String nombre;
-	
-	@OneToMany(mappedBy="marca")
+
+	@OneToMany(mappedBy = "marca")
 	@JsonBackReference
 	private List<ArticuloReferencia> articulosReferencia;
-	
-	@OneToMany(mappedBy="marca")
+
+	@OneToMany(mappedBy = "marca")
 	@JsonBackReference
 	private List<ReqArticulo> articulos;
-
-
 
 }

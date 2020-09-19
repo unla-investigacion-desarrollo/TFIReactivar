@@ -28,47 +28,47 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/api/categoria")
 @Api(tags = "Categoria")
 public class CategoriaController {
-	
+
 	@Autowired
 	private CategoriaService service;
-	
+
 	@GetMapping
-	@ApiOperation(value = "Listar todos los categorias", notes = "Service para listar todos los categorias")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Categorias encontrados"),
-			@ApiResponse(code = 404, message = "Categorias no encontrados") })
-	public List<Categoria> traerTodasCategorias() {
-		return service.traerTodasCategorias();
+	@ApiOperation(value = "Listar todos las Categorias", notes = "Servicio para listar todas las Categorias")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Categorias encontrados"),
+			@ApiResponse(code = 404, message = "Categorias no encontradas") })
+	public List<Categoria> traerTodos() {
+		return service.traerTodos();
 	}
-	
+
 	@GetMapping("/{idCategoria}")
-	@ApiOperation(value = "Mostrar un categoria", notes = "Service para mostrar un categoria")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Categoria encontrado"),
-			@ApiResponse(code = 404, message = "Categoria no encontrado") })
-	public Categoria traerCategoria(@PathVariable ("idCategoria") long id) {
+	@ApiOperation(value = "Mostrar un categoria por ID", notes = "Servicio para mostrar una Categoria a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Categoria encontrado"),
+			@ApiResponse(code = 404, message = "Categoria no encontrada") })
+	public Categoria traerCategoria(@PathVariable("idCategoria") long id) {
 		return service.traerCategoriaPorId(id);
 	}
-	
+
 	@PostMapping
-	@ApiOperation(value = "Crear Categoria", notes = "Servicio creador de categorias")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Categoria successfully created"),
-			@ApiResponse(code = 400, message = "Invalid request") })
-	public ResponseEntity<Categoria> crearCategoria(@RequestBody CategoriaVo categoriaVo){
+	@ApiOperation(value = "Crear Categoria", notes = "Servicio para crear Categorias")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Categoria creada exitosamente"),
+			@ApiResponse(code = 400, message = "No se pudo crear Categoria") })
+	public ResponseEntity<Categoria> crearCategoria(@RequestBody CategoriaVo categoriaVo) {
 		Categoria categoria = service.crearCategoria(categoriaVo);
-		
+
 		return new ResponseEntity<>(categoria, HttpStatus.CREATED);
 	}
-	
+
 	@DeleteMapping("/{idCategoria}")
-	@ApiOperation(value = "Eliminar categoria", notes = "Servicio elimina Categoria")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Categoria eliminado con exito"),
-			@ApiResponse(code = 404, message = "Categoria no encontrado") })
-	public ResponseEntity<Empty> eliminarCategoria(@PathVariable("idCategoria") long id ) {
-		
+	@ApiOperation(value = "Eliminar categoria por ID", notes = "Servicio para eliminar una Categoria a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Categoria eliminada con exito"),
+			@ApiResponse(code = 404, message = "Categoria no encontrada") })
+	public ResponseEntity<Empty> eliminarCategoria(@PathVariable("idCategoria") long id) {
+
 		service.borrarCategoria(id);
-		
+
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/{idCategoria}")
 	@ApiOperation(value = "Update Categoria", notes = "Categoria updater service")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Categoria successfully updated"),

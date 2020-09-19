@@ -20,13 +20,13 @@ import lombok.Data;
 public class Funcion {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idFuncion;
 	@Column(unique = true)
 	private String descripcion;
-	
+
 	@OneToMany(mappedBy = "funcion")
 	@JsonBackReference
 	private List<FuncionPerfil> funcionesPerfil;
-	
+
 }

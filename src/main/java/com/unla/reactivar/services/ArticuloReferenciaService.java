@@ -82,7 +82,8 @@ public class ArticuloReferenciaService {
 		return articulo;
 	}
 
-	private void adaptVoToArticuloReferencia(ArticuloReferencia articulo, ReqArticuloReferenciaVo articuloReferenciaVo) {
+	private void adaptVoToArticuloReferencia(ArticuloReferencia articulo,
+			ReqArticuloReferenciaVo articuloReferenciaVo) {
 
 		Categoria categoria = categoriaService.traerCategoriaPorId(articuloReferenciaVo.getIdCategoria());
 		Marca marca = marcaService.traerMarcaPorId(articuloReferenciaVo.getIdMarca());

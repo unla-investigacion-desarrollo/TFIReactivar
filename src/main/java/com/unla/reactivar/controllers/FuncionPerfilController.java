@@ -28,52 +28,53 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/api/funcionPerfil")
 @Api(tags = "FuncionPerfil")
 public class FuncionPerfilController {
-	
+
 	@Autowired
 	private FuncionPerfilService service;
-	
+
 	@GetMapping
-	@ApiOperation(value = "Listar todos los funcionPerfils", notes = "Service para listar todos los funcionPerfils")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "FuncionPerfils encontrados"),
-			@ApiResponse(code = 404, message = "FuncionPerfils no encontrados") })
-	public List<FuncionPerfil> traerTodasFuncionesPerfil() {
-		return service.traerTodasFuncionesPerfil();
+	@ApiOperation(value = "Listar todas las Funciones de Perfil", notes = "Servicio para listar todas las Funciones de Perfil")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Funciones de Perfil encontradas"),
+			@ApiResponse(code = 404, message = "Funciones de Perfil no encontradas") })
+	public List<FuncionPerfil> traerTodos() {
+		return service.traerTodos();
 	}
-	
+
 	@GetMapping("/{idFuncionPerfil}")
-	@ApiOperation(value = "Mostrar un funcionPerfil", notes = "Service para mostrar un funcionPerfil")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "FuncionPerfil encontrado"),
-			@ApiResponse(code = 404, message = "FuncionPerfil no encontrado") })
-	public FuncionPerfil traerFuncionPerfil(@PathVariable ("idFuncionPerfil") long id) {
+	@ApiOperation(value = "Mostrar una Función de Perfil por ID", notes = "Servicio para mostrar una Función de Perfil a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Función de Perfil encontrada"),
+			@ApiResponse(code = 404, message = "Función de Perfil no encontrada") })
+	public FuncionPerfil traerFuncionPerfil(@PathVariable("idFuncionPerfil") long id) {
 		return service.traerFuncionPerfilPorId(id);
 	}
-	
+
 	@PostMapping
-	@ApiOperation(value = "Crear FuncionPerfil", notes = "Servicio creador de funcionPerfils")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "FuncionPerfil successfully created"),
-			@ApiResponse(code = 400, message = "Invalid request") })
-	public ResponseEntity<FuncionPerfil> crearFuncionPerfil(@RequestBody FuncionPerfilVo funcionPerfilVo){
+	@ApiOperation(value = "Crear una Función de Perfil", notes = "Servicio para crear una Función de Perfil")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Función de Perfil creada exitosamente"),
+			@ApiResponse(code = 400, message = "No se pudo crear una Función de Perfil") })
+	public ResponseEntity<FuncionPerfil> crearFuncionPerfil(@RequestBody FuncionPerfilVo funcionPerfilVo) {
 		FuncionPerfil funcionPerfil = service.crearFuncionPerfil(funcionPerfilVo);
-		
+
 		return new ResponseEntity<>(funcionPerfil, HttpStatus.CREATED);
 	}
-	
+
 	@DeleteMapping("/{idFuncionPerfil}")
-	@ApiOperation(value = "Eliminar funcionPerfil", notes = "Servicio elimina FuncionPerfil")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "FuncionPerfil eliminado con exito"),
-			@ApiResponse(code = 404, message = "FuncionPerfil no encontrado") })
-	public ResponseEntity<Empty> eliminarFuncionPerfil(@PathVariable("idFuncionPerfil") long id ) {
-		
+	@ApiOperation(value = "Eliminar una Función de Perfil por ID", notes = "Servicio para eliminar una Función de Perfil a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Función de Perfil eliminada con exito"),
+			@ApiResponse(code = 404, message = "Función de Perfil no encontrada") })
+	public ResponseEntity<Empty> eliminarFuncionPerfil(@PathVariable("idFuncionPerfil") long id) {
+
 		service.borrarFuncionPerfil(id);
-		
+
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/{idFuncionPerfil}")
-	@ApiOperation(value = "Update FuncionPerfil", notes = "FuncionPerfil updater service")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "FuncionPerfil successfully updated"),
-			@ApiResponse(code = 404, message = "FuncionPerfil not found") })
-	public ResponseEntity<FuncionPerfil> updateFuncionPerfil(@PathVariable("idFuncionPerfil") Long id, FuncionPerfilVo funcionPerfilVo) {
+	@ApiOperation(value = "Modifiacar una Función de Perfil por ID", notes = "Servicio para modificar una Función de Perfil a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Función de Perfil modificada con exito"),
+			@ApiResponse(code = 404, message = "Función de Perfil no encontrada") })
+	public ResponseEntity<FuncionPerfil> updateFuncionPerfil(@PathVariable("idFuncionPerfil") Long id,
+			FuncionPerfilVo funcionPerfilVo) {
 
 		return new ResponseEntity<>(service.actualizarFuncionPerfil(id, funcionPerfilVo), HttpStatus.OK);
 	}

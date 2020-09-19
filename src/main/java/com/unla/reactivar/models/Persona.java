@@ -33,7 +33,7 @@ import lombok.Data;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipoPersona", discriminatorType = DiscriminatorType.STRING)
 public abstract class Persona implements Serializable {
-	
+
 	private static final long serialVersionUID = 6151260972153503761L;
 
 	@Id

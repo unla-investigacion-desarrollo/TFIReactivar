@@ -45,30 +45,30 @@ public class MarcaService {
 		if (marca == null) {
 			throw new ObjectNotFound("Marca");
 		}
-		
+
 		marca.setNombre(marcaVo.getNombreMarca());
-		
+
 		try {
 			marca = repository.save(marca);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			throw new ObjectAlreadyExists();
 		}
-		
+
 		return marca;
 	}
 
 	@Transactional
 	public Marca crearMarca(MarcaVo marcaVo) {
 		Marca marca = new Marca();
-		
+
 		marca.setNombre(marcaVo.getNombreMarca());
-		
+
 		try {
 			marca = repository.save(marca);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			throw new ObjectAlreadyExists();
 		}
-		
+
 		return marca;
 	}
 

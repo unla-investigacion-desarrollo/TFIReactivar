@@ -36,5 +36,4 @@ public class PromocionService {
 		repository.deletePromocion(id);
 	}
 
-
 }

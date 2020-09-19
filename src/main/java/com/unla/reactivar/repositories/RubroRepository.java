@@ -6,8 +6,8 @@ import org.springframework.stereotype.Repository;
 import com.unla.reactivar.models.Rubro;
 
 @Repository
-public interface RubroRepository extends JpaRepository<Rubro, Long>{
-	
+public interface RubroRepository extends JpaRepository<Rubro, Long> {
+
 	public Rubro findByIdRubro(Long idRubro);
-	
+
 }

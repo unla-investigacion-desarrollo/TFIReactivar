@@ -72,7 +72,7 @@ public class ConfiguracionLocalService {
 		}
 
 		adaptVoToConfiguracionLocal(configuracionLocalVo, configuracionLocal);
-		
+
 		try {
 			configuracionLocal = repository.save(configuracionLocal);
 		} catch (Exception e) {

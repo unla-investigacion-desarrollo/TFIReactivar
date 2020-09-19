@@ -18,36 +18,36 @@ public class TipoEmprendimientoService {
 
 	@Autowired
 	private TipoEmprendimientoRepository repository;
-	
+
 	public TipoEmprendimiento traerTipoEmprendimientoPorId(Long id) {
 		return repository.findByIdTipoEmprendimiento(id);
 	}
-	
-	public List<TipoEmprendimiento> traerTodosTiposEmprendimientos(){
+
+	public List<TipoEmprendimiento> traerTodos() {
 		return repository.findAll();
 	}
-	
+
 	@Transactional
 	public void borrarTipoEmprendimiento(long id) {
 		TipoEmprendimiento tipoEmprendimiento = repository.findByIdTipoEmprendimiento(id);
-		
-		if(tipoEmprendimiento == null) {
+
+		if (tipoEmprendimiento == null) {
 			throw new ObjectNotFound("TipoEmprendimiento");
 		}
-		
+
 		repository.delete(tipoEmprendimiento);
 	}
 
 	@Transactional
 	public TipoEmprendimiento actualizarTipoEmprendimiento(Long id, TipoEmprendimientoVo tipoEmprendimientoVo) {
 		TipoEmprendimiento tipoEmprendimiento = repository.findByIdTipoEmprendimiento(id);
-		
-		if(tipoEmprendimiento == null) {
+
+		if (tipoEmprendimiento == null) {
 			throw new ObjectNotFound("TipoEmprendimiento");
 		}
-		
+
 		tipoEmprendimiento.setNombre(tipoEmprendimientoVo.getTipoEmprendimiento());
-		
+
 		try {
 			tipoEmprendimiento = repository.save(tipoEmprendimiento);
 		} catch (Exception e) {
@@ -60,9 +60,9 @@ public class TipoEmprendimientoService {
 	@Transactional
 	public TipoEmprendimiento crearTipoEmprendimiento(TipoEmprendimientoVo tipoEmprendimientoVo) {
 		TipoEmprendimiento tipoEmprendimiento = new TipoEmprendimiento();
-		
+
 		tipoEmprendimiento.setNombre(tipoEmprendimientoVo.getTipoEmprendimiento());
-		
+
 		try {
 			tipoEmprendimiento = repository.save(tipoEmprendimiento);
 		} catch (Exception e) {
@@ -71,5 +71,5 @@ public class TipoEmprendimientoService {
 
 		return tipoEmprendimiento;
 	}
-	
+
 }

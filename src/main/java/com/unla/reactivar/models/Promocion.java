@@ -29,14 +29,13 @@ import lombok.Data;
 @Entity
 @Table(name = "promocion")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="tipoPromocion", 
-discriminatorType = DiscriminatorType.STRING)
-public abstract class Promocion implements Serializable{
-	
-	private static final long serialVersionUID = 3618308926536344259L; 
-	
+@DiscriminatorColumn(name = "tipoPromocion", discriminatorType = DiscriminatorType.STRING)
+public abstract class Promocion implements Serializable {
+
+	private static final long serialVersionUID = 3618308926536344259L;
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idPromocion;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date fechaInicio;
@@ -45,17 +44,14 @@ public abstract class Promocion implements Serializable{
 	private boolean habilitada;
 	@Column(unique = true)
 	private String descripcion;
-	
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idEmprendimiento", nullable = false)
 	@JsonManagedReference
 	private Emprendimiento emprendimiento;
-	
 
 	@OneToMany(mappedBy = "promocion")
 	@JsonBackReference
 	private List<ReqArticulo> listArticulos;
-	
 
 }

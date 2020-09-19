@@ -6,8 +6,8 @@ import org.springframework.stereotype.Repository;
 import com.unla.reactivar.models.Perfil;
 
 @Repository
-public interface PerfilRepository extends JpaRepository<Perfil, Long>{
-	
+public interface PerfilRepository extends JpaRepository<Perfil, Long> {
+
 	public Perfil findByIdPerfil(Long id);
-	
+
 }

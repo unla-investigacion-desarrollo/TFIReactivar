@@ -53,14 +53,14 @@ public class EstadoTurnoService {
 		} catch (Exception e) {
 			throw new ObjectAlreadyExists();
 		}
-		
+
 		return estado;
 	}
 
 	@Transactional
 	public EstadoTurno crearEstadoTurno(EstadoTurnoVo estadoTurnoVo) {
 		EstadoTurno estado = new EstadoTurno();
-		
+
 		estado.setEstado(estadoTurnoVo.getNombreEstado());
 
 		try {
@@ -68,7 +68,7 @@ public class EstadoTurnoService {
 		} catch (Exception e) {
 			throw new ObjectAlreadyExists();
 		}
-		
+
 		return estado;
 	}
 

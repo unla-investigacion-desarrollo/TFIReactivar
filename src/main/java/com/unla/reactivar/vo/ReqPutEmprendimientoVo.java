@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class ReqPutEmprendimientoVo {
-	
+
 	private String nombre;
 	private String cuit;
 	private String usuarioModi;

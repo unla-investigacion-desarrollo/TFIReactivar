@@ -101,7 +101,7 @@ public class ArticuloService {
 		Emprendimiento emprendimiento = empService.traerEmprendimientoPorId(articuloVo.getIdEmprendimiento());
 		Promocion promocion = promocionService.traerPromocionPorId(articuloVo.getIdPromocion());
 
-		if (categoria == null || marca == null || unidadMedida == null || emprendimiento == null ) {
+		if (categoria == null || marca == null || unidadMedida == null || emprendimiento == null) {
 			throw new ObjectNotFound("Categoria / Marca / UnidadMedida / Emprendimiento ");
 		}
 

@@ -25,44 +25,43 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/api/persona")
 @Api(tags = "Persona")
 public class PersonaController {
-	
+
 	@Autowired
 	private PersonaService service;
-	
+
 	@GetMapping
-	@ApiOperation(value = "Listar todos los personas", notes = "Service para listar todos los personas")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Personas encontrados"),
-			@ApiResponse(code = 404, message = "Personas no encontrados") })
-	public List<Persona> traerTodasPersonas() {
-		return service.traerTodasPersonas();
-	}
-	
-	@GetMapping("/{idPersona}")
-	@ApiOperation(value = "Mostrar un persona", notes = "Service para mostrar un persona")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Persona encontrado"),
-			@ApiResponse(code = 404, message = "Persona no encontrado") })
-	public Persona traerPersona(@PathVariable ("idPersona") long id) {
-		return service.traerPersonaPorId(id);
-	}
-	
-	@GetMapping("/{idPersona}/coordenadas")
-	@ApiOperation(value = "Mostrar coordenadas de una persona", notes = "Service para mostrar coordenadas de una persona")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Persona encontrada"),
-			@ApiResponse(code = 404, message = "Persona no encontrada") })
-	public CoordenadasVo traerCoordenadas(@PathVariable ("idPersona") long id) {
-		return service.traerCoordenadas(id);
-	}
-	
-	@DeleteMapping("/{idPersona}")
-	@ApiOperation(value = "Eliminar persona", notes = "Servicio elimina Persona")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Persona eliminado con exito"),
-			@ApiResponse(code = 404, message = "Persona no encontrado") })
-	public ResponseEntity<Empty> eliminarPersona(@PathVariable("idPersona") long id ) {
-		
-		service.borrarPersona(id);
-		
-		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
+	@ApiOperation(value = "Listar todas las Personas", notes = "Servicio para listar todas las Personas")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Personas encontradas"),
+			@ApiResponse(code = 404, message = "Personas no encontradas") })
+	public List<Persona> traerTodos() {
+		return service.traerTodos();
 	}
 
+	@GetMapping("/{idPersona}")
+	@ApiOperation(value = "Mostrar una Persona por ID", notes = "Servicio para mostrar una Persona")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Persona encontrada"),
+			@ApiResponse(code = 404, message = "Persona no encontrada") })
+	public Persona traerPersona(@PathVariable("idPersona") long id) {
+		return service.traerPersonaPorId(id);
+	}
+
+	@GetMapping("/{idPersona}/coordenadas")
+	@ApiOperation(value = "Mostrar coordenadas de una Persona por ID", notes = "Service para mostrar coordenadas de una Persona a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Persona encontrada"),
+			@ApiResponse(code = 404, message = "Persona no encontrada") })
+	public CoordenadasVo traerCoordenadas(@PathVariable("idPersona") long id) {
+		return service.traerCoordenadas(id);
+	}
+
+	@DeleteMapping("/{idPersona}")
+	@ApiOperation(value = "Eliminar una Persona por ID", notes = "Servicio para eliminar una Persona a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Persona eliminada con exito"),
+			@ApiResponse(code = 404, message = "Persona no encontrada") })
+	public ResponseEntity<Empty> eliminarPersona(@PathVariable("idPersona") long id) {
+
+		service.borrarPersona(id);
+
+		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
+	}
 
 }

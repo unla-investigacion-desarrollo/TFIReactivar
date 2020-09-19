@@ -22,14 +22,14 @@ import lombok.Data;
 @Table(name = "configuracionLocal")
 public class ConfiguracionLocal {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idConfiguracionLocal;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "idEmprendimiento", nullable = false)
 	@JsonManagedReference
 	private Emprendimiento emprendimiento;
-	
+
 	private String diaSemana;
 	private String turno1Desde;
 	private String turno1Hasta;

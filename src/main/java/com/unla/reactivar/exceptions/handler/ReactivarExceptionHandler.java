@@ -19,56 +19,55 @@ import com.unla.reactivar.exceptions.models.GenericError;
 @Order(Ordered.LOWEST_PRECEDENCE)
 public class ReactivarExceptionHandler {
 
-	
 	@ExceptionHandler(ObjectNotFound.class)
 	@ResponseStatus(value = HttpStatus.NOT_FOUND)
 	@ResponseBody
-	protected GenericError ObjectNotFoundExceptionHandler(ObjectNotFound ex){
-		
+	protected GenericError ObjectNotFoundExceptionHandler(ObjectNotFound ex) {
+
 		String message = "El objeto seleccionado no fue encontrado.";
-		
-		if(!StringUtils.isBlank(ex.getErrorMessage())) {
+
+		if (!StringUtils.isBlank(ex.getErrorMessage())) {
 			message = new StringBuilder(message).append(" (").append(ex.getErrorMessage()).append(")").toString();
 		}
-		
+
 		GenericError error = new GenericError("error.reactivar.object.not_found", message);
-		
+
 		return error;
 	}
-	
+
 	@ExceptionHandler(IncorrectUserOrPassword.class)
 	@ResponseStatus(value = HttpStatus.NOT_FOUND)
 	@ResponseBody
-	protected GenericError incorrectUserOrPasswordExceptionHandler(IncorrectUserOrPassword ex){
-		
+	protected GenericError incorrectUserOrPasswordExceptionHandler(IncorrectUserOrPassword ex) {
+
 		String message = "Usuario y/o Contraseña incorrecto";
-		
+
 		GenericError error = new GenericError("error.reactivar.incorrect.user_password", message);
-		
+
 		return error;
 	}
-	
+
 	@ExceptionHandler(QrExporterException.class)
 	@ResponseStatus(value = HttpStatus.NOT_FOUND)
 	@ResponseBody
-	protected GenericError qrExporterExceptionHandler(QrExporterException ex){
-		
+	protected GenericError qrExporterExceptionHandler(QrExporterException ex) {
+
 		String message = "Ha ocurrido un error al generar PDF.";
-		
+
 		GenericError error = new GenericError("error.reactivar.exporter.pdf", message);
-		
+
 		return error;
 	}
-	
+
 	@ExceptionHandler(ObjectAlreadyExists.class)
 	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
 	@ResponseBody
-	protected GenericError ObjectAlreadyExistsExceptionHandler(ObjectAlreadyExists ex){
-		
+	protected GenericError ObjectAlreadyExistsExceptionHandler(ObjectAlreadyExists ex) {
+
 		String message = "El objeto ya exite dentro de la BD.";
-		
+
 		GenericError error = new GenericError("error.reactivar.db.registro_ya_existente", message);
-		
+
 		return error;
 	}
 }

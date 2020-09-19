@@ -6,8 +6,8 @@ import org.springframework.stereotype.Repository;
 import com.unla.reactivar.models.Marca;
 
 @Repository
-public interface MarcaRepository extends JpaRepository<Marca, Long>{
-	
+public interface MarcaRepository extends JpaRepository<Marca, Long> {
+
 	public Marca findByIdMarca(Long idMarca);
-	
+
 }

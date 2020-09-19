@@ -29,52 +29,53 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/api/dtoXUnidad")
 @Api(tags = "DtoXUnidad")
 public class DtoXUnidadController {
-	
+
 	@Autowired
 	private DtoXUnidadService service;
-	
+
 	@GetMapping
-	@ApiOperation(value = "Listar todos los dtoXUnidads", notes = "Service para listar todos los dtoXUnidads")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "DtoXUnidads encontrados"),
-			@ApiResponse(code = 404, message = "DtoXUnidads no encontrados") })
-	public List<DtoXUnidad> traerTodosDtosXUnidades() {
-		return service.traerTodosDtosXUnidades();
+	@ApiOperation(value = "Listar todos los Descuentos por Unidades", notes = "Servicio para listar todos los Descuentos por Unidades")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Descuentos por Unidades encontrados"),
+			@ApiResponse(code = 404, message = "Descuentos por Unidades no encontrados") })
+	public List<DtoXUnidad> traerTodos() {
+		return service.traerTodos();
 	}
-	
+
 	@GetMapping("/{idDtoXUnidad}")
-	@ApiOperation(value = "Mostrar un dtoXUnidad", notes = "Service para mostrar un dtoXUnidad")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "DtoXUnidad encontrado"),
-			@ApiResponse(code = 404, message = "DtoXUnidad no encontrado") })
-	public Promocion traerDtoXUnidad(@PathVariable ("idDtoXUnidad") long id) {
+	@ApiOperation(value = "Mostrar un Descuento por Unidad por ID", notes = "Servicio para mostrar un Descuento por Unidad a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Descuento por Unidad encontrado"),
+			@ApiResponse(code = 404, message = "Descuento por Unidad no encontrado") })
+	public Promocion traerDtoXUnidad(@PathVariable("idDtoXUnidad") long id) {
 		return service.traerDtoXUnidadPorId(id);
 	}
-	
+
 	@PostMapping
-	@ApiOperation(value = "Crear DtoXUnidad", notes = "Servicio creador de dtoXUnidads")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "DtoXUnidad successfully created"),
-			@ApiResponse(code = 400, message = "Invalid request") })
-	public ResponseEntity<DtoXUnidad> crearDtoXUnidad(@RequestBody DtoXUnidadVo dtoXUnidadVo){
+	@ApiOperation(value = "Crear un Descuento por Unidad", notes = "Servicio para crear un Descuento por Unidad")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Descuento por Unidad creado exitosamente"),
+			@ApiResponse(code = 400, message = "No se pudo crear un Descuento por Unidad") })
+	public ResponseEntity<DtoXUnidad> crearDtoXUnidad(@RequestBody DtoXUnidadVo dtoXUnidadVo) {
 		DtoXUnidad dtoXUnidad = service.crearDtoXUnidad(dtoXUnidadVo);
-		
+
 		return new ResponseEntity<>(dtoXUnidad, HttpStatus.CREATED);
 	}
-	
+
 	@DeleteMapping("/{idDtoXUnidad}")
-	@ApiOperation(value = "Eliminar dtoXUnidad", notes = "Servicio elimina DtoXUnidad")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "DtoXUnidad eliminado con exito"),
-			@ApiResponse(code = 404, message = "DtoXUnidad no encontrado") })
-	public ResponseEntity<Empty> eliminarDtoXUnidad(@PathVariable("idDtoXUnidad") long id ) {
-		
+	@ApiOperation(value = "Eliminar un Descuento por Unidad por ID", notes = "Servicio para eliminar un Descuento por Unidad a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Descuento por Unidad eliminado con exito"),
+			@ApiResponse(code = 404, message = "Descuento por Unidad no encontrado") })
+	public ResponseEntity<Empty> eliminarDtoXUnidad(@PathVariable("idDtoXUnidad") long id) {
+
 		service.borrarDtoXUnidad(id);
-		
+
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/{idDtoXUnidad}")
-	@ApiOperation(value = "Update DtoXUnidad", notes = "DtoXUnidad updater service")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "DtoXUnidad successfully updated"),
-			@ApiResponse(code = 404, message = "DtoXUnidad not found") })
-	public ResponseEntity<Promocion> updateDtoXUnidad(@PathVariable("idDtoXUnidad") Long id, DtoXUnidadVo dtoXUnidadVo) {
+	@ApiOperation(value = "Modificar un Descuento por Unidad por ID", notes = "Modificar un Descuento por Unidad a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Descuento por Unidad modificado correctamente"),
+			@ApiResponse(code = 404, message = "Descuento por Unidad no encontrado") })
+	public ResponseEntity<Promocion> updateDtoXUnidad(@PathVariable("idDtoXUnidad") Long id,
+			DtoXUnidadVo dtoXUnidadVo) {
 
 		return new ResponseEntity<>(service.actualizarDtoXUnidad(id, dtoXUnidadVo), HttpStatus.OK);
 	}

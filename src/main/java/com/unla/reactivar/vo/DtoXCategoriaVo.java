@@ -14,5 +14,5 @@ public class DtoXCategoriaVo {
 	private double descuento;
 	private long idCategoria;
 	private long idEmprendimiento;
-	
+
 }

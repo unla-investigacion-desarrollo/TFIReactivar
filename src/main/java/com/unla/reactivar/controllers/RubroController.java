@@ -33,12 +33,12 @@ public class RubroController {
 
 	@Autowired
 	private RubroService service;
-	
-    private final Logger logger = LoggerFactory.getLogger(getClass().getName());
+
+	private final Logger logger = LoggerFactory.getLogger(getClass().getName());
 
 	@GetMapping
-	@ApiOperation(value = "Listar todos los rubros", notes = "Service para listar todos los rubros")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Rubros encontrados"),
+	@ApiOperation(value = "Listar todos los Rubros", notes = "Servicio para listar todos los Rubros")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Rubros encontrados"),
 			@ApiResponse(code = 404, message = "Rubros no encontrados") })
 	public List<Rubro> traerTodosRubros() {
 		logger.info("[RubroController - traerTodos] Se intentará traer todos los rubros.");
@@ -46,17 +46,17 @@ public class RubroController {
 	}
 
 	@GetMapping("/{idRubro}")
-	@ApiOperation(value = "Mostrar un rubro", notes = "Service para mostrar un rubro")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Rubro encontrado"),
+	@ApiOperation(value = "Mostrar un Rubro por ID", notes = "Servicio para mostrar un Rubro a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Rubro encontrado"),
 			@ApiResponse(code = 404, message = "Rubro no encontrado") })
 	public Rubro traerRubro(@PathVariable("idRubro") long id) {
 		return service.traerRubroPorId(id);
 	}
 
 	@PostMapping
-	@ApiOperation(value = "Crear Rubro", notes = "Servicio creador de rubros")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Rubro successfully created"),
-			@ApiResponse(code = 400, message = "Invalid request") })
+	@ApiOperation(value = "Crear un Rubro", notes = "Servicio para crear un Rubro")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Rubro creado exitosamente"),
+			@ApiResponse(code = 400, message = "No se pudo crear Rubro") })
 	public ResponseEntity<Rubro> crearRubro(@RequestBody RubroVo rubroVo) {
 		Rubro rubro = service.crearRubro(rubroVo);
 
@@ -64,20 +64,20 @@ public class RubroController {
 	}
 
 	@DeleteMapping("/{idRubro}")
-	@ApiOperation(value = "Eliminar rubro", notes = "Servicio elimina Rubro")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Rubro eliminado con exito"),
+	@ApiOperation(value = "Eliminar un Rubro por ID", notes = "Servicio para eliminar un Rubro a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Rubro eliminado con exito"),
 			@ApiResponse(code = 404, message = "Rubro no encontrado") })
 	public ResponseEntity<Empty> eliminarRubro(@PathVariable("idRubro") long id) {
 
 		service.borrarRubro(id);
-		
+
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
 
 	@PutMapping("/{idRubro}")
-	@ApiOperation(value = "Update Rubro", notes = "Rubro updater service")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Rubro successfully updated"),
-			@ApiResponse(code = 404, message = "Rubro not found") })
+	@ApiOperation(value = "Modificar un Rubro por ID", notes = "Servicio para moficar un Rubro a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Rubro modificado exitosamente"),
+			@ApiResponse(code = 404, message = "Rubro no encontrado") })
 	public ResponseEntity<Rubro> updateRubro(@PathVariable("idRubro") Long id, RubroVo rubroVo) {
 
 		return new ResponseEntity<>(service.actualizarRubro(id, rubroVo), HttpStatus.OK);

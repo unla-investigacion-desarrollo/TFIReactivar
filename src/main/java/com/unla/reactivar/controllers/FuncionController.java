@@ -28,51 +28,51 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/api/funcion")
 @Api(tags = "Funcion")
 public class FuncionController {
-	
+
 	@Autowired
 	private FuncionService service;
-	
+
 	@GetMapping
-	@ApiOperation(value = "Listar todos los funcions", notes = "Service para listar todos los funcions")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Funcions encontrados"),
-			@ApiResponse(code = 404, message = "Funcions no encontrados") })
-	public List<Funcion> traerTodasFunciones() {
-		return service.traerTodasFunciones();
+	@ApiOperation(value = "Listar todas las Funciones", notes = "Servicio para listar todas las Funciones")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Funciones encontradas"),
+			@ApiResponse(code = 404, message = "Funciones no encontradas") })
+	public List<Funcion> traerTodos() {
+		return service.traerTodos();
 	}
-	
+
 	@GetMapping("/{idFuncion}")
-	@ApiOperation(value = "Mostrar un funcion", notes = "Service para mostrar un funcion")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Funcion encontrado"),
-			@ApiResponse(code = 404, message = "Funcion no encontrado") })
-	public Funcion traerFuncion(@PathVariable ("idFuncion") long id) {
+	@ApiOperation(value = "Mostrar una Función por ID", notes = "Servicio para mostrar un Función a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Función encontrada"),
+			@ApiResponse(code = 404, message = "Función no encontrada") })
+	public Funcion traerFuncion(@PathVariable("idFuncion") long id) {
 		return service.traerFuncionPorId(id);
 	}
-	
+
 	@PostMapping
-	@ApiOperation(value = "Crear Funcion", notes = "Servicio creador de funcions")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Funcion successfully created"),
-			@ApiResponse(code = 400, message = "Invalid request") })
-	public ResponseEntity<Funcion> crearFuncion(@RequestBody FuncionVo funcionVo){
+	@ApiOperation(value = "Crear una Función", notes = "Servicio para crear una Función")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Función creada exitosamente"),
+			@ApiResponse(code = 400, message = "No se pudo crear Función") })
+	public ResponseEntity<Funcion> crearFuncion(@RequestBody FuncionVo funcionVo) {
 		Funcion funcion = service.crearFuncion(funcionVo);
-		
+
 		return new ResponseEntity<>(funcion, HttpStatus.CREATED);
 	}
-	
+
 	@DeleteMapping("/{idFuncion}")
-	@ApiOperation(value = "Eliminar funcion", notes = "Servicio elimina Funcion")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Funcion eliminado con exito"),
-			@ApiResponse(code = 404, message = "Funcion no encontrado") })
-	public ResponseEntity<Empty> eliminarFuncion(@PathVariable("idFuncion") long id ) {
-		
+	@ApiOperation(value = "Eliminar una Función por ID", notes = "Servicio para eliminar una Función a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Función eliminada con exito"),
+			@ApiResponse(code = 404, message = "Función no encontrada") })
+	public ResponseEntity<Empty> eliminarFuncion(@PathVariable("idFuncion") long id) {
+
 		service.borrarFuncion(id);
-		
+
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/{idFuncion}")
-	@ApiOperation(value = "Update Funcion", notes = "Funcion updater service")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Funcion successfully updated"),
-			@ApiResponse(code = 404, message = "Funcion not found") })
+	@ApiOperation(value = "Modificar una Función por ID", notes = "Servicio para modificar una Función a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Función modificada con exito"),
+			@ApiResponse(code = 404, message = "Función no encontrada") })
 	public ResponseEntity<Funcion> updateFuncion(@PathVariable("idFuncion") Long id, FuncionVo funcionVo) {
 
 		return new ResponseEntity<>(service.actualizarFuncion(id, funcionVo), HttpStatus.OK);

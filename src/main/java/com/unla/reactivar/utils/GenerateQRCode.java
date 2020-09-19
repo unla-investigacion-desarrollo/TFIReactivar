@@ -22,5 +22,4 @@ public class GenerateQRCode {
 		MatrixToImageWriter.writeToPath(matrix, "JPG", path);
 	}
 
-
 }
