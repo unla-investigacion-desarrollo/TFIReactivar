@@ -33,7 +33,7 @@ public class PromocionController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Promociones encontradas"),
 			@ApiResponse(code = 404, message = "Promociones no encontradas") })
 	public List<Promocion> traerTodos() {
-		return service.traerTodos();
+		return service.traerTodasPromociones();
 	}
 
 	@GetMapping("/{idPromocion}")

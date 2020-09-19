@@ -37,7 +37,7 @@ public class CategoriaController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Categorias encontrados"),
 			@ApiResponse(code = 404, message = "Categorias no encontradas") })
 	public List<Categoria> traerTodos() {
-		return service.traerTodos();
+		return service.traerTodasCategorias();
 	}
 
 	@GetMapping("/{idCategoria}")

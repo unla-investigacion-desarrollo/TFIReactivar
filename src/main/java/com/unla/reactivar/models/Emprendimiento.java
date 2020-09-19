@@ -73,7 +73,7 @@ public class Emprendimiento {
 
 	@OneToMany(mappedBy = "emprendimiento")
 	@JsonBackReference
-	private List<ReqArticulo> articulos;
+	private List<Articulo> articulos;
 
 	@OneToMany(mappedBy = "emprendimiento", cascade = CascadeType.ALL)
 	@JsonBackReference

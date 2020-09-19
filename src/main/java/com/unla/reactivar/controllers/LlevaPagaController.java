@@ -37,7 +37,7 @@ public class LlevaPagaController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Promociones Lleva y Paga encontradas"),
 			@ApiResponse(code = 404, message = "Promociones Lleva y Paga no encontradas") })
 	public List<LlevaPaga> traerTodos() {
-		return service.traerTodos();
+		return service.traerTodosLlevaPaga();
 	}
 
 	@GetMapping("/{idLlevaPaga}")

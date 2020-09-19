@@ -37,7 +37,7 @@ public class LocalidadController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Localidades no encontradas"),
 			@ApiResponse(code = 404, message = "Localidades no encontradas") })
 	public List<Localidad> traerTodos() {
-		return service.traerTodos();
+		return service.traerTodasLocalidades();
 	}
 
 	@GetMapping("/{idLocalidad}")

@@ -37,7 +37,7 @@ public class OcupacionLocalController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Ocupaciones Local encontradas"),
 			@ApiResponse(code = 404, message = "Ocupaciones Local no encontradas") })
 	public List<OcupacionLocal> traerTodos() {
-		return service.traerTodos();
+		return service.traerTodasOcupacionesLocales();
 	}
 
 	@PostMapping

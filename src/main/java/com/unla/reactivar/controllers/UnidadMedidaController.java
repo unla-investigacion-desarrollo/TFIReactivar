@@ -37,7 +37,7 @@ public class UnidadMedidaController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Unidades de Medida encontradas"),
 			@ApiResponse(code = 404, message = "Unidades de Medida no encontradas") })
 	public List<UnidadMedida> traerTodos() {
-		return service.traerTodos();
+		return service.traerTodasUnidadesMedida();
 	}
 
 	@GetMapping("/{idUnidadMedida}")

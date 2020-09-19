@@ -37,7 +37,7 @@ public class ArticuloController {
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Articulos encontrados"),
 			@ApiResponse(code = 404, message = "Articulos no encontrados") })
 	public List<Articulo> traerTodos() {
-		return service.traerTodos();
+		return service.traerTodosArticulos();
 	}
 	
 	@GetMapping("/{idArticulo}")

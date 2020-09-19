@@ -37,7 +37,7 @@ public class MarcaController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Marcas encontradas"),
 			@ApiResponse(code = 404, message = "Marcas no encontradas") })
 	public List<Marca> traerTodos() {
-		return service.traerTodos();
+		return service.traerTodasMarcas();
 	}
 
 	@GetMapping("/{idMarca}")

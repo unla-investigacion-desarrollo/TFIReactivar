@@ -37,7 +37,7 @@ public class EstadoTurnoController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Estados Turnos encontrados"),
 			@ApiResponse(code = 404, message = "Estados Turnos no encontrados") })
 	public List<EstadoTurno> traerTodos() {
-		return service.traerTodos();
+		return service.traerTodosEstadosTurno();
 	}
 
 	@GetMapping("/{idEstadoTurno}")

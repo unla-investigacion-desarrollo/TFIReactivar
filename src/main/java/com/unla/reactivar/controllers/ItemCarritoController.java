@@ -18,6 +18,7 @@ import com.unla.reactivar.models.ItemCarrito;
 import com.unla.reactivar.services.ItemCarritoService;
 import com.unla.reactivar.vo.Empty;
 import com.unla.reactivar.vo.ItemCarritoVo;
+import com.unla.reactivar.vo.ReqPostItemCarritoVo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,7 +38,7 @@ public class ItemCarritoController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Items de Carrito encontrados"),
 			@ApiResponse(code = 404, message = "Items de Carrito no encontrados") })
 	public List<ItemCarrito> traerTodos() {
-		return service.traerTodos();
+		return service.traerTodosItemsCarrito();
 	}
 
 	@GetMapping("/{idItemCarrito}")
@@ -52,7 +53,7 @@ public class ItemCarritoController {
 	@ApiOperation(value = "Crear un Item de Carrito", notes = "Servicio para crear un Item de Carrito")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Item de Carrito creado exitosamente"),
 			@ApiResponse(code = 400, message = "No se pudo crear un Item de Carrito") })
-	public ResponseEntity<ItemCarrito> crearItemCarrito(@RequestBody ItemCarritoVo itemCarritoVo) {
+	public ResponseEntity<ItemCarrito> crearItemCarrito(@RequestBody ReqPostItemCarritoVo itemCarritoVo) {
 		ItemCarrito itemCarrito = service.crearItemCarrito(itemCarritoVo);
 
 		return new ResponseEntity<>(itemCarrito, HttpStatus.CREATED);

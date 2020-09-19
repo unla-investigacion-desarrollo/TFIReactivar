@@ -59,13 +59,13 @@ public class LoginController {
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
 
-	@PutMapping("/{email}")
+	@PutMapping
 	@ApiOperation(value = "Modificar un Login por Email", notes = "Servicio para modificar un Login a partir de un Email")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Login modificado correctamente"),
 			@ApiResponse(code = 404, message = "Login no encontrado") })
-	public ResponseEntity<Login> updateLogin(@PathVariable("email") String email, LoginVo loginVo) {
+	public ResponseEntity<Login> updateLogin(LoginVo loginVo) {
 
-		return new ResponseEntity<>(service.actualizarLogin(email, loginVo), HttpStatus.OK);
+		return new ResponseEntity<>(service.actualizarLogin(loginVo), HttpStatus.OK);
 	}
 
 }

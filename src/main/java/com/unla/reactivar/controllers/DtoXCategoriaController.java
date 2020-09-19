@@ -37,7 +37,7 @@ public class DtoXCategoriaController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Descuentos por Categoria encontrados"),
 			@ApiResponse(code = 404, message = "Descuentos por Categoria no encontrados") })
 	public List<DtoXCategoria> traerTodos() {
-		return service.traerTodos();
+		return service.traerTodosDtosXCategorias();
 	}
 
 	@GetMapping("/{idDtoXCategoria}")

@@ -37,7 +37,7 @@ public class FuncionController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Funciones encontradas"),
 			@ApiResponse(code = 404, message = "Funciones no encontradas") })
 	public List<Funcion> traerTodos() {
-		return service.traerTodos();
+		return service.traerTodasFunciones();
 	}
 
 	@GetMapping("/{idFuncion}")

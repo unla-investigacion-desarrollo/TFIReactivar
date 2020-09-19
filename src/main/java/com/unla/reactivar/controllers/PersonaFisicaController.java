@@ -39,7 +39,7 @@ public class PersonaFisicaController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Personas Fisicas encontradas"),
 			@ApiResponse(code = 404, message = "Personas Fisicas no encontradas") })
 	public List<PersonaFisica> traerTodos() {
-		return service.traerTodos();
+		return service.traerTodasPersonasFisicas();
 	}
 
 	@GetMapping("/{idPersonaFisica}")

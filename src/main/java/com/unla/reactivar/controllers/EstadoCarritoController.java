@@ -37,7 +37,7 @@ public class EstadoCarritoController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Estados Carritos encontrados"),
 			@ApiResponse(code = 404, message = "Estados Carritos no encontrados") })
 	public List<EstadoCarrito> traerTodos() {
-		return service.traerTodos();
+		return service.traerTodosEstadosCarrito();
 	}
 
 	@GetMapping("/{idEstadoCarrito}")

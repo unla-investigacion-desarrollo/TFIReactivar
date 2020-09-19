@@ -22,6 +22,10 @@ public class PersonaService {
 	public Persona traerPersonaPorId(long idPersona) {
 		return personaRepository.findByIdPersona(idPersona);
 	}
+	
+	public Persona traerPersonaPorEmail(String email) {
+		return personaRepository.findByEmail(email);
+	}
 
 	public List<Persona> traerTodos() {
 		return personaRepository.findAll();

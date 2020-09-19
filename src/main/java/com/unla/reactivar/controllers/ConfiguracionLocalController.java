@@ -18,6 +18,7 @@ import com.unla.reactivar.models.ConfiguracionLocal;
 import com.unla.reactivar.services.ConfiguracionLocalService;
 import com.unla.reactivar.vo.ConfiguracionLocalVo;
 import com.unla.reactivar.vo.Empty;
+import com.unla.reactivar.vo.ReqPostConfiguracionLocalVo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,7 +38,7 @@ public class ConfiguracionLocalController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Configuraciones de Locales encontradas"),
 			@ApiResponse(code = 404, message = "Configuraciones de Locales no encontradas") })
 	public List<ConfiguracionLocal> traerTodos() {
-		return service.traerTodos();
+		return service.traerTodasConfiguracionesLocales();
 	}
 
 	@GetMapping("/{idConfiguracionLocal}")
@@ -53,7 +54,7 @@ public class ConfiguracionLocalController {
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Configuracion Local creado exitosamente"),
 			@ApiResponse(code = 400, message = "No se pudo crear una Configuracion Local") })
 	public ResponseEntity<ConfiguracionLocal> crearConfiguracionLocal(
-			@RequestBody ConfiguracionLocalVo configuracionLocalVo) {
+			@RequestBody ReqPostConfiguracionLocalVo configuracionLocalVo) {
 		ConfiguracionLocal configuracionLocal = service.crearConfiguracion(configuracionLocalVo);
 
 		return new ResponseEntity<>(configuracionLocal, HttpStatus.CREATED);

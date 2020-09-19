@@ -52,6 +52,6 @@ public abstract class Promocion implements Serializable {
 
 	@OneToMany(mappedBy = "promocion")
 	@JsonBackReference
-	private List<ReqArticulo> listArticulos;
+	private List<Articulo> listArticulos;
 
 }

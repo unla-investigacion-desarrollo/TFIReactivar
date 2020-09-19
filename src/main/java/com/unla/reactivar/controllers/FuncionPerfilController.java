@@ -37,7 +37,7 @@ public class FuncionPerfilController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Funciones de Perfil encontradas"),
 			@ApiResponse(code = 404, message = "Funciones de Perfil no encontradas") })
 	public List<FuncionPerfil> traerTodos() {
-		return service.traerTodos();
+		return service.traerTodasFuncionesPerfil();
 	}
 
 	@GetMapping("/{idFuncionPerfil}")
