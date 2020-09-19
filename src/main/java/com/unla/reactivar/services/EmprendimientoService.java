@@ -1,6 +1,7 @@
 package com.unla.reactivar.services;
 
 import java.io.IOException;
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -24,6 +25,7 @@ import com.unla.reactivar.repositories.EmprendimientoRepository;
 import com.unla.reactivar.utils.DateUtils;
 import com.unla.reactivar.utils.QREmprendimientoPDFExporter;
 import com.unla.reactivar.vo.ConfiguracionLocalVo;
+
 import com.unla.reactivar.vo.EmprendimientoVo;
 import com.unla.reactivar.vo.ReqPutEmprendimientoVo;
 
@@ -53,7 +55,16 @@ public class EmprendimientoService {
 	public List<Emprendimiento> traerTodosEmprendimientos() {
 		return repository.findAll();
 	}
-
+	
+	public List<Emprendimiento> traerPorRubro(long idRubro){
+		return repository.traerPorRubro(idRubro);
+	}
+		
+	@Transactional(readOnly = false)
+	public List<Emprendimiento> traerEmprendimientosCercanos(long idRubro, long idPersona, String cantidadKm){
+		return repository.traerEmprendimientosCercanos(idRubro, idPersona, cantidadKm);
+	}	
+	
 	@Transactional
 	public Emprendimiento crearEmprendimiento(EmprendimientoVo emprendimientoVo) {
 		Emprendimiento emprendimiento = new Emprendimiento();

@@ -50,4 +50,6 @@ public class PersonaService {
 		return new CoordenadasVo(ubicacion.getLatitud(), ubicacion.getLongitud());
 	}
 
+
+
 }
