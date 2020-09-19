@@ -7,9 +7,11 @@ public class ReqPutPersonaFisicaVo {
 
 	private String nombre;
 	private String apellido;
+	private String sexo;
 	private String cuil;
 	private String celular;
 	private String usuarioModi;
 	private long idPerfil;
+	private long idEstadoPersona;
 
 }

@@ -53,7 +53,7 @@ public class ItemCarritoController {
 	@ApiOperation(value = "Crear un Item de Carrito", notes = "Servicio para crear un Item de Carrito")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Item de Carrito creado exitosamente"),
 			@ApiResponse(code = 400, message = "No se pudo crear un Item de Carrito") })
-	public ResponseEntity<ItemCarrito> crearItemCarrito(@RequestBody ReqPostItemCarritoVo itemCarritoVo) {
+	public ResponseEntity<ItemCarrito> crearItemCarrito(@RequestBody ItemCarritoVo itemCarritoVo){
 		ItemCarrito itemCarrito = service.crearItemCarrito(itemCarritoVo);
 
 		return new ResponseEntity<>(itemCarrito, HttpStatus.CREATED);

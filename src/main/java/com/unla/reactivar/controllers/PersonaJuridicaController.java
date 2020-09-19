@@ -18,6 +18,7 @@ import com.unla.reactivar.models.PersonaJuridica;
 import com.unla.reactivar.services.PersonaJuridicaService;
 import com.unla.reactivar.vo.Empty;
 import com.unla.reactivar.vo.PersonaJuridicaVo;
+import com.unla.reactivar.vo.ReqPutPersonaJuridicaVo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

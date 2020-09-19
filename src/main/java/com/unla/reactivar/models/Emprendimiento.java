@@ -40,12 +40,12 @@ public class Emprendimiento {
 	private Date fechaModi;
 	private int capacidad;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idTipoEmprendimiento", nullable = false)
 	@JsonManagedReference
 	private TipoEmprendimiento tipoEmprendimiento;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idUbicacion", nullable = false)
 	private Ubicacion ubicacion;
 
@@ -67,7 +67,7 @@ public class Emprendimiento {
 	@JsonBackReference
 	private List<Carrito> carrito;
 
-	@OneToMany(mappedBy = "emprendimiento", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "emprendimiento")
 	@JsonBackReference
 	private List<Turno> turnos;
 
@@ -75,11 +75,11 @@ public class Emprendimiento {
 	@JsonBackReference
 	private List<Articulo> articulos;
 
-	@OneToMany(mappedBy = "emprendimiento", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "emprendimiento", cascade=CascadeType.PERSIST)
 	@JsonBackReference
 	private List<ConfiguracionLocal> configuracionLocales = new ArrayList<>();
 
-	@OneToMany(mappedBy = "emprendimiento", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "emprendimiento")
 	@JsonBackReference
 	private List<OcupacionLocal> ocupacionLocales;
 }

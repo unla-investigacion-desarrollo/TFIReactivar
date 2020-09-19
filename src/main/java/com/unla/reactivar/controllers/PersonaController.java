@@ -8,13 +8,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unla.reactivar.models.Persona;
 import com.unla.reactivar.services.PersonaService;
 import com.unla.reactivar.vo.CoordenadasVo;
 import com.unla.reactivar.vo.Empty;
+import com.unla.reactivar.vo.PasswordRecoveryVo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -64,4 +68,44 @@ public class PersonaController {
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
 
+	@PostMapping("/{idPersona}/resetPassword")
+	public ResponseEntity<Empty> resetPassword(@PathVariable("idPersona") long id) {
+
+		service.recuperarContrasenia(id);
+
+		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
+	}
+
+	@GetMapping("/changePassword")
+	public ResponseEntity<Empty> changePassword(@RequestParam("token") String token) {
+		
+		service.cambiarContrasenia(token);
+		
+		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
+	}
+	
+	@PostMapping("/savePassword")
+	public ResponseEntity<Persona> savePassword(@RequestBody PasswordRecoveryVo passwordRecoveryVo) {
+		
+		Persona persona= service.guardarContrasenia(passwordRecoveryVo);
+		
+		return new ResponseEntity<>(persona, HttpStatus.OK);
+	}
+	
+	@GetMapping("/validateEmail")
+	public ResponseEntity<Empty> validateEmail(@RequestParam("token") String token) {
+		
+		service.validarEmail(token);
+		
+		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
+	}
+	
+	@GetMapping("/resendValidationEmail")
+	public ResponseEntity<Empty> resendValidationEmil(@RequestParam("email") String email) {
+		
+		service.reenviarValidarEmail(email);
+		
+		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
+	}
+	
 }

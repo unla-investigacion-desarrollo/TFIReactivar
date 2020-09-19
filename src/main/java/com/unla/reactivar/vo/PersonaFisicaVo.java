@@ -7,6 +7,7 @@ public class PersonaFisicaVo {
 
 	private String nombre;
 	private String apellido;
+	private String sexo;
 	private String cuil;
 	private String celular;
 	private String usuarioModi;
