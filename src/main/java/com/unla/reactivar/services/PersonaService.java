@@ -22,8 +22,8 @@ public class PersonaService {
 	public Persona traerPersonaPorId(long idPersona) {
 		return personaRepository.findByIdPersona(idPersona);
 	}
-	
-	public List<Persona> traerTodos(){
+
+	public List<Persona> traerTodos() {
 		return personaRepository.findAll();
 	}
 
@@ -37,17 +37,19 @@ public class PersonaService {
 
 		personaRepository.deletePersona(id);
 	}
-	
+
 	public CoordenadasVo traerCoordenadas(Long id) {
 		Persona persona = personaRepository.findByIdPersona(id);
 
 		if (persona == null) {
 			throw new ObjectNotFound("Persona");
 		}
-		
+
 		Ubicacion ubicacion = persona.getUbicacion();
-		
+
 		return new CoordenadasVo(ubicacion.getLatitud(), ubicacion.getLongitud());
 	}
+
+
 
 }

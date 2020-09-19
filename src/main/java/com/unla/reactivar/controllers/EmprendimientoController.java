@@ -49,16 +49,26 @@ public class EmprendimientoController {
 	public Emprendimiento traerEmprendimiento(@PathVariable("idEmprendimiento") long id) {
 		return service.traerEmprendimientoPorId(id);
 	}
-
+	
 	@GetMapping("/traerPorRubro/{idRubro}")
-	@ApiOperation(value = "Mostrar emprendimientos por un Rubro especifico", notes = "Service para mostrar emprendimientos de un rubro")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Emprendimientos encontrados"),
+	@ApiOperation(value = "Mostrar emprendimientos por un Rubro especifico", notes = "Service para mostrar emprendimientos por un rubro especifico")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimientos encontrados"),
 			@ApiResponse(code = 404, message = "Emprendimiento no encontrado") })
 	public ResponseEntity<List<Emprendimiento>> traerPorRubro(long idRubro) {
-		List<Emprendimiento> traerPorRubro = service.traerPorRubro(idRubro);
+		List<Emprendimiento> traerPorRubro = service.traerPorRubro(idRubro);		
 		return new ResponseEntity(traerPorRubro, HttpStatus.OK);
 	}
 
+	@GetMapping("{idRubro}/{idPersona}/{cantidadKm}/traerPorRubroYKm")
+	@ApiOperation(value = "Mostrar emprendimientos de un rubro especifico bajo la distancia elegida", notes = "Service para mostrar emprendimientos de un rubro especifico bajo la distancia elegida")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimientos encontrados"),
+			@ApiResponse(code = 404, message = "Emprendimiento no encontrado") })
+	public ResponseEntity<List<Emprendimiento>> traerEmprendimientosCercanos(@PathVariable("idRubro") long idRubro,
+			@PathVariable("idPersona") long idPersona, @PathVariable("cantidadKm") String cantidadKm) {
+		List<Emprendimiento> traerEmprendimientosCercanos = service.traerEmprendimientosCercanos(idRubro, idPersona,
+				cantidadKm);
+		return new ResponseEntity(traerEmprendimientosCercanos, HttpStatus.OK);
+	}
 	
 	@PostMapping
 	@ApiOperation(value = "Crear Emprendimiento", notes = "Servicio creador de emprendimientos")
@@ -72,7 +82,7 @@ public class EmprendimientoController {
 
 	@DeleteMapping("/{idEmprendimiento}")
 	@ApiOperation(value = "Eliminar emprendimiento", notes = "Servicio elimina Emprendimiento")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Emprendimiento eliminado con exito"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimiento eliminado con exito"),
 			@ApiResponse(code = 404, message = "Emprendimiento no encontrado") })
 	public ResponseEntity<Empty> eliminarEmprendimiento(@PathVariable("idEmprendimiento") long id) {
 
@@ -95,7 +105,7 @@ public class EmprendimientoController {
 	@ApiOperation(value = "Exportar PDF", notes = "PDF exporter service")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "PDF successfully exported"),
 			@ApiResponse(code = 404, message = "Emprendimiento not found") })
-	public void exportToPDF(HttpServletResponse response, @PathVariable("idEmprendimiento") Long id){
+	public void exportToPDF(HttpServletResponse response, @PathVariable("idEmprendimiento") Long id) {
 		service.exportPDF(response, id);
 	}
 

@@ -17,4 +17,7 @@ public interface EmprendimientoRepository extends JpaRepository<Emprendimiento, 
 	@Query(value= "{call sp_mostrarPorRubro(:id_rubro)}", nativeQuery= true)
 	List<Emprendimiento> traerPorRubro(@Param("id_rubro") long idRubro);
 	
+	@Query(value= "{call sp_emprendimientosCercanos(:id_rubro, :id_persona, :cantidadKm) }", nativeQuery= true)
+	List<Emprendimiento> traerEmprendimientosCercanos(@Param("id_rubro") long idRubro, @Param("id_persona") long idPersona, @Param("cantidadKm") String cantidadKm);
+	
 }
