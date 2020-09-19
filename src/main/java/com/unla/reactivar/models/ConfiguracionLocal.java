@@ -25,7 +25,7 @@ public class ConfiguracionLocal {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long idConfiguracionLocal;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "idEmprendimiento", nullable = false)
 	@JsonManagedReference
 	private Emprendimiento emprendimiento;

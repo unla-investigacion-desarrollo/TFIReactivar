@@ -6,15 +6,15 @@ import java.util.List;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.unla.reactivar.exceptions.IncorrectUserOrPassword;
 import com.unla.reactivar.exceptions.ObjectAlreadyExists;
 import com.unla.reactivar.exceptions.ObjectNotFound;
+import com.unla.reactivar.exceptions.UserIsAlreadyInactive;
 import com.unla.reactivar.models.Login;
+import com.unla.reactivar.models.Persona;
 import com.unla.reactivar.repositories.LoginRepository;
 import com.unla.reactivar.utils.DateUtils;
 import com.unla.reactivar.vo.LoginVo;
@@ -26,6 +26,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Service
 @Transactional(readOnly = true)
 public class LoginService {
+	
+	private static final long ACTIVO = 2;
 
 	@Autowired
 	private LoginRepository repository;
@@ -35,16 +37,26 @@ public class LoginService {
 
 	@Value("${token_auth.key}")
 	private String secretKey;
+	
+	@Autowired
+	private PersonaService personaService;
 
 	public Login realizarLogin(LoginVo loginVo) {
-		Login login = repository.findByEmail(loginVo.getEmail());
-
+		String email = loginVo.getEmail();
+		Login login = repository.findByEmail(email);
+		
 		String passwordHash = DigestUtils.sha256Hex(loginVo.getClave());
 
 		if (login == null || !login.getClave().equals(passwordHash)) {
 			throw new IncorrectUserOrPassword();
 		}
+		
+		Persona persona = personaService.traerPersonaPorEmail(email);
 
+		if(persona.getEstadoPersona().getIdEstadoPersona() != ACTIVO) {
+			throw new UserIsAlreadyInactive();
+		}
+		
 		login.setToken(getJWTToken(login.getEmail()));
 		login.setClave(null);
 
@@ -67,21 +79,24 @@ public class LoginService {
 	}
 
 	@Transactional
-	public Login actualizarLogin(String email, LoginVo loginVo) {
-		Login login = repository.findByEmail(email);
+	public Login actualizarLogin(LoginVo loginVo) {
+		Login login = repository.findByEmail(loginVo.getEmail());
 
 		if (login == null) {
 			throw new ObjectNotFound("Login");
 		}
 
-		login.setClave(loginVo.getClave());
+		login.setClave(DigestUtils.sha256Hex(loginVo.getClave()));
 		login.setEmail(loginVo.getEmail());
 
 		try {
-			login = repository.save(login);
+			login = repository.saveAndFlush(login);
 		} catch (Exception e) {
 			throw new ObjectAlreadyExists();
 		}
+		
+		login.setToken(null);
+		login.setClave(null);
 
 		return login;
 	}

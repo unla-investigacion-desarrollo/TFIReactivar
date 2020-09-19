@@ -23,7 +23,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "articulo")
-public class ReqArticulo {
+public class Articulo {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

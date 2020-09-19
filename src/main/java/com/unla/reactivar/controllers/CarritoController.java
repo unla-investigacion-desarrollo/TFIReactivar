@@ -18,6 +18,7 @@ import com.unla.reactivar.models.Carrito;
 import com.unla.reactivar.services.CarritoService;
 import com.unla.reactivar.vo.CarritoVo;
 import com.unla.reactivar.vo.Empty;
+import com.unla.reactivar.vo.ReqPutCarritoVo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -74,7 +75,7 @@ public class CarritoController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Carrito successfully updated"),
 			@ApiResponse(code = 404, message = "Carrito not found") })
 	public ResponseEntity<Carrito> updateCarrito(@PathVariable("idCarrito") Long id,
-			CarritoVo carritoVo) {
+			ReqPutCarritoVo carritoVo) {
 
 		return new ResponseEntity<>(service.actualizarCarrito(id, carritoVo), HttpStatus.OK);
 	}

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.unla.reactivar.models.ReqArticulo;
+import com.unla.reactivar.models.Articulo;
 import com.unla.reactivar.services.ArticuloService;
 import com.unla.reactivar.vo.ArticuloVo;
 import com.unla.reactivar.vo.Empty;
@@ -36,7 +36,7 @@ public class ArticuloController {
 	@ApiOperation(value = "Listar todos los articulos", notes = "Service para listar todos los articulos")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Articulos encontrados"),
 			@ApiResponse(code = 404, message = "Articulos no encontrados") })
-	public List<ReqArticulo> traerTodos() {
+	public List<Articulo> traerTodos() {
 		return service.traerTodos();
 	}
 	
@@ -44,7 +44,7 @@ public class ArticuloController {
 	@ApiOperation(value = "Mostrar un articulo", notes = "Service para mostrar un articulo")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Articulo encontrado"),
 			@ApiResponse(code = 404, message = "Articulo no encontrado") })
-	public ReqArticulo traerArticulo(@PathVariable ("idArticulo") long id) {
+	public Articulo traerArticulo(@PathVariable ("idArticulo") long id) {
 		return service.traerArticuloPorId(id);
 	}
 	
@@ -52,8 +52,8 @@ public class ArticuloController {
 	@ApiOperation(value = "Crear Articulo", notes = "Servicio creador de articulos")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Articulo successfully created"),
 			@ApiResponse(code = 400, message = "Invalid request") })
-	public ResponseEntity<ReqArticulo> crearArticulo(@RequestBody ArticuloVo articuloVo){
-		ReqArticulo articulo = service.crearArticulo(articuloVo);
+	public ResponseEntity<Articulo> crearArticulo(@RequestBody ArticuloVo articuloVo){
+		Articulo articulo = service.crearArticulo(articuloVo);
 		
 		return new ResponseEntity<>(articulo, HttpStatus.CREATED);
 	}
@@ -73,7 +73,7 @@ public class ArticuloController {
 	@ApiOperation(value = "Update Articulo", notes = "Articulo updater service")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Articulo successfully updated"),
 			@ApiResponse(code = 404, message = "Articulo not found") })
-	public ResponseEntity<ReqArticulo> updateArticulo(@PathVariable("idArticulo") Long id, ArticuloVo articuloVo) {
+	public ResponseEntity<Articulo> updateArticulo(@PathVariable("idArticulo") Long id, ArticuloVo articuloVo) {
 
 		return new ResponseEntity<>(service.actualizarArticulo(id, articuloVo), HttpStatus.OK);
 	}

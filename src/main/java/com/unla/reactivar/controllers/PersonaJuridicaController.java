@@ -18,6 +18,7 @@ import com.unla.reactivar.models.PersonaJuridica;
 import com.unla.reactivar.services.PersonaJuridicaService;
 import com.unla.reactivar.vo.Empty;
 import com.unla.reactivar.vo.PersonaJuridicaVo;
+import com.unla.reactivar.vo.ReqPutPersonaJuridicaVo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -73,7 +74,7 @@ public class PersonaJuridicaController {
 	@ApiOperation(value = "Update PersonaJuridica", notes = "PersonaJuridica updater service")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "PersonaJuridica successfully updated"),
 			@ApiResponse(code = 404, message = "PersonaJuridica not found") })
-	public ResponseEntity<PersonaJuridica> updatePersonaJuridica(@PathVariable("idPersonaJuridica") Long id, PersonaJuridicaVo personaJuridicaVo) {
+	public ResponseEntity<PersonaJuridica> updatePersonaJuridica(@PathVariable("idPersonaJuridica") Long id, ReqPutPersonaJuridicaVo personaJuridicaVo) {
 
 		return new ResponseEntity<>(service.actualizarPersonaJuridica(id, personaJuridicaVo), HttpStatus.OK);
 	}

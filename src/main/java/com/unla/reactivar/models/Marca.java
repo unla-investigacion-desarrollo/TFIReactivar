@@ -31,7 +31,7 @@ public class Marca {
 	
 	@OneToMany(mappedBy="marca")
 	@JsonBackReference
-	private List<ReqArticulo> articulos;
+	private List<Articulo> articulos;
 
 
 

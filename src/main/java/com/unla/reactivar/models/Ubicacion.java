@@ -2,7 +2,6 @@ package com.unla.reactivar.models;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -41,11 +40,11 @@ public class Ubicacion {
 	@JsonManagedReference
 	private Localidad localidad;
 	
-	@OneToOne(mappedBy = "ubicacion", cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "ubicacion")
 	@JsonIgnore
 	private Emprendimiento emprendimiento;
 	
-	@OneToOne(mappedBy = "ubicacion", cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "ubicacion")
 	@JsonIgnore
 	private Persona persona;
 	

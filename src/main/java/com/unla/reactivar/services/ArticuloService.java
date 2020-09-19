@@ -12,7 +12,7 @@ import com.unla.reactivar.models.Categoria;
 import com.unla.reactivar.models.Emprendimiento;
 import com.unla.reactivar.models.Marca;
 import com.unla.reactivar.models.Promocion;
-import com.unla.reactivar.models.ReqArticulo;
+import com.unla.reactivar.models.Articulo;
 import com.unla.reactivar.models.UnidadMedida;
 import com.unla.reactivar.repositories.ArticuloRepository;
 import com.unla.reactivar.utils.DateUtils;
@@ -40,17 +40,17 @@ public class ArticuloService {
 	@Autowired
 	private PromocionService promocionService;
 
-	public ReqArticulo traerArticuloPorId(Long id) {
+	public Articulo traerArticuloPorId(Long id) {
 		return repository.findByIdArticulo(id);
 	}
 
-	public List<ReqArticulo> traerTodos() {
+	public List<Articulo> traerTodos() {
 		return repository.findAll();
 	}
 
 	@Transactional
 	public void borrarArticulo(long id) {
-		ReqArticulo articulo = repository.findByIdArticulo(id);
+		Articulo articulo = repository.findByIdArticulo(id);
 
 		if (articulo == null) {
 			throw new ObjectNotFound("Articulo");
@@ -60,8 +60,8 @@ public class ArticuloService {
 	}
 
 	@Transactional
-	public ReqArticulo crearArticulo(ArticuloVo articuloVo) {
-		ReqArticulo articulo = new ReqArticulo();
+	public Articulo crearArticulo(ArticuloVo articuloVo) {
+		Articulo articulo = new Articulo();
 
 		adaptVoToArticulo(articulo, articuloVo);
 
@@ -75,8 +75,8 @@ public class ArticuloService {
 	}
 
 	@Transactional
-	public ReqArticulo actualizarArticulo(Long id, ArticuloVo articuloVo) {
-		ReqArticulo articulo = repository.findByIdArticulo(id);
+	public Articulo actualizarArticulo(Long id, ArticuloVo articuloVo) {
+		Articulo articulo = repository.findByIdArticulo(id);
 
 		if (articulo == null) {
 			throw new ObjectNotFound("Articulo");
@@ -93,7 +93,7 @@ public class ArticuloService {
 		return articulo;
 	}
 
-	private void adaptVoToArticulo(ReqArticulo articulo, ArticuloVo articuloVo) {
+	private void adaptVoToArticulo(Articulo articulo, ArticuloVo articuloVo) {
 
 		Categoria categoria = categoriaService.traerCategoriaPorId(articuloVo.getIdCategoria());
 		Marca marca = marcaService.traerMarcaPorId(articuloVo.getIdMarca());

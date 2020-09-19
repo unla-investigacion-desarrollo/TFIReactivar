@@ -34,7 +34,7 @@ public class Categoria {
 	
 	@OneToMany(mappedBy="categoria")
 	@JsonBackReference
-	private List<ReqArticulo> articulos;
+	private List<Articulo> articulos;
 		
 	
 }

@@ -18,6 +18,7 @@ import com.unla.reactivar.models.Persona;
 import com.unla.reactivar.repositories.CarritoRepository;
 import com.unla.reactivar.vo.CarritoVo;
 import com.unla.reactivar.vo.ItemCarritoVo;
+import com.unla.reactivar.vo.ReqPutCarritoVo;
 
 @Service
 @Transactional(readOnly = true)
@@ -73,14 +74,15 @@ public class CarritoService {
 	}
 
 	@Transactional
-	public Carrito actualizarCarrito(Long id, CarritoVo carritoVo) {
+	public Carrito actualizarCarrito(Long id, ReqPutCarritoVo carritoVo) {
 		Carrito carrito = repository.findByIdCarrito(id);
+		EstadoCarrito estadoCarrito = estadoCarritoService.traerEstadoCarritoPorId(carritoVo.getIdEstadoCarrito());
 
-		if (carrito == null) {
-			throw new ObjectNotFound("Carrito");
+		if (estadoCarrito == null || carrito == null) {
+			throw new ObjectNotFound("Carrito / EstadoCarrito");
 		}
 
-		adaptVoToCarrito(carrito, carritoVo);
+		carrito.setEstadoCarrito(estadoCarrito);
 
 		try {
 			carrito = repository.save(carrito);

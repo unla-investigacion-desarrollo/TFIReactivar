@@ -4,7 +4,7 @@ package com.unla.reactivar.vo;
 import lombok.Data;
 
 @Data
-public class ConfiguracionLocalVo {
+public class ReqPostConfiguracionLocalVo {
 	
 	private String diaSemana;
 	private String turno1Desde;
@@ -14,5 +14,6 @@ public class ConfiguracionLocalVo {
 	private int intervaloTurnos;
 	private int tiempoAtencion;
 	private String usuarioModi;
+	private long idEmprendimiento;
 
 }

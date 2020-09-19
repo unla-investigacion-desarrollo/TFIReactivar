@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
@@ -57,6 +56,11 @@ public abstract class Persona implements Serializable {
 	@OneToOne
 	@JoinColumn(name = "idLogin")
 	private Login login;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idEstadoPersona", nullable = false)
+	@JsonManagedReference
+	private EstadoPersona estadoPersona;
 
 	@OneToMany(mappedBy = "persona")
 	@JsonBackReference
@@ -70,10 +74,11 @@ public abstract class Persona implements Serializable {
 	@JsonBackReference
 	private List<Carrito> carritos;
 
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany
 	private List<PersonaJuridica> personasJuridicas;
 
 	@OneToMany(mappedBy = "persona")
 	@JsonBackReference
 	private List<Emprendimiento> emprendimientos;
+
 }

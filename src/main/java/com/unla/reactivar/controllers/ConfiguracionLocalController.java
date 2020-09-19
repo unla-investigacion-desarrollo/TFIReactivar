@@ -18,6 +18,7 @@ import com.unla.reactivar.models.ConfiguracionLocal;
 import com.unla.reactivar.services.ConfiguracionLocalService;
 import com.unla.reactivar.vo.ConfiguracionLocalVo;
 import com.unla.reactivar.vo.Empty;
+import com.unla.reactivar.vo.ReqPostConfiguracionLocalVo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -52,7 +53,7 @@ public class ConfiguracionLocalController {
 	@ApiOperation(value = "Crear ConfiguracionLocal", notes = "Servicio creador de configuracionLocales")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "ConfiguracionLocal successfully created"),
 			@ApiResponse(code = 400, message = "Invalid request") })
-	public ResponseEntity<ConfiguracionLocal> crearConfiguracionLocal(@RequestBody ConfiguracionLocalVo configuracionLocalVo){
+	public ResponseEntity<ConfiguracionLocal> crearConfiguracionLocal(@RequestBody ReqPostConfiguracionLocalVo configuracionLocalVo){
 		ConfiguracionLocal configuracionLocal = service.crearConfiguracion(configuracionLocalVo);
 		
 		return new ResponseEntity<>(configuracionLocal, HttpStatus.CREATED);
