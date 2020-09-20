@@ -75,7 +75,7 @@ public class PersonaJuridicaController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Persona Juridica modificada exitosamente"),
 			@ApiResponse(code = 404, message = "Persona Juridica no encontrada") })
 	public ResponseEntity<PersonaJuridica> updatePersonaJuridica(@PathVariable("idPersonaJuridica") Long id,
-			PersonaJuridicaVo personaJuridicaVo) {
+			ReqPutPersonaJuridicaVo personaJuridicaVo) {
 
 		return new ResponseEntity<>(service.actualizarPersonaJuridica(id, personaJuridicaVo), HttpStatus.OK);
 	}

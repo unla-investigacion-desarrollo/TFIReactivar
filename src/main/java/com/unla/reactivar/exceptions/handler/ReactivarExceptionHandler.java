@@ -122,52 +122,5 @@ public class ReactivarExceptionHandler {
 		
 		return error;
 	}
-	
-	@ExceptionHandler(IncorrectTokenOrTokenExpiredPwd.class)
-	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
-	@ResponseBody
-	protected GenericError IncorrectTokenOrTokenExpiredPwdExceptionHandler(IncorrectTokenOrTokenExpiredPwd ex){
-		
-		String message = "El token para la recuperacion de pwd/validacion de email es invalido/vencido.";
-		
-		GenericError error = new GenericError("error.reactivar.invalid.token.pwd.mail", message);
-		
-		return error;
-	}
-	
-	@ExceptionHandler(InvalidCuilCuit.class)
-	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
-	@ResponseBody
-	protected GenericError InvalidCuilCuitExceptionHandler(InvalidCuilCuit ex){
-		
-		String message = "El cuil / cuit es invalido";
-		
-		GenericError error = new GenericError("error.reactivar.invalid.cuil", message);
-		
-		return error;
-	}
-	
-	@ExceptionHandler(UserIsAlreadyActive.class)
-	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
-	@ResponseBody
-	protected GenericError UserIsAlreadyActiveExceptionHandler(UserIsAlreadyActive ex){
-		
-		String message = "Usuario ya se encuentra verificado";
-		
-		GenericError error = new GenericError("error.reactivar.user.already_active", message);
-		
-		return error;
-	}
-	
-	@ExceptionHandler(UserIsAlreadyInactive.class)
-	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
-	@ResponseBody
-	protected GenericError UserIsAlreadyInactiveExceptionHandler(UserIsAlreadyInactive ex){
-		
-		String message = "Usuario no se encuentra verificado";
-		
-		GenericError error = new GenericError("error.reactivar.user.already_inactive", message);
-		
-		return error;
-	}
+
 }
