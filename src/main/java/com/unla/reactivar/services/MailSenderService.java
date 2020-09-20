@@ -27,8 +27,14 @@ public class MailSenderService {
 
 	private JavaMailSenderImpl sender;
 	
-	@Value("${email.templates.directory}")
-	private String emailTemplateDirectory;
+	@Value("${email.verify.templates.directory}")
+	private String verifyUserEmail;
+	
+	@Value("${email.recovery.templates.directory}")
+	private String recoveryPasswordEmail;
+	
+	@Value("${email.images.directory}")
+	private String imagesDirectory;
 	
 	@Value("${email.host}")
 	private String host;
@@ -74,7 +80,7 @@ public class MailSenderService {
 	}
 
 	public void constructResetTokenEmail(String token, Persona persona) {
-		File file = new File(emailTemplateDirectory + "passwordRecoveryEmail.html");
+		File file = new File(recoveryPasswordEmail);
 		String message = "";
 		try {
 			message = FileUtils.readFileToString(file, "UTF-8");
@@ -85,7 +91,7 @@ public class MailSenderService {
 	}
 
 	public void constructValidateEmail(String token, Persona persona) {
-		File file = new File(emailTemplateDirectory + "verifyEmail.html");
+		File file = new File(verifyUserEmail);
 		String message = "";
 		try {
 			message = FileUtils.readFileToString(file, "UTF-8");
@@ -103,7 +109,7 @@ public class MailSenderService {
 			helper.setSubject(subject);
 			helper.setTo(emailReceiver);
 			helper.setText(body.replace("cid:token", token), true);
-			helper.addInline("emailLogo", new File(emailTemplateDirectory + "images/email.png"));
+			helper.addInline("emailLogo", new File(imagesDirectory + "email.png"));
 			helper.setFrom(new InternetAddress(username));
 		} catch (MessagingException e) {
 			logger.error(e.getLocalizedMessage());

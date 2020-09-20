@@ -13,7 +13,6 @@ import com.unla.reactivar.models.Categoria;
 import com.unla.reactivar.models.Emprendimiento;
 import com.unla.reactivar.models.Marca;
 import com.unla.reactivar.models.Promocion;
-import com.unla.reactivar.models.Articulo;
 import com.unla.reactivar.models.UnidadMedida;
 import com.unla.reactivar.repositories.ArticuloRepository;
 import com.unla.reactivar.utils.DateUtils;

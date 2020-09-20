@@ -10,9 +10,9 @@
 	</parent>
 	<groupId>com.unla</groupId>
 	<artifactId>reactivar</artifactId>
-	<version>2.2.0</version>
+	<version>3.0.0</version>
 	<name>reactivar</name>
-	<description>Demo project for Spring Boot</description>
+	<description>UNLa Application</description>
 
 	<packaging>war</packaging>
 
