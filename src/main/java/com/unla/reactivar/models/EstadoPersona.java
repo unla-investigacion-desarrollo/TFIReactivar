@@ -14,9 +14,9 @@ import lombok.Data;
 @Table(name = "estadoPersona")
 public class EstadoPersona {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idEstadoPersona;
-	
+
 	@Column(unique = true)
 	private String estado;
 

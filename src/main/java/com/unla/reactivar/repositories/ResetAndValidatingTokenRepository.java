@@ -6,8 +6,8 @@ import org.springframework.stereotype.Repository;
 import com.unla.reactivar.models.ResetAndValidatingToken;
 
 @Repository
-public interface ResetAndValidatingTokenRepository extends JpaRepository<ResetAndValidatingToken, Long>{
+public interface ResetAndValidatingTokenRepository extends JpaRepository<ResetAndValidatingToken, Long> {
 
 	public ResetAndValidatingToken findByToken(String token);
-	
+
 }

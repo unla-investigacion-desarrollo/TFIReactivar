@@ -7,5 +7,5 @@ public class PasswordRecoveryVo {
 
 	private String token;
 	private String newPassword;
-	
+
 }

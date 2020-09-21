@@ -1,5 +1,6 @@
 package com.unla.reactivar.services;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class ConfiguracionLocalService {
 
 	@Autowired
 	private EmprendimientoService emprendimientoService;
-	
+
 	public ConfiguracionLocal traerConfiguracionLocalPorId(Long id) {
 		return repository.findByIdConfiguracionLocal(id);
 	}
@@ -42,15 +43,19 @@ public class ConfiguracionLocalService {
 		try {
 			config = repository.save(config);
 		} catch (Exception e) {
-			throw new ObjectAlreadyExists();
+			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
+				throw new ObjectAlreadyExists();
+			}
 		}
 
 		return config;
 	}
 
-	private void adaptPostVoToConfiguracionLocal(ReqPostConfiguracionLocalVo configuracionLocales, ConfiguracionLocal config) {
-		Emprendimiento emprendimiento = emprendimientoService.traerEmprendimientoPorId(configuracionLocales.getIdEmprendimiento());
-		if(emprendimiento == null) {
+	private void adaptPostVoToConfiguracionLocal(ReqPostConfiguracionLocalVo configuracionLocales,
+			ConfiguracionLocal config) {
+		Emprendimiento emprendimiento = emprendimientoService
+				.traerEmprendimientoPorId(configuracionLocales.getIdEmprendimiento());
+		if (emprendimiento == null) {
 			throw new ObjectNotFound("Emprendimiento");
 		}
 		config.setDiaSemana(configuracionLocales.getDiaSemana());
@@ -89,7 +94,9 @@ public class ConfiguracionLocalService {
 		try {
 			configuracionLocal = repository.save(configuracionLocal);
 		} catch (Exception e) {
-			throw new ObjectAlreadyExists();
+			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
+				throw new ObjectAlreadyExists();
+			}
 		}
 
 		return configuracionLocal;

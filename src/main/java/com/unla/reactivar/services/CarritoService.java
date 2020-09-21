@@ -1,5 +1,6 @@
 package com.unla.reactivar.services;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -67,7 +68,9 @@ public class CarritoService {
 		try {
 			carrito = repository.save(carrito);
 		} catch (Exception e) {
-			throw new ObjectAlreadyExists();
+			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
+				throw new ObjectAlreadyExists();
+			}
 		}
 
 		return carrito;
@@ -87,7 +90,9 @@ public class CarritoService {
 		try {
 			carrito = repository.save(carrito);
 		} catch (Exception e) {
-			throw new ObjectAlreadyExists();
+			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
+				throw new ObjectAlreadyExists();
+			}
 		}
 
 		return carrito;

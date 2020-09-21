@@ -1,22 +1,22 @@
 package com.unla.reactivar.exceptions;
 
-public class QrExporterException extends RuntimeException {
+public class PdfExporterException extends RuntimeException {
 
 	private static final long serialVersionUID = -9090379577606600324L;
 	private String errorMessage;
 	private String errorCode;
 
-	public QrExporterException() {
+	public PdfExporterException() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public QrExporterException(String errorCode, String errorMessage) {
+	public PdfExporterException(String errorCode, String errorMessage) {
 		super();
 		this.errorMessage = errorMessage;
 		this.errorCode = errorCode;
 	}
 
-	public QrExporterException(String object) {
+	public PdfExporterException(String object) {
 		super();
 		this.errorMessage = object;
 	}

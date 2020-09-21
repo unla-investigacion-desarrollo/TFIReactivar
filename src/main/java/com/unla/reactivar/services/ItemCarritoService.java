@@ -1,5 +1,6 @@
 package com.unla.reactivar.services;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class ItemCarritoService {
 
 	@Autowired
 	private ArticuloService articuloService;
-	
+
 	@Autowired
 	private CarritoService carritoService;
 
@@ -60,7 +61,9 @@ public class ItemCarritoService {
 		try {
 			item = repository.save(item);
 		} catch (Exception e) {
-			throw new ObjectAlreadyExists();
+			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
+				throw new ObjectAlreadyExists();
+			}
 		}
 
 		return item;
@@ -75,7 +78,9 @@ public class ItemCarritoService {
 		try {
 			item = repository.save(item);
 		} catch (Exception e) {
-			throw new ObjectAlreadyExists();
+			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
+				throw new ObjectAlreadyExists();
+			}
 		}
 
 		item = repository.save(item);
@@ -94,11 +99,11 @@ public class ItemCarritoService {
 		item.setCantidad(itemCarritoVo.getCantidad());
 
 	}
-	
+
 	private void adaptPostVoToItemCarrito(ItemCarrito item, ReqPostItemCarritoVo itemCarritoVo) {
 		Articulo articulo = articuloService.traerArticuloPorId(itemCarritoVo.getIdArticulo());
 		Carrito carrito = carritoService.traerCarritoPorId(itemCarritoVo.getIdCarrito());
-		
+
 		if (articulo == null) {
 			throw new ObjectNotFound("Articulo");
 		}

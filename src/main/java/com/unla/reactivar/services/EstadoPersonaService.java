@@ -1,5 +1,6 @@
 package com.unla.reactivar.services;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,24 +52,28 @@ public class EstadoPersonaService {
 		try {
 			estado = repository.save(estado);
 		} catch (Exception e) {
-			throw new ObjectAlreadyExists();
+			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
+				throw new ObjectAlreadyExists();
+			}
 		}
-		
+
 		return estado;
 	}
 
 	@Transactional
 	public EstadoPersona crearEstadoPersona(EstadoPersonaVo estadoPersonaVo) {
 		EstadoPersona estado = new EstadoPersona();
-		
+
 		estado.setEstado(estadoPersonaVo.getNombreEstado());
 
 		try {
 			estado = repository.save(estado);
 		} catch (Exception e) {
-			throw new ObjectAlreadyExists();
+			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
+				throw new ObjectAlreadyExists();
+			}
 		}
-		
+
 		return estado;
 	}
 

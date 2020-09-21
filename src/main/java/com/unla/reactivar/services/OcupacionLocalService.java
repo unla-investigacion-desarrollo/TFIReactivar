@@ -1,6 +1,10 @@
 package com.unla.reactivar.services;
 
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +14,7 @@ import com.unla.reactivar.exceptions.ObjectAlreadyExists;
 import com.unla.reactivar.exceptions.ObjectNotFound;
 import com.unla.reactivar.models.Emprendimiento;
 import com.unla.reactivar.models.OcupacionLocal;
-import com.unla.reactivar.models.Persona;
+import com.unla.reactivar.models.PersonaFisica;
 import com.unla.reactivar.repositories.OcupacionLocalRepository;
 import com.unla.reactivar.utils.DateUtils;
 import com.unla.reactivar.vo.OcupacionLocalVo;
@@ -23,7 +27,7 @@ public class OcupacionLocalService {
 	private OcupacionLocalRepository repository;
 
 	@Autowired
-	private PersonaService personaService;
+	private PersonaFisicaService personaFisicaService;
 
 	@Autowired
 	private EmprendimientoService emprendimientoService;
@@ -60,7 +64,9 @@ public class OcupacionLocalService {
 		try {
 			ocupacion = repository.save(ocupacion);
 		} catch (Exception e) {
-			throw new ObjectAlreadyExists();
+			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
+				throw new ObjectAlreadyExists();
+			}
 		}
 
 		return ocupacion;
@@ -84,14 +90,16 @@ public class OcupacionLocalService {
 		try {
 			ocupacion = repository.save(ocupacion);
 		} catch (Exception e) {
-			throw new ObjectAlreadyExists();
+			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
+				throw new ObjectAlreadyExists();
+			}
 		}
 
 		return ocupacion;
 	}
 
 	private void adaptVoToOcupacionLocal(OcupacionLocal ocupacion, OcupacionLocalVo ocupacionLocalVo) {
-		Persona persona = personaService.traerPersonaPorId(ocupacionLocalVo.getIdPersona());
+		PersonaFisica persona = personaFisicaService.traerPersonaFisicaPorId(ocupacionLocalVo.getIdPersona());
 		Emprendimiento emprendimiento = emprendimientoService
 				.traerEmprendimientoPorId(ocupacionLocalVo.getIdEmprendimiento());
 
@@ -105,4 +113,37 @@ public class OcupacionLocalService {
 		ocupacion.setUsuarioModi(ocupacionLocalVo.getUsuarioModi());
 	}
 
+	public List<OcupacionLocal> traerOcupacionEntreFechas(Date fechaInicio, Date fechaFin, long idPersona) {
+		List<OcupacionLocal> ocupacionesLocal = repository.findByFechaDesdeHasta(fechaInicio, fechaFin);
+		List<Long> listaEmprendimientosVisitados = new ArrayList<>();
+		List<OcupacionLocal> ocupacionesLocalFiltrado = new ArrayList<>();
+	
+		for(OcupacionLocal ocupacion : ocupacionesLocal) {
+			if(ocupacion.getPersona().getIdPersona() == idPersona) {
+				listaEmprendimientosVisitados.add(ocupacion.getEmprendimiento().getIdEmprendimiento());
+			}
+		}
+		listaEmprendimientosVisitados = listaEmprendimientosVisitados.stream()
+	     .distinct()
+	     .collect(Collectors.toList());
+		for(OcupacionLocal ocupacion : ocupacionesLocal) {
+			for(long idEmprendimiento : listaEmprendimientosVisitados) {
+				if (ocupacion.getEmprendimiento().getIdEmprendimiento() == idEmprendimiento) {
+					ocupacionesLocalFiltrado.add(ocupacion);
+	                break;
+	            }
+			}
+		}
+		
+		return ocupacionesLocalFiltrado;
+	}
+	
+	public List<OcupacionLocal> traerOcupacionesSinSalida(){
+		return repository.findByFechaHoraSalidaIsNull();
+	}
+
+	@Transactional
+	public void actualizarFechaSalidaVacia(OcupacionLocal ocupacion) {
+		repository.save(ocupacion);
+	}
 }

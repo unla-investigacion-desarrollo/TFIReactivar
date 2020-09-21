@@ -29,10 +29,10 @@ import com.unla.reactivar.vo.ReqPutPersonaJuridicaVo;
 public class PersonaJuridicaService {
 
 	private static final long INACTIVO = 1;
-	
+
 	@Value("${recovery.password.token.duration}")
-	private int expiration; 
-	
+	private int expiration;
+
 	@Autowired
 	private PersonaJuridicaRepository personaRepository;
 
@@ -69,8 +69,8 @@ public class PersonaJuridicaService {
 			}
 		}
 
-		enviarEmailValidarUsuario(persona); 
-		
+		enviarEmailValidarUsuario(persona);
+
 		return persona;
 	}
 
@@ -131,8 +131,8 @@ public class PersonaJuridicaService {
 		if (perfil == null) {
 			throw new ObjectNotFound("Perfil");
 		}
-		if(estadoPersona == null) {
-			throw new ObjectNotFound("EstadoPersona(0 = inactivo)");
+		if (estadoPersona == null) {
+			throw new ObjectNotFound("EstadoPersona(1 = inactivo)");
 		}
 
 		persona.setPerfil(perfil);
@@ -149,16 +149,16 @@ public class PersonaJuridicaService {
 		Perfil perfil = perfilService.traerPerfilPorId(personaVo.getIdPerfil());
 		EstadoPersona estadoPersona = estadoPersonaService.traerEstadoPersonaPorId(INACTIVO);
 
-		if(perfil == null || estadoPersona == null) {
+		if (perfil == null || estadoPersona == null) {
 			throw new ObjectNotFound("Perfil/Estado Persona");
 		}
-		
+
 		persona.setPerfil(perfil);
 		persona.setEstadoPersona(estadoPersona);
 	}
-	
+
 	public void enviarEmailValidarUsuario(Persona persona) {
-		
+
 		Random rnd = new Random();
 		String token = String.format("%09d", rnd.nextInt(999999999));
 		crearToken(persona, token);
@@ -168,7 +168,7 @@ public class PersonaJuridicaService {
 
 	public void crearToken(Persona persona, String token) {
 		ResetAndValidatingToken passwordResetToken = new ResetAndValidatingToken(token, persona, expiration);
-		
+
 		pwdService.crearResetOrValidateToken(passwordResetToken);
 	}
 

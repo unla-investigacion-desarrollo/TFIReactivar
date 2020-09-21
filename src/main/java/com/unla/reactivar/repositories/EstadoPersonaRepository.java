@@ -6,8 +6,8 @@ import org.springframework.stereotype.Repository;
 import com.unla.reactivar.models.EstadoPersona;
 
 @Repository
-public interface EstadoPersonaRepository extends JpaRepository<EstadoPersona, Long>{
-	
+public interface EstadoPersonaRepository extends JpaRepository<EstadoPersona, Long> {
+
 	public EstadoPersona findByIdEstadoPersona(Long idEstadoPersona);
-	
+
 }

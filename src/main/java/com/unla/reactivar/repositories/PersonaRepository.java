@@ -1,5 +1,6 @@
 package com.unla.reactivar.repositories;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,7 +25,8 @@ public interface PersonaRepository extends JpaRepository<Persona, Long> {
 	@Modifying
 	@Query("DELETE FROM Persona p WHERE p.idPersona = ?1")
 	public void deletePersona(Long idPersona);
-	
+
 	@Query("SELECT p FROM Persona p JOIN Login l ON l.idLogin = p.login WHERE l.email = ?1")
 	public Persona findByEmail(String email);
+
 }

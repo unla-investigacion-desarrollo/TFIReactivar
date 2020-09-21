@@ -14,7 +14,7 @@ import com.google.zxing.WriterException;
 import com.lowagie.text.DocumentException;
 import com.unla.reactivar.exceptions.ObjectAlreadyExists;
 import com.unla.reactivar.exceptions.ObjectNotFound;
-import com.unla.reactivar.exceptions.QrExporterException;
+import com.unla.reactivar.exceptions.PdfExporterException;
 import com.unla.reactivar.models.ConfiguracionLocal;
 import com.unla.reactivar.models.Emprendimiento;
 import com.unla.reactivar.models.Persona;
@@ -55,16 +55,16 @@ public class EmprendimientoService {
 	public List<Emprendimiento> traerTodosEmprendimientos() {
 		return repository.findAll();
 	}
-	
-	public List<Emprendimiento> traerPorRubro(long idRubro){
+
+	public List<Emprendimiento> traerPorRubro(long idRubro) {
 		return repository.traerPorRubro(idRubro);
 	}
-		
+
 	@Transactional(readOnly = false)
-	public List<Emprendimiento> traerEmprendimientosCercanos(long idRubro, long idPersona, String cantidadKm){
+	public List<Emprendimiento> traerEmprendimientosCercanos(long idRubro, long idPersona, String cantidadKm) {
 		return repository.traerEmprendimientosCercanos(idRubro, idPersona, cantidadKm);
-	}	
-	
+	}
+
 	@Transactional
 	public Emprendimiento crearEmprendimiento(EmprendimientoVo emprendimientoVo) {
 		Emprendimiento emprendimiento = new Emprendimiento();
@@ -106,7 +106,9 @@ public class EmprendimientoService {
 		try {
 			emprendimiento = repository.save(emprendimiento);
 		} catch (Exception e) {
-			throw new ObjectAlreadyExists();
+			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
+				throw new ObjectAlreadyExists();
+			}
 		}
 
 		return emprendimiento;
@@ -194,7 +196,7 @@ public class EmprendimientoService {
 			QREmprendimientoPDFExporter exporter = new QREmprendimientoPDFExporter(emprendimiento);
 			exporter.export(response);
 		} catch (DocumentException | IOException | WriterException e) {
-			throw new QrExporterException();
+			throw new PdfExporterException();
 		}
 	}
 

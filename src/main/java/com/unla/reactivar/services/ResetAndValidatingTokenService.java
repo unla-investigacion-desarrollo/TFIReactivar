@@ -18,25 +18,23 @@ public class ResetAndValidatingTokenService {
 
 	@Transactional
 	public ResetAndValidatingToken crearResetOrValidateToken(ResetAndValidatingToken pwd) {
-		
+
 		return repository.save(pwd);
 	}
-	
+
 	public ResetAndValidatingToken validateResetOrValidatingToken(String token) {
-	    final ResetAndValidatingToken passToken = repository.findByToken(token);
-	    
-	    if(passToken == null || isTokenExpired(passToken)) {
-	    	throw new IncorrectTokenOrTokenExpiredPwd();
-	    }
-	    
-	    return passToken;
-	    
+		final ResetAndValidatingToken passToken = repository.findByToken(token);
+
+		if (passToken == null || isTokenExpired(passToken)) {
+			throw new IncorrectTokenOrTokenExpiredPwd();
+		}
+
+		return passToken;
+
 	}
-	 
+
 	private boolean isTokenExpired(ResetAndValidatingToken passToken) {
-	    return passToken.getExpiryDate().before(DateUtils.fechaHoy());
+		return passToken.getExpiryDate().before(DateUtils.fechaHoy());
 	}
-
-
 
 }

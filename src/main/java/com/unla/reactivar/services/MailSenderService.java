@@ -24,18 +24,22 @@ import com.unla.reactivar.models.Persona;
 public class MailSenderService {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass().getName());
+	private static final String UTF8 = "UTF-8";
 
 	private JavaMailSenderImpl sender;
-	
+
 	@Value("${email.verify.templates.directory}")
 	private String verifyUserEmail;
 	
+	@Value("${email.template.server.host}")
+	private String serverHost;
+	
 	@Value("${email.recovery.templates.directory}")
 	private String recoveryPasswordEmail;
-	
+
 	@Value("${email.images.directory}")
 	private String imagesDirectory;
-	
+
 	@Value("${email.host}")
 	private String host;
 
@@ -83,7 +87,7 @@ public class MailSenderService {
 		File file = new File(recoveryPasswordEmail);
 		String message = "";
 		try {
-			message = FileUtils.readFileToString(file, "UTF-8");
+			message = FileUtils.readFileToString(file, UTF8);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -94,21 +98,21 @@ public class MailSenderService {
 		File file = new File(verifyUserEmail);
 		String message = "";
 		try {
-			message = FileUtils.readFileToString(file, "UTF-8");
+			message = FileUtils.readFileToString(file, UTF8);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		constructEmail("ReactivAR - Verificar Email", message, persona.getLogin().getEmail(), token);
 	}
-	
+
 	public void constructEmail(String subject, String body, String emailReceiver, String token) {
 		MimeMessage message = sender.createMimeMessage();
-		
+
 		try {
 			MimeMessageHelper helper = new MimeMessageHelper(message, true);
 			helper.setSubject(subject);
 			helper.setTo(emailReceiver);
-			helper.setText(body.replace("cid:token", token), true);
+			helper.setText(body.replace("cid:token", token).replace("cid:host", serverHost), true);
 			helper.addInline("emailLogo", new File(imagesDirectory + "email.png"));
 			helper.setFrom(new InternetAddress(username));
 		} catch (MessagingException e) {

@@ -1,7 +1,10 @@
 package com.unla.reactivar.services;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +22,9 @@ import com.unla.reactivar.vo.ReqArticuloReferenciaVo;
 @Service
 @Transactional(readOnly = true)
 public class ArticuloReferenciaService {
-
+	
+	private final Logger log = LoggerFactory.getLogger(getClass().getName());
+	
 	@Autowired
 	private ArticuloReferenciaRepository repository;
 
@@ -45,6 +50,7 @@ public class ArticuloReferenciaService {
 		ArticuloReferencia articuloReferencia = repository.findByIdArticuloReferencia(id);
 
 		if (articuloReferencia == null) {
+			log.error("Se obtuvo un error al intentar borrar el articulo [{}]", id);
 			throw new ObjectNotFound("ArticuloReferencia");
 		}
 
@@ -59,7 +65,10 @@ public class ArticuloReferenciaService {
 		try {
 			articulo = repository.save(articulo);
 		} catch (Exception e) {
-			throw new ObjectAlreadyExists();
+			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
+				log.error("Se intento guardar un articulo ya existente [{}]", articuloReferenciaVo.getCodBarra());
+				throw new ObjectAlreadyExists();
+			}
 		}
 		return articulo;
 	}
@@ -69,6 +78,7 @@ public class ArticuloReferenciaService {
 		ArticuloReferencia articulo = repository.findByIdArticuloReferencia(id);
 
 		if (articulo == null) {
+			log.error("No se encontro el objeto en la bd - Articulo Referencia");
 			throw new ObjectNotFound("ArticuloReferencia");
 		}
 
@@ -77,7 +87,10 @@ public class ArticuloReferenciaService {
 		try {
 			articulo = repository.save(articulo);
 		} catch (Exception e) {
-			throw new ObjectAlreadyExists();
+			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
+				log.error("Se intento actualizar a un articulo ya existente [{}]", articuloReferenciaVo.getCodBarra());
+				throw new ObjectAlreadyExists();
+			}
 		}
 		return articulo;
 	}
@@ -90,6 +103,7 @@ public class ArticuloReferenciaService {
 		UnidadMedida unidadMedida = umService.traerUnidadMedidaPorId(articuloReferenciaVo.getIdUnidadMedida());
 
 		if (categoria == null || marca == null || unidadMedida == null) {
+			log.error("No se encontro el objeto en la bd - Categoria - Marca - UnidadMedida");
 			throw new ObjectNotFound("Categoria / Marca / UnidadMedida");
 		}
 

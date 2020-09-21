@@ -46,7 +46,7 @@ public class PersonaFisicaController {
 	@ApiOperation(value = "Mostrar una Persona Fisica por ID", notes = "Servicio para mostrar una Persona Fisica a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Persona Fisica encontrada"),
 			@ApiResponse(code = 404, message = "Persona Fisica no encontrada") })
-	public Persona traerPersonaFisica(@PathVariable("idPersonaFisica") long id) {
+	public PersonaFisica traerPersonaFisica(@PathVariable("idPersonaFisica") long id) {
 		return service.traerPersonaFisicaPorId(id);
 	}
 
@@ -54,8 +54,8 @@ public class PersonaFisicaController {
 	@ApiOperation(value = "Crear una PersonaFisica", notes = "Servicio para crear una Persona Fisica")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Persona Fisica creada exitosamente"),
 			@ApiResponse(code = 400, message = "No se pudo crear Persona Fisica") })
-	public ResponseEntity<Persona> crearPersonaFisica(@RequestBody PersonaFisicaVo personaFisicaVo) {
-		Persona personaFisica = service.crearPersonaFisica(personaFisicaVo);
+	public ResponseEntity<PersonaFisica> crearPersonaFisica(@RequestBody PersonaFisicaVo personaFisicaVo) {
+		PersonaFisica personaFisica = service.crearPersonaFisica(personaFisicaVo);
 
 		return new ResponseEntity<>(personaFisica, HttpStatus.CREATED);
 	}

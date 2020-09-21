@@ -34,7 +34,7 @@ public class OcupacionLocal {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idPersona", nullable = false)
 	@JsonManagedReference
-	private Persona persona;
+	private PersonaFisica persona;
 
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date fechaHoraEntrada;

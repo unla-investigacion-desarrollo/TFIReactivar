@@ -75,7 +75,7 @@ public class Emprendimiento {
 	@JsonBackReference
 	private List<Articulo> articulos;
 
-	@OneToMany(mappedBy = "emprendimiento", cascade=CascadeType.PERSIST)
+	@OneToMany(mappedBy = "emprendimiento", cascade = CascadeType.PERSIST)
 	@JsonBackReference
 	private List<ConfiguracionLocal> configuracionLocales = new ArrayList<>();
 
@@ -83,8 +83,3 @@ public class Emprendimiento {
 	@JsonBackReference
 	private List<OcupacionLocal> ocupacionLocales;
 }
-
-
-
-
-

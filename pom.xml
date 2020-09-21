@@ -139,7 +139,7 @@
 
 
 	<build>
-	<finalName>alimentar</finalName>
+	<finalName>reactivar</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

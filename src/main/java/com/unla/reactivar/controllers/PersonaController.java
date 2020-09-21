@@ -2,6 +2,8 @@ package com.unla.reactivar.controllers;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.unla.reactivar.models.Persona;
 import com.unla.reactivar.services.PersonaService;
+import com.unla.reactivar.vo.BusquedaPorContactoVo;
 import com.unla.reactivar.vo.CoordenadasVo;
 import com.unla.reactivar.vo.Empty;
 import com.unla.reactivar.vo.PasswordRecoveryVo;
@@ -68,44 +71,54 @@ public class PersonaController {
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
 
-	@PostMapping("/{idPersona}/resetPassword")
-	public ResponseEntity<Empty> resetPassword(@PathVariable("idPersona") long id) {
+	@PostMapping("/resetPassword")
+	public ResponseEntity<Empty> resetPassword(@RequestParam("email") String email) {
 
-		service.recuperarContrasenia(id);
+		service.recuperarContrasenia(email);
 
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
 
 	@GetMapping("/changePassword")
 	public ResponseEntity<Empty> changePassword(@RequestParam("token") String token) {
-		
+
 		service.cambiarContrasenia(token);
-		
+
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/savePassword")
 	public ResponseEntity<Persona> savePassword(@RequestBody PasswordRecoveryVo passwordRecoveryVo) {
-		
-		Persona persona= service.guardarContrasenia(passwordRecoveryVo);
-		
+
+		Persona persona = service.guardarContrasenia(passwordRecoveryVo);
+
 		return new ResponseEntity<>(persona, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/validateEmail")
 	public ResponseEntity<Empty> validateEmail(@RequestParam("token") String token) {
-		
+
 		service.validarEmail(token);
-		
+
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/resendValidationEmail")
 	public ResponseEntity<Empty> resendValidationEmil(@RequestParam("email") String email) {
-		
+
 		service.reenviarValidarEmail(email);
-		
+
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
-	
+
+	@PostMapping("/{idPersona}/informePorContacto")
+	public ResponseEntity<Empty> informePosibleContacto(HttpServletResponse response,
+			@PathVariable("idPersona") long idPersona, @RequestBody BusquedaPorContactoVo busquedaPorFechas) {
+
+		service.generarInformePorContactoEstrecho(response, idPersona, busquedaPorFechas.getFechaInicio(),
+				busquedaPorFechas.getFechaFin());
+
+		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
+	}
+
 }
