@@ -30,10 +30,10 @@ public class MailSenderService {
 
 	@Value("${email.verify.templates.directory}")
 	private String verifyUserEmail;
-	
+
 	@Value("${email.template.server.host}")
 	private String serverHost;
-	
+
 	@Value("${email.recovery.templates.directory}")
 	private String recoveryPasswordEmail;
 

@@ -7,7 +7,6 @@ import java.util.List;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -44,12 +43,12 @@ public abstract class Persona implements Serializable {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date fechaModi;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "idPerfil", nullable = false)
 	@JsonManagedReference
 	private Perfil perfil;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne
 	@JoinColumn(name = "idUbicacion", nullable = false)
 	private Ubicacion ubicacion;
 
@@ -57,7 +56,7 @@ public abstract class Persona implements Serializable {
 	@JoinColumn(name = "idLogin")
 	private Login login;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "idEstadoPersona", nullable = false)
 	@JsonManagedReference
 	private EstadoPersona estadoPersona;

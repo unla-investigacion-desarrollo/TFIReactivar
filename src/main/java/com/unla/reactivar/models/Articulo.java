@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -39,22 +38,22 @@ public class Articulo {
 	private String usuarioModi;
 	private String peso;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "idCategoria", nullable = false)
 	@JsonManagedReference
 	private Categoria categoria;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "idMarca", nullable = false)
 	@JsonManagedReference
 	private Marca marca;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "idUnidadMedida", nullable = false)
 	@JsonManagedReference
 	private UnidadMedida unidadMedida;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "idEmprendimiento", nullable = true)
 	@JsonManagedReference
 	private Emprendimiento emprendimiento;
@@ -66,7 +65,7 @@ public class Articulo {
 	@JsonBackReference
 	private List<ItemCarrito> itemCarrito;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "idPromocion", nullable = true)
 	@JsonManagedReference
 	private Promocion promocion;

@@ -36,7 +36,7 @@ public class PersonaService {
 
 	@Value("${recovery.password.token.duration}")
 	private int expiration;
-	
+
 	@Autowired
 	private OcupacionLocalService ocupacionService;
 
@@ -147,17 +147,19 @@ public class PersonaService {
 
 		mailSenderService.constructValidateEmail(token, persona);
 	}
-	
-	public void generarInformePorContactoEstrecho(HttpServletResponse response, long idPersona, Date fechaInicio, Date fechaFin) {
+
+	public void generarInformePorContactoEstrecho(HttpServletResponse response, long idPersona, Date fechaInicio,
+			Date fechaFin) {
 		response.setContentType("application/pdf");
 
 		String headerKey = "Content-Disposition";
-		String headerValue = "attachment; filename=InformeContactoEstrecho-"+fechaInicio+".pdf";
+		String headerValue = "attachment; filename=InformeContactoEstrecho-" + fechaInicio + ".pdf";
 		response.setHeader(headerKey, headerValue);
-		
-		List<OcupacionLocal> ocupacionesLocal = ocupacionService.traerOcupacionEntreFechas(fechaInicio, fechaFin, idPersona);
-		
-		if(ocupacionesLocal.isEmpty()) {
+
+		List<OcupacionLocal> ocupacionesLocal = ocupacionService.traerOcupacionEntreFechas(fechaInicio, fechaFin,
+				idPersona);
+
+		if (ocupacionesLocal.isEmpty()) {
 			throw new ObjectNotFound("No existen registros en ese horario");
 		}
 		try {
@@ -165,7 +167,7 @@ public class PersonaService {
 			exporter.export(response);
 		} catch (DocumentException | IOException | WriterException e) {
 			throw new PdfExporterException();
-		}		
+		}
 	}
 
 }

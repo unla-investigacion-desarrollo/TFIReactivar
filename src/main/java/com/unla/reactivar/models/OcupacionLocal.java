@@ -6,7 +6,6 @@ package com.unla.reactivar.models;
 import java.util.Date;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,7 +30,7 @@ public class OcupacionLocal {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idOcupacionLocal;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "idPersona", nullable = false)
 	@JsonManagedReference
 	private PersonaFisica persona;
@@ -44,7 +43,7 @@ public class OcupacionLocal {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date fechaModi;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "idEmprendimiento", nullable = false)
 	@JsonManagedReference
 	private Emprendimiento emprendimiento;

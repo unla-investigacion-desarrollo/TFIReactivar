@@ -7,16 +7,13 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -40,21 +37,21 @@ public class Emprendimiento {
 	private Date fechaModi;
 	private int capacidad;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "idTipoEmprendimiento", nullable = false)
 	@JsonManagedReference
 	private TipoEmprendimiento tipoEmprendimiento;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne
 	@JoinColumn(name = "idUbicacion", nullable = false)
 	private Ubicacion ubicacion;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "idRubro", nullable = false)
 	@JsonManagedReference
 	private Rubro rubro;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "idPersona", nullable = false)
 	@JsonManagedReference
 	private Persona persona;

@@ -28,7 +28,7 @@ import com.unla.reactivar.models.PersonaFisica;
 public class InformeContactoEstrechoPDFExporter {
 
 	private List<OcupacionLocal> ocupacionesLocal;
-	
+
 	public InformeContactoEstrechoPDFExporter(List<OcupacionLocal> ocupacionesLocal) {
 		this.ocupacionesLocal = ocupacionesLocal;
 	}
@@ -98,9 +98,8 @@ public class InformeContactoEstrechoPDFExporter {
 
 		PdfPTable table = new PdfPTable(9);
 
-		
 		table.setWidthPercentage(100f);
-		table.setWidths(new float[] { 7f,7f,7f,19f,16f,16f,7f,7f,7f });
+		table.setWidths(new float[] { 7f, 7f, 7f, 19f, 16f, 16f, 7f, 7f, 7f });
 
 		writeTableData(table);
 

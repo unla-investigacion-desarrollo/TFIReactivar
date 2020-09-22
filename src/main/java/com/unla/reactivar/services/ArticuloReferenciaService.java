@@ -22,9 +22,9 @@ import com.unla.reactivar.vo.ReqArticuloReferenciaVo;
 @Service
 @Transactional(readOnly = true)
 public class ArticuloReferenciaService {
-	
+
 	private final Logger log = LoggerFactory.getLogger(getClass().getName());
-	
+
 	@Autowired
 	private ArticuloReferenciaRepository repository;
 

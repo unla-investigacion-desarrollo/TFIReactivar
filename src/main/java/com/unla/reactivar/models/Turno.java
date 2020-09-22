@@ -6,7 +6,6 @@ package com.unla.reactivar.models;
 import java.util.Date;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,17 +31,17 @@ public class Turno {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idTurno;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "idEmprendimiento", nullable = false)
 	@JsonManagedReference
 	private Emprendimiento emprendimiento;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "idEstadoTurno", nullable = false)
 	@JsonManagedReference
 	private EstadoTurno estadoTurno;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "idPersona", nullable = false)
 	@JsonManagedReference
 	private Persona persona;

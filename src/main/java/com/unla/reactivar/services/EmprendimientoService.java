@@ -25,7 +25,6 @@ import com.unla.reactivar.repositories.EmprendimientoRepository;
 import com.unla.reactivar.utils.DateUtils;
 import com.unla.reactivar.utils.QREmprendimientoPDFExporter;
 import com.unla.reactivar.vo.ConfiguracionLocalVo;
-
 import com.unla.reactivar.vo.EmprendimientoVo;
 import com.unla.reactivar.vo.ReqPutEmprendimientoVo;
 

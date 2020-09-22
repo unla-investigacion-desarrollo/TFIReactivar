@@ -51,7 +51,7 @@ public class ReactivarExceptionHandler {
 		String message = "Usuario y/o Contraseña incorrecto";
 
 		GenericError error = new GenericError("error.reactivar.incorrect.user_password", message);
-		
+
 		logger.error(message);
 
 		return error;
@@ -65,7 +65,7 @@ public class ReactivarExceptionHandler {
 		String message = "Ha ocurrido un error al generar PDF.";
 
 		GenericError error = new GenericError("error.reactivar.exporter.pdf", message);
-		
+
 		logger.error(message);
 
 		return error;
@@ -81,7 +81,7 @@ public class ReactivarExceptionHandler {
 		GenericError error = new GenericError("error.reactivar.db.registro_ya_existente", message);
 
 		logger.error("Se intento guardar un objeto ya existente");
-		
+
 		return error;
 	}
 
@@ -95,7 +95,7 @@ public class ReactivarExceptionHandler {
 		GenericError error = new GenericError("error.reactivar.invalid.token.pwd.mail", message);
 
 		logger.error(message);
-		
+
 		return error;
 	}
 
@@ -109,7 +109,7 @@ public class ReactivarExceptionHandler {
 		GenericError error = new GenericError("error.reactivar.invalid.cuil", message);
 
 		logger.error(message);
-		
+
 		return error;
 	}
 
@@ -123,7 +123,7 @@ public class ReactivarExceptionHandler {
 		GenericError error = new GenericError("error.reactivar.user.already_active", message);
 
 		logger.error(message);
-		
+
 		return error;
 	}
 
@@ -137,7 +137,7 @@ public class ReactivarExceptionHandler {
 		GenericError error = new GenericError("error.reactivar.user.already_inactive", message);
 
 		logger.error(message);
-		
+
 		return error;
 	}
 

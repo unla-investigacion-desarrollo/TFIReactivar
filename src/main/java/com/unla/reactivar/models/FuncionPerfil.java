@@ -3,7 +3,6 @@ package com.unla.reactivar.models;
 import java.util.Date;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,12 +23,12 @@ public class FuncionPerfil {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idFuncionPerfil;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "idPerfil", nullable = false)
 	@JsonManagedReference
 	private Perfil perfil;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "idFuncion", nullable = false)
 	@JsonManagedReference
 	private Funcion funcion;

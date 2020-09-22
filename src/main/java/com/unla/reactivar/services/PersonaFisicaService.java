@@ -57,11 +57,11 @@ public class PersonaFisicaService {
 	public PersonaFisica traerPersonaFisicaPorId(Long id) {
 		return repository.findByIdPersona(id);
 	}
-	
+
 	public PersonaFisica traerPersonaFisicaPorDni(Long dni) {
 		return repository.findByDni(dni);
 	}
-	
+
 	public List<PersonaFisica> traerTodasPersonasFisicas() {
 		return repository.findAll();
 	}

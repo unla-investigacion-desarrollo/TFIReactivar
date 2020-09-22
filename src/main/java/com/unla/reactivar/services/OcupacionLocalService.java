@@ -113,8 +113,9 @@ public class OcupacionLocalService {
 		ocupacion.setFechaModi(DateUtils.fechaHoy());
 		ocupacion.setUsuarioModi(ocupacionLocalVo.getUsuarioModi());
 	}
-	
-	private void adaptVoToOcupacionLocalDni(OcupacionLocal ocupacion, OcupacionLocalVo ocupacionLocalVo, PersonaFisica persona) {
+
+	private void adaptVoToOcupacionLocalDni(OcupacionLocal ocupacion, OcupacionLocalVo ocupacionLocalVo,
+			PersonaFisica persona) {
 		Emprendimiento emprendimiento = emprendimientoService
 				.traerEmprendimientoPorId(ocupacionLocalVo.getIdEmprendimiento());
 
@@ -172,7 +173,7 @@ public class OcupacionLocalService {
 		ocupacionVo.setIdEmprendimiento(idEmprendimiento);
 		ocupacionVo.setIdPersona(idPersona);
 		ocupacionVo.setUsuarioModi(ocupacionLocalDniVo.getUsuarioModi());
-		
+
 		OcupacionLocal ocupacion = repository.findByEmprendimientoPersona(idEmprendimiento, idPersona);
 
 		if (ocupacion != null) {

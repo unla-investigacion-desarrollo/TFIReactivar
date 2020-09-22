@@ -50,7 +50,7 @@ public class OcupacionLocalController {
 
 		return new ResponseEntity<>(ocupacionLocal, HttpStatus.CREATED);
 	}
-	
+
 	@PostMapping("/dni")
 	@ApiOperation(value = "Marcar Entrada/Salida Ocupación Local DNI", notes = "Servicio para marcar la Entrada/Salida de Ocupación Local")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Ocupación Local de Entrada/Salida creada exitosamente"),

@@ -1,7 +1,6 @@
 package com.unla.reactivar.models;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,14 +21,14 @@ public class ItemCarrito {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idItemCarrito;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "idArticulo", nullable = false)
 	@JsonManagedReference
 	private Articulo articuloPrecio;
 
 	private int cantidad;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "idCarrito", nullable = false)
 	@JsonManagedReference
 	private Carrito carrito;

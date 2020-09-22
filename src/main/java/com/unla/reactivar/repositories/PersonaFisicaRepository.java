@@ -15,7 +15,7 @@ public interface PersonaFisicaRepository extends JpaRepository<PersonaFisica, Lo
 
 	@Query("SELECT p FROM Persona p WHERE p.idPersona = ?1 and tipo_persona = 'fisica'")
 	public PersonaFisica findByIdPersona(Long idPersona);
-	
+
 	@Query("SELECT p FROM Persona p WHERE p.dni = ?1 and tipo_persona = 'fisica'")
 	public PersonaFisica findByDni(Long idPersona);
 
