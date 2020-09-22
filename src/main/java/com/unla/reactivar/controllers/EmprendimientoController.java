@@ -60,7 +60,8 @@ public class EmprendimientoController {
 			@PathVariable("idPersona") long idPersona, @PathVariable("cantidadKm") String cantidadKm) {
 		List<Emprendimiento> traerEmprendimientosCercanos = service.traerEmprendimientosCercanos(idRubro, idPersona,
 				cantidadKm);
-		return new ResponseEntity(traerEmprendimientosCercanos, HttpStatus.OK);
+		
+		return new ResponseEntity<>(traerEmprendimientosCercanos, HttpStatus.OK);
 	}
 
 	@PostMapping
