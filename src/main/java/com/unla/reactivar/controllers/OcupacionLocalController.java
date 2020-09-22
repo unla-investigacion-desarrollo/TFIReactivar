@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.unla.reactivar.models.OcupacionLocal;
 import com.unla.reactivar.services.OcupacionLocalService;
 import com.unla.reactivar.vo.Empty;
+import com.unla.reactivar.vo.OcupacionLocalDniVo;
 import com.unla.reactivar.vo.OcupacionLocalVo;
 
 import io.swagger.annotations.Api;
@@ -41,11 +42,21 @@ public class OcupacionLocalController {
 	}
 
 	@PostMapping
-	@ApiOperation(value = "Marcar Entrada/Salida Ocupación Local", notes = "Servicio para marcar la Entrada/Salida de Ocupación Local")
+	@ApiOperation(value = "Marcar Entrada/Salida Ocupación Local QR", notes = "Servicio para marcar la Entrada/Salida de Ocupación Local")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Ocupación Local de Entrada/Salida creada exitosamente"),
 			@ApiResponse(code = 400, message = "No se pudo crear Ocupación Local") })
 	public ResponseEntity<OcupacionLocal> crearOcupacionLocal(@RequestBody OcupacionLocalVo ocupacionLocalVo) {
 		OcupacionLocal ocupacionLocal = service.crearOcupacionLocal(ocupacionLocalVo);
+
+		return new ResponseEntity<>(ocupacionLocal, HttpStatus.CREATED);
+	}
+	
+	@PostMapping("/dni")
+	@ApiOperation(value = "Marcar Entrada/Salida Ocupación Local DNI", notes = "Servicio para marcar la Entrada/Salida de Ocupación Local")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Ocupación Local de Entrada/Salida creada exitosamente"),
+			@ApiResponse(code = 400, message = "No se pudo crear Ocupación Local") })
+	public ResponseEntity<OcupacionLocal> crearOcupacionLocalDni(@RequestBody OcupacionLocalDniVo ocupacionLocalDniVo) {
+		OcupacionLocal ocupacionLocal = service.crearOcupacionLocalDni(ocupacionLocalDniVo);
 
 		return new ResponseEntity<>(ocupacionLocal, HttpStatus.CREATED);
 	}

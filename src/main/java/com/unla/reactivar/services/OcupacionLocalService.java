@@ -17,6 +17,7 @@ import com.unla.reactivar.models.OcupacionLocal;
 import com.unla.reactivar.models.PersonaFisica;
 import com.unla.reactivar.repositories.OcupacionLocalRepository;
 import com.unla.reactivar.utils.DateUtils;
+import com.unla.reactivar.vo.OcupacionLocalDniVo;
 import com.unla.reactivar.vo.OcupacionLocalVo;
 
 @Service
@@ -112,38 +113,86 @@ public class OcupacionLocalService {
 		ocupacion.setFechaModi(DateUtils.fechaHoy());
 		ocupacion.setUsuarioModi(ocupacionLocalVo.getUsuarioModi());
 	}
+	
+	private void adaptVoToOcupacionLocalDni(OcupacionLocal ocupacion, OcupacionLocalVo ocupacionLocalVo, PersonaFisica persona) {
+		Emprendimiento emprendimiento = emprendimientoService
+				.traerEmprendimientoPorId(ocupacionLocalVo.getIdEmprendimiento());
+
+		if (emprendimiento == null) {
+			throw new ObjectNotFound("Emprendimiento");
+		}
+
+		ocupacion.setEmprendimiento(emprendimiento);
+		ocupacion.setPersona(persona);
+		ocupacion.setFechaModi(DateUtils.fechaHoy());
+		ocupacion.setUsuarioModi(ocupacionLocalVo.getUsuarioModi());
+	}
 
 	public List<OcupacionLocal> traerOcupacionEntreFechas(Date fechaInicio, Date fechaFin, long idPersona) {
 		List<OcupacionLocal> ocupacionesLocal = repository.findByFechaDesdeHasta(fechaInicio, fechaFin);
 		List<Long> listaEmprendimientosVisitados = new ArrayList<>();
 		List<OcupacionLocal> ocupacionesLocalFiltrado = new ArrayList<>();
-	
-		for(OcupacionLocal ocupacion : ocupacionesLocal) {
-			if(ocupacion.getPersona().getIdPersona() == idPersona) {
+
+		for (OcupacionLocal ocupacion : ocupacionesLocal) {
+			if (ocupacion.getPersona().getIdPersona() == idPersona) {
 				listaEmprendimientosVisitados.add(ocupacion.getEmprendimiento().getIdEmprendimiento());
 			}
 		}
-		listaEmprendimientosVisitados = listaEmprendimientosVisitados.stream()
-	     .distinct()
-	     .collect(Collectors.toList());
-		for(OcupacionLocal ocupacion : ocupacionesLocal) {
-			for(long idEmprendimiento : listaEmprendimientosVisitados) {
+		listaEmprendimientosVisitados = listaEmprendimientosVisitados.stream().distinct().collect(Collectors.toList());
+		for (OcupacionLocal ocupacion : ocupacionesLocal) {
+			for (long idEmprendimiento : listaEmprendimientosVisitados) {
 				if (ocupacion.getEmprendimiento().getIdEmprendimiento() == idEmprendimiento) {
 					ocupacionesLocalFiltrado.add(ocupacion);
-	                break;
-	            }
+					break;
+				}
 			}
 		}
-		
+
 		return ocupacionesLocalFiltrado;
 	}
-	
-	public List<OcupacionLocal> traerOcupacionesSinSalida(){
+
+	public List<OcupacionLocal> traerOcupacionesSinSalida() {
 		return repository.findByFechaHoraSalidaIsNull();
 	}
 
 	@Transactional
 	public void actualizarFechaSalidaVacia(OcupacionLocal ocupacion) {
 		repository.save(ocupacion);
+	}
+
+	@Transactional
+	public OcupacionLocal crearOcupacionLocalDni(OcupacionLocalDniVo ocupacionLocalDniVo) {
+		PersonaFisica persona = personaFisicaService.traerPersonaFisicaPorDni(ocupacionLocalDniVo.getDniPersona());
+		if (persona == null) {
+			throw new ObjectNotFound("Persona");
+		}
+		OcupacionLocalVo ocupacionVo = new OcupacionLocalVo();
+		long idEmprendimiento = ocupacionLocalDniVo.getIdEmprendimiento();
+		long idPersona = persona.getIdPersona();
+		ocupacionVo.setIdEmprendimiento(idEmprendimiento);
+		ocupacionVo.setIdPersona(idPersona);
+		ocupacionVo.setUsuarioModi(ocupacionLocalDniVo.getUsuarioModi());
+		
+		OcupacionLocal ocupacion = repository.findByEmprendimientoPersona(idEmprendimiento, idPersona);
+
+		if (ocupacion != null) {
+			ocupacion.setFechaHoraSalida(DateUtils.fechaHoy());
+			ocupacion.setFechaModi(DateUtils.fechaHoy());
+			ocupacion.setUsuarioModi(ocupacionLocalDniVo.getUsuarioModi());
+		} else {
+			ocupacion = new OcupacionLocal();
+			ocupacion.setFechaHoraEntrada(DateUtils.fechaHoy());
+			adaptVoToOcupacionLocalDni(ocupacion, ocupacionVo, persona);
+		}
+
+		try {
+			ocupacion = repository.save(ocupacion);
+		} catch (Exception e) {
+			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
+				throw new ObjectAlreadyExists();
+			}
+		}
+
+		return ocupacion;
 	}
 }

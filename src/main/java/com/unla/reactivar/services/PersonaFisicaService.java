@@ -58,6 +58,10 @@ public class PersonaFisicaService {
 		return repository.findByIdPersona(id);
 	}
 	
+	public PersonaFisica traerPersonaFisicaPorDni(Long dni) {
+		return repository.findByDni(dni);
+	}
+	
 	public List<PersonaFisica> traerTodasPersonasFisicas() {
 		return repository.findAll();
 	}
@@ -127,6 +131,8 @@ public class PersonaFisicaService {
 		Ubicacion ubicacion = ubicacionService.crearUbicacion(personaFisicaVo.getUbicacionVo());
 		Login login = loginService.crearLogin(personaFisicaVo.getLoginVo());
 
+		persona.setDni(personaFisicaVo.getDni());
+		persona.setNumeroTramite(personaFisicaVo.getNumeroTramite());
 		persona.setSexo(personaFisicaVo.getSexo());
 		persona.setNombre(personaFisicaVo.getNombre());
 		persona.setApellido(personaFisicaVo.getApellido());
