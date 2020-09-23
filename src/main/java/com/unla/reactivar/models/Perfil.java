@@ -6,6 +6,7 @@ package com.unla.reactivar.models;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,7 +42,7 @@ public class Perfil {
 	@JsonBackReference
 	private List<Persona> personas;
 
-	@OneToMany(mappedBy = "perfil")
+	@OneToMany(mappedBy = "perfil", cascade = CascadeType.PERSIST)
 	@JsonBackReference
 	private List<FuncionPerfil> funcionesPerfil;
 }
