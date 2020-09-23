@@ -13,7 +13,7 @@ public class CuilValidator {
 	 */
 	public static boolean esCuilValido(String cuil, String sexo) {
 		boolean flag = true;
-		
+
 		int[] arrayValidator = { 5, 4, 3, 2, 7, 6, 5, 4, 3, 2 };
 		char[] charCuilArray = cuil.toCharArray();
 		int suma = 0;

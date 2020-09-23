@@ -55,16 +55,16 @@ public class EmprendimientoService {
 	public List<Emprendimiento> traerTodosEmprendimientos() {
 		return repository.findAll();
 	}
-	
-	public List<Emprendimiento> traerPorRubro(long idRubro){
+
+	public List<Emprendimiento> traerPorRubro(long idRubro) {
 		return repository.traerPorRubro(idRubro);
 	}
-		
+
 	@Transactional(readOnly = false)
-	public List<Emprendimiento> traerEmprendimientosCercanos(long idRubro, long idPersona, String cantidadKm){
+	public List<Emprendimiento> traerEmprendimientosCercanos(long idRubro, long idPersona, String cantidadKm) {
 		return repository.traerEmprendimientosCercanos(idRubro, idPersona, cantidadKm);
-	}	
-	
+	}
+
 	@Transactional
 	public Emprendimiento crearEmprendimiento(EmprendimientoVo emprendimientoVo) {
 		Emprendimiento emprendimiento = new Emprendimiento();
@@ -137,6 +137,7 @@ public class EmprendimientoService {
 		emprendimiento.setRubro(rubro);
 		emprendimiento.setTipoEmprendimiento(tipoEmprendimiento);
 		emprendimiento.setCapacidad(emprendimientoVo.getCapacidad());
+		emprendimiento.setEmprendimientoActivo(true);
 
 	}
 
@@ -158,6 +159,7 @@ public class EmprendimientoService {
 		emprendimiento.setRubro(rubro);
 		emprendimiento.setTipoEmprendimiento(tipoEmprendimiento);
 		emprendimiento.setCapacidad(emprendimientoVo.getCapacidad());
+		emprendimiento.setEmprendimientoActivo(emprendimientoVo.isEmprendimientoActivo());
 
 	}
 
@@ -196,6 +198,26 @@ public class EmprendimientoService {
 		} catch (DocumentException | IOException | WriterException e) {
 			throw new QrExporterException();
 		}
+	}
+
+	@Transactional
+	public Emprendimiento bajaLogicaEmprendimiento(Long id) {
+		Emprendimiento emprendimiento = repository.findByIdEmprendimiento(id);
+
+		if (emprendimiento == null) {
+			throw new ObjectNotFound("Emprendimiento");
+		}
+
+		if (emprendimiento.isEmprendimientoActivo() == true) {
+			emprendimiento.setEmprendimientoActivo(false);
+		}
+
+		try {
+			emprendimiento = repository.save(emprendimiento);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+		return emprendimiento;
 	}
 
 }

@@ -28,10 +28,10 @@ import com.unla.reactivar.vo.ReqPutPersonaFisicaVo;
 public class PersonaFisicaService {
 
 	private static final long INACTIVO = 1;
-	
+
 	@Value("${recovery.password.token.duration}")
-	private int expiration; 
-	
+	private int expiration;
+
 	@Autowired
 	private PersonaFisicaRepository repository;
 
@@ -46,13 +46,13 @@ public class PersonaFisicaService {
 
 	@Autowired
 	private EstadoPersonaService estadoPersonaService;
-	
+
 	@Autowired
 	private ResetAndValidatingTokenService pwdService;
 
 	@Autowired
 	private MailSenderService mailSenderService;
-	
+
 	public Persona traerPersonaFisicaPorId(Long id) {
 		return repository.findByIdPersona(id);
 	}
@@ -85,7 +85,7 @@ public class PersonaFisicaService {
 		}
 
 		enviarEmailValidarUsuario(persona);
-		
+
 		return persona;
 	}
 
@@ -115,7 +115,7 @@ public class PersonaFisicaService {
 		if (perfil == null) {
 			throw new ObjectNotFound("Perfil");
 		}
-		if(estadoPersona == null) {
+		if (estadoPersona == null) {
 			throw new ObjectNotFound("EstadoPersona(0 = inactivo)");
 		}
 		CuilValidator.esCuilValido(personaFisicaVo.getCuil(), personaFisicaVo.getSexo());
@@ -137,9 +137,10 @@ public class PersonaFisicaService {
 
 	private void adaptPutVoToPersonaFisica(PersonaFisica persona, ReqPutPersonaFisicaVo personaFisicaVo) {
 		Perfil perfil = perfilService.traerPerfilPorId(personaFisicaVo.getIdPerfil());
-		EstadoPersona estadoPersona = estadoPersonaService.traerEstadoPersonaPorId(personaFisicaVo.getIdEstadoPersona());
+		EstadoPersona estadoPersona = estadoPersonaService
+				.traerEstadoPersonaPorId(personaFisicaVo.getIdEstadoPersona());
 
-		if(perfil == null || estadoPersona == null) {
+		if (perfil == null || estadoPersona == null) {
 			throw new ObjectNotFound("Perfil/Estado Persona");
 		}
 		CuilValidator.esCuilValido(personaFisicaVo.getCuil(), personaFisicaVo.getSexo());
@@ -156,7 +157,7 @@ public class PersonaFisicaService {
 	}
 
 	public void enviarEmailValidarUsuario(Persona persona) {
-		
+
 		Random rnd = new Random();
 		String token = String.format("%09d", rnd.nextInt(999999999));
 		crearToken(persona, token);
@@ -166,7 +167,7 @@ public class PersonaFisicaService {
 
 	public void crearToken(Persona persona, String token) {
 		ResetAndValidatingToken passwordResetToken = new ResetAndValidatingToken(token, persona, expiration);
-		
+
 		pwdService.crearResetOrValidateToken(passwordResetToken);
 	}
 

@@ -56,7 +56,7 @@ public abstract class Persona implements Serializable {
 	@OneToOne
 	@JoinColumn(name = "idLogin")
 	private Login login;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idEstadoPersona", nullable = false)
 	@JsonManagedReference

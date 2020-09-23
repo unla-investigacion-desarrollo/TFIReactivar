@@ -28,10 +28,10 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/api/articulo")
 @Api(tags = "Articulo")
 public class ArticuloController {
-	
+
 	@Autowired
 	private ArticuloService service;
-	
+
 	@GetMapping
 	@ApiOperation(value = "Listar todos los articulos", notes = "Service para listar todos los articulos")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Articulos encontrados"),
@@ -39,36 +39,36 @@ public class ArticuloController {
 	public List<Articulo> traerTodos() {
 		return service.traerTodosArticulos();
 	}
-	
+
 	@GetMapping("/{idArticulo}")
 	@ApiOperation(value = "Mostrar un articulo", notes = "Service para mostrar un articulo")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Articulo encontrado"),
 			@ApiResponse(code = 404, message = "Articulo no encontrado") })
-	public Articulo traerArticulo(@PathVariable ("idArticulo") long id) {
+	public Articulo traerArticulo(@PathVariable("idArticulo") long id) {
 		return service.traerArticuloPorId(id);
 	}
-	
+
 	@PostMapping
 	@ApiOperation(value = "Crear Articulo", notes = "Servicio creador de articulos")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Articulo successfully created"),
 			@ApiResponse(code = 400, message = "Invalid request") })
-	public ResponseEntity<Articulo> crearArticulo(@RequestBody ArticuloVo articuloVo){
+	public ResponseEntity<Articulo> crearArticulo(@RequestBody ArticuloVo articuloVo) {
 		Articulo articulo = service.crearArticulo(articuloVo);
-		
+
 		return new ResponseEntity<>(articulo, HttpStatus.CREATED);
 	}
-	
+
 	@DeleteMapping("/{idArticulo}")
 	@ApiOperation(value = "Eliminar articulo", notes = "Servicio elimina Articulo")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Articulo eliminado con exito"),
 			@ApiResponse(code = 404, message = "Articulo no encontrado") })
-	public ResponseEntity<Empty> eliminarArticulo(@PathVariable("idArticulo") long id ) {
-		
+	public ResponseEntity<Empty> eliminarArticulo(@PathVariable("idArticulo") long id) {
+
 		service.borrarArticulo(id);
-		
+
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/{idArticulo}")
 	@ApiOperation(value = "Update Articulo", notes = "Articulo updater service")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Articulo successfully updated"),

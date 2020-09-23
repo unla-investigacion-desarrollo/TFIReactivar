@@ -6,5 +6,5 @@ import lombok.Data;
 public class ReqPutCarritoVo {
 
 	private long idEstadoCarrito;
-	
+
 }

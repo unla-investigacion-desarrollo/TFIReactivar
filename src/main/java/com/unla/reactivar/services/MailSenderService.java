@@ -26,16 +26,16 @@ public class MailSenderService {
 	private final Logger logger = LoggerFactory.getLogger(getClass().getName());
 
 	private JavaMailSenderImpl sender;
-	
+
 	@Value("${email.verify.templates.directory}")
 	private String verifyUserEmail;
-	
+
 	@Value("${email.recovery.templates.directory}")
 	private String recoveryPasswordEmail;
-	
+
 	@Value("${email.images.directory}")
 	private String imagesDirectory;
-	
+
 	@Value("${email.host}")
 	private String host;
 
@@ -100,10 +100,10 @@ public class MailSenderService {
 		}
 		constructEmail("ReactivAR - Verificar Email", message, persona.getLogin().getEmail(), token);
 	}
-	
+
 	public void constructEmail(String subject, String body, String emailReceiver, String token) {
 		MimeMessage message = sender.createMimeMessage();
-		
+
 		try {
 			MimeMessageHelper helper = new MimeMessageHelper(message, true);
 			helper.setSubject(subject);

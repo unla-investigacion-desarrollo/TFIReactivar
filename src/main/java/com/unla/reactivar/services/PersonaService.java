@@ -22,11 +22,11 @@ import com.unla.reactivar.vo.PasswordRecoveryVo;
 @Service
 @Transactional(readOnly = false)
 public class PersonaService {
-	
+
 	private static final long ACTIVO = 2;
-	
+
 	@Value("${recovery.password.token.duration}")
-	private int expiration; 
+	private int expiration;
 
 	@Autowired
 	private PersonaRepository personaRepository;
@@ -36,14 +36,14 @@ public class PersonaService {
 
 	@Autowired
 	private MailSenderService mailSenderService;
-	
+
 	@Autowired
 	private EstadoPersonaService estadoPersonaService;
 
 	public Persona traerPersonaPorId(long idPersona) {
 		return personaRepository.findByIdPersona(idPersona);
 	}
-	
+
 	public Persona traerPersonaPorEmail(String email) {
 		return personaRepository.findByEmail(email);
 	}
@@ -91,14 +91,14 @@ public class PersonaService {
 
 	public void crearPasswordResetToken(Persona persona, String token) {
 		ResetAndValidatingToken passwordResetToken = new ResetAndValidatingToken(token, persona, expiration);
-		
+
 		pwdService.crearResetOrValidateToken(passwordResetToken);
 	}
 
 	public void cambiarContrasenia(String token) {
 		pwdService.validateResetOrValidatingToken(token);
 	}
-	
+
 	public void validarEmail(String token) {
 		ResetAndValidatingToken passToken = pwdService.validateResetOrValidatingToken(token);
 		EstadoPersona estadoPersona = estadoPersonaService.traerEstadoPersonaPorId(ACTIVO);
@@ -108,13 +108,13 @@ public class PersonaService {
 		Persona persona = passToken.getPersona();
 		persona.setEstadoPersona(estadoPersona);
 	}
-	
+
 	public Persona guardarContrasenia(PasswordRecoveryVo passwordRecoveryVo) {
 		ResetAndValidatingToken passToken = pwdService.validateResetOrValidatingToken(passwordRecoveryVo.getToken());
-		
+
 		Persona persona = passToken.getPersona();
 		persona.getLogin().setClave(DigestUtils.sha256Hex(passwordRecoveryVo.getNewPassword()));
-		
+
 		return personaRepository.save(persona);
 	}
 
@@ -125,17 +125,15 @@ public class PersonaService {
 			throw new ObjectNotFound("Persona");
 		}
 
-		if(persona.getEstadoPersona().getIdEstadoPersona() == ACTIVO) {
+		if (persona.getEstadoPersona().getIdEstadoPersona() == ACTIVO) {
 			throw new UserIsAlreadyActive();
 		}
-		
+
 		Random rnd = new Random();
 		String token = String.format("%09d", rnd.nextInt(999999999));
 		crearPasswordResetToken(persona, token);
 
 		mailSenderService.constructValidateEmail(token, persona);
 	}
-
-
 
 }

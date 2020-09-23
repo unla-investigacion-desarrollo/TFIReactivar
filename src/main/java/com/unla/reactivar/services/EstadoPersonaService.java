@@ -53,14 +53,14 @@ public class EstadoPersonaService {
 		} catch (Exception e) {
 			throw new ObjectAlreadyExists();
 		}
-		
+
 		return estado;
 	}
 
 	@Transactional
 	public EstadoPersona crearEstadoPersona(EstadoPersonaVo estadoPersonaVo) {
 		EstadoPersona estado = new EstadoPersona();
-		
+
 		estado.setEstado(estadoPersonaVo.getNombreEstado());
 
 		try {
@@ -68,7 +68,7 @@ public class EstadoPersonaService {
 		} catch (Exception e) {
 			throw new ObjectAlreadyExists();
 		}
-		
+
 		return estado;
 	}
 

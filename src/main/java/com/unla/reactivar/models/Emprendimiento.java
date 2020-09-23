@@ -39,6 +39,7 @@ public class Emprendimiento {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date fechaModi;
 	private int capacidad;
+	private boolean emprendimientoActivo;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idTipoEmprendimiento", nullable = false)
@@ -75,16 +76,12 @@ public class Emprendimiento {
 	@JsonBackReference
 	private List<Articulo> articulos;
 
-	@OneToMany(mappedBy = "emprendimiento", cascade=CascadeType.PERSIST)
+	@OneToMany(mappedBy = "emprendimiento", cascade = CascadeType.PERSIST)
 	@JsonBackReference
 	private List<ConfiguracionLocal> configuracionLocales = new ArrayList<>();
 
 	@OneToMany(mappedBy = "emprendimiento")
 	@JsonBackReference
 	private List<OcupacionLocal> ocupacionLocales;
+
 }
-
-
-
-
-

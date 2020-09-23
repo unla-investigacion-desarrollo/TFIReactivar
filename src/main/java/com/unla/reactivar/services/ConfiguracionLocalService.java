@@ -24,7 +24,7 @@ public class ConfiguracionLocalService {
 
 	@Autowired
 	private EmprendimientoService emprendimientoService;
-	
+
 	public ConfiguracionLocal traerConfiguracionLocalPorId(Long id) {
 		return repository.findByIdConfiguracionLocal(id);
 	}
@@ -48,9 +48,11 @@ public class ConfiguracionLocalService {
 		return config;
 	}
 
-	private void adaptPostVoToConfiguracionLocal(ReqPostConfiguracionLocalVo configuracionLocales, ConfiguracionLocal config) {
-		Emprendimiento emprendimiento = emprendimientoService.traerEmprendimientoPorId(configuracionLocales.getIdEmprendimiento());
-		if(emprendimiento == null) {
+	private void adaptPostVoToConfiguracionLocal(ReqPostConfiguracionLocalVo configuracionLocales,
+			ConfiguracionLocal config) {
+		Emprendimiento emprendimiento = emprendimientoService
+				.traerEmprendimientoPorId(configuracionLocales.getIdEmprendimiento());
+		if (emprendimiento == null) {
 			throw new ObjectNotFound("Emprendimiento");
 		}
 		config.setDiaSemana(configuracionLocales.getDiaSemana());

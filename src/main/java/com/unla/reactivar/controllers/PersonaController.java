@@ -78,34 +78,34 @@ public class PersonaController {
 
 	@GetMapping("/changePassword")
 	public ResponseEntity<Empty> changePassword(@RequestParam("token") String token) {
-		
+
 		service.cambiarContrasenia(token);
-		
+
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/savePassword")
 	public ResponseEntity<Persona> savePassword(@RequestBody PasswordRecoveryVo passwordRecoveryVo) {
-		
-		Persona persona= service.guardarContrasenia(passwordRecoveryVo);
-		
+
+		Persona persona = service.guardarContrasenia(passwordRecoveryVo);
+
 		return new ResponseEntity<>(persona, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/validateEmail")
 	public ResponseEntity<Empty> validateEmail(@RequestParam("token") String token) {
-		
+
 		service.validarEmail(token);
-		
+
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/resendValidationEmail")
 	public ResponseEntity<Empty> resendValidationEmil(@RequestParam("email") String email) {
-		
+
 		service.reenviarValidarEmail(email);
-		
+
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
-	
+
 }

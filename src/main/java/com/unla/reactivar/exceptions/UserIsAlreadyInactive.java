@@ -5,7 +5,7 @@ public class UserIsAlreadyInactive extends RuntimeException {
 	private static final long serialVersionUID = -9090379577606600324L;
 	private String errorMessage;
 	private String errorCode;
-	
+
 	public UserIsAlreadyInactive() {
 		// TODO Auto-generated constructor stub
 	}
@@ -15,12 +15,11 @@ public class UserIsAlreadyInactive extends RuntimeException {
 		this.errorMessage = errorMessage;
 		this.errorCode = errorCode;
 	}
-	
+
 	public UserIsAlreadyInactive(String object) {
 		super();
 		this.errorMessage = object;
 	}
-
 
 	public String getErrorMessage() {
 		return errorMessage;
@@ -37,7 +36,5 @@ public class UserIsAlreadyInactive extends RuntimeException {
 	public void setErrorCode(String errorCode) {
 		this.errorCode = errorCode;
 	}
-	
-	
-	
+
 }

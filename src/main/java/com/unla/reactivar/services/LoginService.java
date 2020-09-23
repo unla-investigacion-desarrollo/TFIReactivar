@@ -26,7 +26,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Service
 @Transactional(readOnly = true)
 public class LoginService {
-	
+
 	private static final long ACTIVO = 2;
 
 	@Autowired
@@ -37,26 +37,26 @@ public class LoginService {
 
 	@Value("${token_auth.key}")
 	private String secretKey;
-	
+
 	@Autowired
 	private PersonaService personaService;
 
 	public Login realizarLogin(LoginVo loginVo) {
 		String email = loginVo.getEmail();
 		Login login = repository.findByEmail(email);
-		
+
 		String passwordHash = DigestUtils.sha256Hex(loginVo.getClave());
 
 		if (login == null || !login.getClave().equals(passwordHash)) {
 			throw new IncorrectUserOrPassword();
 		}
-		
+
 		Persona persona = personaService.traerPersonaPorEmail(email);
 
-		if(persona.getEstadoPersona().getIdEstadoPersona() != ACTIVO) {
+		if (persona.getEstadoPersona().getIdEstadoPersona() != ACTIVO) {
 			throw new UserIsAlreadyInactive();
 		}
-		
+
 		login.setToken(getJWTToken(login.getEmail()));
 		login.setClave(null);
 
@@ -94,7 +94,7 @@ public class LoginService {
 		} catch (Exception e) {
 			throw new ObjectAlreadyExists();
 		}
-		
+
 		login.setToken(null);
 		login.setClave(null);
 
