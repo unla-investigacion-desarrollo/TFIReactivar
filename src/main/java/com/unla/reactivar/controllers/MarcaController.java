@@ -58,6 +58,17 @@ public class MarcaController {
 		return new ResponseEntity<>(marca, HttpStatus.CREATED);
 	}
 
+	@PostMapping("/{idPerfil}/{idEndpoint}")
+	@ApiOperation(value = "Crear una Marca", notes = "Servicio para crear una Marca")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Marca creada exitosamente"),
+			@ApiResponse(code = 400, message = "No se pudo crear Marca") })
+	public ResponseEntity<Marca> crearMarcaValida(@RequestBody MarcaVo marcaVo, @PathVariable("idPerfil") long idPerfil,
+			@PathVariable("idEndpoint") long idEndpoint) {
+		Marca marca = service.crearMarca(marcaVo, idPerfil, idEndpoint);
+
+		return new ResponseEntity<>(marca, HttpStatus.CREATED);
+	}
+
 	@DeleteMapping("/{idMarca}")
 	@ApiOperation(value = "Eliminar una Marca por ID", notes = "Servicio para eliminar una Marca a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Marca eliminada con exito"),

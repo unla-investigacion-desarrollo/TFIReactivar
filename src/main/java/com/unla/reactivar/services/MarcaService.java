@@ -9,7 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.unla.reactivar.exceptions.ObjectAlreadyExists;
 import com.unla.reactivar.exceptions.ObjectNotFound;
+import com.unla.reactivar.models.FuncionPerfil;
 import com.unla.reactivar.models.Marca;
+
 import com.unla.reactivar.repositories.MarcaRepository;
 import com.unla.reactivar.vo.MarcaVo;
 
@@ -19,6 +21,12 @@ public class MarcaService {
 
 	@Autowired
 	private MarcaRepository repository;
+
+	@Autowired
+	private EndpointService serviceEndpoint;
+
+	@Autowired
+	private PerfilService servicePerfil;
 
 	public Marca traerMarcaPorId(Long id) {
 		return repository.findByIdMarca(id);
@@ -72,6 +80,41 @@ public class MarcaService {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
 				throw new ObjectAlreadyExists();
 			}
+		}
+
+		return marca;
+	}
+
+	@Transactional
+	public Marca crearMarca(MarcaVo marcaVo, long idPerfil, long idEndpoint) {
+		Marca marca = new Marca();
+		List<FuncionPerfil> funcionesPerfil = servicePerfil.traerPerfilPorId(idPerfil).getFuncionesPerfil();
+		long idFunEndp = serviceEndpoint.traerEndpointPorId(idEndpoint).getFuncion().getIdFuncion();
+		boolean permisoConcedido = false;
+
+		for (int i = 0; i < funcionesPerfil.size(); i++) {
+			if (funcionesPerfil.get(i).getFuncion().getIdFuncion() == idFunEndp) {
+
+				permisoConcedido = true;
+
+			}
+
+		}
+
+		if (permisoConcedido == true) {
+			marca.setNombre(marcaVo.getNombreMarca());
+
+			try {
+				marca = repository.save(marca);
+			} catch (Exception e) {
+				if (e.getCause() != null
+						&& e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
+					throw new ObjectAlreadyExists();
+				}
+			}
+
+		} else {
+			throw new ObjectNotFound("Usuario con perfil no valido para crear Marcas");
 		}
 
 		return marca;
