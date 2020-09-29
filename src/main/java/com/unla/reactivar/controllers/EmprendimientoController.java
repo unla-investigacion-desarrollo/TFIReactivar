@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -41,6 +42,14 @@ public class EmprendimientoController {
 			@ApiResponse(code = 404, message = "Emprendimientos no encontrados") })
 	public List<Emprendimiento> traerTodosEmprendimientos() {
 		return service.traerTodosEmprendimientos();
+	}
+	
+	@GetMapping("/inactivos")
+	@ApiOperation(value = "Listar todos los Emprendimientos inactivos", notes = "Servicio para listar todos los Emprendimientos inactivos")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimientos inactivos encontrados"),
+			@ApiResponse(code = 404, message = "Emprendimientos no encontrados") })
+	public List<Emprendimiento> traerTodosEmprendimientosInactivos() {
+		return service.traerTodosEmprendimientosInactivos();
 	}
 
 	@GetMapping("/{idEmprendimiento}")
@@ -113,4 +122,12 @@ public class EmprendimientoController {
 		return new ResponseEntity<>(service.bajaLogicaEmprendimiento(id), HttpStatus.OK);
 	}
 
+	@PatchMapping("/{idEmprendimiento}")
+	@ApiOperation(value = "Habilitar un Emprendimiento por ID", notes = "Servicio para habilitar un Emprendimiento a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimiento habilitado correctamente"),
+			@ApiResponse(code = 404, message = "Emprendimiento no encontrado") })
+	public ResponseEntity<Emprendimiento> habilitarEmprendimiento(@PathVariable("idEmprendimiento") Long id) {
+
+		return new ResponseEntity<>(service.habilitarEmprendimiento(id), HttpStatus.OK);
+	}
 }

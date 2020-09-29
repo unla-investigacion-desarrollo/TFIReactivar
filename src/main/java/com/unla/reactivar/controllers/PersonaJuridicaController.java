@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -39,6 +40,14 @@ public class PersonaJuridicaController {
 			@ApiResponse(code = 404, message = "Personas Juridicas no encontradas") })
 	public List<PersonaJuridica> traerTodos() {
 		return service.traerTodos();
+	}
+	
+	@GetMapping("/inactivos")
+	@ApiOperation(value = "Listar todas las Personas Juridicas inactivas", notes = "Servicio para listar todas las Personas Juridicas inactivas")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Personas Juridicas inactivas encontradas"),
+			@ApiResponse(code = 404, message = "Personas Juridicas no encontradas") })
+	public List<PersonaJuridica> traerTodosInactivos() {
+		return service.traerTodosInactivos();
 	}
 
 	@GetMapping("/{idPersonaJuridica}")
@@ -78,6 +87,15 @@ public class PersonaJuridicaController {
 			ReqPutPersonaJuridicaVo personaJuridicaVo) {
 
 		return new ResponseEntity<>(service.actualizarPersonaJuridica(id, personaJuridicaVo), HttpStatus.OK);
+	}
+	
+	@PatchMapping("/{idPersonaJuridica}")
+	@ApiOperation(value = "Activar una Persona Juridica por ID", notes = "Servicio para Activar una Persona Juridica a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Persona Juridica activada exitosamente"),
+			@ApiResponse(code = 404, message = "Persona Juridica no encontrada") })
+	public ResponseEntity<PersonaJuridica> activarPersonaJuridica(@PathVariable("idPersonaJuridica") Long id) {
+
+		return new ResponseEntity<>(service.activarPersonaJuridica(id), HttpStatus.OK);
 	}
 
 }

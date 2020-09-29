@@ -2,7 +2,6 @@ package com.unla.reactivar.services;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
-import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,6 +28,7 @@ import com.unla.reactivar.vo.ReqPutPersonaJuridicaVo;
 public class PersonaJuridicaService {
 
 	private static final long INACTIVO = 1;
+	private static final long ACTIVO = 2;
 
 	@Value("${recovery.password.token.duration}")
 	private int expiration;
@@ -51,8 +51,6 @@ public class PersonaJuridicaService {
 	@Autowired
 	private ResetAndValidatingTokenService pwdService;
 
-	@Autowired
-	private MailSenderService mailSenderService;
 
 	@Transactional
 	public PersonaJuridica crearPersona(PersonaJuridicaVo personaVo) {
@@ -69,13 +67,15 @@ public class PersonaJuridicaService {
 			}
 		}
 
-		enviarEmailValidarUsuario(persona);
-
 		return persona;
 	}
 
 	public PersonaJuridica traerPersonaPorId(long idPersona) {
 		return personaRepository.findByIdPersona(idPersona);
+	}
+	
+	public List<PersonaJuridica> traerTodosInactivos() {
+		return personaRepository.findAllInactivos();
 	}
 
 	public List<PersonaJuridica> traerTodos() {
@@ -157,19 +157,25 @@ public class PersonaJuridicaService {
 		persona.setEstadoPersona(estadoPersona);
 	}
 
-	public void enviarEmailValidarUsuario(Persona persona) {
-
-		Random rnd = new Random();
-		String token = String.format("%09d", rnd.nextInt(999999999));
-		crearToken(persona, token);
-
-		mailSenderService.constructValidateEmail(token, persona);
-	}
-
 	public void crearToken(Persona persona, String token) {
 		ResetAndValidatingToken passwordResetToken = new ResetAndValidatingToken(token, persona, expiration);
 
 		pwdService.crearResetOrValidateToken(passwordResetToken);
+	}
+	
+	@Transactional
+	public PersonaJuridica activarPersonaJuridica(long id) {
+		PersonaJuridica persona = personaRepository.findByIdPersona(id);
+		EstadoPersona estadoPersona = estadoPersonaService.traerEstadoPersonaPorId(ACTIVO);
+		
+		if (persona == null || estadoPersona == null) {
+			throw new ObjectNotFound("Persona/EstadoPersona");
+		}
+		
+		persona.setEstadoPersona(estadoPersona);
+		
+		return personaRepository.save(persona);
+		
 	}
 
 }

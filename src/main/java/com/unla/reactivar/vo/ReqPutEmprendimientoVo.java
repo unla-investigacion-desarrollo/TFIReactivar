@@ -12,6 +12,6 @@ public class ReqPutEmprendimientoVo {
 	private long idRubro;
 	private long idPersona;
 	private int capacidad;
-	private boolean emprendimientoActivo;
+	private long idEstadoEmprendimiento;
 
 }
