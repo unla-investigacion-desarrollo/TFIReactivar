@@ -121,7 +121,7 @@
 	    </dependency>
 	    	<!--Fin Reporte-->
 	    
-	<!-- QR-->
+		<!-- QR-->
 		<dependency>
 			<groupId>com.google.zxing</groupId>
 			<artifactId>core</artifactId>
@@ -132,15 +132,22 @@
 			<artifactId>javase</artifactId>
 			<version>3.3.0</version>
 		</dependency>
- <!-- Fin QR-->
+ 		<!-- Fin QR-->
 
-		<!-- https://mvnrepository.com/artifact/junit/junit -->
+		<!-- Firebase Cloud Notifications -->
+        <dependency>
+            <groupId>com.google.firebase</groupId>
+            <artifactId>firebase-admin</artifactId>
+            <version>6.8.1</version>
+        </dependency>
+        
 		<dependency>
 		    <groupId>junit</groupId>
 		    <artifactId>junit</artifactId>
 		    <scope>test</scope>
 		</dependency>
 
+	
 	</dependencies>
 
 
