@@ -7,7 +7,6 @@ public class EmailSenderException extends RuntimeException {
 	private String errorCode;
 
 	public EmailSenderException() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public EmailSenderException(String errorCode, String errorMessage) {

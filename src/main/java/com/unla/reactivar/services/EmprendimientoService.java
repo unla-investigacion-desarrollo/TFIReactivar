@@ -32,6 +32,8 @@ import com.unla.reactivar.vo.ReqPutEmprendimientoVo;
 @Transactional(readOnly = true)
 public class EmprendimientoService {
 
+	private static final String EMPRENDIMIENTO = "Emprendimiento";
+
 	@Autowired
 	private EmprendimientoRepository repository;
 
@@ -86,7 +88,7 @@ public class EmprendimientoService {
 		Emprendimiento emprendimiento = repository.findByIdEmprendimiento(id);
 
 		if (emprendimiento == null) {
-			throw new ObjectNotFound("Emprendimiento");
+			throw new ObjectNotFound(EMPRENDIMIENTO);
 		}
 
 		repository.delete(emprendimiento);
@@ -97,7 +99,7 @@ public class EmprendimientoService {
 		Emprendimiento emprendimiento = repository.findByIdEmprendimiento(id);
 
 		if (emprendimiento == null) {
-			throw new ObjectNotFound("Emprendimiento");
+			throw new ObjectNotFound(EMPRENDIMIENTO);
 		}
 
 		adaptarPutEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
@@ -188,7 +190,7 @@ public class EmprendimientoService {
 		Emprendimiento emprendimiento = repository.findByIdEmprendimiento(id);
 
 		if (emprendimiento == null) {
-			throw new ObjectNotFound("Emprendimiento");
+			throw new ObjectNotFound(EMPRENDIMIENTO);
 		}
 
 		try {
