@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unla.reactivar.models.Login;
@@ -41,13 +42,21 @@ public class LoginController {
 	}
 
 	@PostMapping
-	@ApiOperation(value = "Generar un Login", notes = "Servicio para generar un Login")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Login encontrado"),
-			@ApiResponse(code = 404, message = "Login no encontrado") })
+	@ApiOperation(value = "Login", notes = "Servicio para realizar un Login")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Login realizado con exito"),
+			@ApiResponse(code = 404, message = "Login ha fallado") })
 	public Login realizarLogin(@RequestBody LoginVo loginVo) {
 		return service.realizarLogin(loginVo);
 	}
 
+	@PostMapping("/token")
+	@ApiOperation(value = "Token Login", notes = "Servicio para realizar un Login con token")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Login realizado con exito"),
+			@ApiResponse(code = 404, message = "Login ha fallado") })
+	public Login realizarTokenLogin(@RequestParam String token) {
+		return service.realizarLoginToken(token);
+	}
+	
 	@DeleteMapping("/{email}")
 	@ApiOperation(value = "Eliminar un login por Email", notes = "Servicio elimina Login a partir de un Email")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Login eliminado con exito"),

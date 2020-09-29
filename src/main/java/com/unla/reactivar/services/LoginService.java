@@ -1,7 +1,6 @@
 package com.unla.reactivar.services;
 
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,6 +12,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.unla.reactivar.exceptions.IncorrectToken;
 import com.unla.reactivar.exceptions.IncorrectUserOrPassword;
 import com.unla.reactivar.exceptions.ObjectAlreadyExists;
 import com.unla.reactivar.exceptions.ObjectNotFound;
@@ -31,12 +31,9 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class LoginService {
 
 	private static final long ACTIVO = 2;
-
+	
 	@Autowired
 	private LoginRepository repository;
-
-	@Value("${token_auth.duration}")
-	private long timeToExpire;
 
 	@Value("${token_auth.key}")
 	private String secretKey;
@@ -44,6 +41,7 @@ public class LoginService {
 	@Autowired
 	private PersonaService personaService;
 
+	@Transactional
 	public Login realizarLogin(LoginVo loginVo) {
 		String email = loginVo.getEmail();
 		Login login = repository.findByEmail(email);
@@ -60,10 +58,35 @@ public class LoginService {
 			throw new UserIsAlreadyInactive();
 		}
 
-		login.setToken(getJWTToken(login.getEmail()));
-		login.setClave(null);
+		if(login.getToken() == null){
+			login.setToken(getJWTToken(login.getEmail()));
+		}
+		
+		repository.save(login);
+		
+		Login loginResp = new Login();
+		loginResp.setToken(login.getToken());
 
-		return login;
+		return loginResp;
+	}
+	
+	public Login realizarLoginToken(String token) {
+		Login login = repository.findByToken(token);
+
+		if (login == null) {
+			throw new IncorrectToken();
+		}
+
+		Persona persona = personaService.traerPersonaPorEmail(login.getEmail());
+
+		if (persona.getEstadoPersona().getIdEstadoPersona() != ACTIVO) {
+			throw new UserIsAlreadyInactive();
+		}
+		
+		Login loginResp = new Login();
+		loginResp.setToken(login.getToken());
+
+		return loginResp;
 	}
 
 	public List<Login> traerTodosLogins() {
@@ -131,8 +154,8 @@ public class LoginService {
 				.claim("authorities",
 						grantedAuthorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
 				.setIssuedAt(DateUtils.fechaHoy())
-				.setExpiration(new Date(DateUtils.fechaHoy().getTime() + timeToExpire))
 				.signWith(SignatureAlgorithm.HS512, secretKey.getBytes()).compact();
 		return token;
 	}
+	
 }

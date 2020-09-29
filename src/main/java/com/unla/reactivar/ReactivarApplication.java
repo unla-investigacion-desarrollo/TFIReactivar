@@ -46,6 +46,8 @@ public class ReactivarApplication extends SpringBootServletInitializer {
 				http.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 						.authorizeRequests().antMatchers(HttpMethod.POST, "/api/login").permitAll()
 						.antMatchers(HttpMethod.POST, "/api/fisica").permitAll()
+						.antMatchers(HttpMethod.GET, "/api/provincia").permitAll()
+						.antMatchers(HttpMethod.GET, "/api/localidad").permitAll()
 						.antMatchers(HttpMethod.POST, "/api/juridica").permitAll().antMatchers(AUTH_WHITELIST)
 						.permitAll().anyRequest().authenticated();
 			} else {
