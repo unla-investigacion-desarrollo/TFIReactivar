@@ -140,6 +140,7 @@ public class EmprendimientoService {
 		emprendimiento.setRubro(rubro);
 		emprendimiento.setTipoEmprendimiento(tipoEmprendimiento);
 		emprendimiento.setCapacidad(emprendimientoVo.getCapacidad());
+		emprendimiento.setEmprendimientoActivo(true);
 
 	}
 
@@ -161,6 +162,7 @@ public class EmprendimientoService {
 		emprendimiento.setRubro(rubro);
 		emprendimiento.setTipoEmprendimiento(tipoEmprendimiento);
 		emprendimiento.setCapacidad(emprendimientoVo.getCapacidad());
+		emprendimiento.setEmprendimientoActivo(emprendimientoVo.isEmprendimientoActivo());
 
 	}
 
@@ -199,6 +201,26 @@ public class EmprendimientoService {
 		} catch (DocumentException | IOException | WriterException e) {
 			throw new PdfExporterException();
 		}
+	}
+
+	@Transactional
+	public Emprendimiento bajaLogicaEmprendimiento(Long id) {
+		Emprendimiento emprendimiento = repository.findByIdEmprendimiento(id);
+
+		if (emprendimiento == null) {
+			throw new ObjectNotFound("Emprendimiento");
+		}
+
+		if (emprendimiento.isEmprendimientoActivo() == true) {
+			emprendimiento.setEmprendimientoActivo(false);
+		}
+
+		try {
+			emprendimiento = repository.save(emprendimiento);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+		return emprendimiento;
 	}
 
 }

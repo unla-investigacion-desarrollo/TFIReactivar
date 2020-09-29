@@ -155,7 +155,6 @@ public class PersonaService {
 		String headerKey = "Content-Disposition";
 		String headerValue = "attachment; filename=InformeContactoEstrecho-" + fechaInicio + ".pdf";
 		response.setHeader(headerKey, headerValue);
-
 		List<OcupacionLocal> ocupacionesLocal = ocupacionService.traerOcupacionEntreFechas(fechaInicio, fechaFin,
 				idPersona);
 
@@ -169,5 +168,4 @@ public class PersonaService {
 			throw new PdfExporterException();
 		}
 	}
-
 }

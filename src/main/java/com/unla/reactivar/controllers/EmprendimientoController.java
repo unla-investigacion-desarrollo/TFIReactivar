@@ -104,4 +104,13 @@ public class EmprendimientoController {
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
 
+	@PutMapping("/{idEmprendimiento}/bajaLogica")
+	@ApiOperation(value = "Baja logica de un Emprendimiento por ID", notes = "Servicio para dar de baja a un Emprendimiento a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimiento dado de baja correctamente"),
+			@ApiResponse(code = 404, message = "Emprendimiento no encontrado") })
+	public ResponseEntity<Emprendimiento> bajaLogicaEmprendimiento(@PathVariable("idEmprendimiento") Long id) {
+
+		return new ResponseEntity<>(service.bajaLogicaEmprendimiento(id), HttpStatus.OK);
+	}
+
 }
