@@ -8,6 +8,8 @@ import java.util.Random;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -32,6 +34,8 @@ import com.unla.reactivar.vo.PasswordRecoveryVo;
 @Transactional(readOnly = false)
 public class PersonaService {
 
+	private final Logger log = LoggerFactory.getLogger(getClass().getName());
+
 	private static final long ACTIVO = 2;
 
 	@Value("${recovery.password.token.duration}")
@@ -53,14 +57,17 @@ public class PersonaService {
 	private EstadoPersonaService estadoPersonaService;
 
 	public Persona traerPersonaPorId(long idPersona) {
+		log.info("Se traera un Persona por id");
 		return personaRepository.findByIdPersona(idPersona);
 	}
 
 	public Persona traerPersonaPorEmail(String email) {
+		log.info("Se traeran  persona por mail [{}]", email);
 		return personaRepository.findByEmail(email);
 	}
 
 	public List<Persona> traerTodos() {
+		log.info("Se traera todas las personas");
 		return personaRepository.findAll();
 	}
 
@@ -71,6 +78,7 @@ public class PersonaService {
 		if (persona == null) {
 			throw new ObjectNotFound("Persona");
 		}
+		log.info("Se eliminara persona [{}]", persona.getIdPersona());
 
 		personaRepository.deletePersona(id);
 	}
@@ -83,6 +91,7 @@ public class PersonaService {
 		}
 
 		Ubicacion ubicacion = persona.getUbicacion();
+		log.info("Se traera coordenadas persona [{}]", persona.getIdPersona());
 
 		return new CoordenadasVo(ubicacion.getLatitud(), ubicacion.getLongitud());
 	}
@@ -97,17 +106,20 @@ public class PersonaService {
 		Random rnd = new Random();
 		String token = String.format("%09d", rnd.nextInt(999999999));
 		crearPasswordResetToken(persona, token);
+		log.info("Se recuperara pwd persona [{}]", persona.getIdPersona());
 
 		mailSenderService.constructResetTokenEmail(token, persona);
 	}
 
 	public void crearPasswordResetToken(Persona persona, String token) {
 		ResetAndValidatingToken passwordResetToken = new ResetAndValidatingToken(token, persona, expiration);
+		log.info("Se creara token pwd persona [{}]", persona.getIdPersona());
 
 		pwdService.crearResetOrValidateToken(passwordResetToken);
 	}
 
 	public void cambiarContrasenia(String token) {
+		log.info("Se cambiara contraseña");
 		pwdService.validateResetOrValidatingToken(token);
 	}
 
@@ -118,6 +130,7 @@ public class PersonaService {
 			throw new ObjectNotFound("EstadoPersona (Activo = 2)");
 		}
 		Persona persona = passToken.getPersona();
+		log.info("Se validara persona [{}]", persona.getIdPersona());
 		persona.setEstadoPersona(estadoPersona);
 	}
 
@@ -126,6 +139,7 @@ public class PersonaService {
 
 		Persona persona = passToken.getPersona();
 		persona.getLogin().setClave(DigestUtils.sha256Hex(passwordRecoveryVo.getNewPassword()));
+		log.info("Se actualizara contrasena persona [{}]", persona.getIdPersona());
 
 		return personaRepository.save(persona);
 	}
@@ -144,6 +158,7 @@ public class PersonaService {
 		Random rnd = new Random();
 		String token = String.format("%09d", rnd.nextInt(999999999));
 		crearPasswordResetToken(persona, token);
+		log.info("Se reenviara mail validacion persona [{}]", persona.getIdPersona());
 
 		mailSenderService.constructValidateEmail(token, persona);
 	}
@@ -162,6 +177,7 @@ public class PersonaService {
 			throw new ObjectNotFound("No existen registros en ese horario");
 		}
 		try {
+			log.info("Se generarar informe contacto estrecho con persona [{}]", idPersona);
 			InformeContactoEstrechoPDFExporter exporter = new InformeContactoEstrechoPDFExporter(ocupacionesLocal);
 			exporter.export(response);
 		} catch (DocumentException | IOException | WriterException e) {

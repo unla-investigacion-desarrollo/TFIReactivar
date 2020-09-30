@@ -3,6 +3,8 @@ package com.unla.reactivar.services;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,8 @@ import com.unla.reactivar.vo.ReqPutPersonaJuridicaVo;
 @Transactional(readOnly = true)
 public class PersonaJuridicaService {
 
+	private final Logger log = LoggerFactory.getLogger(getClass().getName());
+	
 	private static final long INACTIVO = 1;
 	private static final long ACTIVO = 2;
 
@@ -60,6 +64,7 @@ public class PersonaJuridicaService {
 		adaptVoToPersonaJuridica(persona, personaVo);
 
 		try {
+			log.info("Se creara persona juridica [{}]", persona.getCuit());
 			persona = personaRepository.save(persona);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
@@ -71,14 +76,17 @@ public class PersonaJuridicaService {
 	}
 
 	public PersonaJuridica traerPersonaPorId(long idPersona) {
+		log.info("Se traeran la personas juridicas por id");
 		return personaRepository.findByIdPersona(idPersona);
 	}
 	
 	public List<PersonaJuridica> traerTodosInactivos() {
+		log.info("Se traeran todas las personas juridicas inactivas");
 		return personaRepository.findAllInactivos();
 	}
 
 	public List<PersonaJuridica> traerTodos() {
+		log.info("Se traeran todas las personas juridicas");
 		return personaRepository.findAll();
 	}
 
@@ -89,6 +97,7 @@ public class PersonaJuridicaService {
 		if (persona == null) {
 			throw new ObjectNotFound("Persona");
 		}
+		log.info("Se eliminara persona juridica [{}]", persona.getCuit());
 
 		personaRepository.deletePersona(id);
 	}
@@ -104,6 +113,7 @@ public class PersonaJuridicaService {
 		adaptPutVoToPersonaJuridica(persona, personaJuridicaVo);
 
 		try {
+			log.info("Se actualizara persona juridica [{}]", persona.getCuit());
 			persona = personaRepository.save(persona);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
@@ -171,7 +181,8 @@ public class PersonaJuridicaService {
 		if (persona == null || estadoPersona == null) {
 			throw new ObjectNotFound("Persona/EstadoPersona");
 		}
-		
+		log.info("Se activara persona juridica");
+
 		persona.setEstadoPersona(estadoPersona);
 		
 		return personaRepository.save(persona);

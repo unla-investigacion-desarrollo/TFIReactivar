@@ -3,6 +3,8 @@ package com.unla.reactivar.services;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,8 @@ import com.unla.reactivar.vo.ReqPostItemCarritoVo;
 @Transactional(readOnly = true)
 public class ItemCarritoService {
 
+	private final Logger log = LoggerFactory.getLogger(getClass().getName());
+
 	@Autowired
 	private ItemCarritoRepository repository;
 
@@ -30,10 +34,12 @@ public class ItemCarritoService {
 	private CarritoService carritoService;
 
 	public ItemCarrito traerItemCarritoPorId(Long id) {
+		log.info("Se traera item carrito por id");
 		return repository.findByIdItemCarrito(id);
 	}
 
 	public List<ItemCarrito> traerTodosItemsCarrito() {
+		log.info("Se traera todos los item carrito");
 		return repository.findAll();
 	}
 
@@ -44,7 +50,7 @@ public class ItemCarritoService {
 		if (registro == null) {
 			throw new ObjectNotFound("ItemCarrito");
 		}
-
+		log.info("Se elimina item carrito");
 		repository.delete(registro);
 	}
 
@@ -59,6 +65,7 @@ public class ItemCarritoService {
 		adaptVoToItemCarrito(item, itemCarritoVo);
 
 		try {
+			log.info("Se actualizara item carrito");
 			item = repository.save(item);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
@@ -76,14 +83,13 @@ public class ItemCarritoService {
 		adaptPostVoToItemCarrito(item, itemCarritoVo);
 
 		try {
+			log.info("Se creara item carrito");
 			item = repository.save(item);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
 				throw new ObjectAlreadyExists();
 			}
 		}
-
-		item = repository.save(item);
 
 		return item;
 	}

@@ -4,6 +4,8 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,8 @@ import com.unla.reactivar.vo.UbicacionVo;
 @Transactional(readOnly = true)
 public class UbicacionService {
 
+	private final Logger log = LoggerFactory.getLogger(getClass().getName());
+
 	@Autowired
 	private UbicacionRepository repository;
 
@@ -27,6 +31,7 @@ public class UbicacionService {
 	private LocalidadService localidadService;
 
 	public Ubicacion traerUbicacionPorId(Long id) {
+		log.info("Se traera ubicacion por id");
 		return repository.findByIdUbicacion(id);
 	}
 
@@ -37,6 +42,7 @@ public class UbicacionService {
 		adaptVoToUbicacion(ubicacion, ubicacionVo);
 
 		try {
+			log.info("Se creara ubicacion");
 			ubicacion = repository.save(ubicacion);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
@@ -48,6 +54,7 @@ public class UbicacionService {
 	}
 
 	public List<Ubicacion> traerTodos() {
+		log.info("Se traeran todas las ubicaciones");
 		return repository.findAll();
 	}
 
@@ -59,6 +66,7 @@ public class UbicacionService {
 			throw new ObjectNotFound("Ubicacion");
 		}
 
+		log.info("Se eliminara la ubicacion [{}]", id);
 		repository.delete(ubicacion);
 	}
 
@@ -73,6 +81,7 @@ public class UbicacionService {
 		adaptVoToUbicacion(ubicacion, ubicacionVo);
 
 		try {
+			log.info("Se actualizara ubicacion");
 			ubicacion = repository.save(ubicacion);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {

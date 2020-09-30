@@ -38,10 +38,12 @@ public class ArticuloReferenciaService {
 	private UnidadMedidaService umService;
 
 	public ArticuloReferencia traerArticuloReferenciaPorId(Long id) {
+		log.info("Se traera un articulo referencia por id");
 		return repository.findByIdArticuloReferencia(id);
 	}
 
 	public List<ArticuloReferencia> traerTodosArticulosReferencia() {
+		log.info("Se traeran todos los articulos referencia");
 		return repository.findAll();
 	}
 
@@ -54,6 +56,7 @@ public class ArticuloReferenciaService {
 			throw new ObjectNotFound("ArticuloReferencia");
 		}
 
+		log.info("Se eliminara articulo referencia [{}]", articuloReferencia.getNombre());
 		repository.delete(articuloReferencia);
 	}
 
@@ -62,6 +65,7 @@ public class ArticuloReferenciaService {
 		ArticuloReferencia articulo = new ArticuloReferencia();
 
 		adaptVoToArticuloReferencia(articulo, articuloReferenciaVo);
+		log.info("Se creara articulo referencia [{}]", articulo.getNombre());
 		try {
 			articulo = repository.save(articulo);
 		} catch (Exception e) {
@@ -83,7 +87,7 @@ public class ArticuloReferenciaService {
 		}
 
 		adaptVoToArticuloReferencia(articulo, articuloReferenciaVo);
-
+		log.info("Se actualizara articulo referencia [{}]", articulo.getNombre());
 		try {
 			articulo = repository.save(articulo);
 		} catch (Exception e) {

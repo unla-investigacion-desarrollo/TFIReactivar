@@ -3,6 +3,8 @@ package com.unla.reactivar.services;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +21,8 @@ import com.unla.reactivar.vo.DtoXCategoriaVo;
 @Transactional(readOnly = true)
 public class DtoXCategoriaService {
 
+	private final Logger log = LoggerFactory.getLogger(getClass().getName());
+
 	@Autowired
 	private DtoXCategoriaRepository repository;
 
@@ -29,10 +33,12 @@ public class DtoXCategoriaService {
 	private EmprendimientoService emprendimientoService;
 
 	public DtoXCategoria traerDtoXCategoriaPorId(Long id) {
+		log.info("Se traera un DtoXCategoria por id");
 		return repository.findByIdPromocion(id);
 	}
 
 	public List<DtoXCategoria> traerTodosDtosXCategorias() {
+		log.info("Se traeran todos los dtos por categoria");
 		return repository.findAll();
 	}
 
@@ -41,9 +47,11 @@ public class DtoXCategoriaService {
 		DtoXCategoria registro = repository.findByIdPromocion(id);
 
 		if (registro == null) {
+			log.error("Se obtuvo un error al intentar borrar el dto x categoria [{}]", id);
 			throw new ObjectNotFound("DtoXCategoria");
 		}
 
+		log.info("Se eliminara promocion [{}]", registro.getIdPromocion());
 		repository.deletePromocion(id);
 	}
 
@@ -52,12 +60,14 @@ public class DtoXCategoriaService {
 		DtoXCategoria dto = repository.findByIdPromocion(id);
 
 		if (dto == null) {
+			log.error("Se obtuvo un error al intentar actualizar el dto [{}]", id);
 			throw new ObjectNotFound("Descuento");
 		}
 
 		adaptVoToDtoXCategoria(dto, dtoXCategoriaVo);
 
 		try {
+			log.info("Se actualizara dto x categoria");
 			dto = repository.save(dto);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
@@ -75,6 +85,7 @@ public class DtoXCategoriaService {
 		adaptVoToDtoXCategoria(dto, dtoXCategoriaVo);
 
 		try {
+			log.info("Se creara dto x categoria");
 			dto = repository.save(dto);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {

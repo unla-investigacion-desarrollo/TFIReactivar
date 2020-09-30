@@ -3,6 +3,8 @@ package com.unla.reactivar.services;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,8 @@ import com.unla.reactivar.vo.TurnoVo;
 @Transactional(readOnly = true)
 public class TurnoService {
 
+	private final Logger log = LoggerFactory.getLogger(getClass().getName());
+	
 	@Autowired
 	private TurnoRepository repository;
 
@@ -34,10 +38,12 @@ public class TurnoService {
 	private EstadoTurnoService estadoService;
 
 	public Turno traerTurnoPorId(Long id) {
+		log.info("Se traera un turno por id");
 		return repository.findByIdTurno(id);
 	}
 
 	public List<Turno> traerTodosTurnos() {
+		log.info("Se traera todos los turnos");
 		return repository.findAll();
 	}
 
@@ -48,7 +54,7 @@ public class TurnoService {
 		if (registro == null) {
 			throw new ObjectNotFound("Turno");
 		}
-
+		log.info("Se eliminara el turno [{}]", id);
 		repository.delete(registro);
 	}
 
@@ -63,6 +69,7 @@ public class TurnoService {
 		adaptVoToTurno(turno, turnoVo);
 
 		try {
+			log.info("Se actualizara el turno [{}]", id);
 			turno = repository.save(turno);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
@@ -80,6 +87,7 @@ public class TurnoService {
 		adaptVoToTurno(turno, turnoVo);
 
 		try {
+			log.info("Se creara un turno");
 			turno = repository.save(turno);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {

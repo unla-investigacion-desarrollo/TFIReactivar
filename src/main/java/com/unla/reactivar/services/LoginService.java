@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
@@ -29,6 +31,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Service
 @Transactional(readOnly = true)
 public class LoginService {
+
+	private final Logger log = LoggerFactory.getLogger(getClass().getName());
 
 	private static final long ACTIVO = 2;
 	
@@ -66,6 +70,7 @@ public class LoginService {
 		
 		Login loginResp = new Login();
 		loginResp.setToken(login.getToken());
+		log.info("Se logea [{}]", email);
 
 		return loginResp;
 	}
@@ -85,11 +90,13 @@ public class LoginService {
 		
 		Login loginResp = new Login();
 		loginResp.setToken(login.getToken());
+		log.info("Se logea [{}]", login.getEmail());
 
 		return loginResp;
 	}
 
 	public List<Login> traerTodosLogins() {
+		log.info("Se traeran todos los login");
 		return repository.findAll();
 	}
 
@@ -100,6 +107,7 @@ public class LoginService {
 		if (login == null) {
 			throw new ObjectNotFound("Login");
 		}
+		log.info("Se traeran todos los login");
 
 		repository.delete(login);
 	}
@@ -125,6 +133,7 @@ public class LoginService {
 
 		login.setToken(null);
 		login.setClave(null);
+		log.info("Se actulizara login [{}]", login.getEmail());
 
 		return login;
 	}
@@ -137,6 +146,7 @@ public class LoginService {
 		login.setEmail(loginVo.getEmail());
 
 		try {
+			log.info("Se creara login [{}]", login.getEmail());
 			login = repository.save(login);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {

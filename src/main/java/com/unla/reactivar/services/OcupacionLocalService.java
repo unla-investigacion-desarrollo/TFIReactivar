@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +29,8 @@ import com.unla.reactivar.vo.PersonaFisicaVo;
 @Transactional(readOnly = true)
 public class OcupacionLocalService {
 
+	private final Logger log = LoggerFactory.getLogger(getClass().getName());
+
 	@Autowired
 	private OcupacionLocalRepository repository;
 
@@ -37,10 +41,12 @@ public class OcupacionLocalService {
 	private EmprendimientoService emprendimientoService;
 
 	public OcupacionLocal traerOcupacionLocalPorId(Long id) {
+		log.info("Se traeran ocupacion local por id");
 		return repository.findByIdOcupacionLocal(id);
 	}
 
 	public List<OcupacionLocal> traerTodasOcupacionesLocales() {
+		log.info("Se traeran todas las ocupaciones local");
 		return repository.findAll();
 	}
 
@@ -51,6 +57,7 @@ public class OcupacionLocalService {
 		if (registro == null) {
 			throw new ObjectNotFound("OcupacionLocal");
 		}
+		log.info("Se eliminara Ocupacion local");
 
 		repository.delete(registro);
 	}
@@ -66,6 +73,7 @@ public class OcupacionLocalService {
 		adaptVoToOcupacionLocal(ocupacion, ocupacionLocalVo);
 
 		try {
+			log.info("Se actualizara Ocupacion local");
 			ocupacion = repository.save(ocupacion);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
@@ -82,10 +90,12 @@ public class OcupacionLocalService {
 				ocupacionLocalVo.getIdPersona());
 
 		if (ocupacion != null) {
+			log.info("Se marca salida Ocupacion local emprendimiento [{}]", ocupacion.getEmprendimiento().getNombre());
 			ocupacion.setFechaHoraSalida(DateUtils.fechaHoy());
 			ocupacion.setFechaModi(DateUtils.fechaHoy());
 			ocupacion.setUsuarioModi(ocupacionLocalVo.getUsuarioModi());
 		} else {
+			log.info("Se marca entrada Ocupacion local emprendimiento [{}]", ocupacionLocalVo.getIdEmprendimiento());
 			ocupacion = new OcupacionLocal();
 			ocupacion.setFechaHoraEntrada(DateUtils.fechaHoy());
 			adaptVoToOcupacionLocal(ocupacion, ocupacionLocalVo);
@@ -136,6 +146,7 @@ public class OcupacionLocalService {
 		List<OcupacionLocal> ocupacionesLocal = repository.findByFechaDesdeHasta(fechaInicio, fechaFin);
 		List<Long> listaEmprendimientosVisitados = new ArrayList<>();
 		List<OcupacionLocal> ocupacionesLocalFiltrado = new ArrayList<>();
+		log.info("Se traeran las ocupaciones locales entre fechas");
 
 		for (OcupacionLocal ocupacion : ocupacionesLocal) {
 			if (ocupacion.getPersona().getIdPersona() == idPersona) {
@@ -156,6 +167,8 @@ public class OcupacionLocalService {
 	}
 
 	public List<OcupacionLocal> traerOcupacionesSinSalida() {
+		log.info("Se traeran las ocupaciones locales sin salida");
+
 		return repository.findByFechaHoraSalidaIsNull();
 	}
 
@@ -184,10 +197,12 @@ public class OcupacionLocalService {
 		OcupacionLocal ocupacion = repository.findByEmprendimientoPersona(idEmprendimiento, idPersona);
 
 		if (ocupacion != null) {
+			log.info("Se marca salida Ocupacion local con dni emprendimiento [{}]", ocupacion.getEmprendimiento().getNombre());
 			ocupacion.setFechaHoraSalida(DateUtils.fechaHoy());
 			ocupacion.setFechaModi(DateUtils.fechaHoy());
 			ocupacion.setUsuarioModi(ocupacionLocalDniVo.getUsuarioModi());
 		} else {
+			log.info("Se marca salida Ocupacion local con dni emprendimiento [{}]", idEmprendimiento);
 			ocupacion = new OcupacionLocal();
 			ocupacion.setFechaHoraEntrada(DateUtils.fechaHoy());
 			adaptVoToOcupacionLocalDni(ocupacion, ocupacionVo, persona);

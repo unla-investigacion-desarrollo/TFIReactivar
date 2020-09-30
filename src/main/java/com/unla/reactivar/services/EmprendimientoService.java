@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -35,6 +37,8 @@ import com.unla.reactivar.vo.ReqPutEmprendimientoVo;
 @Transactional(readOnly = true)
 public class EmprendimientoService {
 
+	private final Logger log = LoggerFactory.getLogger(getClass().getName());
+
 	private static final String EMPRENDIMIENTO = "Emprendimiento";
 	private static final long INACTIVO = 1;
 	private static final long ACTIVO = 2;
@@ -62,23 +66,28 @@ public class EmprendimientoService {
 	private EstadoEmprendimientoService estadoEmprendimientoService;
 
 	public Emprendimiento traerEmprendimientoPorId(Long id) {
+		log.info("Se traera un Emprendimiento por id");
 		return repository.findByIdEmprendimiento(id);
 	}
 
 	public List<Emprendimiento> traerTodosEmprendimientos() {
+		log.info("Se traeran todos los emprendimientos");
 		return repository.findAll();
 	}
 
 	public List<Emprendimiento> traerTodosEmprendimientosInactivos() {
+		log.info("Se traeran todos los emprendimientos inactivos");
 		return repository.findAllInactivos();
 	}
 
 	public List<Emprendimiento> traerPorRubro(long idRubro) {
+		log.info("Se traeran todos los emprendimientos por rubro [{}]", idRubro);
 		return repository.traerPorRubro(idRubro);
 	}
 
 	@Transactional(readOnly = false)
 	public List<Emprendimiento> traerEmprendimientosCercanos(long idRubro, long idPersona, String cantidadKm) {
+		log.info("Se traeran todos los emprendimientos por distancia");
 		return repository.traerEmprendimientosCercanos(idRubro, idPersona, cantidadKm);
 	}
 
@@ -96,6 +105,7 @@ public class EmprendimientoService {
 		emprendimiento.setEstadoEmprendimiento(estadoEmprendimiento);
 
 		try {
+			log.info("Se creara emprendimiento [{}]", emprendimientoVo.getNombre());
 			emprendimiento = repository.save(emprendimiento);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
@@ -113,6 +123,7 @@ public class EmprendimientoService {
 		if (emprendimiento == null) {
 			throw new ObjectNotFound(EMPRENDIMIENTO);
 		}
+		log.info("Se eliminara emprendimiento [{}]", emprendimiento.getNombre());
 
 		repository.delete(emprendimiento);
 	}
@@ -128,6 +139,7 @@ public class EmprendimientoService {
 		adaptarPutEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
 
 		try {
+			log.info("Se actualizara emprendimiento [{}]", emprendimiento.getNombre());
 			emprendimiento = repository.save(emprendimiento);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
@@ -223,6 +235,7 @@ public class EmprendimientoService {
 		}
 
 		try {
+			log.info("Se exportara qr para emprendimiento [{}]", emprendimiento.getNombre());
 			QREmprendimientoPDFExporter exporter = new QREmprendimientoPDFExporter(emprendimiento, serverHost);
 			exporter.export(response);
 		} catch (DocumentException | IOException | WriterException e) {
@@ -248,6 +261,7 @@ public class EmprendimientoService {
 		}
 
 		try {
+			log.info("Se dara de baja emprendimiento [{}]", emprendimiento.getNombre());
 			emprendimiento = repository.save(emprendimiento);
 		} catch (Exception e) {
 			throw new ObjectAlreadyExists();
@@ -263,7 +277,7 @@ public class EmprendimientoService {
 		if (emprendimiento == null || estadoEmprendimiento == null) {
 			throw new ObjectNotFound(EMPRENDIMIENTO + " EstadoEmprendimiento activo=2");
 		}
-
+		log.info("Se habilitara emprendimiento [{}]", emprendimiento.getNombre());
 		emprendimiento.setEstadoEmprendimiento(estadoEmprendimiento);
 
 		return repository.save(emprendimiento);

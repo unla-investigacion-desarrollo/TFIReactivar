@@ -4,6 +4,8 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Random;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,8 @@ import com.unla.reactivar.vo.ReqPutPersonaFisicaVo;
 @Service
 @Transactional(readOnly = true)
 public class PersonaFisicaService {
+
+	private final Logger log = LoggerFactory.getLogger(getClass().getName());
 
 	private static final long INACTIVO = 1;
 
@@ -55,14 +59,17 @@ public class PersonaFisicaService {
 	private MailSenderService mailSenderService;
 
 	public PersonaFisica traerPersonaFisicaPorId(Long id) {
+		log.info("Se traeran la personas fisicas por id");
 		return repository.findByIdPersona(id);
 	}
 
 	public PersonaFisica traerPersonaFisicaPorDni(Long dni) {
+		log.info("Se traeran persona fisica por dni");
 		return repository.findByDni(dni);
 	}
 
 	public List<PersonaFisica> traerTodasPersonasFisicas() {
+		log.info("Se traeran todas las personas fisica");
 		return repository.findAll();
 	}
 
@@ -73,7 +80,7 @@ public class PersonaFisicaService {
 		if (registro == null) {
 			throw new ObjectNotFound("PersonaFisica");
 		}
-
+		log.info("Se eliminara persona fisica [{}]", registro.getCuil());
 		repository.deletePersona(id);
 	}
 
@@ -87,7 +94,8 @@ public class PersonaFisicaService {
 
 		adaptVoToPersonaFisica(persona, personaFisicaVo);
 
-		try {
+		try {	
+			log.info("Se creara persona fisica [{}]",persona.getDni());
 			persona = repository.save(persona);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
@@ -112,6 +120,7 @@ public class PersonaFisicaService {
 		adaptPutVoToPersonaFisica(persona, personaFisicaVo);
 
 		try {
+			log.info("Se actualizara persona fisica [{}]",persona.getDni());
 			persona = repository.save(persona);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
@@ -179,6 +188,7 @@ public class PersonaFisicaService {
 		Random rnd = new Random();
 		String token = String.format("%09d", rnd.nextInt(999999999));
 		crearToken(persona, token);
+		log.info("Se eviara mail validar persona fisica [{}]",persona.getIdPersona());
 
 		mailSenderService.constructValidateEmail(token, persona);
 	}

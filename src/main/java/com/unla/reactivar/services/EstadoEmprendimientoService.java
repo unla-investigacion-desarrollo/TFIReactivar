@@ -3,6 +3,8 @@ package com.unla.reactivar.services;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,14 +19,18 @@ import com.unla.reactivar.vo.EstadoEmprendimientoVo;
 @Transactional(readOnly = true)
 public class EstadoEmprendimientoService {
 
+	private final Logger log = LoggerFactory.getLogger(getClass().getName());
+
 	@Autowired
 	private EstadoEmprendimientoRepository repository;
 
 	public EstadoEmprendimiento traerEstadoEmprendimientoPorId(Long id) {
+		log.info("Se traera un estado emprendimiento por id");
 		return repository.findByIdEstadoEmprendimiento(id);
 	}
 
 	public List<EstadoEmprendimiento> traerTodosEstadosEmprendimiento() {
+		log.info("Se traeran todos los estados emprendimiento");
 		return repository.findAll();
 	}
 
@@ -36,6 +42,7 @@ public class EstadoEmprendimientoService {
 			throw new ObjectNotFound("EstadoEmprendimiento");
 		}
 
+		log.info("Se eliminara el estado emprendimiento [{}]", id);
 		repository.delete(registro);
 	}
 
@@ -50,6 +57,7 @@ public class EstadoEmprendimientoService {
 		estado.setEstado(estadoEmprendimientoVo.getNombreEstado());
 
 		try {
+			log.info("Se actualizara el estado emprendimiento [{}]", estado.getEstado());
 			estado = repository.save(estado);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
@@ -67,6 +75,7 @@ public class EstadoEmprendimientoService {
 		estado.setEstado(estadoEmprendimientoVo.getNombreEstado());
 
 		try {
+			log.info("Se creara el estado emprendimiento [{}]", estado.getEstado());
 			estado = repository.save(estado);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
