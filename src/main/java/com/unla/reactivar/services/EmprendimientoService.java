@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,7 +40,9 @@ public class EmprendimientoService {
 	private static final long ACTIVO = 2;
 	private static final long BAJA = 3;
 
-
+	@Value("${server.host}")
+	private String serverHost;
+	
 	@Autowired
 	private EmprendimientoRepository repository;
 
@@ -54,10 +57,10 @@ public class EmprendimientoService {
 
 	@Autowired
 	private UbicacionService ubicacionService;
-	
+
 	@Autowired
 	private EstadoEmprendimientoService estadoEmprendimientoService;
-	
+
 	public Emprendimiento traerEmprendimientoPorId(Long id) {
 		return repository.findByIdEmprendimiento(id);
 	}
@@ -65,7 +68,7 @@ public class EmprendimientoService {
 	public List<Emprendimiento> traerTodosEmprendimientos() {
 		return repository.findAll();
 	}
-	
+
 	public List<Emprendimiento> traerTodosEmprendimientosInactivos() {
 		return repository.findAllInactivos();
 	}
@@ -82,16 +85,16 @@ public class EmprendimientoService {
 	@Transactional
 	public Emprendimiento crearEmprendimiento(EmprendimientoVo emprendimientoVo) {
 		Emprendimiento emprendimiento = new Emprendimiento();
-		EstadoEmprendimiento estadoEmprendimiento = estadoEmprendimientoService.traerEstadoEmprendimientoPorId(INACTIVO);
+		EstadoEmprendimiento estadoEmprendimiento = estadoEmprendimientoService.traerEstadoEmprendimientoPorId(ACTIVO);
 
 		adaptarEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
 
-		if(estadoEmprendimiento == null) {
-			throw new ObjectNotFound("EstadoEmprendimiento (inactivo = 1)");
+		if (estadoEmprendimiento == null) {
+			throw new ObjectNotFound("EstadoEmprendimiento (activo = 2)");
 		}
-		
+
 		emprendimiento.setEstadoEmprendimiento(estadoEmprendimiento);
-		
+
 		try {
 			emprendimiento = repository.save(emprendimiento);
 		} catch (Exception e) {
@@ -161,7 +164,7 @@ public class EmprendimientoService {
 		emprendimiento.setRubro(rubro);
 		emprendimiento.setTipoEmprendimiento(tipoEmprendimiento);
 		emprendimiento.setCapacidad(emprendimientoVo.getCapacidad());
-
+		emprendimiento.setAceptaFoto(emprendimientoVo.isAceptaFoto());
 	}
 
 	private void adaptarPutEmprendimientoVoAEmprendimiento(ReqPutEmprendimientoVo emprendimientoVo,
@@ -173,7 +176,8 @@ public class EmprendimientoService {
 		Rubro rubro = rubroService.traerRubroPorId(emprendimientoVo.getIdRubro());
 		TipoEmprendimiento tipoEmprendimiento = tipoEmprendimientoService
 				.traerTipoEmprendimientoPorId(emprendimientoVo.getIdTipoEmprendimiento());
-		EstadoEmprendimiento estadoEmprendimiento = estadoEmprendimientoService.traerEstadoEmprendimientoPorId(emprendimientoVo.getIdEstadoEmprendimiento());
+		EstadoEmprendimiento estadoEmprendimiento = estadoEmprendimientoService
+				.traerEstadoEmprendimientoPorId(emprendimientoVo.getIdEstadoEmprendimiento());
 
 		if (persona == null || rubro == null || tipoEmprendimiento == null) {
 			throw new ObjectNotFound("Persona, estadoEmprendimiento, rubro o tipoEmprendimiento");
@@ -185,6 +189,7 @@ public class EmprendimientoService {
 		emprendimiento.setTipoEmprendimiento(tipoEmprendimiento);
 		emprendimiento.setCapacidad(emprendimientoVo.getCapacidad());
 		emprendimiento.setEstadoEmprendimiento(estadoEmprendimiento);
+		emprendimiento.setAceptaFoto(emprendimientoVo.isAceptaFoto());
 
 	}
 
@@ -218,7 +223,7 @@ public class EmprendimientoService {
 		}
 
 		try {
-			QREmprendimientoPDFExporter exporter = new QREmprendimientoPDFExporter(emprendimiento);
+			QREmprendimientoPDFExporter exporter = new QREmprendimientoPDFExporter(emprendimiento, serverHost);
 			exporter.export(response);
 		} catch (DocumentException | IOException | WriterException e) {
 			throw new PdfExporterException();
@@ -234,8 +239,9 @@ public class EmprendimientoService {
 		}
 
 		if (ACTIVO == emprendimiento.getEstadoEmprendimiento().getIdEstadoEmprendimiento()) {
-			EstadoEmprendimiento estadoEmprendimiento = estadoEmprendimientoService.traerEstadoEmprendimientoPorId(BAJA);
-			if(estadoEmprendimiento == null) {
+			EstadoEmprendimiento estadoEmprendimiento = estadoEmprendimientoService
+					.traerEstadoEmprendimientoPorId(BAJA);
+			if (estadoEmprendimiento == null) {
 				throw new ObjectNotFound("EstadoEmprendimiento (baja = 3)");
 			}
 			emprendimiento.setEstadoEmprendimiento(estadoEmprendimiento);
@@ -257,12 +263,10 @@ public class EmprendimientoService {
 		if (emprendimiento == null || estadoEmprendimiento == null) {
 			throw new ObjectNotFound(EMPRENDIMIENTO + " EstadoEmprendimiento activo=2");
 		}
-		
+
 		emprendimiento.setEstadoEmprendimiento(estadoEmprendimiento);
-		
+
 		return repository.save(emprendimiento);
 	}
-
-
 
 }

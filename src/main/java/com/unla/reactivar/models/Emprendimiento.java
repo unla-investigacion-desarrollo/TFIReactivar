@@ -36,6 +36,7 @@ public class Emprendimiento {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date fechaModi;
 	private int capacidad;
+	private boolean aceptaFoto;
 	
 	@ManyToOne
 	@JoinColumn(name = "idEstadoEmprendimiento", nullable = false)

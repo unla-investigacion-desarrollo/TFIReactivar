@@ -126,7 +126,7 @@ public class PersonaJuridicaService {
 		persona.setFechaModi(DateUtils.fechaHoy());
 		persona.setUsuarioModi(personaVo.getUsuarioModi());
 		Perfil perfil = perfilService.traerPerfilPorId(personaVo.getIdPerfil());
-		EstadoPersona estadoPersona = estadoPersonaService.traerEstadoPersonaPorId(INACTIVO);
+		EstadoPersona estadoPersona = estadoPersonaService.traerEstadoPersonaPorId(ACTIVO);
 
 		if (perfil == null) {
 			throw new ObjectNotFound("Perfil");
@@ -147,7 +147,7 @@ public class PersonaJuridicaService {
 		persona.setFechaModi(DateUtils.fechaHoy());
 		persona.setUsuarioModi(personaVo.getUsuarioModi());
 		Perfil perfil = perfilService.traerPerfilPorId(personaVo.getIdPerfil());
-		EstadoPersona estadoPersona = estadoPersonaService.traerEstadoPersonaPorId(INACTIVO);
+		EstadoPersona estadoPersona = estadoPersonaService.traerEstadoPersonaPorId(personaVo.getIdEstadoPersona());
 
 		if (perfil == null || estadoPersona == null) {
 			throw new ObjectNotFound("Perfil/Estado Persona");

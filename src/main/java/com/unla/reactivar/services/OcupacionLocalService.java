@@ -2,6 +2,7 @@ package com.unla.reactivar.services;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -9,6 +10,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 
 import com.unla.reactivar.exceptions.ObjectAlreadyExists;
 import com.unla.reactivar.exceptions.ObjectNotFound;
@@ -19,6 +21,7 @@ import com.unla.reactivar.repositories.OcupacionLocalRepository;
 import com.unla.reactivar.utils.DateUtils;
 import com.unla.reactivar.vo.OcupacionLocalDniVo;
 import com.unla.reactivar.vo.OcupacionLocalVo;
+import com.unla.reactivar.vo.PersonaFisicaVo;
 
 @Service
 @Transactional(readOnly = true)
@@ -162,13 +165,17 @@ public class OcupacionLocalService {
 	}
 
 	@Transactional
-	public OcupacionLocal crearOcupacionLocalDni(OcupacionLocalDniVo ocupacionLocalDniVo) {
+	public OcupacionLocal crearOcupacionLocalDni(String idEmprendimientoBase64, OcupacionLocalDniVo ocupacionLocalDniVo) {
 		PersonaFisica persona = personaFisicaService.traerPersonaFisicaPorDni(ocupacionLocalDniVo.getDniPersona());
+		
 		if (persona == null) {
-			throw new ObjectNotFound("Persona");
+			PersonaFisicaVo personaVo = new PersonaFisicaVo();
+			personaVo.setDni(ocupacionLocalDniVo.getDniPersona());
+			persona = personaFisicaService.crearPersonaFisica(personaVo);
 		}
+		
 		OcupacionLocalVo ocupacionVo = new OcupacionLocalVo();
-		long idEmprendimiento = ocupacionLocalDniVo.getIdEmprendimiento();
+		long idEmprendimiento = Long.valueOf(new String(Base64Utils.decodeFromString(idEmprendimientoBase64)));
 		long idPersona = persona.getIdPersona();
 		ocupacionVo.setIdEmprendimiento(idEmprendimiento);
 		ocupacionVo.setIdPersona(idPersona);

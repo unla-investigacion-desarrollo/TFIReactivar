@@ -79,7 +79,11 @@ public class PersonaFisicaService {
 
 	@Transactional
 	public PersonaFisica crearPersonaFisica(PersonaFisicaVo personaFisicaVo) {
-		PersonaFisica persona = new PersonaFisica();
+		PersonaFisica persona = repository.findByDni(personaFisicaVo.getDni());
+
+		if (persona == null) {
+			persona = new PersonaFisica();
+		}
 
 		adaptVoToPersonaFisica(persona, personaFisicaVo);
 
@@ -91,7 +95,8 @@ public class PersonaFisicaService {
 			}
 		}
 
-		enviarEmailValidarUsuario(persona);
+		if(persona.getCuil()!=null)
+			enviarEmailValidarUsuario(persona);
 
 		return persona;
 	}
@@ -120,16 +125,20 @@ public class PersonaFisicaService {
 	private void adaptVoToPersonaFisica(PersonaFisica persona, PersonaFisicaVo personaFisicaVo) {
 		Perfil perfil = perfilService.traerPerfilPorId(personaFisicaVo.getIdPerfil());
 		EstadoPersona estadoPersona = estadoPersonaService.traerEstadoPersonaPorId(INACTIVO);
-
-		if (perfil == null) {
-			throw new ObjectNotFound("Perfil");
+		
+		if (personaFisicaVo.getCuil() != null) {
+			if (perfil == null) {
+				throw new ObjectNotFound("Perfil");
+			}
+			if (estadoPersona == null) {
+				throw new ObjectNotFound("EstadoPersona(1 = inactivo)");
+			}
+			CuilValidator.esCuilValido(personaFisicaVo.getCuil(), personaFisicaVo.getSexo());
+			Ubicacion ubicacion = ubicacionService.crearUbicacion(personaFisicaVo.getUbicacionVo());
+			Login login = loginService.crearLogin(personaFisicaVo.getLoginVo());
+			persona.setUbicacion(ubicacion);
+			persona.setLogin(login);
 		}
-		if (estadoPersona == null) {
-			throw new ObjectNotFound("EstadoPersona(1 = inactivo)");
-		}
-		CuilValidator.esCuilValido(personaFisicaVo.getCuil(), personaFisicaVo.getSexo());
-		Ubicacion ubicacion = ubicacionService.crearUbicacion(personaFisicaVo.getUbicacionVo());
-		Login login = loginService.crearLogin(personaFisicaVo.getLoginVo());
 
 		persona.setDni(personaFisicaVo.getDni());
 		persona.setNumeroTramite(personaFisicaVo.getNumeroTramite());
@@ -141,8 +150,6 @@ public class PersonaFisicaService {
 		persona.setUsuarioModi(personaFisicaVo.getUsuarioModi());
 		persona.setFechaModi(DateUtils.fechaHoy());
 		persona.setPerfil(perfil);
-		persona.setUbicacion(ubicacion);
-		persona.setLogin(login);
 		persona.setEstadoPersona(estadoPersona);
 	}
 

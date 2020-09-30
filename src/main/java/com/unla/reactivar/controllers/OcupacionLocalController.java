@@ -51,12 +51,12 @@ public class OcupacionLocalController {
 		return new ResponseEntity<>(ocupacionLocal, HttpStatus.CREATED);
 	}
 
-	@PostMapping("/dni")
-	@ApiOperation(value = "Marcar Entrada/Salida Ocupación Local DNI", notes = "Servicio para marcar la Entrada/Salida de Ocupación Local")
+	@PostMapping("/{idEmprendimientoBase64}")
+	@ApiOperation(value = "Marcar Entrada/Salida Ocupación Local DNI - SIN APP", notes = "Servicio para marcar la Entrada/Salida de Ocupación Local escaneando con camara sin tener app")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Ocupación Local de Entrada/Salida creada exitosamente"),
 			@ApiResponse(code = 400, message = "No se pudo crear Ocupación Local") })
-	public ResponseEntity<OcupacionLocal> crearOcupacionLocalDni(@RequestBody OcupacionLocalDniVo ocupacionLocalDniVo) {
-		OcupacionLocal ocupacionLocal = service.crearOcupacionLocalDni(ocupacionLocalDniVo);
+	public ResponseEntity<OcupacionLocal> crearOcupacionLocalDni(@PathVariable("idEmprendimientoBase64") String idBase64, @RequestBody OcupacionLocalDniVo ocupacionLocalDniVo) {
+		OcupacionLocal ocupacionLocal = service.crearOcupacionLocalDni(idBase64, ocupacionLocalDniVo);
 
 		return new ResponseEntity<>(ocupacionLocal, HttpStatus.CREATED);
 	}

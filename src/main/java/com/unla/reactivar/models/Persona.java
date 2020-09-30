@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
@@ -38,26 +39,28 @@ public abstract class Persona implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idPersona;
 
+	@Column(nullable = true)
 	private String celular;
+	@Column(nullable = true)
 	private String usuarioModi;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date fechaModi;
 
 	@ManyToOne
-	@JoinColumn(name = "idPerfil", nullable = false)
+	@JoinColumn(name = "idPerfil", nullable = true)
 	@JsonManagedReference
 	private Perfil perfil;
 
 	@OneToOne
-	@JoinColumn(name = "idUbicacion", nullable = false)
+	@JoinColumn(name = "idUbicacion", nullable = true)
 	private Ubicacion ubicacion;
 
 	@OneToOne
-	@JoinColumn(name = "idLogin")
+	@JoinColumn(name = "idLogin",nullable = true)
 	private Login login;
 
 	@ManyToOne
-	@JoinColumn(name = "idEstadoPersona", nullable = false)
+	@JoinColumn(name = "idEstadoPersona", nullable = true)
 	@JsonManagedReference
 	private EstadoPersona estadoPersona;
 
