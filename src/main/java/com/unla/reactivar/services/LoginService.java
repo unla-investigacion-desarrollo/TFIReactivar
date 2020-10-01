@@ -23,6 +23,7 @@ import com.unla.reactivar.models.Login;
 import com.unla.reactivar.models.Persona;
 import com.unla.reactivar.repositories.LoginRepository;
 import com.unla.reactivar.utils.DateUtils;
+import com.unla.reactivar.vo.LoginPostResVo;
 import com.unla.reactivar.vo.LoginVo;
 
 import io.jsonwebtoken.Jwts;
@@ -46,7 +47,7 @@ public class LoginService {
 	private PersonaService personaService;
 
 	@Transactional
-	public Login realizarLogin(LoginVo loginVo) {
+	public LoginPostResVo realizarLogin(LoginVo loginVo) {
 		String email = loginVo.getEmail();
 		Login login = repository.findByEmail(email);
 
@@ -68,14 +69,15 @@ public class LoginService {
 		
 		repository.save(login);
 		
-		Login loginResp = new Login();
+		LoginPostResVo loginResp = new LoginPostResVo();
 		loginResp.setToken(login.getToken());
+		loginResp.setIdPersona(persona.getIdPersona());
 		log.info("Se logea [{}]", email);
 
 		return loginResp;
 	}
 	
-	public Login realizarLoginToken(String token) {
+	public LoginPostResVo realizarLoginToken(String token) {
 		Login login = repository.findByToken(token);
 
 		if (login == null) {
@@ -88,8 +90,9 @@ public class LoginService {
 			throw new UserIsAlreadyInactive();
 		}
 		
-		Login loginResp = new Login();
+		LoginPostResVo loginResp = new LoginPostResVo();
 		loginResp.setToken(login.getToken());
+		loginResp.setIdPersona(persona.getIdPersona());
 		log.info("Se logea [{}]", login.getEmail());
 
 		return loginResp;

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.unla.reactivar.models.Login;
 import com.unla.reactivar.services.LoginService;
 import com.unla.reactivar.vo.Empty;
+import com.unla.reactivar.vo.LoginPostResVo;
 import com.unla.reactivar.vo.LoginVo;
 
 import io.swagger.annotations.Api;
@@ -45,7 +46,7 @@ public class LoginController {
 	@ApiOperation(value = "Login", notes = "Servicio para realizar un Login")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Login realizado con exito"),
 			@ApiResponse(code = 404, message = "Login ha fallado") })
-	public Login realizarLogin(@RequestBody LoginVo loginVo) {
+	public LoginPostResVo realizarLogin(@RequestBody LoginVo loginVo) {
 		return service.realizarLogin(loginVo);
 	}
 
@@ -53,7 +54,7 @@ public class LoginController {
 	@ApiOperation(value = "Token Login", notes = "Servicio para realizar un Login con token")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Login realizado con exito"),
 			@ApiResponse(code = 404, message = "Login ha fallado") })
-	public Login realizarTokenLogin(@RequestParam String token) {
+	public LoginPostResVo realizarTokenLogin(@RequestParam String token) {
 		return service.realizarLoginToken(token);
 	}
 	
