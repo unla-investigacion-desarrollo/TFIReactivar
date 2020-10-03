@@ -20,7 +20,7 @@ BEGIN
     FROM emprendimiento AS e
 	join ubicacion AS u ON e.id_ubicacion=u.id_ubicacion
     join rubro AS r ON e.id_rubro=r.id_rubro
-    where e.id_rubro=id_rubro;
+    where e.id_rubro=id_rubro and id_estado_emprendimiento=2;
 
     /* Crear tabla temporal que aloja los emprendimientos cercanos por km solicitado */
     CREATE TEMPORARY TABLE temp_emprendimientosRubroKm ( 

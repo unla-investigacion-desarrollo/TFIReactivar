@@ -79,6 +79,22 @@ public class EmprendimientoService {
 		log.info("Se traeran todos los emprendimientos inactivos");
 		return repository.findAllInactivos();
 	}
+	
+	public List<Emprendimiento> traerTodosEmprendimientosActivos() {
+		log.info("Se traeran todos los emprendimientos activos");
+		return repository.findAllActivos();
+	}
+	
+	public List<Emprendimiento> traerTodosEmprendimientosEnBaja() {
+		log.info("Se traeran todos los emprendimientos dados de baja");
+		return repository.findAllBajas();
+	}
+	
+	
+	public List<Emprendimiento> traerTodosEmprendimientosPorEstado(Long idEstadoEmprendimiento) {
+		log.info("Se traeran todos los emprendimientos a partir del id del estado de emprendimiento ingresado");
+		return repository.findAllEmprendimientoByEstado(idEstadoEmprendimiento);
+	}
 
 	public List<Emprendimiento> traerPorRubro(long idRubro) {
 		log.info("Se traeran todos los emprendimientos por rubro [{}]", idRubro);
