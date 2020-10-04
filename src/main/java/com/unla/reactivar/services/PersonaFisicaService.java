@@ -87,9 +87,11 @@ public class PersonaFisicaService {
 	@Transactional
 	public PersonaFisica crearPersonaFisica(PersonaFisicaVo personaFisicaVo) {
 		PersonaFisica persona = repository.findByDni(personaFisicaVo.getDni());
-
+		
 		if (persona == null) {
 			persona = new PersonaFisica();
+		}else if(persona.getCuil() != null) {
+			throw new ObjectAlreadyExists();
 		}
 
 		adaptVoToPersonaFisica(persona, personaFisicaVo);
