@@ -10,5 +10,6 @@ public class ReqPutPersonaJuridicaVo {
 	private long idPerfil;
 	private String razonSocial;
 	private String cuit;
+	private long idEstadoPersona;
 
 }

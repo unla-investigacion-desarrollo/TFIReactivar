@@ -2,8 +2,9 @@ package com.unla.reactivar.services;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
-import java.util.Random;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,10 @@ import com.unla.reactivar.vo.ReqPutPersonaJuridicaVo;
 @Transactional(readOnly = true)
 public class PersonaJuridicaService {
 
+	private final Logger log = LoggerFactory.getLogger(getClass().getName());
+	
 	private static final long INACTIVO = 1;
+	private static final long ACTIVO = 2;
 
 	@Value("${recovery.password.token.duration}")
 	private int expiration;
@@ -51,8 +55,6 @@ public class PersonaJuridicaService {
 	@Autowired
 	private ResetAndValidatingTokenService pwdService;
 
-	@Autowired
-	private MailSenderService mailSenderService;
 
 	@Transactional
 	public PersonaJuridica crearPersona(PersonaJuridicaVo personaVo) {
@@ -62,6 +64,7 @@ public class PersonaJuridicaService {
 		adaptVoToPersonaJuridica(persona, personaVo);
 
 		try {
+			log.info("Se creara persona juridica [{}]", persona.getCuit());
 			persona = personaRepository.save(persona);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
@@ -69,16 +72,21 @@ public class PersonaJuridicaService {
 			}
 		}
 
-		enviarEmailValidarUsuario(persona);
-
 		return persona;
 	}
 
 	public PersonaJuridica traerPersonaPorId(long idPersona) {
+		log.info("Se traeran la personas juridicas por id");
 		return personaRepository.findByIdPersona(idPersona);
+	}
+	
+	public List<PersonaJuridica> traerTodosInactivos() {
+		log.info("Se traeran todas las personas juridicas inactivas");
+		return personaRepository.findAllInactivos();
 	}
 
 	public List<PersonaJuridica> traerTodos() {
+		log.info("Se traeran todas las personas juridicas");
 		return personaRepository.findAll();
 	}
 
@@ -89,6 +97,7 @@ public class PersonaJuridicaService {
 		if (persona == null) {
 			throw new ObjectNotFound("Persona");
 		}
+		log.info("Se eliminara persona juridica [{}]", persona.getCuit());
 
 		personaRepository.deletePersona(id);
 	}
@@ -104,6 +113,7 @@ public class PersonaJuridicaService {
 		adaptPutVoToPersonaJuridica(persona, personaJuridicaVo);
 
 		try {
+			log.info("Se actualizara persona juridica [{}]", persona.getCuit());
 			persona = personaRepository.save(persona);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
@@ -120,13 +130,13 @@ public class PersonaJuridicaService {
 		persona.setUbicacion(ubicacion);
 		persona.setLogin(login);
 		persona.setCelular(personaVo.getCelular());
-		CuilValidator.esCuilValido(personaVo.getCuit(), "");
+		CuilValidator.esCuilValido(personaVo.getCuit(), "", "");
 		persona.setCuit(personaVo.getCuit());
 		persona.setRazonSocial(personaVo.getRazonSocial());
 		persona.setFechaModi(DateUtils.fechaHoy());
 		persona.setUsuarioModi(personaVo.getUsuarioModi());
 		Perfil perfil = perfilService.traerPerfilPorId(personaVo.getIdPerfil());
-		EstadoPersona estadoPersona = estadoPersonaService.traerEstadoPersonaPorId(INACTIVO);
+		EstadoPersona estadoPersona = estadoPersonaService.traerEstadoPersonaPorId(ACTIVO);
 
 		if (perfil == null) {
 			throw new ObjectNotFound("Perfil");
@@ -141,13 +151,13 @@ public class PersonaJuridicaService {
 
 	private void adaptPutVoToPersonaJuridica(PersonaJuridica persona, ReqPutPersonaJuridicaVo personaVo) {
 		persona.setCelular(personaVo.getCelular());
-		CuilValidator.esCuilValido(personaVo.getCuit(), "");
+		CuilValidator.esCuilValido(personaVo.getCuit(), "", "");
 		persona.setCuit(personaVo.getCuit());
 		persona.setRazonSocial(personaVo.getRazonSocial());
 		persona.setFechaModi(DateUtils.fechaHoy());
 		persona.setUsuarioModi(personaVo.getUsuarioModi());
 		Perfil perfil = perfilService.traerPerfilPorId(personaVo.getIdPerfil());
-		EstadoPersona estadoPersona = estadoPersonaService.traerEstadoPersonaPorId(INACTIVO);
+		EstadoPersona estadoPersona = estadoPersonaService.traerEstadoPersonaPorId(personaVo.getIdEstadoPersona());
 
 		if (perfil == null || estadoPersona == null) {
 			throw new ObjectNotFound("Perfil/Estado Persona");
@@ -157,19 +167,26 @@ public class PersonaJuridicaService {
 		persona.setEstadoPersona(estadoPersona);
 	}
 
-	public void enviarEmailValidarUsuario(Persona persona) {
-
-		Random rnd = new Random();
-		String token = String.format("%09d", rnd.nextInt(999999999));
-		crearToken(persona, token);
-
-		mailSenderService.constructValidateEmail(token, persona);
-	}
-
 	public void crearToken(Persona persona, String token) {
 		ResetAndValidatingToken passwordResetToken = new ResetAndValidatingToken(token, persona, expiration);
 
 		pwdService.crearResetOrValidateToken(passwordResetToken);
+	}
+	
+	@Transactional
+	public PersonaJuridica activarPersonaJuridica(long id) {
+		PersonaJuridica persona = personaRepository.findByIdPersona(id);
+		EstadoPersona estadoPersona = estadoPersonaService.traerEstadoPersonaPorId(ACTIVO);
+		
+		if (persona == null || estadoPersona == null) {
+			throw new ObjectNotFound("Persona/EstadoPersona");
+		}
+		log.info("Se activara persona juridica");
+
+		persona.setEstadoPersona(estadoPersona);
+		
+		return personaRepository.save(persona);
+		
 	}
 
 }

@@ -3,6 +3,8 @@ package com.unla.reactivar.services;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,15 +19,19 @@ import com.unla.reactivar.vo.PerfilVo;
 @Service
 @Transactional(readOnly = true)
 public class PerfilService {
+	
+	private final Logger log = LoggerFactory.getLogger(getClass().getName());
 
 	@Autowired
 	private PerfilRepository repository;
 
 	public Perfil traerPerfilPorId(long idPerfil) {
+		log.info("Se traeran perfil por id");
 		return repository.findByIdPerfil(idPerfil);
 	}
 
 	public List<Perfil> traerTodos() {
+		log.info("Se traeran todos los perfiles");
 		return repository.findAll();
 	}
 
@@ -36,6 +42,7 @@ public class PerfilService {
 		if (perfil == null) {
 			throw new ObjectNotFound("Perfil");
 		}
+		log.info("Se eliminara perfil [{}]",id);
 
 		repository.delete(perfil);
 	}
@@ -51,6 +58,7 @@ public class PerfilService {
 		adaptVoToPerfil(perfil, perfilVo);
 
 		try {
+			log.info("Se actualizara perfil [{}]", perfil.getNombre());
 			perfil = repository.save(perfil);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
@@ -68,6 +76,7 @@ public class PerfilService {
 		adaptVoToPerfil(perfil, perfilVo);
 
 		try {
+			log.info("Se creara perfil [{}]", perfil.getNombre());
 			perfil = repository.save(perfil);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {

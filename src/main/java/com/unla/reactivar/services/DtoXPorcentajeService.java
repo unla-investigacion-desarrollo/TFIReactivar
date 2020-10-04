@@ -3,6 +3,8 @@ package com.unla.reactivar.services;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,8 @@ import com.unla.reactivar.vo.DtoXPorcentajeVo;
 @Transactional(readOnly = true)
 public class DtoXPorcentajeService {
 
+	private final Logger log = LoggerFactory.getLogger(getClass().getName());
+
 	@Autowired
 	private DtoXPorcentajeRepository repository;
 
@@ -25,10 +29,12 @@ public class DtoXPorcentajeService {
 	private EmprendimientoService emprendimientoService;
 
 	public DtoXPorcentaje traerDtoXPorcentajePorId(Long id) {
+		log.info("Se traera un DtoXPorcentaje por id");
 		return repository.findByIdPromocion(id);
 	}
 
 	public List<DtoXPorcentaje> traerTodosDtosXPorcentaje() {
+		log.info("Se traeran todos los dtos por porcentaje");
 		return repository.findAll();
 	}
 
@@ -37,9 +43,10 @@ public class DtoXPorcentajeService {
 		DtoXPorcentaje registro = repository.findByIdPromocion(id);
 
 		if (registro == null) {
+			log.error("Se obtuvo un error al intentar borrar el dto x porcentaje [{}]", id);
 			throw new ObjectNotFound("DtoXPorcentaje");
 		}
-
+		log.info("Se eliminara promocion [{}]", registro.getIdPromocion());
 		repository.deletePromocion(id);
 	}
 
@@ -48,12 +55,14 @@ public class DtoXPorcentajeService {
 		DtoXPorcentaje dto = repository.findByIdPromocion(id);
 
 		if (dto == null) {
+			log.error("Se obtuvo un error al intentar actualizar el carrito [{}]", id);
 			throw new ObjectNotFound("Descuento");
 		}
 
 		adaptVoToDtoXPorcentaje(dto, dtoXPorcentajeVo);
 
 		try {
+			log.info("Se actualizara dto x porcentaje");
 			dto = repository.save(dto);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
@@ -71,6 +80,7 @@ public class DtoXPorcentajeService {
 		adaptVoToDtoXPorcentaje(dto, dtoXPorcentajeVo);
 
 		try {
+			log.info("Se creara dto x porcentaje");
 			dto = repository.save(dto);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {

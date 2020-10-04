@@ -3,6 +3,8 @@ package com.unla.reactivar.services;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,8 @@ import com.unla.reactivar.vo.DtoXUnidadVo;
 @Transactional(readOnly = true)
 public class DtoXUnidadService {
 
+	private final Logger log = LoggerFactory.getLogger(getClass().getName());
+
 	@Autowired
 	private DtoXUnidadRepository repository;
 
@@ -25,10 +29,12 @@ public class DtoXUnidadService {
 	private EmprendimientoService emprendimientoService;
 
 	public DtoXUnidad traerDtoXUnidadPorId(Long id) {
+		log.info("Se traera un DtoXUnidad por id");
 		return repository.findByIdPromocion(id);
 	}
 
 	public List<DtoXUnidad> traerTodosDtosXUnidades() {
+		log.info("Se traeran todos los dtos por unidad");
 		return repository.findAll();
 	}
 
@@ -37,9 +43,11 @@ public class DtoXUnidadService {
 		DtoXUnidad registro = repository.findByIdPromocion(id);
 
 		if (registro == null) {
+			log.error("Se obtuvo un error al intentar borrar el dto x unidad [{}]", id);
 			throw new ObjectNotFound("DtoXUnidad");
 		}
 
+		log.info("Se eliminara promocion [{}]", registro.getIdPromocion());
 		repository.deletePromocion(id);
 	}
 
@@ -48,12 +56,14 @@ public class DtoXUnidadService {
 		DtoXUnidad dto = repository.findByIdPromocion(id);
 
 		if (dto == null) {
+			log.error("Se obtuvo un error al intentar actualizar el dto [{}]", id);
 			throw new ObjectNotFound("Descuento");
 		}
 
 		adaptVoToDtoXPorcentaje(dto, dtoXUnidadVo);
 
 		try {
+			log.info("Se actualizara dto x unidad");
 			dto = repository.save(dto);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
@@ -71,6 +81,7 @@ public class DtoXUnidadService {
 		adaptVoToDtoXPorcentaje(dto, dtoXUnidadVo);
 
 		try {
+			log.info("Se creara dto x categoria");
 			dto = repository.save(dto);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {

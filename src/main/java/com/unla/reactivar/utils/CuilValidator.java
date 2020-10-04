@@ -1,6 +1,9 @@
 package com.unla.reactivar.utils;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.unla.reactivar.exceptions.InvalidCuilCuit;
+
 
 public class CuilValidator {
 
@@ -11,8 +14,17 @@ public class CuilValidator {
 	 * 27 es para mujeres 20 es para hombres 23 puede ser ambos (se usa cuando hay
 	 * otro número igual) 30 empresas
 	 */
-	public static boolean esCuilValido(String cuil, String sexo) {
+	public static boolean esCuilValido(String cuil, String sexo, String dni) {
 		boolean flag = true;
+		
+		
+		if(!StringUtils.isBlank(dni) && !cuil.substring(2, cuil.length()).equals(dni)) {
+			throw new InvalidCuilCuit();
+		}
+		
+		if(cuil.length() < 10) {
+			throw new InvalidCuilCuit();
+		}
 
 		int[] arrayValidator = { 5, 4, 3, 2, 7, 6, 5, 4, 3, 2 };
 		char[] charCuilArray = cuil.toCharArray();

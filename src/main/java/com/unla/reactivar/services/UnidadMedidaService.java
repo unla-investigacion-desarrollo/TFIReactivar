@@ -3,6 +3,8 @@ package com.unla.reactivar.services;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,14 +19,18 @@ import com.unla.reactivar.vo.UnidadMedidaVo;
 @Transactional(readOnly = true)
 public class UnidadMedidaService {
 
+	private final Logger log = LoggerFactory.getLogger(getClass().getName());
+
 	@Autowired
 	private UnidadMedidaRepository repository;
 
 	public UnidadMedida traerUnidadMedidaPorId(Long id) {
+		log.info("Se traera unidad medida por id");
 		return repository.findByIdUnidadMedida(id);
 	}
 
 	public List<UnidadMedida> traerTodasUnidadesMedida() {
+		log.info("Se traeran todas las unidades medidas");
 		return repository.findAll();
 	}
 
@@ -36,6 +42,7 @@ public class UnidadMedidaService {
 			throw new ObjectNotFound("UnidadMedida");
 		}
 
+		log.info("Se eliminara la unidad medida [{}]", id);
 		repository.delete(registro);
 	}
 
@@ -50,6 +57,7 @@ public class UnidadMedidaService {
 		medida.setNombre(unidadMedidaVo.getUnidadMedida());
 
 		try {
+			log.info("Se actualizara la unidad medida [{}]", medida.getNombre());
 			medida = repository.save(medida);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
@@ -67,6 +75,7 @@ public class UnidadMedidaService {
 		medida.setNombre(unidadMedidaVo.getUnidadMedida());
 
 		try {
+			log.info("Se creara la unidad medida [{}]", medida.getNombre());
 			medida = repository.save(medida);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {

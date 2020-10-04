@@ -25,4 +25,7 @@ public interface PersonaJuridicaRepository extends JpaRepository<PersonaJuridica
 	@Query("DELETE FROM Persona p WHERE p.idPersona = ?1")
 	public void deletePersona(Long idPersona);
 
+	@Query("SELECT p FROM Persona p WHERE p.estadoPersona = 1")
+	public List<PersonaJuridica> findAllInactivos();
+
 }

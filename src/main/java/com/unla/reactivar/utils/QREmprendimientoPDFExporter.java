@@ -6,6 +6,9 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.util.Base64Util;
+import org.springframework.beans.factory.annotation.Value;
+
 import com.google.zxing.WriterException;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -24,9 +27,11 @@ import com.unla.reactivar.models.Emprendimiento;
 public class QREmprendimientoPDFExporter {
 
 	private Emprendimiento emprendimiento;
+	private String serverHost;
 
-	public QREmprendimientoPDFExporter(Emprendimiento emp) {
+	public QREmprendimientoPDFExporter(Emprendimiento emp, String serverHost) {
 		this.emprendimiento = emp;
+		this.serverHost = serverHost;
 	}
 
 	private void writeTableData(PdfPTable table) {
@@ -57,9 +62,12 @@ public class QREmprendimientoPDFExporter {
 	}
 
 	public void export(HttpServletResponse response) throws DocumentException, IOException, WriterException {
-		String rutaImagenQR = "src/main/resources/image/QR_Emp_" + emprendimiento.getIdEmprendimiento() + ".jpg";
+		long idEmprendimiento = emprendimiento.getIdEmprendimiento();
+		String rutaImagenQR = "src/main/resources/image/QR_Emp_" + idEmprendimiento + ".jpg";
 
-		GenerateQRCode.generateQRCode(String.valueOf(emprendimiento.getIdEmprendimiento()), 350, 350, rutaImagenQR);
+		String qrMessage = new StringBuilder(serverHost).append("/api/ocupacionLocal/").append(Base64Util.encode(String.valueOf(idEmprendimiento))).toString();
+
+		GenerateQRCode.generateQRCode(qrMessage, 350, 350, rutaImagenQR);
 
 		Document document = new Document(PageSize.A4);
 		PdfWriter.getInstance(document, response.getOutputStream());

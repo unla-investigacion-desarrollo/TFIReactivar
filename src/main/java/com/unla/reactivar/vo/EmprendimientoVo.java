@@ -16,5 +16,6 @@ public class EmprendimientoVo {
 	private long idPersona;
 	private List<ConfiguracionLocalVo> configuracionLocales;
 	private int capacidad;
-
+	private boolean aceptaFoto;
+	
 }

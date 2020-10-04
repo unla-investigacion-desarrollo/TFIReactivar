@@ -3,6 +3,8 @@ package com.unla.reactivar.services;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,8 @@ import com.unla.reactivar.vo.ArticuloVo;
 @Service
 @Transactional(readOnly = true)
 public class ArticuloService {
+	
+	private final Logger log = LoggerFactory.getLogger(getClass().getName());
 
 	@Autowired
 	private ArticuloRepository repository;
@@ -42,10 +46,12 @@ public class ArticuloService {
 	private PromocionService promocionService;
 
 	public Articulo traerArticuloPorId(Long id) {
+		log.info("Se traera un articulo por id");
 		return repository.findByIdArticulo(id);
 	}
 
 	public List<Articulo> traerTodosArticulos() {
+		log.info("Se traeran todos los articulos");
 		return repository.findAll();
 	}
 
@@ -54,9 +60,11 @@ public class ArticuloService {
 		Articulo articulo = repository.findByIdArticulo(id);
 
 		if (articulo == null) {
+			log.error("Se obtuvo un error al intentar borrar el articulo [{}]", id);
 			throw new ObjectNotFound("Articulo");
 		}
 
+		log.info("Se eliminara articulo [{}]", articulo.getNombre());
 		repository.delete(articulo);
 	}
 
@@ -67,9 +75,11 @@ public class ArticuloService {
 		adaptVoToArticulo(articulo, articuloVo);
 
 		try {
+			log.info("Se creara articulo [{}]", articulo.getNombre());
 			articulo = repository.save(articulo);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
+				log.error("Se intento crear un articulo ya existente [{}]", articulo.getCodBarra());
 				throw new ObjectAlreadyExists();
 			}
 		}
@@ -86,11 +96,12 @@ public class ArticuloService {
 		}
 
 		adaptVoToArticulo(articulo, articuloVo);
-
+		log.info("Se actualizara articulo [{}]", articulo.getNombre());
 		try {
 			articulo = repository.save(articulo);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
+				log.error("Se intento actualizar a un articulo ya existente [{}]", articulo.getCodBarra());
 				throw new ObjectAlreadyExists();
 			}
 		}

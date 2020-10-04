@@ -3,6 +3,8 @@ package com.unla.reactivar.services;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,14 +19,18 @@ import com.unla.reactivar.vo.EstadoCarritoVo;
 @Transactional(readOnly = true)
 public class EstadoCarritoService {
 
+	private final Logger log = LoggerFactory.getLogger(getClass().getName());
+
 	@Autowired
 	private EstadoCarritoRepository repository;
 
 	public EstadoCarrito traerEstadoCarritoPorId(Long id) {
+		log.info("Se traera un estado carrito por id");
 		return repository.findByIdEstadoCarrito(id);
 	}
 
 	public List<EstadoCarrito> traerTodosEstadosCarrito() {
+		log.info("Se traeran todos los estados carritos");
 		return repository.findAll();
 	}
 
@@ -36,6 +42,7 @@ public class EstadoCarritoService {
 			throw new ObjectNotFound("EstadoCarrito");
 		}
 
+		log.info("Se eliminara el estado carrito [{}]", id);
 		repository.delete(registro);
 	}
 
@@ -50,6 +57,7 @@ public class EstadoCarritoService {
 		estado.setNombre(estadoCarritoVo.getNombreEstado());
 
 		try {
+			log.info("Se actualizara el estado carrito [{}]", estado.getNombre());
 			estado = repository.save(estado);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
@@ -67,6 +75,7 @@ public class EstadoCarritoService {
 		estado.setNombre(estadoCarritoVo.getNombreEstado());
 
 		try {
+			log.info("Se creara el estado carrito [{}]", estado.getNombre());
 			estado = repository.save(estado);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {

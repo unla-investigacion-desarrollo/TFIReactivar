@@ -1,11 +1,12 @@
 package com.unla.reactivar.services;
 
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
@@ -13,6 +14,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.unla.reactivar.exceptions.IncorrectToken;
 import com.unla.reactivar.exceptions.IncorrectUserOrPassword;
 import com.unla.reactivar.exceptions.ObjectAlreadyExists;
 import com.unla.reactivar.exceptions.ObjectNotFound;
@@ -21,6 +23,7 @@ import com.unla.reactivar.models.Login;
 import com.unla.reactivar.models.Persona;
 import com.unla.reactivar.repositories.LoginRepository;
 import com.unla.reactivar.utils.DateUtils;
+import com.unla.reactivar.vo.LoginPostResVo;
 import com.unla.reactivar.vo.LoginVo;
 
 import io.jsonwebtoken.Jwts;
@@ -30,13 +33,12 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Transactional(readOnly = true)
 public class LoginService {
 
-	private static final long ACTIVO = 2;
+	private final Logger log = LoggerFactory.getLogger(getClass().getName());
 
+	private static final long ACTIVO = 2;
+	
 	@Autowired
 	private LoginRepository repository;
-
-	@Value("${token_auth.duration}")
-	private long timeToExpire;
 
 	@Value("${token_auth.key}")
 	private String secretKey;
@@ -44,7 +46,8 @@ public class LoginService {
 	@Autowired
 	private PersonaService personaService;
 
-	public Login realizarLogin(LoginVo loginVo) {
+	@Transactional
+	public LoginPostResVo realizarLogin(LoginVo loginVo) {
 		String email = loginVo.getEmail();
 		Login login = repository.findByEmail(email);
 
@@ -60,13 +63,43 @@ public class LoginService {
 			throw new UserIsAlreadyInactive();
 		}
 
-		login.setToken(getJWTToken(login.getEmail()));
-		login.setClave(null);
+		if(login.getToken() == null){
+			login.setToken(getJWTToken(login.getEmail()));
+		}
+		
+		repository.save(login);
+		
+		LoginPostResVo loginResp = new LoginPostResVo();
+		loginResp.setToken(login.getToken());
+		loginResp.setIdPersona(persona.getIdPersona());
+		log.info("Se logea [{}]", email);
 
-		return login;
+		return loginResp;
+	}
+	
+	public LoginPostResVo realizarLoginToken(String token) {
+		Login login = repository.findByToken(token);
+
+		if (login == null) {
+			throw new IncorrectToken();
+		}
+
+		Persona persona = personaService.traerPersonaPorEmail(login.getEmail());
+
+		if (persona.getEstadoPersona().getIdEstadoPersona() != ACTIVO) {
+			throw new UserIsAlreadyInactive();
+		}
+		
+		LoginPostResVo loginResp = new LoginPostResVo();
+		loginResp.setToken(login.getToken());
+		loginResp.setIdPersona(persona.getIdPersona());
+		log.info("Se logea [{}]", login.getEmail());
+
+		return loginResp;
 	}
 
 	public List<Login> traerTodosLogins() {
+		log.info("Se traeran todos los login");
 		return repository.findAll();
 	}
 
@@ -77,6 +110,7 @@ public class LoginService {
 		if (login == null) {
 			throw new ObjectNotFound("Login");
 		}
+		log.info("Se traeran todos los login");
 
 		repository.delete(login);
 	}
@@ -102,6 +136,7 @@ public class LoginService {
 
 		login.setToken(null);
 		login.setClave(null);
+		log.info("Se actulizara login [{}]", login.getEmail());
 
 		return login;
 	}
@@ -114,6 +149,7 @@ public class LoginService {
 		login.setEmail(loginVo.getEmail());
 
 		try {
+			log.info("Se creara login [{}]", login.getEmail());
 			login = repository.save(login);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
@@ -131,8 +167,8 @@ public class LoginService {
 				.claim("authorities",
 						grantedAuthorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
 				.setIssuedAt(DateUtils.fechaHoy())
-				.setExpiration(new Date(DateUtils.fechaHoy().getTime() + timeToExpire))
 				.signWith(SignatureAlgorithm.HS512, secretKey.getBytes()).compact();
 		return token;
 	}
+	
 }

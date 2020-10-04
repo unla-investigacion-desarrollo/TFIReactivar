@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +26,8 @@ import com.unla.reactivar.vo.ReqPutCarritoVo;
 @Service
 @Transactional(readOnly = true)
 public class CarritoService {
+	
+	private final Logger log = LoggerFactory.getLogger(getClass().getName());
 
 	@Autowired
 	private CarritoRepository repository;
@@ -41,10 +45,12 @@ public class CarritoService {
 	private ArticuloService articuloService;
 
 	public Carrito traerCarritoPorId(Long id) {
+		log.info("Se traera un carrito por id");
 		return repository.findByIdCarrito(id);
 	}
 
 	public List<Carrito> traerTodosCarritos() {
+		log.info("Se traeran todos los carritos");
 		return repository.findAll();
 	}
 
@@ -53,9 +59,11 @@ public class CarritoService {
 		Carrito registro = repository.findByIdCarrito(id);
 
 		if (registro == null) {
+			log.error("Se obtuvo un error al intentar borrar el carrito [{}]", id);
 			throw new ObjectNotFound("Carrito");
 		}
 
+		log.info("Se eliminara articulo [{}]", registro.getIdCarrito());
 		repository.delete(registro);
 	}
 
@@ -66,9 +74,11 @@ public class CarritoService {
 		adaptVoToCarrito(carrito, carritoVo);
 
 		try {
+			log.info("Se creara carrito");
 			carrito = repository.save(carrito);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
+				log.error("Se intento crear un carrito ya existente");
 				throw new ObjectAlreadyExists();
 			}
 		}
@@ -82,15 +92,18 @@ public class CarritoService {
 		EstadoCarrito estadoCarrito = estadoCarritoService.traerEstadoCarritoPorId(carritoVo.getIdEstadoCarrito());
 
 		if (estadoCarrito == null || carrito == null) {
+			log.error("Se obtuvo un error al intentar actualizar el carrito [{}]", id);
 			throw new ObjectNotFound("Carrito / EstadoCarrito");
 		}
 
 		carrito.setEstadoCarrito(estadoCarrito);
 
 		try {
+			log.info("Se actualizara carrito");
 			carrito = repository.save(carrito);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
+				log.error("Se intento actualizar un carrito ya existente");
 				throw new ObjectAlreadyExists();
 			}
 		}

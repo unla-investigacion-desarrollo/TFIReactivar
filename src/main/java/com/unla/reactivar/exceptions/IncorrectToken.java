@@ -1,21 +1,22 @@
 package com.unla.reactivar.exceptions;
 
-public class EmailSenderException extends RuntimeException {
+public class IncorrectToken extends RuntimeException {
 
 	private static final long serialVersionUID = -9090379577606600324L;
 	private String errorMessage;
 	private String errorCode;
 
-	public EmailSenderException() {
+	public IncorrectToken() {
+		// TODO Auto-generated constructor stub
 	}
 
-	public EmailSenderException(String errorCode, String errorMessage) {
+	public IncorrectToken(String errorCode, String errorMessage) {
 		super();
 		this.errorMessage = errorMessage;
 		this.errorCode = errorCode;
 	}
 
-	public EmailSenderException(String object) {
+	public IncorrectToken(String object) {
 		super();
 		this.errorMessage = object;
 	}

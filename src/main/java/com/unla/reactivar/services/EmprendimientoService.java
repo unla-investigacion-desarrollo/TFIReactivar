@@ -6,7 +6,10 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,11 +20,13 @@ import com.unla.reactivar.exceptions.ObjectNotFound;
 import com.unla.reactivar.exceptions.PdfExporterException;
 import com.unla.reactivar.models.ConfiguracionLocal;
 import com.unla.reactivar.models.Emprendimiento;
+import com.unla.reactivar.models.EstadoEmprendimiento;
 import com.unla.reactivar.models.Persona;
 import com.unla.reactivar.models.Rubro;
 import com.unla.reactivar.models.TipoEmprendimiento;
 import com.unla.reactivar.models.Ubicacion;
 import com.unla.reactivar.repositories.EmprendimientoRepository;
+import com.unla.reactivar.utils.CuilValidator;
 import com.unla.reactivar.utils.DateUtils;
 import com.unla.reactivar.utils.QREmprendimientoPDFExporter;
 import com.unla.reactivar.vo.ConfiguracionLocalVo;
@@ -32,6 +37,16 @@ import com.unla.reactivar.vo.ReqPutEmprendimientoVo;
 @Transactional(readOnly = true)
 public class EmprendimientoService {
 
+	private final Logger log = LoggerFactory.getLogger(getClass().getName());
+
+	private static final String EMPRENDIMIENTO = "Emprendimiento";
+	private static final long INACTIVO = 1;
+	private static final long ACTIVO = 2;
+	private static final long BAJA = 3;
+
+	@Value("${server.host}")
+	private String serverHost;
+	
 	@Autowired
 	private EmprendimientoRepository repository;
 
@@ -47,30 +62,50 @@ public class EmprendimientoService {
 	@Autowired
 	private UbicacionService ubicacionService;
 
+	@Autowired
+	private EstadoEmprendimientoService estadoEmprendimientoService;
+
 	public Emprendimiento traerEmprendimientoPorId(Long id) {
+		log.info("Se traera un Emprendimiento por id");
 		return repository.findByIdEmprendimiento(id);
 	}
 
 	public List<Emprendimiento> traerTodosEmprendimientos() {
+		log.info("Se traeran todos los emprendimientos");
 		return repository.findAll();
 	}
 
+	public List<Emprendimiento> traerTodosEmprendimientosInactivos() {
+		log.info("Se traeran todos los emprendimientos inactivos");
+		return repository.findAllInactivos();
+	}
+
 	public List<Emprendimiento> traerPorRubro(long idRubro) {
+		log.info("Se traeran todos los emprendimientos por rubro [{}]", idRubro);
 		return repository.traerPorRubro(idRubro);
 	}
 
 	@Transactional(readOnly = false)
 	public List<Emprendimiento> traerEmprendimientosCercanos(long idRubro, long idPersona, String cantidadKm) {
+		log.info("Se traeran todos los emprendimientos por distancia");
 		return repository.traerEmprendimientosCercanos(idRubro, idPersona, cantidadKm);
 	}
 
 	@Transactional
 	public Emprendimiento crearEmprendimiento(EmprendimientoVo emprendimientoVo) {
 		Emprendimiento emprendimiento = new Emprendimiento();
+		EstadoEmprendimiento estadoEmprendimiento = estadoEmprendimientoService.traerEstadoEmprendimientoPorId(ACTIVO);
 
 		adaptarEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
 
+		if (estadoEmprendimiento == null) {
+			throw new ObjectNotFound("EstadoEmprendimiento (activo = 2)");
+		}
+
+		emprendimiento.setEstadoEmprendimiento(estadoEmprendimiento);
+
 		try {
+			log.info("Se creara emprendimiento [{}]", emprendimientoVo.getNombre());
 			emprendimiento = repository.save(emprendimiento);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
@@ -86,8 +121,9 @@ public class EmprendimientoService {
 		Emprendimiento emprendimiento = repository.findByIdEmprendimiento(id);
 
 		if (emprendimiento == null) {
-			throw new ObjectNotFound("Emprendimiento");
+			throw new ObjectNotFound(EMPRENDIMIENTO);
 		}
+		log.info("Se eliminara emprendimiento [{}]", emprendimiento.getNombre());
 
 		repository.delete(emprendimiento);
 	}
@@ -97,12 +133,13 @@ public class EmprendimientoService {
 		Emprendimiento emprendimiento = repository.findByIdEmprendimiento(id);
 
 		if (emprendimiento == null) {
-			throw new ObjectNotFound("Emprendimiento");
+			throw new ObjectNotFound(EMPRENDIMIENTO);
 		}
 
 		adaptarPutEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
 
 		try {
+			log.info("Se actualizara emprendimiento [{}]", emprendimiento.getNombre());
 			emprendimiento = repository.save(emprendimiento);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
@@ -122,6 +159,7 @@ public class EmprendimientoService {
 		}
 		Ubicacion ubicacion = ubicacionService.crearUbicacion(emprendimientoVo.getUbicacionVo());
 		emprendimiento.setUbicacion(ubicacion);
+		CuilValidator.esCuilValido(emprendimientoVo.getCuit(), "", "");
 		emprendimiento.setCuit(emprendimientoVo.getCuit());
 		emprendimiento.setNombre(emprendimientoVo.getNombre());
 		Persona persona = personaService.traerPersonaPorId(emprendimientoVo.getIdPersona());
@@ -138,20 +176,23 @@ public class EmprendimientoService {
 		emprendimiento.setRubro(rubro);
 		emprendimiento.setTipoEmprendimiento(tipoEmprendimiento);
 		emprendimiento.setCapacidad(emprendimientoVo.getCapacidad());
-
+		emprendimiento.setAceptaFoto(emprendimientoVo.isAceptaFoto());
 	}
 
 	private void adaptarPutEmprendimientoVoAEmprendimiento(ReqPutEmprendimientoVo emprendimientoVo,
 			Emprendimiento emprendimiento) {
+		CuilValidator.esCuilValido(emprendimientoVo.getCuit(), "", "");
 		emprendimiento.setCuit(emprendimientoVo.getCuit());
 		emprendimiento.setNombre(emprendimientoVo.getNombre());
 		Persona persona = personaService.traerPersonaPorId(emprendimientoVo.getIdPersona());
 		Rubro rubro = rubroService.traerRubroPorId(emprendimientoVo.getIdRubro());
 		TipoEmprendimiento tipoEmprendimiento = tipoEmprendimientoService
 				.traerTipoEmprendimientoPorId(emprendimientoVo.getIdTipoEmprendimiento());
+		EstadoEmprendimiento estadoEmprendimiento = estadoEmprendimientoService
+				.traerEstadoEmprendimientoPorId(emprendimientoVo.getIdEstadoEmprendimiento());
 
 		if (persona == null || rubro == null || tipoEmprendimiento == null) {
-			throw new ObjectNotFound("Persona, rubro o tipoEmprendimiento");
+			throw new ObjectNotFound("Persona, estadoEmprendimiento, rubro o tipoEmprendimiento");
 		}
 		emprendimiento.setFechaModi(DateUtils.fechaHoy());
 		emprendimiento.setUsuarioModi(emprendimientoVo.getUsuarioModi());
@@ -159,6 +200,8 @@ public class EmprendimientoService {
 		emprendimiento.setRubro(rubro);
 		emprendimiento.setTipoEmprendimiento(tipoEmprendimiento);
 		emprendimiento.setCapacidad(emprendimientoVo.getCapacidad());
+		emprendimiento.setEstadoEmprendimiento(estadoEmprendimiento);
+		emprendimiento.setAceptaFoto(emprendimientoVo.isAceptaFoto());
 
 	}
 
@@ -188,15 +231,56 @@ public class EmprendimientoService {
 		Emprendimiento emprendimiento = repository.findByIdEmprendimiento(id);
 
 		if (emprendimiento == null) {
-			throw new ObjectNotFound("Emprendimiento");
+			throw new ObjectNotFound(EMPRENDIMIENTO);
 		}
 
 		try {
-			QREmprendimientoPDFExporter exporter = new QREmprendimientoPDFExporter(emprendimiento);
+			log.info("Se exportara qr para emprendimiento [{}]", emprendimiento.getNombre());
+			QREmprendimientoPDFExporter exporter = new QREmprendimientoPDFExporter(emprendimiento, serverHost);
 			exporter.export(response);
 		} catch (DocumentException | IOException | WriterException e) {
 			throw new PdfExporterException();
 		}
+	}
+
+	@Transactional
+	public Emprendimiento bajaLogicaEmprendimiento(Long id) {
+		Emprendimiento emprendimiento = repository.findByIdEmprendimiento(id);
+
+		if (emprendimiento == null) {
+			throw new ObjectNotFound(EMPRENDIMIENTO);
+		}
+
+		if (ACTIVO == emprendimiento.getEstadoEmprendimiento().getIdEstadoEmprendimiento()) {
+			EstadoEmprendimiento estadoEmprendimiento = estadoEmprendimientoService
+					.traerEstadoEmprendimientoPorId(BAJA);
+			if (estadoEmprendimiento == null) {
+				throw new ObjectNotFound("EstadoEmprendimiento (baja = 3)");
+			}
+			emprendimiento.setEstadoEmprendimiento(estadoEmprendimiento);
+		}
+
+		try {
+			log.info("Se dara de baja emprendimiento [{}]", emprendimiento.getNombre());
+			emprendimiento = repository.save(emprendimiento);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+		return emprendimiento;
+	}
+
+	@Transactional
+	public Emprendimiento habilitarEmprendimiento(Long id) {
+		Emprendimiento emprendimiento = repository.findByIdEmprendimiento(id);
+		EstadoEmprendimiento estadoEmprendimiento = estadoEmprendimientoService.traerEstadoEmprendimientoPorId(ACTIVO);
+
+		if (emprendimiento == null || estadoEmprendimiento == null) {
+			throw new ObjectNotFound(EMPRENDIMIENTO + " EstadoEmprendimiento activo=2");
+		}
+		log.info("Se habilitara emprendimiento [{}]", emprendimiento.getNombre());
+		emprendimiento.setEstadoEmprendimiento(estadoEmprendimiento);
+
+		return repository.save(emprendimiento);
 	}
 
 }

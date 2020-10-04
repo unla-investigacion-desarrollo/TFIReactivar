@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -119,6 +120,24 @@ public class PersonaController {
 				busquedaPorFechas.getFechaFin());
 
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
+	}
+	
+	@PatchMapping("/{idPersona}/perfil")
+	public ResponseEntity<Persona> modificarPerfil(HttpServletResponse response,
+			@PathVariable("idPersona") long idPersona, @RequestParam long idPerfil) {
+		
+		Persona persona = service.modificarPerfil(idPersona, idPerfil);
+
+		return new ResponseEntity<>(persona, HttpStatus.OK);
+	}
+	
+	@PatchMapping("/{idPersona}/estadoPersona")
+	public ResponseEntity<Persona> modificarEstadoPersona(HttpServletResponse response,
+			@PathVariable("idPersona") long idPersona, @RequestParam long idEstadoPersona) {
+		
+		Persona persona = service.modificarEstadoPersona(idPersona, idEstadoPersona);
+
+		return new ResponseEntity<>(persona, HttpStatus.OK);
 	}
 
 }

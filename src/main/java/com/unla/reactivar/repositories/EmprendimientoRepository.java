@@ -21,4 +21,7 @@ public interface EmprendimientoRepository extends JpaRepository<Emprendimiento, 
 	List<Emprendimiento> traerEmprendimientosCercanos(@Param("id_rubro") long idRubro,
 			@Param("id_persona") long idPersona, @Param("cantidadKm") String cantidadKm);
 
+	@Query("SELECT e FROM Emprendimiento e WHERE e.estadoEmprendimiento=1")
+	public List<Emprendimiento> findAllInactivos();
+
 }

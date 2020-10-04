@@ -91,6 +91,7 @@ public class MailSenderService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		logger.info("Se enviara mail reset token e email [{}]", persona.getIdPersona());
 		constructEmail("ReactivAR - Restablecer Contraseña", message, persona.getLogin().getEmail(), token);
 	}
 
@@ -102,6 +103,7 @@ public class MailSenderService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		logger.info("Se enviara mail validacion [{}]", persona.getIdPersona());
 		constructEmail("ReactivAR - Verificar Email", message, persona.getLogin().getEmail(), token);
 	}
 

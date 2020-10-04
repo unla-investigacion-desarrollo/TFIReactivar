@@ -4,6 +4,8 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Random;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,8 @@ import com.unla.reactivar.vo.ReqPutPersonaFisicaVo;
 @Service
 @Transactional(readOnly = true)
 public class PersonaFisicaService {
+
+	private final Logger log = LoggerFactory.getLogger(getClass().getName());
 
 	private static final long INACTIVO = 1;
 
@@ -55,14 +59,17 @@ public class PersonaFisicaService {
 	private MailSenderService mailSenderService;
 
 	public PersonaFisica traerPersonaFisicaPorId(Long id) {
+		log.info("Se traeran la personas fisicas por id");
 		return repository.findByIdPersona(id);
 	}
 
 	public PersonaFisica traerPersonaFisicaPorDni(Long dni) {
+		log.info("Se traeran persona fisica por dni");
 		return repository.findByDni(dni);
 	}
 
 	public List<PersonaFisica> traerTodasPersonasFisicas() {
+		log.info("Se traeran todas las personas fisica");
 		return repository.findAll();
 	}
 
@@ -73,17 +80,24 @@ public class PersonaFisicaService {
 		if (registro == null) {
 			throw new ObjectNotFound("PersonaFisica");
 		}
-
+		log.info("Se eliminara persona fisica [{}]", registro.getCuil());
 		repository.deletePersona(id);
 	}
 
 	@Transactional
 	public PersonaFisica crearPersonaFisica(PersonaFisicaVo personaFisicaVo) {
-		PersonaFisica persona = new PersonaFisica();
+		PersonaFisica persona = repository.findByDni(personaFisicaVo.getDni());
+		
+		if (persona == null) {
+			persona = new PersonaFisica();
+		}else if(persona.getCuil() != null) {
+			throw new ObjectAlreadyExists();
+		}
 
 		adaptVoToPersonaFisica(persona, personaFisicaVo);
 
-		try {
+		try {	
+			log.info("Se creara persona fisica [{}]",persona.getDni());
 			persona = repository.save(persona);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
@@ -91,7 +105,8 @@ public class PersonaFisicaService {
 			}
 		}
 
-		enviarEmailValidarUsuario(persona);
+		if(persona.getCuil()!=null)
+			enviarEmailValidarUsuario(persona);
 
 		return persona;
 	}
@@ -107,6 +122,7 @@ public class PersonaFisicaService {
 		adaptPutVoToPersonaFisica(persona, personaFisicaVo);
 
 		try {
+			log.info("Se actualizara persona fisica [{}]",persona.getDni());
 			persona = repository.save(persona);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
@@ -120,16 +136,20 @@ public class PersonaFisicaService {
 	private void adaptVoToPersonaFisica(PersonaFisica persona, PersonaFisicaVo personaFisicaVo) {
 		Perfil perfil = perfilService.traerPerfilPorId(personaFisicaVo.getIdPerfil());
 		EstadoPersona estadoPersona = estadoPersonaService.traerEstadoPersonaPorId(INACTIVO);
-
-		if (perfil == null) {
-			throw new ObjectNotFound("Perfil");
+		
+		if (personaFisicaVo.getCuil() != null) {
+			if (perfil == null) {
+				throw new ObjectNotFound("Perfil");
+			}
+			if (estadoPersona == null) {
+				throw new ObjectNotFound("EstadoPersona(1 = inactivo)");
+			}
+			CuilValidator.esCuilValido(personaFisicaVo.getCuil(), personaFisicaVo.getSexo(), String.valueOf(personaFisicaVo.getDni()));
+			Ubicacion ubicacion = ubicacionService.crearUbicacion(personaFisicaVo.getUbicacionVo());
+			Login login = loginService.crearLogin(personaFisicaVo.getLoginVo());
+			persona.setUbicacion(ubicacion);
+			persona.setLogin(login);
 		}
-		if (estadoPersona == null) {
-			throw new ObjectNotFound("EstadoPersona(1 = inactivo)");
-		}
-		CuilValidator.esCuilValido(personaFisicaVo.getCuil(), personaFisicaVo.getSexo());
-		Ubicacion ubicacion = ubicacionService.crearUbicacion(personaFisicaVo.getUbicacionVo());
-		Login login = loginService.crearLogin(personaFisicaVo.getLoginVo());
 
 		persona.setDni(personaFisicaVo.getDni());
 		persona.setNumeroTramite(personaFisicaVo.getNumeroTramite());
@@ -141,30 +161,18 @@ public class PersonaFisicaService {
 		persona.setUsuarioModi(personaFisicaVo.getUsuarioModi());
 		persona.setFechaModi(DateUtils.fechaHoy());
 		persona.setPerfil(perfil);
-		persona.setUbicacion(ubicacion);
-		persona.setLogin(login);
 		persona.setEstadoPersona(estadoPersona);
 	}
 
 	private void adaptPutVoToPersonaFisica(PersonaFisica persona, ReqPutPersonaFisicaVo personaFisicaVo) {
-		Perfil perfil = perfilService.traerPerfilPorId(personaFisicaVo.getIdPerfil());
-		EstadoPersona estadoPersona = estadoPersonaService
-				.traerEstadoPersonaPorId(personaFisicaVo.getIdEstadoPersona());
-
-		if (perfil == null || estadoPersona == null) {
-			throw new ObjectNotFound("Perfil/Estado Persona");
-		}
-		CuilValidator.esCuilValido(personaFisicaVo.getCuil(), personaFisicaVo.getSexo());
-
+		
 		persona.setSexo(personaFisicaVo.getSexo());
-		persona.setNombre(personaFisicaVo.getNombre());
-		persona.setApellido(personaFisicaVo.getApellido());
-		persona.setCuil(personaFisicaVo.getCuil());
 		persona.setCelular(personaFisicaVo.getCelular());
-		persona.setUsuarioModi(personaFisicaVo.getUsuarioModi());
+		persona.setUsuarioModi(persona.getCuil());
 		persona.setFechaModi(DateUtils.fechaHoy());
-		persona.setPerfil(perfil);
-		persona.setEstadoPersona(estadoPersona);
+		persona.getLogin().setEmail(personaFisicaVo.getMail());
+		persona.getLogin().setClave(personaFisicaVo.getPassword());
+		
 	}
 
 	public void enviarEmailValidarUsuario(Persona persona) {
@@ -172,6 +180,7 @@ public class PersonaFisicaService {
 		Random rnd = new Random();
 		String token = String.format("%09d", rnd.nextInt(999999999));
 		crearToken(persona, token);
+		log.info("Se eviara mail validar persona fisica [{}]",persona.getIdPersona());
 
 		mailSenderService.constructValidateEmail(token, persona);
 	}

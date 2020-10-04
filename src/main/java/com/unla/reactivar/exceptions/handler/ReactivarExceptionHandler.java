@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.unla.reactivar.exceptions.IncorrectToken;
 import com.unla.reactivar.exceptions.IncorrectTokenOrTokenExpiredPwd;
 import com.unla.reactivar.exceptions.IncorrectUserOrPassword;
 import com.unla.reactivar.exceptions.InvalidCuilCuit;
@@ -51,6 +52,20 @@ public class ReactivarExceptionHandler {
 		String message = "Usuario y/o Contraseña incorrecto";
 
 		GenericError error = new GenericError("error.reactivar.incorrect.user_password", message);
+
+		logger.error(message);
+
+		return error;
+	}
+	
+	@ExceptionHandler(IncorrectToken.class)
+	@ResponseStatus(value = HttpStatus.NOT_FOUND)
+	@ResponseBody
+	protected GenericError incorrectTokenExceptionHandler(IncorrectToken ex) {
+
+		String message = "Token de inicio de sesion incorrecto";
+
+		GenericError error = new GenericError("error.reactivar.incorrect.token", message);
 
 		logger.error(message);
 

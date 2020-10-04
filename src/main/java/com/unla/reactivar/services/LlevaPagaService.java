@@ -3,6 +3,8 @@ package com.unla.reactivar.services;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,8 @@ import com.unla.reactivar.vo.LlevaPagaVo;
 @Transactional(readOnly = true)
 public class LlevaPagaService {
 
+	private final Logger log = LoggerFactory.getLogger(getClass().getName());
+
 	@Autowired
 	private LlevaPagaRepository repository;
 
@@ -25,10 +29,12 @@ public class LlevaPagaService {
 	private EmprendimientoService emprendimientoService;
 
 	public LlevaPaga traerLlevaPagaPorId(Long id) {
+		log.info("Se traera la promocion lleva y paga por id");
 		return repository.findByIdPromocion(id);
 	}
 
 	public List<LlevaPaga> traerTodosLlevaPaga() {
+		log.info("Se traeran todas las promociones lleva y paga");
 		return repository.findAll();
 	}
 
@@ -39,6 +45,7 @@ public class LlevaPagaService {
 		if (registro == null) {
 			throw new ObjectNotFound("LlevaPaga");
 		}
+		log.info("Se eliminara lleva paga[{}]", id);
 
 		repository.deletePromocion(id);
 	}
@@ -54,6 +61,7 @@ public class LlevaPagaService {
 		adaptVoToDtoXPorcentaje(registro, llevaPagaVo);
 
 		try {
+			log.info("Se actualizara lleva paga");
 			registro = repository.save(registro);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
@@ -71,6 +79,7 @@ public class LlevaPagaService {
 		adaptVoToDtoXPorcentaje(dto, llevaPagaVo);
 
 		try {
+			log.info("Se creara lleva paga");
 			dto = repository.save(dto);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {

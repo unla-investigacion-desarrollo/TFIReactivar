@@ -3,6 +3,8 @@ package com.unla.reactivar.services;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,8 @@ import com.unla.reactivar.vo.ReqPostConfiguracionLocalVo;
 @Transactional(readOnly = true)
 public class ConfiguracionLocalService {
 
+	private final Logger log = LoggerFactory.getLogger(getClass().getName());
+
 	@Autowired
 	private ConfiguracionLocalRepository repository;
 
@@ -27,10 +31,12 @@ public class ConfiguracionLocalService {
 	private EmprendimientoService emprendimientoService;
 
 	public ConfiguracionLocal traerConfiguracionLocalPorId(Long id) {
+		log.info("Se traer configuracion local por id");
 		return repository.findByIdConfiguracionLocal(id);
 	}
 
 	public List<ConfiguracionLocal> traerTodasConfiguracionesLocales() {
+		log.info("Se traeran todas las cfg locales");
 		return repository.findAll();
 	}
 
@@ -41,9 +47,11 @@ public class ConfiguracionLocalService {
 		adaptPostVoToConfiguracionLocal(configuracionLocalVo, config);
 
 		try {
+			log.info("Se creara cfg local");
 			config = repository.save(config);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
+				log.error("Se intento crear una cfg local ya existente");
 				throw new ObjectAlreadyExists();
 			}
 		}
@@ -75,9 +83,10 @@ public class ConfiguracionLocalService {
 		ConfiguracionLocal configuracionLocal = repository.findByIdConfiguracionLocal(id);
 
 		if (configuracionLocal == null) {
+			log.error("Se obtuvo un error al intentar borrar la cfg local [{}]", id);
 			throw new ObjectNotFound("ConfiguracionLocal");
 		}
-
+		log.info("Se eliminara articulo [{}]", configuracionLocal.getIdConfiguracionLocal());
 		repository.delete(configuracionLocal);
 	}
 
@@ -86,12 +95,14 @@ public class ConfiguracionLocalService {
 		ConfiguracionLocal configuracionLocal = repository.findByIdConfiguracionLocal(id);
 
 		if (configuracionLocal == null) {
+			log.error("Se obtuvo un error al intentar actualizar la cfg local [{}]", id);
 			throw new ObjectNotFound("ConfiguracionLocal");
 		}
 
 		adaptVoToConfiguracionLocal(configuracionLocalVo, configuracionLocal);
 
 		try {
+			log.info("Se actualizara cfg local");
 			configuracionLocal = repository.save(configuracionLocal);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
