@@ -165,24 +165,14 @@ public class PersonaFisicaService {
 	}
 
 	private void adaptPutVoToPersonaFisica(PersonaFisica persona, ReqPutPersonaFisicaVo personaFisicaVo) {
-		Perfil perfil = perfilService.traerPerfilPorId(personaFisicaVo.getIdPerfil());
-		EstadoPersona estadoPersona = estadoPersonaService
-				.traerEstadoPersonaPorId(personaFisicaVo.getIdEstadoPersona());
-
-		if (perfil == null || estadoPersona == null) {
-			throw new ObjectNotFound("Perfil/Estado Persona");
-		}
-		CuilValidator.esCuilValido(personaFisicaVo.getCuil(), personaFisicaVo.getSexo());
-
+		
 		persona.setSexo(personaFisicaVo.getSexo());
-		persona.setNombre(personaFisicaVo.getNombre());
-		persona.setApellido(personaFisicaVo.getApellido());
-		persona.setCuil(personaFisicaVo.getCuil());
 		persona.setCelular(personaFisicaVo.getCelular());
-		persona.setUsuarioModi(personaFisicaVo.getUsuarioModi());
+		persona.setUsuarioModi(persona.getCuil());
 		persona.setFechaModi(DateUtils.fechaHoy());
-		persona.setPerfil(perfil);
-		persona.setEstadoPersona(estadoPersona);
+		persona.getLogin().setEmail(personaFisicaVo.getMail());
+		persona.getLogin().setClave(personaFisicaVo.getPassword());
+		
 	}
 
 	public void enviarEmailValidarUsuario(Persona persona) {

@@ -22,6 +22,7 @@ import com.unla.reactivar.exceptions.PdfExporterException;
 import com.unla.reactivar.exceptions.UserIsAlreadyActive;
 import com.unla.reactivar.models.EstadoPersona;
 import com.unla.reactivar.models.OcupacionLocal;
+import com.unla.reactivar.models.Perfil;
 import com.unla.reactivar.models.Persona;
 import com.unla.reactivar.models.ResetAndValidatingToken;
 import com.unla.reactivar.models.Ubicacion;
@@ -55,6 +56,9 @@ public class PersonaService {
 
 	@Autowired
 	private EstadoPersonaService estadoPersonaService;
+	
+	@Autowired
+	private PerfilService perfilService;
 
 	public Persona traerPersonaPorId(long idPersona) {
 		log.info("Se traera un Persona por id");
@@ -183,5 +187,33 @@ public class PersonaService {
 		} catch (DocumentException | IOException | WriterException e) {
 			throw new PdfExporterException();
 		}
+	}
+
+	@Transactional
+	public Persona modificarPerfil(long idPersona, long idPerfil) {
+		Perfil perfil = perfilService.traerPerfilPorId(idPerfil);
+		Persona persona = personaRepository.findByIdPersona(idPersona);
+		
+		if (persona == null || perfil == null) {
+			throw new ObjectNotFound("Persona o Perfil");
+		}
+		
+		persona.setPerfil(perfil);
+		
+		return personaRepository.save(persona);
+	}
+	
+	@Transactional
+	public Persona modificarEstadoPersona(long idPersona, long idEstadoPersona) {
+		EstadoPersona estadoPersona = estadoPersonaService.traerEstadoPersonaPorId(idEstadoPersona);
+		Persona persona = personaRepository.findByIdPersona(idPersona);
+		
+		if (persona == null || estadoPersona == null) {
+			throw new ObjectNotFound("Persona o EstadoPersona");
+		}
+		
+		persona.setEstadoPersona(estadoPersona);
+		
+		return personaRepository.save(persona);
 	}
 }
