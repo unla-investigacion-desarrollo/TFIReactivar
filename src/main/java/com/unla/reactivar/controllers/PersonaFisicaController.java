@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.unla.reactivar.models.Persona;
 import com.unla.reactivar.models.PersonaFisica;
+import com.unla.reactivar.models.PersonaJuridica;
 import com.unla.reactivar.services.PersonaFisicaService;
 import com.unla.reactivar.vo.Empty;
 import com.unla.reactivar.vo.PersonaFisicaVo;
@@ -42,6 +44,14 @@ public class PersonaFisicaController {
 		return service.traerTodasPersonasFisicas();
 	}
 
+	@GetMapping("/porEstado/{idEstadoPersona}")
+	@ApiOperation(value = "Listar todas las Personas Fisicas a partir de un Estado", notes = "Servicio para listar todas las Personas Fisicas a partir de un Estado")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Personas Fisicas por estado encontradas"),
+			@ApiResponse(code = 404, message = "Personas Fisicas no encontradas") })
+	public List<PersonaFisica> traerPersonasPorEstado(@PathVariable("idEstadoPersona") long id) {
+		return service.traerPersonasPorEstado(id);
+	}
+
 	@GetMapping("/{idPersonaFisica}")
 	@ApiOperation(value = "Mostrar una Persona Fisica por ID", notes = "Servicio para mostrar una Persona Fisica a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Persona Fisica encontrada"),
@@ -58,6 +68,24 @@ public class PersonaFisicaController {
 		PersonaFisica personaFisica = service.crearPersonaFisica(personaFisicaVo);
 
 		return new ResponseEntity<>(personaFisica, HttpStatus.CREATED);
+	}
+
+	@PatchMapping("/{idPersonaFisica}")
+	@ApiOperation(value = "Activar una Persona Fisica por ID", notes = "Servicio para Activar una Persona Fisica a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Persona Fisica activada exitosamente"),
+			@ApiResponse(code = 404, message = "Persona Fisica no encontrada") })
+	public ResponseEntity<PersonaFisica> activarPersonaFisica(@PathVariable("idPersonaFisica") Long id) {
+
+		return new ResponseEntity<>(service.activarPersonaFisica(id), HttpStatus.OK);
+	}
+
+	@PatchMapping("desactivar/{idPersonaFisica}")
+	@ApiOperation(value = "Desactivar una Persona Fisica por ID", notes = "Servicio para Desactivar una Persona Fisica a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Persona Fisica desactivada exitosamente"),
+			@ApiResponse(code = 404, message = "Persona Fisica no encontrada") })
+	public ResponseEntity<PersonaFisica> desactivarPersonaFisica(@PathVariable("idPersonaFisica") Long id) {
+
+		return new ResponseEntity<>(service.desactivarPersonaFisica(id), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{idPersonaFisica}")
@@ -79,6 +107,15 @@ public class PersonaFisicaController {
 			ReqPutPersonaFisicaVo personaFisicaVo) {
 
 		return new ResponseEntity<>(service.actualizarPersonaFisica(id, personaFisicaVo), HttpStatus.OK);
+	}
+
+	@PatchMapping("bajaLogica/{idPersonaFisica}")
+	@ApiOperation(value = "Baja logica Persona Fisica por ID", notes = "Servicio para dar de Baja a una Persona Fisica a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Persona Fisica dada de baja exitosamente"),
+			@ApiResponse(code = 404, message = "Persona Fisica no encontrada") })
+	public ResponseEntity<PersonaFisica> bajaLogicaPersonaFisica(@PathVariable("idPersonaFisica") Long id) {
+
+		return new ResponseEntity<>(service.bajaLogicaPersonaFisica(id), HttpStatus.OK);
 	}
 
 }

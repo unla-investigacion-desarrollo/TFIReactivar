@@ -5,10 +5,12 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.unla.reactivar.models.Persona;
+import com.unla.reactivar.models.PersonaJuridica;
 
 @Repository
 public interface PersonaRepository extends JpaRepository<Persona, Long> {
@@ -28,4 +30,6 @@ public interface PersonaRepository extends JpaRepository<Persona, Long> {
 	@Query("SELECT p FROM Persona p JOIN Login l ON l.idLogin = p.login WHERE l.email = ?1")
 	public Persona findByEmail(String email);
 
+	@Query("SELECT p FROM Persona p WHERE p.estadoPersona = (Select e from EstadoPersona e  where e.idEstadoPersona=:estadoPersona)")
+	public List<Persona> findAllPersonasByEstado(@Param("estadoPersona") Long estadoPersona);
 }

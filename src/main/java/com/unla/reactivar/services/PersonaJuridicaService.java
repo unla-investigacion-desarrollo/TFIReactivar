@@ -30,9 +30,10 @@ import com.unla.reactivar.vo.ReqPutPersonaJuridicaVo;
 public class PersonaJuridicaService {
 
 	private final Logger log = LoggerFactory.getLogger(getClass().getName());
-	
+
 	private static final long INACTIVO = 1;
 	private static final long ACTIVO = 2;
+	private static final long BAJA = 3;
 
 	@Value("${recovery.password.token.duration}")
 	private int expiration;
@@ -54,7 +55,6 @@ public class PersonaJuridicaService {
 
 	@Autowired
 	private ResetAndValidatingTokenService pwdService;
-
 
 	@Transactional
 	public PersonaJuridica crearPersona(PersonaJuridicaVo personaVo) {
@@ -79,10 +79,15 @@ public class PersonaJuridicaService {
 		log.info("Se traeran la personas juridicas por id");
 		return personaRepository.findByIdPersona(idPersona);
 	}
-	
+
 	public List<PersonaJuridica> traerTodosInactivos() {
 		log.info("Se traeran todas las personas juridicas inactivas");
 		return personaRepository.findAllInactivos();
+	}
+
+	public List<PersonaJuridica> traerPersonasPorEstado(long estadoPersona) {
+		log.info("Se traeran todas las personas juridicas a partir del estado persona solicitado");
+		return personaRepository.findAllPersonasByEstado(estadoPersona);
 	}
 
 	public List<PersonaJuridica> traerTodos() {
@@ -172,21 +177,66 @@ public class PersonaJuridicaService {
 
 		pwdService.crearResetOrValidateToken(passwordResetToken);
 	}
-	
+
 	@Transactional
 	public PersonaJuridica activarPersonaJuridica(long id) {
 		PersonaJuridica persona = personaRepository.findByIdPersona(id);
 		EstadoPersona estadoPersona = estadoPersonaService.traerEstadoPersonaPorId(ACTIVO);
-		
+
 		if (persona == null || estadoPersona == null) {
 			throw new ObjectNotFound("Persona/EstadoPersona");
 		}
 		log.info("Se activara persona juridica");
 
 		persona.setEstadoPersona(estadoPersona);
-		
+
 		return personaRepository.save(persona);
-		
+
+	}
+
+	@Transactional
+	public PersonaJuridica desactivarPersonaJuridica(long id) {
+		PersonaJuridica persona = personaRepository.findByIdPersona(id);
+		EstadoPersona estadoPersona = estadoPersonaService.traerEstadoPersonaPorId(INACTIVO);
+
+		if (persona == null || estadoPersona == null) {
+			throw new ObjectNotFound("Persona/EstadoPersona");
+		}
+		log.info("Se desactivara persona juridica");
+
+		persona.setEstadoPersona(estadoPersona);
+
+		return personaRepository.save(persona);
+
+	}
+
+	@Transactional
+	public PersonaJuridica bajaLogicaPersonaJuridica(long id) {
+		PersonaJuridica persona = personaRepository.findByIdPersona(id);
+
+		if (persona == null) {
+			throw new ObjectNotFound("Persona");
+		}
+
+		if (ACTIVO == persona.getEstadoPersona().getIdEstadoPersona()) {
+			EstadoPersona estadoPersona = estadoPersonaService.traerEstadoPersonaPorId(BAJA);
+			if (estadoPersona == null) {
+				throw new ObjectNotFound("Estado persona (baja=3)");
+			}
+			persona.setEstadoPersona(estadoPersona);
+		}
+
+		try {
+			log.info("Se dara de baja la persona [{}]", persona.getRazonSocial());
+			persona = personaRepository.save(persona);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+
+		log.info("Se dara de baja una persona juridica");
+
+		return persona;
+
 	}
 
 }
