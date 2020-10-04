@@ -23,10 +23,9 @@ public class MarcaService {
 	private MarcaRepository repository;
 
 	@Autowired
-	private EndpointService serviceEndpoint;
+	private FuncionPerfilService funcionPerfilService;
 
-	@Autowired
-	private PerfilService servicePerfil;
+
 
 	public Marca traerMarcaPorId(Long id) {
 		return repository.findByIdMarca(id);
@@ -88,20 +87,8 @@ public class MarcaService {
 	@Transactional
 	public Marca crearMarca(MarcaVo marcaVo, long idPerfil, long idEndpoint) {
 		Marca marca = new Marca();
-		List<FuncionPerfil> funcionesPerfil = servicePerfil.traerPerfilPorId(idPerfil).getFuncionesPerfil();
-		long idFunEndp = serviceEndpoint.traerEndpointPorId(idEndpoint).getFuncion().getIdFuncion();
-		boolean permisoConcedido = false;
 
-		for (int i = 0; i < funcionesPerfil.size(); i++) {
-			if (funcionesPerfil.get(i).getFuncion().getIdFuncion() == idFunEndp) {
-
-				permisoConcedido = true;
-
-			}
-
-		}
-
-		if (permisoConcedido == true) {
+		if (funcionPerfilService.concederPermiso(idPerfil, idEndpoint) == true) {
 			marca.setNombre(marcaVo.getNombreMarca());
 
 			try {

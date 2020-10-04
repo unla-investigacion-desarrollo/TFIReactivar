@@ -102,5 +102,47 @@ public class EndpointService {
 		endpoint.setFuncion(funcion);
 
 	}
+	
+	
+	/*@Transactional
+	public List<Endpoint> crearListEndpoint(List<EndpointVo> endpointVo) {
+		List<Endpoint> listEndpoint = new ArrayList();
+		Endpoint endpoint = new Endpoint();
+		adaptVoToEndpoint(listEndpoint, endpointVo);
+
+		for (int i = 0; i < listEndpoint.size(); i++) {
+
+			endpoint = listEndpoint.get(i);
+
+			try {
+				endpoint = repository.save(endpoint);
+			} catch (Exception e) {
+				if (e.getCause() != null
+						&& e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
+					throw new ObjectAlreadyExists();
+				}
+			}
+
+		}
+		return listEndpoint;
+	}*/
+
+	/*private void adaptVoToEndpoint(List<Endpoint> endpoint, List<EndpointVo> endpointVo) {
+		Endpoint endpointNuevo = new Endpoint();
+
+		for (int i = 0; i < endpointVo.size(); i++) {
+
+			Funcion funcion = funcionService.crearFuncion(endpointVo.get(i).getFuncion());
+			endpointNuevo.setDescripcion(endpointVo.get(i).getDescripcion());
+			endpointNuevo.setEndpoint(endpointVo.get(i).getEndpoint());
+			endpointNuevo.setMetodo(endpointVo.get(i).getMetodo());
+			endpointNuevo.setNombreController(endpointVo.get(i).getNombreController());
+			endpointNuevo.setFuncion(funcion);
+
+			endpoint.add(endpointNuevo);
+
+		}
+
+	}*/
 
 }

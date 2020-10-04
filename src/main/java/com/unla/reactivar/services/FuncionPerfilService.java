@@ -28,6 +28,10 @@ public class FuncionPerfilService {
 
 	@Autowired
 	private PerfilService perfilService;
+	
+	@Autowired
+	private EndpointService endpointService;
+
 
 	public FuncionPerfil traerFuncionPerfilPorId(Long id) {
 		return repository.findByIdFuncionPerfil(id);
@@ -99,6 +103,22 @@ public class FuncionPerfilService {
 		funcion.setFuncion(func);
 		funcion.setPerfil(perfil);
 		funcion.setUsuarioModi(funcionPerfilVo.getUsuarioModi());
+	}
+	
+	public boolean concederPermiso(long idPerfil, long idEndpoint) {
+		List<FuncionPerfil> funcionesPerfil = perfilService.traerPerfilPorId(idPerfil).getFuncionesPerfil();
+		long idFunEndp = endpointService.traerEndpointPorId(idEndpoint).getFuncion().getIdFuncion();
+		boolean permisoConcedido = false;
+
+		for (int i = 0; i < funcionesPerfil.size(); i++) {
+			if (funcionesPerfil.get(i).getFuncion().getIdFuncion() == idFunEndp) {
+
+				permisoConcedido = true;
+
+			}
+
+		}
+		return permisoConcedido;
 	}
 
 }
