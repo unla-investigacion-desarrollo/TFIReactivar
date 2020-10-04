@@ -159,7 +159,7 @@ public class EmprendimientoService {
 		}
 		Ubicacion ubicacion = ubicacionService.crearUbicacion(emprendimientoVo.getUbicacionVo());
 		emprendimiento.setUbicacion(ubicacion);
-		CuilValidator.esCuilValido(emprendimientoVo.getCuit(), "");
+		CuilValidator.esCuilValido(emprendimientoVo.getCuit(), "", "");
 		emprendimiento.setCuit(emprendimientoVo.getCuit());
 		emprendimiento.setNombre(emprendimientoVo.getNombre());
 		Persona persona = personaService.traerPersonaPorId(emprendimientoVo.getIdPersona());
@@ -181,7 +181,7 @@ public class EmprendimientoService {
 
 	private void adaptarPutEmprendimientoVoAEmprendimiento(ReqPutEmprendimientoVo emprendimientoVo,
 			Emprendimiento emprendimiento) {
-		CuilValidator.esCuilValido(emprendimientoVo.getCuit(), "");
+		CuilValidator.esCuilValido(emprendimientoVo.getCuit(), "", "");
 		emprendimiento.setCuit(emprendimientoVo.getCuit());
 		emprendimiento.setNombre(emprendimientoVo.getNombre());
 		Persona persona = personaService.traerPersonaPorId(emprendimientoVo.getIdPersona());

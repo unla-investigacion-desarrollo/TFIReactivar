@@ -144,7 +144,7 @@ public class PersonaFisicaService {
 			if (estadoPersona == null) {
 				throw new ObjectNotFound("EstadoPersona(1 = inactivo)");
 			}
-			CuilValidator.esCuilValido(personaFisicaVo.getCuil(), personaFisicaVo.getSexo());
+			CuilValidator.esCuilValido(personaFisicaVo.getCuil(), personaFisicaVo.getSexo(), String.valueOf(personaFisicaVo.getDni()));
 			Ubicacion ubicacion = ubicacionService.crearUbicacion(personaFisicaVo.getUbicacionVo());
 			Login login = loginService.crearLogin(personaFisicaVo.getLoginVo());
 			persona.setUbicacion(ubicacion);

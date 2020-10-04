@@ -11,9 +11,9 @@ public class CuilValidatorTest {
 	
 	@Test
 	public void esCuilValidoTest() {
-		assertEquals(true, CuilValidator.esCuilValido("20391080462", "hombre"));		
-		assertEquals(true, CuilValidator.esCuilValido("23392766499", "hombre"));
-		assertEquals(true, CuilValidator.esCuilValido("30715002120", ""));
+		assertEquals(true, CuilValidator.esCuilValido("20391080462", "hombre", ""));		
+		assertEquals(true, CuilValidator.esCuilValido("23392766499", "hombre", "39276649"));
+		assertEquals(true, CuilValidator.esCuilValido("30715002120", "", ""));
 	}
 
 }

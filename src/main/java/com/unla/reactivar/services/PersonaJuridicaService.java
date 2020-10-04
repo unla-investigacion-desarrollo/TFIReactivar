@@ -130,7 +130,7 @@ public class PersonaJuridicaService {
 		persona.setUbicacion(ubicacion);
 		persona.setLogin(login);
 		persona.setCelular(personaVo.getCelular());
-		CuilValidator.esCuilValido(personaVo.getCuit(), "");
+		CuilValidator.esCuilValido(personaVo.getCuit(), "", "");
 		persona.setCuit(personaVo.getCuit());
 		persona.setRazonSocial(personaVo.getRazonSocial());
 		persona.setFechaModi(DateUtils.fechaHoy());
@@ -151,7 +151,7 @@ public class PersonaJuridicaService {
 
 	private void adaptPutVoToPersonaJuridica(PersonaJuridica persona, ReqPutPersonaJuridicaVo personaVo) {
 		persona.setCelular(personaVo.getCelular());
-		CuilValidator.esCuilValido(personaVo.getCuit(), "");
+		CuilValidator.esCuilValido(personaVo.getCuit(), "", "");
 		persona.setCuit(personaVo.getCuit());
 		persona.setRazonSocial(personaVo.getRazonSocial());
 		persona.setFechaModi(DateUtils.fechaHoy());
