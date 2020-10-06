@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.unla.reactivar.models.Funcion;
 import com.unla.reactivar.models.Perfil;
 import com.unla.reactivar.services.PerfilService;
 import com.unla.reactivar.vo.Empty;
@@ -46,6 +47,14 @@ public class PerfilController {
 			@ApiResponse(code = 404, message = "Perfil no encontrado") })
 	public Perfil traerPerfil(@PathVariable("idPerfil") long id) {
 		return service.traerPerfilPorId(id);
+	}
+	
+	@GetMapping("/{idPerfil}/funciones")
+	@ApiOperation(value = "Mostrar funciones por Perfil", notes = "Servicio para mostrar funciones a partir de un perfil")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Perfil encontrado"),
+			@ApiResponse(code = 404, message = "Perfil no encontrado") })
+	public List<Funcion> traerFuncionesPorPerfil(@PathVariable("idPerfil") long id) {
+		return service.traerFuncionesPorPerfil(id);
 	}
 
 	@PostMapping

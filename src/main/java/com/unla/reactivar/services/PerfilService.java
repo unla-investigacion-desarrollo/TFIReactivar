@@ -1,6 +1,7 @@
 package com.unla.reactivar.services;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -11,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.unla.reactivar.exceptions.ObjectAlreadyExists;
 import com.unla.reactivar.exceptions.ObjectNotFound;
+import com.unla.reactivar.models.Funcion;
+import com.unla.reactivar.models.FuncionPerfil;
 import com.unla.reactivar.models.Perfil;
 import com.unla.reactivar.repositories.PerfilRepository;
 import com.unla.reactivar.utils.DateUtils;
@@ -91,5 +94,20 @@ public class PerfilService {
 		perfil.setNombre(perfilVo.getNombre());
 		perfil.setFechaModi(DateUtils.fechaHoy());
 		perfil.setUsuarioModi(perfilVo.getUsuarioModi());
+	}
+
+	public List<Funcion> traerFuncionesPorPerfil(long id) {
+		log.info("Se traeran funciones por perfil");
+		Perfil perfil = repository.findByIdPerfil(id);
+		
+		if (perfil == null) {
+			throw new ObjectNotFound("Perfil");
+		}
+		
+		List<Funcion> funciones = new ArrayList<>();
+		for(FuncionPerfil fp : perfil.getFuncionesPerfil()) {
+			funciones.add(fp.getFuncion());
+		}
+		return funciones;
 	}
 }
