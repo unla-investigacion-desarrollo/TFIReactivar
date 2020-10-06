@@ -32,10 +32,9 @@ public class FuncionPerfilService {
 
 	@Autowired
 	private PerfilService perfilService;
-	
+
 	@Autowired
 	private EndpointService endpointService;
-
 
 	public FuncionPerfil traerFuncionPerfilPorId(Long id) {
 		log.info("Se traera funcionPerfil por id");
@@ -114,7 +113,7 @@ public class FuncionPerfilService {
 		funcion.setPerfil(perfil);
 		funcion.setUsuarioModi(funcionPerfilVo.getUsuarioModi());
 	}
-	
+
 	public boolean concederPermiso(long idPerfil, long idEndpoint) {
 		List<FuncionPerfil> funcionesPerfil = perfilService.traerPerfilPorId(idPerfil).getFuncionesPerfil();
 		long idFunEndp = endpointService.traerEndpointPorId(idEndpoint).getFuncion().getIdFuncion();

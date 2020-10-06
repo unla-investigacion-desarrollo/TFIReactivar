@@ -24,7 +24,10 @@ public class MarcaService {
 	@Autowired
 	private MarcaRepository repository;
 
-	public Marca traerMarcaPorId(Long id) {		
+	@Autowired
+	private FuncionPerfilService funcionPerfilService;
+
+	public Marca traerMarcaPorId(Long id) {
 		log.info("Se traeran marca por id");
 		return repository.findByIdMarca(id);
 	}
@@ -85,4 +88,26 @@ public class MarcaService {
 		return marca;
 	}
 
+	@Transactional
+	public Marca crearMarca(MarcaVo marcaVo, long idPerfil, long idEndpoint) {
+		Marca marca = new Marca();
+
+		if (funcionPerfilService.concederPermiso(idPerfil, idEndpoint) == true) {
+			marca.setNombre(marcaVo.getNombreMarca());
+
+			try {
+				marca = repository.save(marca);
+			} catch (Exception e) {
+				if (e.getCause() != null
+						&& e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
+					throw new ObjectAlreadyExists();
+				}
+			}
+
+		} else {
+			throw new ObjectNotFound("Usuario con perfil no valido para crear Marcas");
+		}
+
+		return marca;
+	}
 }
