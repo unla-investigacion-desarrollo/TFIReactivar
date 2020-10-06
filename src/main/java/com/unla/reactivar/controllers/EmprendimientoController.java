@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unla.reactivar.models.Emprendimiento;
+import com.unla.reactivar.models.Turno;
 import com.unla.reactivar.services.EmprendimientoService;
 import com.unla.reactivar.vo.EmprendimientoVo;
 import com.unla.reactivar.vo.Empty;
@@ -58,6 +60,14 @@ public class EmprendimientoController {
 			@ApiResponse(code = 404, message = "Emprendimiento no encontrado") })
 	public Emprendimiento traerEmprendimiento(@PathVariable("idEmprendimiento") long id) {
 		return service.traerEmprendimientoPorId(id);
+	}
+	
+	@GetMapping("/{idEmprendimiento}/turnos")
+	@ApiOperation(value = "Mostrar un Emprendimiento por ID", notes = "Servicio para mostrar un Emprendimiento a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimiento encontrado"),
+			@ApiResponse(code = 404, message = "Emprendimiento no encontrado") })
+	public List<Turno> traerTurnosDeEmprendimiento(@PathVariable("idEmprendimiento") long id, @RequestParam long estadoTurno) {
+		return service.traerTurnosPorEmprendimiento(id, estadoTurno);
 	}
 
 	

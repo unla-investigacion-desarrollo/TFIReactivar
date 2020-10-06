@@ -24,4 +24,6 @@ public interface EmprendimientoRepository extends JpaRepository<Emprendimiento, 
 	@Query("SELECT e FROM Emprendimiento e WHERE e.estadoEmprendimiento=1")
 	public List<Emprendimiento> findAllInactivos();
 
+	
+
 }

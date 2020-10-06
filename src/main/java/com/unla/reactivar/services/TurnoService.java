@@ -1,6 +1,7 @@
 package com.unla.reactivar.services;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -114,6 +115,17 @@ public class TurnoService {
 		turno.setObservaciones(turnoVo.getObservaciones());
 		turno.setPersona(persona);
 		turno.setUsuarioModi(turnoVo.getUsuarioModi());
+	}
+	
+	public List<Turno> traerTurnosPorEmprendimiento(long idEmp, long idEst) {
+		List<Turno> turnos = new ArrayList<>();
+		Emprendimiento emprendimiento = emprendimientoService.traerEmprendimientoPorId(idEmp);
+		EstadoTurno estadoTurno = estadoService.traerEstadoTurnoPorId(idEst);
+		if (emprendimiento == null || estadoTurno == null) {
+			throw new ObjectNotFound("Emprendimiento / EstadoTurno");
+		}
+		turnos = repository.findTurnosPorEmprendimiento(emprendimiento, estadoTurno);
+		return turnos;
 	}
 
 }

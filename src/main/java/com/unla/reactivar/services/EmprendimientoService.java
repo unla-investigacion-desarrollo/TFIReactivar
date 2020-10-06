@@ -2,6 +2,7 @@ package com.unla.reactivar.services;
 
 import java.io.IOException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -24,6 +25,7 @@ import com.unla.reactivar.models.EstadoEmprendimiento;
 import com.unla.reactivar.models.Persona;
 import com.unla.reactivar.models.Rubro;
 import com.unla.reactivar.models.TipoEmprendimiento;
+import com.unla.reactivar.models.Turno;
 import com.unla.reactivar.models.Ubicacion;
 import com.unla.reactivar.repositories.EmprendimientoRepository;
 import com.unla.reactivar.utils.CuilValidator;
@@ -64,6 +66,9 @@ public class EmprendimientoService {
 
 	@Autowired
 	private EstadoEmprendimientoService estadoEmprendimientoService;
+	
+	@Autowired
+	private TurnoService turnoService;
 
 	public Emprendimiento traerEmprendimientoPorId(Long id) {
 		log.info("Se traera un Emprendimiento por id");
@@ -282,5 +287,13 @@ public class EmprendimientoService {
 
 		return repository.save(emprendimiento);
 	}
+
+	public List<Turno> traerTurnosPorEmprendimiento(long idEmp, long idEst) {
+		List<Turno> turnos = new ArrayList<>();
+		
+		turnos = turnoService.traerTurnosPorEmprendimiento(idEmp, idEst);
+		return turnos;
+	}
+
 
 }
