@@ -45,13 +45,37 @@ public class EmprendimientoController {
 	public List<Emprendimiento> traerTodosEmprendimientos() {
 		return service.traerTodosEmprendimientos();
 	}
-	
+
 	@GetMapping("/inactivos")
 	@ApiOperation(value = "Listar todos los Emprendimientos inactivos", notes = "Servicio para listar todos los Emprendimientos inactivos")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimientos inactivos encontrados"),
 			@ApiResponse(code = 404, message = "Emprendimientos no encontrados") })
 	public List<Emprendimiento> traerTodosEmprendimientosInactivos() {
 		return service.traerTodosEmprendimientosInactivos();
+	}
+
+	@GetMapping("/activos")
+	@ApiOperation(value = "Listar todos los Emprendimientos activos", notes = "Servicio para listar todos los Emprendimientos activos")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimientos activos encontrados"),
+			@ApiResponse(code = 404, message = "Emprendimientos no encontrados") })
+	public List<Emprendimiento> traerTodosEmprendimientosActivos() {
+		return service.traerTodosEmprendimientosActivos();
+	}
+
+	@GetMapping("/enBaja")
+	@ApiOperation(value = "Listar todos los Emprendimientos dados de baja", notes = "Servicio para listar todos los Emprendimientos dados de baja")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimientos dados de baja encontrados"),
+			@ApiResponse(code = 404, message = "Emprendimientos no encontrados") })
+	public List<Emprendimiento> traerTodosEmprendimientosEnBaja() {
+		return service.traerTodosEmprendimientosEnBaja();
+	}
+
+	@GetMapping("empXEstado/{idEstadoEmprendimiento}")
+	@ApiOperation(value = "Listar todos los Emprendimientos segun su Estado", notes = "Servicio para listar todos los Emprendimientos a partir del ID del Estado de emprendimiento deseado")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimientos encontrados"),
+			@ApiResponse(code = 404, message = "Emprendimientos no encontrados") })
+	public List<Emprendimiento> traerTodosEmprendimientosPorEstado(@PathVariable("idEstadoEmprendimiento") Long id) {
+		return service.traerTodosEmprendimientosPorEstado(id);
 	}
 
 	@GetMapping("/{idEmprendimiento}")
@@ -70,16 +94,15 @@ public class EmprendimientoController {
 		return service.traerTurnosPorEmprendimiento(id, estadoTurno);
 	}
 
-	
 	@GetMapping("{idRubro}/{idPersona}/{cantidadKm}/traerPorRubroYKm")
-	@ApiOperation(value = "Mostrar emprendimientos de un rubro especifico bajo la distancia elegida", notes = "Service para mostrar emprendimientos de un rubro especifico bajo la distancia elegida")
+	@ApiOperation(value = "Mostrar emprendimientos activos de un rubro especifico bajo la distancia elegida", notes = "Service para mostrar emprendimientos activos de un rubro especifico bajo la distancia elegida")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimientos encontrados"),
 			@ApiResponse(code = 404, message = "Emprendimiento no encontrado") })
 	public ResponseEntity<List<Emprendimiento>> traerEmprendimientosCercanos(@PathVariable("idRubro") long idRubro,
 			@PathVariable("idPersona") long idPersona, @PathVariable("cantidadKm") String cantidadKm) {
 		List<Emprendimiento> traerEmprendimientosCercanos = service.traerEmprendimientosCercanos(idRubro, idPersona,
 				cantidadKm);
-		
+
 		return new ResponseEntity<>(traerEmprendimientosCercanos, HttpStatus.OK);
 	}
 
