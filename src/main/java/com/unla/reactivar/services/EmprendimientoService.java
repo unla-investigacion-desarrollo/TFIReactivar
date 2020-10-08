@@ -289,8 +289,7 @@ public class EmprendimientoService {
 	}
 
 	public List<Turno> traerTurnosPorEmprendimiento(long idEmp, long idEst) {
-		List<Turno> turnos = new ArrayList<>();
-		
+		List<Turno> turnos = new ArrayList<Turno>();
 		turnos = turnoService.traerTurnosPorEmprendimiento(idEmp, idEst);
 		return turnos;
 	}

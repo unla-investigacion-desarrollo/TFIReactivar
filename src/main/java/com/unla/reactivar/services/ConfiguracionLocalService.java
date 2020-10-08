@@ -40,6 +40,17 @@ public class ConfiguracionLocalService {
 		return repository.findAll();
 	}
 
+	public List<ConfiguracionLocal> traerTodasConfiguracionesLocalesPorEmprendimiento(long idEmprendimiento) {
+		log.info("Se traeran todas las cfg locales de un emprendimiento");
+		Emprendimiento emprendimiento = emprendimientoService
+				.traerEmprendimientoPorId(idEmprendimiento);
+		if (emprendimiento == null) {
+			throw new ObjectNotFound("Emprendimiento");
+		}
+		
+		return repository.findByEmprendimiento(emprendimiento);
+	}
+	
 	@Transactional
 	public ConfiguracionLocal crearConfiguracion(ReqPostConfiguracionLocalVo configuracionLocalVo) {
 		ConfiguracionLocal config = new ConfiguracionLocal();

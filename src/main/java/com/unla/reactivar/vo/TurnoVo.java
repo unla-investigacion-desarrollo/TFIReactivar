@@ -8,7 +8,6 @@ import lombok.Data;
 public class TurnoVo {
 
 	private long idEmprendimiento;
-	private long idEstadoTurno;
 	private long idPersona;
 	private Date fechaHora;
 	private String observaciones;
