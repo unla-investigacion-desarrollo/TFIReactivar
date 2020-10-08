@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.zxing.WriterException;
 import com.lowagie.text.DocumentException;
+import com.unla.reactivar.exceptions.ObjectAlreadyExists;
 import com.unla.reactivar.exceptions.ObjectNotFound;
 import com.unla.reactivar.exceptions.PdfExporterException;
 import com.unla.reactivar.exceptions.UserIsAlreadyActive;
@@ -24,6 +25,7 @@ import com.unla.reactivar.models.EstadoPersona;
 import com.unla.reactivar.models.OcupacionLocal;
 import com.unla.reactivar.models.Perfil;
 import com.unla.reactivar.models.Persona;
+import com.unla.reactivar.models.PersonaJuridica;
 import com.unla.reactivar.models.ResetAndValidatingToken;
 import com.unla.reactivar.models.Ubicacion;
 import com.unla.reactivar.repositories.PersonaRepository;
@@ -37,7 +39,9 @@ public class PersonaService {
 
 	private final Logger log = LoggerFactory.getLogger(getClass().getName());
 
+	private static final long INACTIVO = 1;
 	private static final long ACTIVO = 2;
+	private static final long BAJA = 3;
 
 	@Value("${recovery.password.token.duration}")
 	private int expiration;
@@ -73,6 +77,11 @@ public class PersonaService {
 	public List<Persona> traerTodos() {
 		log.info("Se traera todas las personas");
 		return personaRepository.findAll();
+	}
+
+	public List<Persona> traerPersonasPorEstado(long estadoPersona) {
+		log.info("Se traeran todas las personas a partir del estado persona solicitado");
+		return personaRepository.findAllPersonasByEstado(estadoPersona);
 	}
 
 	@Transactional
@@ -216,4 +225,66 @@ public class PersonaService {
 		
 		return personaRepository.save(persona);
 	}
+
+	@Transactional
+	public Persona bajaLogicaPersona(long id) {
+		Persona persona = personaRepository.findByIdPersona(id);
+
+		if (persona == null) {
+			throw new ObjectNotFound("Persona");
+		}
+
+		if (ACTIVO == persona.getEstadoPersona().getIdEstadoPersona()) {
+			EstadoPersona estadoPersona = estadoPersonaService.traerEstadoPersonaPorId(BAJA);
+			if (estadoPersona == null) {
+				throw new ObjectNotFound("Estado persona (baja=3)");
+			}
+			persona.setEstadoPersona(estadoPersona);
+		}
+
+		try {
+			log.info("Se dara de baja la persona id= [{}]", persona.getIdPersona());
+			persona = personaRepository.save(persona);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+
+		log.info("Se dara de baja una persona ");
+
+		return persona;
+
+	}
+
+	@Transactional
+	public Persona activarPersona(long id) {
+		Persona persona = personaRepository.findByIdPersona(id);
+		EstadoPersona estadoPersona = estadoPersonaService.traerEstadoPersonaPorId(ACTIVO);
+
+		if (persona == null || estadoPersona == null) {
+			throw new ObjectNotFound("Persona/EstadoPersona");
+		}
+		log.info("Se activara persona");
+
+		persona.setEstadoPersona(estadoPersona);
+
+		return personaRepository.save(persona);
+
+	}
+
+	@Transactional
+	public Persona desactivarPersona(long id) {
+		Persona persona = personaRepository.findByIdPersona(id);
+		EstadoPersona estadoPersona = estadoPersonaService.traerEstadoPersonaPorId(INACTIVO);
+
+		if (persona == null || estadoPersona == null) {
+			throw new ObjectNotFound("Persona/EstadoPersona");
+		}
+		log.info("Se desactivara persona");
+
+		persona.setEstadoPersona(estadoPersona);
+
+		return personaRepository.save(persona);
+
+	}
+
 }

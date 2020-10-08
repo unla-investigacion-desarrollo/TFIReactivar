@@ -41,13 +41,21 @@ public class PersonaJuridicaController {
 	public List<PersonaJuridica> traerTodos() {
 		return service.traerTodos();
 	}
-	
+
 	@GetMapping("/inactivos")
 	@ApiOperation(value = "Listar todas las Personas Juridicas inactivas", notes = "Servicio para listar todas las Personas Juridicas inactivas")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Personas Juridicas inactivas encontradas"),
 			@ApiResponse(code = 404, message = "Personas Juridicas no encontradas") })
 	public List<PersonaJuridica> traerTodosInactivos() {
 		return service.traerTodosInactivos();
+	}
+
+	@GetMapping("/porEstado/{idEstadoPersona}")
+	@ApiOperation(value = "Listar todas las Personas Juridicas a partir de un Estado", notes = "Servicio para listar todas las Personas Juridicas a partir de un Estado")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Personas Juridicas por estado encontradas"),
+			@ApiResponse(code = 404, message = "Personas Juridicas no encontradas") })
+	public List<PersonaJuridica> traerPersonasPorEstado(@PathVariable("idEstadoPersona") long id) {
+		return service.traerPersonasPorEstado(id);
 	}
 
 	@GetMapping("/{idPersonaJuridica}")
@@ -88,7 +96,7 @@ public class PersonaJuridicaController {
 
 		return new ResponseEntity<>(service.actualizarPersonaJuridica(id, personaJuridicaVo), HttpStatus.OK);
 	}
-	
+
 	@PatchMapping("/{idPersonaJuridica}")
 	@ApiOperation(value = "Activar una Persona Juridica por ID", notes = "Servicio para Activar una Persona Juridica a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Persona Juridica activada exitosamente"),
@@ -96,6 +104,24 @@ public class PersonaJuridicaController {
 	public ResponseEntity<PersonaJuridica> activarPersonaJuridica(@PathVariable("idPersonaJuridica") Long id) {
 
 		return new ResponseEntity<>(service.activarPersonaJuridica(id), HttpStatus.OK);
+	}
+
+	@PatchMapping("bajaLogica/{idPersonaJuridica}")
+	@ApiOperation(value = "Baja logica Persona Juridica por ID", notes = "Servicio para dar de Baja a una Persona Juridica a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Persona Juridica dada de baja exitosamente"),
+			@ApiResponse(code = 404, message = "Persona Juridica no encontrada") })
+	public ResponseEntity<PersonaJuridica> bajaLogicaPersonaJuridica(@PathVariable("idPersonaJuridica") Long id) {
+
+		return new ResponseEntity<>(service.bajaLogicaPersonaJuridica(id), HttpStatus.OK);
+	}
+
+	@PatchMapping("desactivar/{idPersonaJuridica}")
+	@ApiOperation(value = "Desactivar una Persona Juridica por ID", notes = "Servicio para Desactivar una Persona Juridica a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Persona Juridica desactivada exitosamente"),
+			@ApiResponse(code = 404, message = "Persona Juridica no encontrada") })
+	public ResponseEntity<PersonaJuridica> desactivarPersonaJuridica(@PathVariable("idPersonaJuridica") Long id) {
+
+		return new ResponseEntity<>(service.desactivarPersonaJuridica(id), HttpStatus.OK);
 	}
 
 }

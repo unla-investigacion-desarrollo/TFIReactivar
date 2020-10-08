@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unla.reactivar.models.Persona;
+import com.unla.reactivar.models.PersonaJuridica;
 import com.unla.reactivar.services.PersonaService;
 import com.unla.reactivar.vo.BusquedaPorContactoVo;
 import com.unla.reactivar.vo.CoordenadasVo;
@@ -43,6 +44,14 @@ public class PersonaController {
 			@ApiResponse(code = 404, message = "Personas no encontradas") })
 	public List<Persona> traerTodos() {
 		return service.traerTodos();
+	}
+
+	@GetMapping("/porEstado/{idEstadoPersona}")
+	@ApiOperation(value = "Listar todas las Personas a partir de un Estado", notes = "Servicio para listar todas las Personas a partir de un Estado")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Personas por estado encontradas"),
+			@ApiResponse(code = 404, message = "Personas no encontradas") })
+	public List<Persona> traerPersonasPorEstado(@PathVariable("idEstadoPersona") long id) {
+		return service.traerPersonasPorEstado(id);
 	}
 
 	@GetMapping("/{idPersona}")
@@ -138,6 +147,33 @@ public class PersonaController {
 		Persona persona = service.modificarEstadoPersona(idPersona, idEstadoPersona);
 
 		return new ResponseEntity<>(persona, HttpStatus.OK);
+	}
+
+	@PatchMapping("bajaLogica/{idPersona}")
+	@ApiOperation(value = "Baja logica Persona por ID", notes = "Servicio para dar de Baja a una Persona a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Persona dada de baja exitosamente"),
+			@ApiResponse(code = 404, message = "Persona no encontrada") })
+	public ResponseEntity<Persona> bajaLogicaPersonaJuridica(@PathVariable("idPersona") Long id) {
+
+		return new ResponseEntity<>(service.bajaLogicaPersona(id), HttpStatus.OK);
+	}
+
+	@PatchMapping("/{idPersona}")
+	@ApiOperation(value = "Activar una Persona por ID", notes = "Servicio para Activar una Persona a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Persona activada exitosamente"),
+			@ApiResponse(code = 404, message = "Persona no encontrada") })
+	public ResponseEntity<Persona> activarPersona(@PathVariable("idPersona") Long id) {
+
+		return new ResponseEntity<>(service.activarPersona(id), HttpStatus.OK);
+	}
+
+	@PatchMapping("desactivar/{idPersona}")
+	@ApiOperation(value = "Desactivar una Persona por ID", notes = "Servicio para Desactivar una Persona a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Persona desactivada exitosamente"),
+			@ApiResponse(code = 404, message = "Persona no encontrada") })
+	public ResponseEntity<Persona> desactivarPersona(@PathVariable("idPersona") Long id) {
+
+		return new ResponseEntity<>(service.desactivarPersona(id), HttpStatus.OK);
 	}
 
 }
