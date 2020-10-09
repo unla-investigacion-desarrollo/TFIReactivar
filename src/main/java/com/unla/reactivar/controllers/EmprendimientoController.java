@@ -1,5 +1,6 @@
 package com.unla.reactivar.controllers;
 
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.unla.reactivar.models.ConfiguracionLocal;
 import com.unla.reactivar.models.Emprendimiento;
 import com.unla.reactivar.services.EmprendimientoService;
 import com.unla.reactivar.vo.EmprendimientoVo;
@@ -98,7 +100,7 @@ public class EmprendimientoController {
 	@ApiOperation(value = "Modificar un Emprendimiento por ID", notes = "Servicio para modificar un Emprendimiento a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimiento modificado correctamente"),
 			@ApiResponse(code = 404, message = "Emprendimiento no encontrado") })
-	public ResponseEntity<Emprendimiento> updateEmprendimiento(@PathVariable("idEmprendimiento") Long id,
+	public ResponseEntity<Emprendimiento> updateEmprendimiento(@PathVariable("idEmprendimiento") long id,
 			ReqPutEmprendimientoVo emprendimientoVo) {
 
 		return new ResponseEntity<>(service.actualizarEmprendimiento(id, emprendimientoVo), HttpStatus.OK);
@@ -108,7 +110,7 @@ public class EmprendimientoController {
 	@ApiOperation(value = "Exportar QR en PDF", notes = "Servicio para exportar el QR del Emprendimiento en formato PDF a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "PDF exportado exitosamente"),
 			@ApiResponse(code = 404, message = "Emprendimiento no encontrado, no se pudo exportar") })
-	public ResponseEntity<Empty> exportToPDF(HttpServletResponse response, @PathVariable("idEmprendimiento") Long id) {
+	public ResponseEntity<Empty> exportToPDF(HttpServletResponse response, @PathVariable("idEmprendimiento") long id) {
 		service.exportPDF(response, id);
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
@@ -117,7 +119,7 @@ public class EmprendimientoController {
 	@ApiOperation(value = "Baja logica de un Emprendimiento por ID", notes = "Servicio para dar de baja a un Emprendimiento a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimiento dado de baja correctamente"),
 			@ApiResponse(code = 404, message = "Emprendimiento no encontrado") })
-	public ResponseEntity<Emprendimiento> bajaLogicaEmprendimiento(@PathVariable("idEmprendimiento") Long id) {
+	public ResponseEntity<Emprendimiento> bajaLogicaEmprendimiento(@PathVariable("idEmprendimiento") long id) {
 
 		return new ResponseEntity<>(service.bajaLogicaEmprendimiento(id), HttpStatus.OK);
 	}
@@ -126,8 +128,30 @@ public class EmprendimientoController {
 	@ApiOperation(value = "Habilitar un Emprendimiento por ID", notes = "Servicio para habilitar un Emprendimiento a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimiento habilitado correctamente"),
 			@ApiResponse(code = 404, message = "Emprendimiento no encontrado") })
-	public ResponseEntity<Emprendimiento> habilitarEmprendimiento(@PathVariable("idEmprendimiento") Long id) {
+	public ResponseEntity<Emprendimiento> habilitarEmprendimiento(@PathVariable("idEmprendimiento") long id) {
 
 		return new ResponseEntity<>(service.habilitarEmprendimiento(id), HttpStatus.OK);
 	}
+	
+
+	@GetMapping("/{idEmprendimiento}/traerConfiguracionLocal")
+	@ApiOperation(value = "Listar configuraciones del local de un Emprendimiento", notes = "Servicio para Listar Configuraciones de Local de un emprendimiento")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimiento encontrado con su Lista de configuración"),
+			@ApiResponse(code = 404, message = "Emprendimiento no encontrado") })
+	public List<ConfiguracionLocal> traerConfiguracionLocal(@PathVariable("idEmprendimiento") long id) {
+		List<ConfiguracionLocal> traerConfiguracionLocal = service.traerConfiguracionLocal(id);
+		
+		return traerConfiguracionLocal;
+	}
+	
+	@GetMapping("/{idEmprendimiento}/verificarEmprendimiento")
+	@ApiOperation(value = "Muestra el estado actual (abierto/cerrado) del emprendimiento", notes = "Servicio para mostrar el estado actual (abierto/cerrado) del emprendimiento segun su Configuración Local")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimiento encontrado"),
+			@ApiResponse(code = 404, message = "Emprendimiento no encontrado") })
+	public String verificarEmprendimiento(@PathVariable("idEmprendimiento") long id) {
+		return service.verificarEmprendimiento(id);
+	}
+	
+	
+
 }

@@ -124,4 +124,6 @@ public class ConfiguracionLocalService {
 		config.setFechaModi(DateUtils.fechaHoy());
 		config.setUsuarioModi(configuracionLocales.getUsuarioModi());
 	}
+	
+	
 }

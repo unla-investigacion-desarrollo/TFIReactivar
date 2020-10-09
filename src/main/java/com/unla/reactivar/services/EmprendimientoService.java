@@ -2,6 +2,9 @@ package com.unla.reactivar.services;
 
 import java.io.IOException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -40,9 +43,11 @@ public class EmprendimientoService {
 	private final Logger log = LoggerFactory.getLogger(getClass().getName());
 
 	private static final String EMPRENDIMIENTO = "Emprendimiento";
-	private static final long INACTIVO = 1;
-	private static final long ACTIVO = 2;
+	private static final long INACTIVO = 1; 
+	private static final long ACTIVO = 2; 
 	private static final long BAJA = 3;
+	
+	
 
 	@Value("${server.host}")
 	private String serverHost;
@@ -220,7 +225,7 @@ public class EmprendimientoService {
 
 		return config;
 	}
-
+	
 	public void exportPDF(HttpServletResponse response, Long id) {
 		response.setContentType("application/pdf");
 
@@ -282,5 +287,97 @@ public class EmprendimientoService {
 
 		return repository.save(emprendimiento);
 	}
+		
+	public String verificarEmprendimiento(Long id) {
+		
+		String respuesta = "No informo horarios";
+		
+		GregorianCalendar diaHoy = new GregorianCalendar();
+		String diahoy = traerDiaDeLaSemana(diaHoy);
+		String horahoy = traerHora(diaHoy);
+		
+		log.info("Hoy es  [{}]", diahoy);
+		List<ConfiguracionLocal> ListaConfigLocal = traerConfiguracionLocal(id);
+		
+		for ( int i=0; i < ListaConfigLocal.size() ; i++) {
+			
+			String diaLocal = ListaConfigLocal.get(i).getDiaSemana();
+			
+			while ( diahoy.compareTo(diaLocal)==0 ) {
+					
+				String turno1desde = ListaConfigLocal.get(i).getTurno1Desde();	
+				String turno1hasta = ListaConfigLocal.get(i).getTurno1Hasta();
+				String turno2desde = ListaConfigLocal.get(i).getTurno2Desde();
+				String turno2hasta = ListaConfigLocal.get(i).getTurno2Hasta();
+				
+				if ( turno1desde.compareTo(horahoy)==0 ||  turno1desde.compareTo(horahoy)<0 && turno1hasta.compareTo(horahoy)>0 ||
+						turno2desde.compareTo(horahoy)==0 || turno2desde.compareTo(horahoy)<0 && turno2hasta.compareTo(horahoy)>0) {
+					log.info("compara la hora y esta abierto");				
+					respuesta = "ABIERTO";
+				} else {
+					log.info("esta cerrado ahora el emprendimiento");				
+					respuesta = "CERRADO";
+				}
+				diahoy="Salir";
+			}				
+		}
+		return respuesta;
+	}	
+	
+	public List<ConfiguracionLocal> traerConfiguracionLocal(Long id) {
+		log.info("Se traera la configuración local del emprendimiento del ID elegido");
+		
+		Emprendimiento emprendimiento = repository.findByIdEmprendimiento(id);
+		List<ConfiguracionLocal> configuracionLocal = new ArrayList<ConfiguracionLocal>();
+		configuracionLocal = emprendimiento.getConfiguracionLocales();
+		
+		return configuracionLocal;
+	}
+	
+	public static String traerHora(GregorianCalendar diaHoy) {
 
+		int hora = diaHoy.get(Calendar.HOUR_OF_DAY);
+		int minutos = diaHoy.get(Calendar.MINUTE);
+		
+		return (hora + ":" + minutos);
+	}
+	
+	public static String traerDiaDeLaSemana(GregorianCalendar diaHoy) {
+		String dia = "";
+
+		switch (diaHoy.get(Calendar.DAY_OF_WEEK)) {
+
+		case 1:
+			dia = "Domingo";
+			break;
+
+		case 2:
+			dia = "Lunes";
+			break;
+
+		case 3:
+			dia = "Martes";
+			break;
+
+		case 4:
+			dia = "Miercoles";
+			break;
+
+		case 5:
+			dia = "Jueves";
+			break;
+
+		case 6:
+			dia = "Viernes";
+			break;
+
+		case 7:
+			dia = "Sabado";
+			break;
+		}
+
+		return dia;
+	}
+	
+	
 }
