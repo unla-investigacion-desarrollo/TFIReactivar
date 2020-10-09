@@ -18,13 +18,13 @@ import com.unla.reactivar.models.Login;
 import com.unla.reactivar.models.Perfil;
 import com.unla.reactivar.models.Persona;
 import com.unla.reactivar.models.PersonaFisica;
-import com.unla.reactivar.models.PersonaJuridica;
 import com.unla.reactivar.models.ResetAndValidatingToken;
 import com.unla.reactivar.models.Ubicacion;
 import com.unla.reactivar.repositories.PersonaFisicaRepository;
 import com.unla.reactivar.utils.CuilValidator;
 import com.unla.reactivar.utils.DateUtils;
 import com.unla.reactivar.vo.PersonaFisicaVo;
+import com.unla.reactivar.vo.ReclamoVo;
 import com.unla.reactivar.vo.ReqPutPersonaFisicaVo;
 
 @Service
@@ -251,6 +251,17 @@ public class PersonaFisicaService {
 		log.info("Se eviara mail validar persona fisica [{}]", persona.getIdPersona());
 
 		mailSenderService.constructValidateEmail(token, persona);
+	}
+	
+	public void enviarReclamo(ReclamoVo reclamo) {
+		
+		PersonaFisica persona = repository.findByIdPersona(reclamo.getIdPersona());
+		if (persona == null) {
+			throw new ObjectNotFound("Persona");
+		}
+		
+		mailSenderService.constructReclamoEmail(persona, reclamo.getCampo());
+		
 	}
 
 	public void crearToken(Persona persona, String token) {

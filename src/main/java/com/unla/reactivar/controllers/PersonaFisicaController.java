@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.unla.reactivar.models.Persona;
 import com.unla.reactivar.models.PersonaFisica;
-import com.unla.reactivar.models.PersonaJuridica;
 import com.unla.reactivar.services.PersonaFisicaService;
 import com.unla.reactivar.vo.Empty;
 import com.unla.reactivar.vo.PersonaFisicaVo;
+import com.unla.reactivar.vo.ReclamoVo;
 import com.unla.reactivar.vo.ReqPutPersonaFisicaVo;
 
 import io.swagger.annotations.Api;
@@ -116,6 +116,13 @@ public class PersonaFisicaController {
 	public ResponseEntity<PersonaFisica> bajaLogicaPersonaFisica(@PathVariable("idPersonaFisica") Long id) {
 
 		return new ResponseEntity<>(service.bajaLogicaPersonaFisica(id), HttpStatus.OK);
+	}
+	
+	@PostMapping("/reclamo")
+	public ResponseEntity<Empty> crearReclamo(@RequestBody ReclamoVo reclamo) {
+		service.enviarReclamo(reclamo);
+
+		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
 
 }

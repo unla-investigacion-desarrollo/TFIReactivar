@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import com.unla.reactivar.exceptions.EmailSenderException;
 import com.unla.reactivar.models.Persona;
+import com.unla.reactivar.models.PersonaFisica;
 
 @Service
 public class MailSenderService {
@@ -66,6 +67,9 @@ public class MailSenderService {
 
 	@Value("${email.smtp.ssl.trust}")
 	private String smtpSslTrust;
+	
+	@Value("${email.reclamo.receptor}")
+	private String reclamoEmailReceiver;
 
 	@PostConstruct
 	private void postConstruct() {
@@ -94,7 +98,24 @@ public class MailSenderService {
 		logger.info("Se enviara mail reset token e email [{}]", persona.getIdPersona());
 		constructEmail("ReactivAR - Restablecer Contraseña", message, persona.getLogin().getEmail(), token);
 	}
+	
+	public void constructReclamoEmail(PersonaFisica persona, String campo) {
+		MimeMessage message = sender.createMimeMessage();
 
+		try {
+			MimeMessageHelper helper = new MimeMessageHelper(message, true);
+			helper.setSubject("ReactivAR - Reclamo: "+persona.getDni());
+			helper.setTo(reclamoEmailReceiver);
+			helper.setText(" Usuario: "+persona.getNombre()+" "+persona.getApellido()+"\n Email: "+ persona.getLogin().getEmail() + "\n Celular: "+ persona.getCelular() +"\n Mensaje: "+campo);
+			helper.setFrom(new InternetAddress(reclamoEmailReceiver));
+		} catch (MessagingException e) {
+			logger.error(e.getLocalizedMessage());
+			throw new EmailSenderException();
+		}
+
+		sender.send(message);
+	}
+	
 	public void constructValidateEmail(String token, Persona persona) {
 		File file = new File(verifyUserEmail);
 		String message = "";
