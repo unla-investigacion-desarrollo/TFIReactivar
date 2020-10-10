@@ -62,7 +62,7 @@ public class PersonaFisicaController {
 
 	@PostMapping
 	@ApiOperation(value = "Crear una PersonaFisica", notes = "Servicio para crear una Persona Fisica")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Persona Fisica creada exitosamente"),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Persona Fisica creada exitosamente"),
 			@ApiResponse(code = 400, message = "No se pudo crear Persona Fisica") })
 	public ResponseEntity<PersonaFisica> crearPersonaFisica(@RequestBody PersonaFisicaVo personaFisicaVo) {
 		PersonaFisica personaFisica = service.crearPersonaFisica(personaFisicaVo);

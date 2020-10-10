@@ -80,5 +80,5 @@ public class ConfiguracionLocalController {
 
 		return new ResponseEntity<>(service.actualizarConfiguracionLocal(id, configuracionLocalVo), HttpStatus.OK);
 	}
-
+	
 }

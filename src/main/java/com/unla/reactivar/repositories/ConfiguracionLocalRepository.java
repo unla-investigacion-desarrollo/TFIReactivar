@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.unla.reactivar.models.ConfiguracionLocal;
 import com.unla.reactivar.models.Emprendimiento;
 
+
 @Repository
 public interface ConfiguracionLocalRepository extends JpaRepository<ConfiguracionLocal, Long> {
 

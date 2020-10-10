@@ -248,7 +248,7 @@ public class PersonaFisicaService {
 		Random rnd = new Random();
 		String token = String.format("%09d", rnd.nextInt(999999999));
 		crearToken(persona, token);
-		log.info("Se eviara mail validar persona fisica [{}]", persona.getIdPersona());
+		log.info("Se enviara mail validar persona fisica [{}]",persona.getIdPersona());
 
 		mailSenderService.constructValidateEmail(token, persona);
 	}
