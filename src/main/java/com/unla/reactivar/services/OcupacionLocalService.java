@@ -103,6 +103,7 @@ public class OcupacionLocalService {
 
 		try {
 			ocupacion = repository.save(ocupacion);
+			verSalidas();
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
 				throw new ObjectAlreadyExists();
@@ -210,6 +211,7 @@ public class OcupacionLocalService {
 
 		try {
 			ocupacion = repository.save(ocupacion);
+			verSalidas();
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
 				throw new ObjectAlreadyExists();
@@ -217,5 +219,20 @@ public class OcupacionLocalService {
 		}
 
 		return ocupacion;
+	}
+	
+	private void verSalidas() {
+		List<OcupacionLocal> ocupacionesLocal = this.traerOcupacionesSinSalida();
+
+		if (!ocupacionesLocal.isEmpty()) {
+			for (OcupacionLocal ocupacion : ocupacionesLocal) {
+				Date fechaHoraEntrada = ocupacion.getFechaHoraEntrada();
+				int tiempoAtencion = ocupacion.getEmprendimiento().getConfiguracionLocales().get(0).getTiempoAtencion();
+				if (DateUtils.fechaHoy().getTime() > fechaHoraEntrada.getTime() + tiempoAtencion) {
+					ocupacion.setFechaHoraSalida(new Date(ocupacion.getFechaHoraEntrada().getTime() + tiempoAtencion * 60000));
+					this.actualizarFechaSalidaVacia(ocupacion);
+				}
+			}
+		}
 	}
 }

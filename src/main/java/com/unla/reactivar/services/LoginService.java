@@ -72,6 +72,7 @@ public class LoginService {
 		LoginPostResVo loginResp = new LoginPostResVo();
 		loginResp.setToken(login.getToken());
 		loginResp.setIdPersona(persona.getIdPersona());
+		loginResp.setIdPerfil(persona.getPerfil().getIdPerfil());
 		log.info("Se logea [{}]", email);
 
 		return loginResp;
@@ -93,6 +94,8 @@ public class LoginService {
 		LoginPostResVo loginResp = new LoginPostResVo();
 		loginResp.setToken(login.getToken());
 		loginResp.setIdPersona(persona.getIdPersona());
+		loginResp.setIdPerfil(persona.getPerfil().getIdPerfil());
+
 		log.info("Se logea [{}]", login.getEmail());
 
 		return loginResp;

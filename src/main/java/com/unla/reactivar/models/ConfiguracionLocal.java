@@ -3,6 +3,7 @@ package com.unla.reactivar.models;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -35,6 +36,7 @@ public class ConfiguracionLocal {
 	private String turno1Hasta;
 	private String turno2Desde;
 	private String turno2Hasta;
+	@Column(nullable = true)
 	private int intervaloTurnos;
 	private int tiempoAtencion;
 	private String usuarioModi;

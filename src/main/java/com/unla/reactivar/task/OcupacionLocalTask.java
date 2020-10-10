@@ -21,19 +21,23 @@ public class OcupacionLocalTask {
 	@Autowired
 	private OcupacionLocalService service;
 
-	private static final int DIEZ_MINUTOS = 600000;
-	private static final int CUARENTA_MINUTOS = 2400000;
+	private static final int CINCO_MINUTOS = 300000;
 
-	@Scheduled(fixedRate = DIEZ_MINUTOS)
+	@Scheduled(fixedRate = CINCO_MINUTOS)
 	public void completarSalidasNoMarcadas() {
 		log.info("Comienza tarea - Verificamos Ocupaciones No Marcadas");
+		verSalidas();
+	}
+
+	private void verSalidas() {
 		List<OcupacionLocal> ocupacionesLocal = service.traerOcupacionesSinSalida();
 
 		if (!ocupacionesLocal.isEmpty()) {
 			for (OcupacionLocal ocupacion : ocupacionesLocal) {
 				Date fechaHoraEntrada = ocupacion.getFechaHoraEntrada();
-				if (DateUtils.fechaHoy().getTime() > fechaHoraEntrada.getTime() + CUARENTA_MINUTOS) {
-					ocupacion.setFechaHoraSalida(new Date(ocupacion.getFechaHoraEntrada().getTime() + DIEZ_MINUTOS));
+				int tiempoAtencion = ocupacion.getEmprendimiento().getConfiguracionLocales().get(0).getTiempoAtencion();
+				if (DateUtils.fechaHoy().getTime() > fechaHoraEntrada.getTime() + tiempoAtencion) {
+					ocupacion.setFechaHoraSalida(new Date(ocupacion.getFechaHoraEntrada().getTime() + tiempoAtencion * 60000));
 					service.actualizarFechaSalidaVacia(ocupacion);
 				}
 			}

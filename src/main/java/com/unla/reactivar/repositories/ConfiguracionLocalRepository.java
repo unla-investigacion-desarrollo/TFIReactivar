@@ -15,7 +15,7 @@ public interface ConfiguracionLocalRepository extends JpaRepository<Configuracio
 
 	public ConfiguracionLocal findByIdConfiguracionLocal(Long id);
 	
-	@Query("select c from ConfiguracionLocal c where c.emprendimiento= ?1")
+	@Query("select c from ConfiguracionLocal c where c.emprendimiento= ?1 and c.intervaloTurnos > 0")
 	public List<ConfiguracionLocal> findByEmprendimiento(Emprendimiento emprendimiento);
 
 }
