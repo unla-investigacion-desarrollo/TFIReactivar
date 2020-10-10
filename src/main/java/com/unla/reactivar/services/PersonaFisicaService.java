@@ -4,6 +4,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -238,8 +239,12 @@ public class PersonaFisicaService {
 		persona.setCelular(personaFisicaVo.getCelular());
 		persona.setUsuarioModi(persona.getCuil());
 		persona.setFechaModi(DateUtils.fechaHoy());
-		persona.getLogin().setEmail(personaFisicaVo.getMail());
-		persona.getLogin().setClave(personaFisicaVo.getPassword());
+		if(StringUtils.isBlank(personaFisicaVo.getMail())) {
+			persona.getLogin().setEmail(personaFisicaVo.getMail());
+		}
+		if(StringUtils.isBlank(personaFisicaVo.getPassword())) {
+			persona.getLogin().setClave(personaFisicaVo.getPassword());
+		}
 		
 	}
 
