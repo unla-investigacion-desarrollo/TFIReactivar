@@ -23,9 +23,9 @@ public class GetResEmprendimientoVo {
 	private TipoEmprendimiento tipoEmprendimiento;
 	private Ubicacion ubicacion;
 	private Rubro rubro;
-	private Persona persona;
 
 	private boolean usaTurnos;
 	private int nroColor;
+	private int cantPersonasEnLocal;
 
 }

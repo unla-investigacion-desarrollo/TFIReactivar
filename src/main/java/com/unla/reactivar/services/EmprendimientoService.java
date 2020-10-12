@@ -440,7 +440,6 @@ public class EmprendimientoService {
 		getResEmprendimientoVo.setTipoEmprendimiento(emprendimiento.getTipoEmprendimiento());
 		getResEmprendimientoVo.setUbicacion(emprendimiento.getUbicacion());
 		getResEmprendimientoVo.setRubro(emprendimiento.getRubro());
-		getResEmprendimientoVo.setPersona(emprendimiento.getPersona());
 
 		getResEmprendimientoVo.setNroColor(traerNroColor(emprendimiento.getCapacidad(),
 				ocupacionLocalService.traerCantidadClientes(emprendimiento.getIdEmprendimiento())));
@@ -452,6 +451,8 @@ public class EmprendimientoService {
 		} else {
 			getResEmprendimientoVo.setUsaTurnos(false);
 		}
+		
+		getResEmprendimientoVo.setCantPersonasEnLocal(ocupacionLocalService.traerCantidadClientes(emprendimiento.getIdEmprendimiento()));
 
 	}
 
