@@ -40,7 +40,7 @@ public interface EmprendimientoRepository extends JpaRepository<Emprendimiento, 
 			+ "(SELECT ee.idEstadoEmprendimiento FROM EstadoEmprendimiento ee WHERE ee.idEstadoEmprendimiento= :estadoEmp)")
 	public List<Emprendimiento> findAllEmprendimientoByEstado(@Param("estadoEmp") Long estadoEmp);
 
-	@Query("select case when intervalo_turnos > 0 then true else false end from ConfiguracionLocal where id_emprendimiento= ?1")
-	public boolean usaTurno(Long idEmprendimiento);
+	@Query("select case when sum(cl.intervaloTurnos) > 0 then true else false end from ConfiguracionLocal cl where cl.emprendimiento=?1 group by cl.emprendimiento ")
+	public boolean usaTurno(Emprendimiento emprendimiento);
 
 }

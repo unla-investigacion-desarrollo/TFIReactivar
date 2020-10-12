@@ -445,7 +445,7 @@ public class EmprendimientoService {
 		getResEmprendimientoVo.setNroColor(traerNroColor(emprendimiento.getCapacidad(),
 				ocupacionLocalService.traerCantidadClientes(emprendimiento.getIdEmprendimiento())));
 
-		usaTurno = repository.usaTurno(emprendimiento.getIdEmprendimiento());
+		usaTurno = repository.usaTurno(emprendimiento);
 
 		if (usaTurno == true) {
 			getResEmprendimientoVo.setUsaTurnos(usaTurno);
