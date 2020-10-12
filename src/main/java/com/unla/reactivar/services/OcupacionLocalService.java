@@ -179,15 +179,16 @@ public class OcupacionLocalService {
 	}
 
 	@Transactional
-	public OcupacionLocal crearOcupacionLocalDni(String idEmprendimientoBase64, OcupacionLocalDniVo ocupacionLocalDniVo) {
+	public OcupacionLocal crearOcupacionLocalDni(String idEmprendimientoBase64,
+			OcupacionLocalDniVo ocupacionLocalDniVo) {
 		PersonaFisica persona = personaFisicaService.traerPersonaFisicaPorDni(ocupacionLocalDniVo.getDniPersona());
-		
+
 		if (persona == null) {
 			PersonaFisicaVo personaVo = new PersonaFisicaVo();
 			personaVo.setDni(ocupacionLocalDniVo.getDniPersona());
 			persona = personaFisicaService.crearPersonaFisica(personaVo);
 		}
-		
+
 		OcupacionLocalVo ocupacionVo = new OcupacionLocalVo();
 		long idEmprendimiento = Long.valueOf(new String(Base64Utils.decodeFromString(idEmprendimientoBase64)));
 		long idPersona = persona.getIdPersona();
@@ -198,7 +199,8 @@ public class OcupacionLocalService {
 		OcupacionLocal ocupacion = repository.findByEmprendimientoPersona(idEmprendimiento, idPersona);
 
 		if (ocupacion != null) {
-			log.info("Se marca salida Ocupacion local con dni emprendimiento [{}]", ocupacion.getEmprendimiento().getNombre());
+			log.info("Se marca salida Ocupacion local con dni emprendimiento [{}]",
+					ocupacion.getEmprendimiento().getNombre());
 			ocupacion.setFechaHoraSalida(DateUtils.fechaHoy());
 			ocupacion.setFechaModi(DateUtils.fechaHoy());
 			ocupacion.setUsuarioModi(ocupacionLocalDniVo.getUsuarioModi());
@@ -220,7 +222,7 @@ public class OcupacionLocalService {
 
 		return ocupacion;
 	}
-	
+
 	private void verSalidas() {
 		List<OcupacionLocal> ocupacionesLocal = this.traerOcupacionesSinSalida();
 
@@ -229,10 +231,16 @@ public class OcupacionLocalService {
 				Date fechaHoraEntrada = ocupacion.getFechaHoraEntrada();
 				int tiempoAtencion = ocupacion.getEmprendimiento().getConfiguracionLocales().get(0).getTiempoAtencion();
 				if (DateUtils.fechaHoy().getTime() > fechaHoraEntrada.getTime() + tiempoAtencion) {
-					ocupacion.setFechaHoraSalida(new Date(ocupacion.getFechaHoraEntrada().getTime() + tiempoAtencion * 60000));
+					ocupacion.setFechaHoraSalida(
+							new Date(ocupacion.getFechaHoraEntrada().getTime() + tiempoAtencion * 60000));
 					this.actualizarFechaSalidaVacia(ocupacion);
 				}
 			}
 		}
+	}
+
+	@Transactional
+	public int traerCantidadClientes(long idEmprendimiento) {
+		return repository.traerCantidadClientes(idEmprendimiento);
 	}
 }

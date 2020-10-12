@@ -26,7 +26,7 @@ public interface EmprendimientoRepository extends JpaRepository<Emprendimiento, 
 
 	@Query("SELECT e FROM Emprendimiento e WHERE e.estadoEmprendimiento=1")
 	public List<Emprendimiento> findAllInactivos();
-	
+
 	@Query(value = "{SELECT cl FROM configuracion_local cl JOIN emprendimiento e WHERE cl.id_configuracion_local=(:id_emprendimiento)}", nativeQuery = true)
 	List<ConfiguracionLocal> traerConfiguracionLocal(@Param("id_emprendimiento") long id);
 
@@ -40,6 +40,7 @@ public interface EmprendimientoRepository extends JpaRepository<Emprendimiento, 
 			+ "(SELECT ee.idEstadoEmprendimiento FROM EstadoEmprendimiento ee WHERE ee.idEstadoEmprendimiento= :estadoEmp)")
 	public List<Emprendimiento> findAllEmprendimientoByEstado(@Param("estadoEmp") Long estadoEmp);
 
-	
+	@Query("select case when intervalo_turnos > 0 then true else false end from ConfiguracionLocal where id_emprendimiento= ?1")
+	public boolean usaTurno(Long idEmprendimiento);
 
 }
