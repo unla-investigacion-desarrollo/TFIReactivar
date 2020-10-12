@@ -18,7 +18,7 @@ public class CuilValidator {
 		boolean flag = true;
 		
 		
-		if(!StringUtils.isBlank(dni) && !cuil.substring(2, cuil.length()).equals(dni)) {
+		if(!StringUtils.isBlank(dni) && !cuil.substring(2, cuil.length()-1).equals(dni)) {
 			throw new InvalidCuilCuit();
 		}
 		

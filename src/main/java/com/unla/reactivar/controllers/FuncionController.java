@@ -73,7 +73,7 @@ public class FuncionController {
 	@ApiOperation(value = "Modificar una Función por ID", notes = "Servicio para modificar una Función a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Función modificada con exito"),
 			@ApiResponse(code = 404, message = "Función no encontrada") })
-	public ResponseEntity<Funcion> updateFuncion(@PathVariable("idFuncion") Long id, FuncionVo funcionVo) {
+	public ResponseEntity<Funcion> updateFuncion(@PathVariable("idFuncion") Long id, @RequestBody FuncionVo funcionVo) {
 
 		return new ResponseEntity<>(service.actualizarFuncion(id, funcionVo), HttpStatus.OK);
 	}

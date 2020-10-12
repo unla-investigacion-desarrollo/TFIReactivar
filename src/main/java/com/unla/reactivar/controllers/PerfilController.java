@@ -82,7 +82,7 @@ public class PerfilController {
 	@ApiOperation(value = "Modificar un Perfil por ID", notes = "Servicio para modificar un Perfil a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Perfil modificado exitosamente"),
 			@ApiResponse(code = 404, message = "Perfil no encontrado") })
-	public ResponseEntity<Perfil> updatePerfil(@PathVariable("idPerfil") Long id, PerfilVo perfilVo) {
+	public ResponseEntity<Perfil> updatePerfil(@PathVariable("idPerfil") Long id, @RequestBody PerfilVo perfilVo) {
 
 		return new ResponseEntity<>(service.actualizarPerfil(id, perfilVo), HttpStatus.OK);
 	}

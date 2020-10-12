@@ -77,7 +77,7 @@ public class OcupacionLocalController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Ocupación Local modificada exitosamente"),
 			@ApiResponse(code = 404, message = "Ocupación Local no encontrada") })
 	public ResponseEntity<OcupacionLocal> updateOcupacionLocal(@PathVariable("idOcupacionLocal") Long id,
-			OcupacionLocalVo ocupacionLocalVo) {
+			@RequestBody OcupacionLocalVo ocupacionLocalVo) {
 
 		return new ResponseEntity<>(service.actualizarOcupacionLocal(id, ocupacionLocalVo), HttpStatus.OK);
 	}

@@ -73,7 +73,7 @@ public class CategoriaController {
 	@ApiOperation(value = "Update Categoria", notes = "Categoria updater service")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Categoria successfully updated"),
 			@ApiResponse(code = 404, message = "Categoria not found") })
-	public ResponseEntity<Categoria> updateCategoria(@PathVariable("idCategoria") Long id, CategoriaVo categoriaVo) {
+	public ResponseEntity<Categoria> updateCategoria(@PathVariable("idCategoria") Long id, @RequestBody CategoriaVo categoriaVo) {
 
 		return new ResponseEntity<>(service.actualizarCategoria(id, categoriaVo), HttpStatus.OK);
 	}

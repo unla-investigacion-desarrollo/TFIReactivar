@@ -73,7 +73,7 @@ public class LlevaPagaController {
 	@ApiOperation(value = "Modificar una promoción Lleva y Paga por ID", notes = "Servicio para modificar una promoción Lleva y Paga a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Promoción Lleva y Paga modificada correctamente"),
 			@ApiResponse(code = 404, message = "No se encontro promoción Lleva y Paga") })
-	public ResponseEntity<LlevaPaga> updateLlevaPaga(@PathVariable("idLlevaPaga") Long id, LlevaPagaVo llevaPagaVo) {
+	public ResponseEntity<LlevaPaga> updateLlevaPaga(@PathVariable("idLlevaPaga") Long id, @RequestBody LlevaPagaVo llevaPagaVo) {
 
 		return new ResponseEntity<>(service.actualizarLlevaPaga(id, llevaPagaVo), HttpStatus.OK);
 	}

@@ -78,7 +78,7 @@ public class RubroController {
 	@ApiOperation(value = "Modificar un Rubro por ID", notes = "Servicio para moficar un Rubro a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Rubro modificado exitosamente"),
 			@ApiResponse(code = 404, message = "Rubro no encontrado") })
-	public ResponseEntity<Rubro> updateRubro(@PathVariable("idRubro") Long id, RubroVo rubroVo) {
+	public ResponseEntity<Rubro> updateRubro(@PathVariable("idRubro") Long id, @RequestBody RubroVo rubroVo) {
 
 		return new ResponseEntity<>(service.actualizarRubro(id, rubroVo), HttpStatus.OK);
 	}

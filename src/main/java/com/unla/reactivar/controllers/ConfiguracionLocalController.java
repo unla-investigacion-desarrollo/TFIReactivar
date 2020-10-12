@@ -76,7 +76,7 @@ public class ConfiguracionLocalController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Configuracion Local modificada con exito"),
 			@ApiResponse(code = 404, message = "Configuracion Local no encontrada") })
 	public ResponseEntity<ConfiguracionLocal> updateConfiguracionLocal(@PathVariable("idConfiguracionLocal") Long id,
-			ConfiguracionLocalVo configuracionLocalVo) {
+			@RequestBody ConfiguracionLocalVo configuracionLocalVo) {
 
 		return new ResponseEntity<>(service.actualizarConfiguracionLocal(id, configuracionLocalVo), HttpStatus.OK);
 	}

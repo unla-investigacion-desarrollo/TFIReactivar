@@ -74,7 +74,7 @@ public class EstadoPersonaController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "EstadoPersona successfully updated"),
 			@ApiResponse(code = 404, message = "EstadoPersona not found") })
 	public ResponseEntity<EstadoPersona> updateEstadoPersona(@PathVariable("idEstadoPersona") Long id,
-			EstadoPersonaVo estadoPersonaVo) {
+			@RequestBody EstadoPersonaVo estadoPersonaVo) {
 
 		return new ResponseEntity<>(service.actualizarEstadoPersona(id, estadoPersonaVo), HttpStatus.OK);
 	}

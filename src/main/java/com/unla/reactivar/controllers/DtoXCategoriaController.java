@@ -74,7 +74,7 @@ public class DtoXCategoriaController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Descuento por Categoria modificado correctamente"),
 			@ApiResponse(code = 404, message = "Descuento por Categoria no encontrado") })
 	public ResponseEntity<DtoXCategoria> updateDtoXCategoria(@PathVariable("idDtoXCategoria") Long id,
-			DtoXCategoriaVo dtoXCategoriaVo) {
+			@RequestBody DtoXCategoriaVo dtoXCategoriaVo) {
 
 		return new ResponseEntity<>(service.actualizarDtoXCategoria(id, dtoXCategoriaVo), HttpStatus.OK);
 	}

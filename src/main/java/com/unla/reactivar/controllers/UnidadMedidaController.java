@@ -74,7 +74,7 @@ public class UnidadMedidaController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Unidad de Medida modificada exitosamente"),
 			@ApiResponse(code = 404, message = "Unidad de Medida no encontrada") })
 	public ResponseEntity<UnidadMedida> updateUnidadMedida(@PathVariable("idUnidadMedida") Long id,
-			UnidadMedidaVo unidadMedidaVo) {
+			@RequestBody UnidadMedidaVo unidadMedidaVo) {
 
 		return new ResponseEntity<>(service.actualizarUnidadMedida(id, unidadMedidaVo), HttpStatus.OK);
 	}

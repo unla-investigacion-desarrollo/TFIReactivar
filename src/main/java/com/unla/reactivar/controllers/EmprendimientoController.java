@@ -134,7 +134,7 @@ public class EmprendimientoController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimiento modificado correctamente"),
 			@ApiResponse(code = 404, message = "Emprendimiento no encontrado") })
 	public ResponseEntity<Emprendimiento> updateEmprendimiento(@PathVariable("idEmprendimiento") long id,
-			ReqPutEmprendimientoVo emprendimientoVo) {
+			@RequestBody ReqPutEmprendimientoVo emprendimientoVo) {
 
 		return new ResponseEntity<>(service.actualizarEmprendimiento(id, emprendimientoVo), HttpStatus.OK);
 	}

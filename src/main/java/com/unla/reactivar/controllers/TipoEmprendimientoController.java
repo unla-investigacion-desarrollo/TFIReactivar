@@ -75,7 +75,7 @@ public class TipoEmprendimientoController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Tipo de Emprendimiento creado exitosamente"),
 			@ApiResponse(code = 404, message = "Tipo de Emprendimiento no encontrado") })
 	public ResponseEntity<TipoEmprendimiento> updateTipoEmprendimiento(@PathVariable("idTipoEmprendimiento") Long id,
-			TipoEmprendimientoVo tipoEmprendimientoVo) {
+			@RequestBody TipoEmprendimientoVo tipoEmprendimientoVo) {
 
 		return new ResponseEntity<>(service.actualizarTipoEmprendimiento(id, tipoEmprendimientoVo), HttpStatus.OK);
 	}

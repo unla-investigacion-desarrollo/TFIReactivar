@@ -73,7 +73,7 @@ public class UbicacionController {
 	@ApiOperation(value = "Modificar una Ubicación por ID", notes = "Servicio para modificar una Ubicación")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Ubicación modificada exitosamente"),
 			@ApiResponse(code = 404, message = "Ubicación no encontrada") })
-	public ResponseEntity<Ubicacion> updateUbicacion(@PathVariable("idUbicacion") Long id, UbicacionVo ubicacionVo) {
+	public ResponseEntity<Ubicacion> updateUbicacion(@PathVariable("idUbicacion") Long id, @RequestBody UbicacionVo ubicacionVo) {
 
 		return new ResponseEntity<>(service.actualizarUbicacion(id, ubicacionVo), HttpStatus.OK);
 	}

@@ -74,7 +74,7 @@ public class CarritoController {
 	@ApiOperation(value = "Modificar Carrito por ID", notes = "Servicio para modificar un Carrito a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Carrito modificado exitosamente"),
 			@ApiResponse(code = 404, message = "Carrito no encontrado") })
-	public ResponseEntity<Carrito> updateCarrito(@PathVariable("idCarrito") Long id, ReqPutCarritoVo carritoVo) {
+	public ResponseEntity<Carrito> updateCarrito(@PathVariable("idCarrito") Long id, @RequestBody ReqPutCarritoVo carritoVo) {
 
 		return new ResponseEntity<>(service.actualizarCarrito(id, carritoVo), HttpStatus.OK);
 	}

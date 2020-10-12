@@ -73,7 +73,7 @@ public class MarcaController {
 	@ApiOperation(value = "Modificar una Marca por ID", notes = "Servicio para modificar una Marca a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Marca modificada correctamente"),
 			@ApiResponse(code = 404, message = "Marca no encontrada") })
-	public ResponseEntity<Marca> updateMarca(@PathVariable("idMarca") Long id, MarcaVo marcaVo) {
+	public ResponseEntity<Marca> updateMarca(@PathVariable("idMarca") Long id, @RequestBody MarcaVo marcaVo) {
 
 		return new ResponseEntity<>(service.actualizarMarca(id, marcaVo), HttpStatus.OK);
 	}

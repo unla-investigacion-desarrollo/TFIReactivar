@@ -74,7 +74,7 @@ public class FuncionPerfilController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Función de Perfil modificada con exito"),
 			@ApiResponse(code = 404, message = "Función de Perfil no encontrada") })
 	public ResponseEntity<FuncionPerfil> updateFuncionPerfil(@PathVariable("idFuncionPerfil") Long id,
-			FuncionPerfilVo funcionPerfilVo) {
+			@RequestBody FuncionPerfilVo funcionPerfilVo) {
 
 		return new ResponseEntity<>(service.actualizarFuncionPerfil(id, funcionPerfilVo), HttpStatus.OK);
 	}

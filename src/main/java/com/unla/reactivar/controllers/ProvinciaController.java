@@ -82,7 +82,7 @@ public class ProvinciaController {
 	@ApiOperation(value = "Modificar una Provincia por ID", notes = "Servicio para modificar una Provincia a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Provincia modificada exitosamente"),
 			@ApiResponse(code = 404, message = "Provincia no encontrada") })
-	public ResponseEntity<Provincia> updateProvincia(@PathVariable("idProvincia") Long id, ProvinciaVo provinciaVo) {
+	public ResponseEntity<Provincia> updateProvincia(@PathVariable("idProvincia") Long id, @RequestBody ProvinciaVo provinciaVo) {
 
 		return new ResponseEntity<>(service.actualizarProvincia(id, provinciaVo), HttpStatus.OK);
 	}

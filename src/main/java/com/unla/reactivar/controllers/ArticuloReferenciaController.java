@@ -75,7 +75,7 @@ public class ArticuloReferenciaController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Articulo Referencia modificado exitosamente"),
 			@ApiResponse(code = 404, message = "Articulo Referencia no encontrado") })
 	public ResponseEntity<ArticuloReferencia> updateArticuloReferencia(@PathVariable("idArticuloReferencia") Long id,
-			ReqArticuloReferenciaVo articuloReferenciaVo) {
+			@RequestBody ReqArticuloReferenciaVo articuloReferenciaVo) {
 
 		return new ResponseEntity<>(service.actualizarArticuloReferencia(id, articuloReferenciaVo), HttpStatus.OK);
 	}

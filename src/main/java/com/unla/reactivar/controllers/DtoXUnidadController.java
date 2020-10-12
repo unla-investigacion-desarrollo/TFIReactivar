@@ -75,7 +75,7 @@ public class DtoXUnidadController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Descuento por Unidad modificado correctamente"),
 			@ApiResponse(code = 404, message = "Descuento por Unidad no encontrado") })
 	public ResponseEntity<Promocion> updateDtoXUnidad(@PathVariable("idDtoXUnidad") Long id,
-			DtoXUnidadVo dtoXUnidadVo) {
+			@RequestBody DtoXUnidadVo dtoXUnidadVo) {
 
 		return new ResponseEntity<>(service.actualizarDtoXUnidad(id, dtoXUnidadVo), HttpStatus.OK);
 	}

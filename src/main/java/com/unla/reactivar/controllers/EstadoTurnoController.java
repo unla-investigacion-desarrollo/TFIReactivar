@@ -74,7 +74,7 @@ public class EstadoTurnoController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Estado Turno modificado exitosamente"),
 			@ApiResponse(code = 404, message = "Estado Turno no encontrado") })
 	public ResponseEntity<EstadoTurno> updateEstadoTurno(@PathVariable("idEstadoTurno") Long id,
-			EstadoTurnoVo estadoTurnoVo) {
+			@RequestBody EstadoTurnoVo estadoTurnoVo) {
 
 		return new ResponseEntity<>(service.actualizarEstadoTurno(id, estadoTurnoVo), HttpStatus.OK);
 	}

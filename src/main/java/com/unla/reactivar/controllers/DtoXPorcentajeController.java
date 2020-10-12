@@ -74,7 +74,7 @@ public class DtoXPorcentajeController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Descuento por Porcentaje modificado con exito"),
 			@ApiResponse(code = 404, message = "Descuento por Porcentaje no encontrado") })
 	public ResponseEntity<DtoXPorcentaje> updateDtoXPorcentaje(@PathVariable("idDtoXPorcentaje") Long id,
-			DtoXPorcentajeVo dtoXPorcentajeVo) {
+			@RequestBody DtoXPorcentajeVo dtoXPorcentajeVo) {
 
 		return new ResponseEntity<>(service.actualizarDtoXPorcentaje(id, dtoXPorcentajeVo), HttpStatus.OK);
 	}
