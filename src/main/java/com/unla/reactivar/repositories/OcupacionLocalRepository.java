@@ -22,4 +22,7 @@ public interface OcupacionLocalRepository extends JpaRepository<OcupacionLocal, 
 
 	public List<OcupacionLocal> findByFechaHoraSalidaIsNull();
 
+	@Query("select count(*) from OcupacionLocal where id_emprendimiento = ?1  and fecha_hora_salida = null")
+	public int traerCantidadClientes(Long idEmprendimiento);
+
 }

@@ -1,6 +1,5 @@
 package com.unla.reactivar.controllers;
 
-
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +24,7 @@ import com.unla.reactivar.models.Turno;
 import com.unla.reactivar.services.EmprendimientoService;
 import com.unla.reactivar.vo.EmprendimientoVo;
 import com.unla.reactivar.vo.Empty;
+import com.unla.reactivar.vo.GetResEmprendimientoVo;
 import com.unla.reactivar.vo.ReqPutEmprendimientoVo;
 
 import io.swagger.annotations.Api;
@@ -87,12 +87,13 @@ public class EmprendimientoController {
 	public Emprendimiento traerEmprendimiento(@PathVariable("idEmprendimiento") long id) {
 		return service.traerEmprendimientoPorId(id);
 	}
-	
+
 	@GetMapping("/{idEmprendimiento}/turnos")
 	@ApiOperation(value = "Mostrar un Emprendimiento por ID", notes = "Servicio para mostrar un Emprendimiento a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimiento encontrado"),
 			@ApiResponse(code = 404, message = "Emprendimiento no encontrado") })
-	public List<Turno> traerTurnosDeEmprendimiento(@PathVariable("idEmprendimiento") long id, @RequestParam long estadoTurno) {
+	public List<Turno> traerTurnosDeEmprendimiento(@PathVariable("idEmprendimiento") long id,
+			@RequestParam long estadoTurno) {
 		return service.traerTurnosPorEmprendimiento(id, estadoTurno);
 	}
 
@@ -100,10 +101,11 @@ public class EmprendimientoController {
 	@ApiOperation(value = "Mostrar emprendimientos activos de un rubro especifico bajo la distancia elegida", notes = "Service para mostrar emprendimientos activos de un rubro especifico bajo la distancia elegida")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimientos encontrados"),
 			@ApiResponse(code = 404, message = "Emprendimiento no encontrado") })
-	public ResponseEntity<List<Emprendimiento>> traerEmprendimientosCercanos(@PathVariable("idRubro") long idRubro,
-			@PathVariable("idPersona") long idPersona, @PathVariable("cantidadKm") String cantidadKm) {
-		List<Emprendimiento> traerEmprendimientosCercanos = service.traerEmprendimientosCercanos(idRubro, idPersona,
-				cantidadKm);
+	public ResponseEntity<List<GetResEmprendimientoVo>> traerEmprendimientosCercanos(
+			@PathVariable("idRubro") long idRubro, @PathVariable("idPersona") long idPersona,
+			@PathVariable("cantidadKm") String cantidadKm) {
+		List<GetResEmprendimientoVo> traerEmprendimientosCercanos = service.traerEmprendimientosCercanos(idRubro,
+				idPersona, cantidadKm);
 
 		return new ResponseEntity<>(traerEmprendimientosCercanos, HttpStatus.OK);
 	}
@@ -165,18 +167,18 @@ public class EmprendimientoController {
 
 		return new ResponseEntity<>(service.habilitarEmprendimiento(id), HttpStatus.OK);
 	}
-	
 
 	@GetMapping("/{idEmprendimiento}/traerConfiguracionLocal")
 	@ApiOperation(value = "Listar configuraciones del local de un Emprendimiento", notes = "Servicio para Listar Configuraciones de Local de un emprendimiento")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimiento encontrado con su Lista de configuración"),
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Emprendimiento encontrado con su Lista de configuración"),
 			@ApiResponse(code = 404, message = "Emprendimiento no encontrado") })
 	public List<ConfiguracionLocal> traerConfiguracionLocal(@PathVariable("idEmprendimiento") long id) {
 		List<ConfiguracionLocal> traerConfiguracionLocal = service.traerConfiguracionLocal(id);
-		
+
 		return traerConfiguracionLocal;
 	}
-	
+
 	@GetMapping("/{idEmprendimiento}/verificarEmprendimiento")
 	@ApiOperation(value = "Muestra el estado actual (abierto/cerrado) del emprendimiento", notes = "Servicio para mostrar el estado actual (abierto/cerrado) del emprendimiento segun su Configuración Local")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimiento encontrado"),
@@ -184,7 +186,5 @@ public class EmprendimientoController {
 	public String verificarEmprendimiento(@PathVariable("idEmprendimiento") long id) {
 		return service.verificarEmprendimiento(id);
 	}
-	
-	
 
 }

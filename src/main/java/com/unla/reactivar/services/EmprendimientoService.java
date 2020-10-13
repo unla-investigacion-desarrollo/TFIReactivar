@@ -36,6 +36,7 @@ import com.unla.reactivar.utils.DateUtils;
 import com.unla.reactivar.utils.QREmprendimientoPDFExporter;
 import com.unla.reactivar.vo.ConfiguracionLocalVo;
 import com.unla.reactivar.vo.EmprendimientoVo;
+import com.unla.reactivar.vo.GetResEmprendimientoVo;
 import com.unla.reactivar.vo.ReqPutEmprendimientoVo;
 
 @Service
@@ -45,17 +46,19 @@ public class EmprendimientoService {
 	private final Logger log = LoggerFactory.getLogger(getClass().getName());
 
 	private static final String EMPRENDIMIENTO = "Emprendimiento";
-	private static final long INACTIVO = 1; 
-	private static final long ACTIVO = 2; 
+	private static final long INACTIVO = 1;
+	private static final long ACTIVO = 2;
 	private static final long BAJA = 3;
 	private static final long VENDEDOR = 3;
 
-	
-	
+
+	private static final int VERDE = 1;
+	private static final int AMARILLO = 2;
+	private static final int ROJO = 3;
 
 	@Value("${server.host}")
 	private String serverHost;
-	
+
 	@Autowired
 	private EmprendimientoRepository repository;
 
@@ -73,12 +76,15 @@ public class EmprendimientoService {
 
 	@Autowired
 	private EstadoEmprendimientoService estadoEmprendimientoService;
-	
+
 	@Autowired
 	private TurnoService turnoService;
 	
 	@Autowired
 	private PerfilService perfilService;
+	
+	@Autowired
+	private OcupacionLocalService ocupacionLocalService;
 
 	public Emprendimiento traerEmprendimientoPorId(Long id) {
 		log.info("Se traera un Emprendimiento por id");
@@ -94,18 +100,17 @@ public class EmprendimientoService {
 		log.info("Se traeran todos los emprendimientos inactivos");
 		return repository.findAllInactivos();
 	}
-	
+
 	public List<Emprendimiento> traerTodosEmprendimientosActivos() {
 		log.info("Se traeran todos los emprendimientos activos");
 		return repository.findAllActivos();
 	}
-	
+
 	public List<Emprendimiento> traerTodosEmprendimientosEnBaja() {
 		log.info("Se traeran todos los emprendimientos dados de baja");
 		return repository.findAllBajas();
 	}
-	
-	
+
 	public List<Emprendimiento> traerTodosEmprendimientosPorEstado(Long idEstadoEmprendimiento) {
 		log.info("Se traeran todos los emprendimientos a partir del id del estado de emprendimiento ingresado");
 		return repository.findAllEmprendimientoByEstado(idEstadoEmprendimiento);
@@ -117,9 +122,21 @@ public class EmprendimientoService {
 	}
 
 	@Transactional(readOnly = false)
-	public List<Emprendimiento> traerEmprendimientosCercanos(long idRubro, long idPersona, String cantidadKm) {
+	public List<GetResEmprendimientoVo> traerEmprendimientosCercanos(long idRubro, long idPersona, String cantidadKm) {
 		log.info("Se traeran todos los emprendimientos por distancia");
-		return repository.traerEmprendimientosCercanos(idRubro, idPersona, cantidadKm);
+		List<Emprendimiento> listaEmprendimientosCercanos = repository.traerEmprendimientosCercanos(idRubro, idPersona,
+				cantidadKm);
+		List<GetResEmprendimientoVo> listaEmprendimientosCercanosVo = new ArrayList();
+
+		for (int i = 0; i < listaEmprendimientosCercanos.size(); i++) {
+			GetResEmprendimientoVo getResEmprendimientoVo = new GetResEmprendimientoVo();
+			Emprendimiento emprendimiento = listaEmprendimientosCercanos.get(i);
+			adaptarEmprendimientoAGetResEmprendimientoVo(getResEmprendimientoVo, emprendimiento);
+			listaEmprendimientosCercanosVo.add(getResEmprendimientoVo);
+		}
+
+		return listaEmprendimientosCercanosVo;
+
 	}
 
 	@Transactional
@@ -257,7 +274,7 @@ public class EmprendimientoService {
 
 		return config;
 	}
-	
+
 	public void exportPDF(HttpServletResponse response, Long id) {
 		response.setContentType("application/pdf");
 
@@ -326,61 +343,62 @@ public class EmprendimientoService {
 		return turnos;
 	}
 
-		
 	public String verificarEmprendimiento(Long id) {
-		
+
 		String respuesta = "No informo horarios";
-		
+
 		GregorianCalendar diaHoy = new GregorianCalendar();
 		String diahoy = traerDiaDeLaSemana(diaHoy);
 		String horahoy = traerHora(diaHoy);
-		
+
 		log.info("Hoy es  [{}]", diahoy);
 		List<ConfiguracionLocal> ListaConfigLocal = traerConfiguracionLocal(id);
-		
-		for ( int i=0; i < ListaConfigLocal.size() ; i++) {
-			
+
+		for (int i = 0; i < ListaConfigLocal.size(); i++) {
+
 			String diaLocal = ListaConfigLocal.get(i).getDiaSemana();
-			
-			while ( diahoy.compareTo(diaLocal)==0 ) {
-					
-				String turno1desde = ListaConfigLocal.get(i).getTurno1Desde();	
+
+			while (diahoy.compareTo(diaLocal) == 0) {
+
+				String turno1desde = ListaConfigLocal.get(i).getTurno1Desde();
 				String turno1hasta = ListaConfigLocal.get(i).getTurno1Hasta();
 				String turno2desde = ListaConfigLocal.get(i).getTurno2Desde();
 				String turno2hasta = ListaConfigLocal.get(i).getTurno2Hasta();
-				
-				if ( turno1desde.compareTo(horahoy)==0 ||  turno1desde.compareTo(horahoy)<0 && turno1hasta.compareTo(horahoy)>0 ||
-						turno2desde.compareTo(horahoy)==0 || turno2desde.compareTo(horahoy)<0 && turno2hasta.compareTo(horahoy)>0) {
-					log.info("compara la hora y esta abierto");				
+
+				if (turno1desde.compareTo(horahoy) == 0
+						|| turno1desde.compareTo(horahoy) < 0 && turno1hasta.compareTo(horahoy) > 0
+						|| turno2desde.compareTo(horahoy) == 0
+						|| turno2desde.compareTo(horahoy) < 0 && turno2hasta.compareTo(horahoy) > 0) {
+					log.info("compara la hora y esta abierto");
 					respuesta = "ABIERTO";
 				} else {
-					log.info("esta cerrado ahora el emprendimiento");				
+					log.info("esta cerrado ahora el emprendimiento");
 					respuesta = "CERRADO";
 				}
-				diahoy="Salir";
-			}				
+				diahoy = "Salir";
+			}
 		}
 		return respuesta;
-	}	
-	
+	}
+
 	public List<ConfiguracionLocal> traerConfiguracionLocal(Long id) {
 		log.info("Se traera la configuración local del emprendimiento del ID elegido");
-		
+
 		Emprendimiento emprendimiento = repository.findByIdEmprendimiento(id);
 		List<ConfiguracionLocal> configuracionLocal = new ArrayList<ConfiguracionLocal>();
 		configuracionLocal = emprendimiento.getConfiguracionLocales();
-		
+
 		return configuracionLocal;
 	}
-	
+
 	public static String traerHora(GregorianCalendar diaHoy) {
 
 		int hora = diaHoy.get(Calendar.HOUR_OF_DAY);
 		int minutos = diaHoy.get(Calendar.MINUTE);
-		
+
 		return (hora + ":" + minutos);
 	}
-	
+
 	public static String traerDiaDeLaSemana(GregorianCalendar diaHoy) {
 		String dia = "";
 
@@ -417,6 +435,82 @@ public class EmprendimientoService {
 
 		return dia;
 	}
-	
-	
+
+	private void adaptarEmprendimientoAGetResEmprendimientoVo(GetResEmprendimientoVo getResEmprendimientoVo,
+			Emprendimiento emprendimiento) {
+
+		boolean usaTurno = false;
+
+		getResEmprendimientoVo.setIdEmprendimiento(emprendimiento.getIdEmprendimiento());
+		getResEmprendimientoVo.setNombre(emprendimiento.getNombre());
+		getResEmprendimientoVo.setCuit(emprendimiento.getCuit());
+		getResEmprendimientoVo.setUsuarioModi(emprendimiento.getUsuarioModi());
+		getResEmprendimientoVo.setFechaModi(emprendimiento.getFechaModi());
+		getResEmprendimientoVo.setCapacidad(emprendimiento.getCapacidad());
+		getResEmprendimientoVo.setAceptaFoto(emprendimiento.isAceptaFoto());
+		getResEmprendimientoVo.setEstadoEmprendimiento(emprendimiento.getEstadoEmprendimiento());
+		getResEmprendimientoVo.setTipoEmprendimiento(emprendimiento.getTipoEmprendimiento());
+		getResEmprendimientoVo.setUbicacion(emprendimiento.getUbicacion());
+		getResEmprendimientoVo.setRubro(emprendimiento.getRubro());
+		getResEmprendimientoVo.setConfiguracionesLocal(emprendimiento.getConfiguracionLocales());
+		getResEmprendimientoVo.setTelefono(emprendimiento.getTelefono());
+		getResEmprendimientoVo.setNroColor(traerNroColor(emprendimiento.getCapacidad(),
+				ocupacionLocalService.traerCantidadClientes(emprendimiento.getIdEmprendimiento())));
+
+		usaTurno = repository.usaTurno(emprendimiento);
+
+		if (usaTurno) {
+			getResEmprendimientoVo.setUsaTurnos(true);
+		} else {
+			getResEmprendimientoVo.setUsaTurnos(false);
+		}
+		
+		getResEmprendimientoVo.setCantPersonasEnLocal(ocupacionLocalService.traerCantidadClientes(emprendimiento.getIdEmprendimiento()));
+
+	}
+
+	public static int traerNroColor(int capacidad, int cantClientes) {
+		int nroColor = 0;
+		float porcCapacidadOcupada = (cantClientes * 100) / capacidad;
+		if (capacidad <= 1) {
+			if (cantClientes <= 1) {
+				nroColor = VERDE;
+			}
+			if (cantClientes > 1 && cantClientes <= 3) {
+				nroColor = AMARILLO;
+			}
+			if (cantClientes > 3) {
+				nroColor = ROJO;
+			}
+
+		}
+
+		if (capacidad > 1 && capacidad <= 4) {
+			if (cantClientes <= 2) {
+				nroColor = VERDE;
+			}
+			if (cantClientes > 2 && cantClientes <= 4) {
+				nroColor = AMARILLO;
+			}
+			if (cantClientes > 4) {
+				nroColor = ROJO;
+			}
+		}
+
+		if (capacidad > 4) {
+			if (porcCapacidadOcupada <= 70) {
+				nroColor = VERDE;
+			}
+			if (porcCapacidadOcupada > 70 && porcCapacidadOcupada < 100) {
+				nroColor = AMARILLO;
+			}
+			if (porcCapacidadOcupada >= 100) {
+				nroColor = ROJO;
+			}
+		}
+
+		return nroColor;
+
+	}
+
 }
