@@ -8,5 +8,6 @@ public class LoginPostResVo {
 	private String token;
 	private long idPersona;
 	private long idPerfil;
+	private long idEmprendimiento = 0;
 
 }

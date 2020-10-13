@@ -24,6 +24,7 @@ import com.unla.reactivar.exceptions.PdfExporterException;
 import com.unla.reactivar.models.ConfiguracionLocal;
 import com.unla.reactivar.models.Emprendimiento;
 import com.unla.reactivar.models.EstadoEmprendimiento;
+import com.unla.reactivar.models.Perfil;
 import com.unla.reactivar.models.Persona;
 import com.unla.reactivar.models.Rubro;
 import com.unla.reactivar.models.TipoEmprendimiento;
@@ -47,6 +48,8 @@ public class EmprendimientoService {
 	private static final long INACTIVO = 1; 
 	private static final long ACTIVO = 2; 
 	private static final long BAJA = 3;
+	private static final long VENDEDOR = 3;
+
 	
 	
 
@@ -73,6 +76,9 @@ public class EmprendimientoService {
 	
 	@Autowired
 	private TurnoService turnoService;
+	
+	@Autowired
+	private PerfilService perfilService;
 
 	public Emprendimiento traerEmprendimientoPorId(Long id) {
 		log.info("Se traera un Emprendimiento por id");
@@ -191,10 +197,13 @@ public class EmprendimientoService {
 		Rubro rubro = rubroService.traerRubroPorId(emprendimientoVo.getIdRubro());
 		TipoEmprendimiento tipoEmprendimiento = tipoEmprendimientoService
 				.traerTipoEmprendimientoPorId(emprendimientoVo.getIdTipoEmprendimiento());
-
-		if (persona == null || rubro == null || tipoEmprendimiento == null) {
-			throw new ObjectNotFound("Persona, rubro o tipoEmprendimiento");
+		Perfil perfil = perfilService.traerPerfilPorId(VENDEDOR);
+		
+		if (persona == null || rubro == null || tipoEmprendimiento == null || perfil == null) {
+			throw new ObjectNotFound("Persona, rubro, tipoEmprendimiento o Perfil 3 Vendedor");
 		}
+		
+		emprendimiento.setTelefono(emprendimientoVo.getTelefono());
 		emprendimiento.setFechaModi(DateUtils.fechaHoy());
 		emprendimiento.setUsuarioModi(emprendimientoVo.getUsuarioModi());
 		emprendimiento.setPersona(persona);
@@ -202,6 +211,7 @@ public class EmprendimientoService {
 		emprendimiento.setTipoEmprendimiento(tipoEmprendimiento);
 		emprendimiento.setCapacidad(emprendimientoVo.getCapacidad());
 		emprendimiento.setAceptaFoto(emprendimientoVo.isAceptaFoto());
+		emprendimiento.getPersona().setPerfil(perfil);
 	}
 
 	private void adaptarPutEmprendimientoVoAEmprendimiento(ReqPutEmprendimientoVo emprendimientoVo,
@@ -219,6 +229,8 @@ public class EmprendimientoService {
 		if (persona == null || rubro == null || tipoEmprendimiento == null) {
 			throw new ObjectNotFound("Persona, estadoEmprendimiento, rubro o tipoEmprendimiento");
 		}
+		
+		emprendimiento.setTelefono(emprendimientoVo.getTelefono());
 		emprendimiento.setFechaModi(DateUtils.fechaHoy());
 		emprendimiento.setUsuarioModi(emprendimientoVo.getUsuarioModi());
 		emprendimiento.setPersona(persona);

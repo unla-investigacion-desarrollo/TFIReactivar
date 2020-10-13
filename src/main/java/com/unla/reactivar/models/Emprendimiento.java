@@ -37,6 +37,7 @@ public class Emprendimiento {
 	private Date fechaModi;
 	private int capacidad;
 	private boolean aceptaFoto;
+	private long telefono;
 	
 	@ManyToOne
 	@JoinColumn(name = "idEstadoEmprendimiento", nullable = false)
@@ -79,7 +80,7 @@ public class Emprendimiento {
 	private List<Articulo> articulos;
 
 	@OneToMany(mappedBy = "emprendimiento", cascade = CascadeType.PERSIST)
-	@JsonBackReference
+	@JsonManagedReference
 	private List<ConfiguracionLocal> configuracionLocales = new ArrayList<>();
 
 	@OneToMany(mappedBy = "emprendimiento")

@@ -14,5 +14,6 @@ public class ReqPutEmprendimientoVo {
 	private int capacidad;
 	private long idEstadoEmprendimiento;
 	private boolean aceptaFoto;
+	private long telefono;
 
 }

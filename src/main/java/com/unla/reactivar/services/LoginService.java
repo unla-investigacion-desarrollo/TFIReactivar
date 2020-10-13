@@ -73,6 +73,11 @@ public class LoginService {
 		loginResp.setToken(login.getToken());
 		loginResp.setIdPersona(persona.getIdPersona());
 		loginResp.setIdPerfil(persona.getPerfil().getIdPerfil());
+		
+		if(!persona.getEmprendimientos().isEmpty()) {
+			loginResp.setIdEmprendimiento(persona.getEmprendimientos().get(0).getIdEmprendimiento());
+		}
+		
 		log.info("Se logea [{}]", email);
 
 		return loginResp;
