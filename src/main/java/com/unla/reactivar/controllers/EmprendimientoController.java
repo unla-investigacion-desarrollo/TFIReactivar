@@ -109,6 +109,18 @@ public class EmprendimientoController {
 
 		return new ResponseEntity<>(traerEmprendimientosCercanos, HttpStatus.OK);
 	}
+	
+	@GetMapping("{idRubro}/{latActual}/{longActual}/{cantidadKm}/traerPorRubroKmLatLong")
+	@ApiOperation(value = "Mostrar emprendimientos de un rubro especifico bajo la distancia elegida en la posición actual", notes = "Service para mostrar emprendimientos de un rubro especifico bajo la distancia elegida en la posición actual (  Latitud y Longitud )")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimientos encontrados"),
+			@ApiResponse(code = 404, message = "Emprendimiento no encontrado") })
+	public ResponseEntity<List<Emprendimiento>> traerEmprendimientosCercanosPosActual(@PathVariable("idRubro") long idRubro,
+			@PathVariable(value = "latActual") String latActual,@PathVariable(value = "longActual") String longActual, @PathVariable("cantidadKm") String cantidadKm) {
+		List<Emprendimiento> traerEmprendimientosCercanosPosActual = service.traerEmprendimientosCercanosPosActual(idRubro, latActual, longActual,
+				cantidadKm);
+		
+		return new ResponseEntity<>(traerEmprendimientosCercanosPosActual, HttpStatus.OK);
+	}
 
 	@PostMapping
 	@ApiOperation(value = "Crear Emprendimiento", notes = "Servicio para crear un Emprendimiento")

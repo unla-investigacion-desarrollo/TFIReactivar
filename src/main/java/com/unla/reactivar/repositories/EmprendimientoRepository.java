@@ -23,6 +23,11 @@ public interface EmprendimientoRepository extends JpaRepository<Emprendimiento, 
 	@Query(value = "{call sp_emprendimientosCercanos(:id_rubro, :id_persona, :cantidadKm) }", nativeQuery = true)
 	List<Emprendimiento> traerEmprendimientosCercanos(@Param("id_rubro") long idRubro,
 			@Param("id_persona") long idPersona, @Param("cantidadKm") String cantidadKm);
+	
+	@Query(value = "{call sp_emprendimientosCercanosPosActual(:id_rubro, :latActual, :longActual, :cantidadKm) }", nativeQuery = true)
+	List<Emprendimiento> traerEmprendimientosCercanosPosActual(@Param("id_rubro") long idRubro, @Param("latActual") String latActual, 
+			@Param("longActual") String longitud, @Param("cantidadKm") String cantidadKm);
+
 
 	@Query("SELECT e FROM Emprendimiento e WHERE e.estadoEmprendimiento=1")
 	public List<Emprendimiento> findAllInactivos();

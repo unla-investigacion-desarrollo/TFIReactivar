@@ -138,6 +138,13 @@ public class EmprendimientoService {
 		return listaEmprendimientosCercanosVo;
 
 	}
+	
+	@Transactional(readOnly = false)
+	public List<Emprendimiento> traerEmprendimientosCercanosPosActual(long idRubro, String latActual, String longActual, String cantidadKm) {
+		log.info("Se traeran todos los emprendimientos por distancia desde la posicion actual");
+		return repository.traerEmprendimientosCercanosPosActual(idRubro, latActual, longActual, cantidadKm);
+	}
+	
 
 	@Transactional
 	public Emprendimiento crearEmprendimiento(EmprendimientoVo emprendimientoVo) {
