@@ -51,7 +51,6 @@ public class EmprendimientoService {
 	private static final long BAJA = 3;
 	private static final long VENDEDOR = 3;
 
-
 	private static final int VERDE = 1;
 	private static final int AMARILLO = 2;
 	private static final int ROJO = 3;
@@ -79,10 +78,10 @@ public class EmprendimientoService {
 
 	@Autowired
 	private TurnoService turnoService;
-	
+
 	@Autowired
 	private PerfilService perfilService;
-	
+
 	@Autowired
 	private OcupacionLocalService ocupacionLocalService;
 
@@ -138,12 +137,30 @@ public class EmprendimientoService {
 		return listaEmprendimientosCercanosVo;
 
 	}
-	
-	public List<Emprendimiento> traerEmprendimientosCercanosPosActual(long idRubro, String latActual, String longActual, String cantidadKm) {
+
+	@Transactional(readOnly = false)
+	public List<GetResEmprendimientoVo> traerEmprendimientosCercanos(long idRubro, String latActual, String longActual,
+			String cantidadKm) {
+		log.info("Se traeran todos los emprendimientos por distancia");
+		List<Emprendimiento> listaEmprendimientosCercanos = repository.traerEmprendimientosCercanosPosActual(idRubro,
+				latActual, longActual, cantidadKm);
+		List<GetResEmprendimientoVo> listaEmprendimientosCercanosVo = new ArrayList();
+
+		for (int i = 0; i < listaEmprendimientosCercanos.size(); i++) {
+			GetResEmprendimientoVo getResEmprendimientoVo = new GetResEmprendimientoVo();
+			Emprendimiento emprendimiento = listaEmprendimientosCercanos.get(i);
+			adaptarEmprendimientoAGetResEmprendimientoVo(getResEmprendimientoVo, emprendimiento);
+			listaEmprendimientosCercanosVo.add(getResEmprendimientoVo);
+		}
+		return listaEmprendimientosCercanosVo;
+	}
+
+	@Transactional(readOnly = false)
+	public List<Emprendimiento> traerEmprendimientosCercanosPosActual(long idRubro, String latActual, String longActual,
+			String cantidadKm) {
 		log.info("Se traeran todos los emprendimientos por distancia desde la posicion actual");
 		return repository.traerEmprendimientosCercanosPosActual(idRubro, latActual, longActual, cantidadKm);
 	}
-	
 
 	@Transactional
 	public Emprendimiento crearEmprendimiento(EmprendimientoVo emprendimientoVo) {
@@ -221,11 +238,11 @@ public class EmprendimientoService {
 		TipoEmprendimiento tipoEmprendimiento = tipoEmprendimientoService
 				.traerTipoEmprendimientoPorId(emprendimientoVo.getIdTipoEmprendimiento());
 		Perfil perfil = perfilService.traerPerfilPorId(VENDEDOR);
-		
+
 		if (persona == null || rubro == null || tipoEmprendimiento == null || perfil == null) {
 			throw new ObjectNotFound("Persona, rubro, tipoEmprendimiento o Perfil 3 Vendedor");
 		}
-		
+
 		emprendimiento.setTelefono(emprendimientoVo.getTelefono());
 		emprendimiento.setFechaModi(DateUtils.fechaHoy());
 		emprendimiento.setUsuarioModi(emprendimientoVo.getUsuarioModi());
@@ -252,7 +269,7 @@ public class EmprendimientoService {
 		if (persona == null || rubro == null || tipoEmprendimiento == null) {
 			throw new ObjectNotFound("Persona, estadoEmprendimiento, rubro o tipoEmprendimiento");
 		}
-		
+
 		emprendimiento.setTelefono(emprendimientoVo.getTelefono());
 		emprendimiento.setFechaModi(DateUtils.fechaHoy());
 		emprendimiento.setUsuarioModi(emprendimientoVo.getUsuarioModi());
@@ -465,13 +482,10 @@ public class EmprendimientoService {
 
 		usaTurno = repository.usaTurno(emprendimiento);
 
-		if (usaTurno) {
-			getResEmprendimientoVo.setUsaTurnos(true);
-		} else {
-			getResEmprendimientoVo.setUsaTurnos(false);
-		}
-		
-		getResEmprendimientoVo.setCantPersonasEnLocal(ocupacionLocalService.traerCantidadClientes(emprendimiento.getIdEmprendimiento()));
+		getResEmprendimientoVo.setUsaTurnos(usaTurno);
+
+		getResEmprendimientoVo.setCantPersonasEnLocal(
+				ocupacionLocalService.traerCantidadClientes(emprendimiento.getIdEmprendimiento()));
 
 	}
 
