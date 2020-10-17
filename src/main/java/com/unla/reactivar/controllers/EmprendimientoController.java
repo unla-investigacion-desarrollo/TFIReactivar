@@ -84,8 +84,8 @@ public class EmprendimientoController {
 	@ApiOperation(value = "Mostrar un Emprendimiento por ID", notes = "Servicio para mostrar un Emprendimiento a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimiento encontrado"),
 			@ApiResponse(code = 404, message = "Emprendimiento no encontrado") })
-	public Emprendimiento traerEmprendimiento(@PathVariable("idEmprendimiento") long id) {
-		return service.traerEmprendimientoPorId(id);
+	public GetResEmprendimientoVo traerEmprendimiento(@PathVariable("idEmprendimiento") long id) {
+		return service.traerEmprendimientoSinPersonaPorId(id);
 	}
 
 	@GetMapping("/{idEmprendimiento}/turnos")

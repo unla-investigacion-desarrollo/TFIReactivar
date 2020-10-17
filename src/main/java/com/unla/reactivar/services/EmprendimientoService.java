@@ -90,6 +90,18 @@ public class EmprendimientoService {
 		return repository.findByIdEmprendimiento(id);
 	}
 
+	public GetResEmprendimientoVo traerEmprendimientoSinPersonaPorId(Long id) {
+		log.info("Se traera un Emprendimiento por id");
+
+		Emprendimiento emprendimiento = repository.findByIdEmprendimiento(id);
+		GetResEmprendimientoVo getResEmprendimientoVo = new GetResEmprendimientoVo();
+
+		adaptarEmprendimientoAGetResEmprendimientoVo(getResEmprendimientoVo, emprendimiento);
+
+		return getResEmprendimientoVo;
+
+	}
+
 	public List<Emprendimiento> traerTodosEmprendimientos() {
 		log.info("Se traeran todos los emprendimientos");
 		return repository.findAll();
