@@ -30,6 +30,7 @@ import com.unla.reactivar.models.Rubro;
 import com.unla.reactivar.models.TipoEmprendimiento;
 import com.unla.reactivar.models.Turno;
 import com.unla.reactivar.models.Ubicacion;
+import com.unla.reactivar.repositories.ConfiguracionLocalRepository;
 import com.unla.reactivar.repositories.EmprendimientoRepository;
 import com.unla.reactivar.utils.CuilValidator;
 import com.unla.reactivar.utils.DateUtils;
@@ -37,6 +38,7 @@ import com.unla.reactivar.utils.QREmprendimientoPDFExporter;
 import com.unla.reactivar.vo.ConfiguracionLocalVo;
 import com.unla.reactivar.vo.EmprendimientoVo;
 import com.unla.reactivar.vo.GetResEmprendimientoVo;
+import com.unla.reactivar.vo.ReqPostConfiguracionLocalVo;
 import com.unla.reactivar.vo.ReqPutEmprendimientoVo;
 
 @Service
@@ -84,6 +86,9 @@ public class EmprendimientoService {
 
 	@Autowired
 	private OcupacionLocalService ocupacionLocalService;
+
+	@Autowired
+	private ConfiguracionLocalService configuracionLocalService;
 
 	public Emprendimiento traerEmprendimientoPorId(Long id) {
 		log.info("Se traera un Emprendimiento por id");
@@ -284,6 +289,36 @@ public class EmprendimientoService {
 		emprendimiento.setCapacidad(emprendimientoVo.getCapacidad());
 		emprendimiento.setEstadoEmprendimiento(estadoEmprendimiento);
 		emprendimiento.setAceptaFoto(emprendimientoVo.isAceptaFoto());
+
+		ubicacionService.borrarUbicacion(emprendimiento.getUbicacion().getIdUbicacion());
+
+		Ubicacion ubicacion = ubicacionService.crearUbicacion(emprendimientoVo.getUbicacionVo());
+		emprendimiento.setUbicacion(ubicacion);
+
+		configuracionLocalService.borrarListaConfiguracionLocal(emprendimiento.getIdEmprendimiento());
+
+		for (int i = 0; i < emprendimientoVo.getConfiguracionLocales().size(); i++) {
+
+			ReqPostConfiguracionLocalVo reqPostConfiguracionLocalVo = new ReqPostConfiguracionLocalVo();
+			reqPostConfiguracionLocalVo.setDiaSemana(emprendimientoVo.getConfiguracionLocales().get(i).getDiaSemana());
+			reqPostConfiguracionLocalVo.setIdEmprendimiento(emprendimiento.getIdEmprendimiento());
+			reqPostConfiguracionLocalVo
+					.setIntervaloTurnos(emprendimientoVo.getConfiguracionLocales().get(i).getIntervaloTurnos());
+			reqPostConfiguracionLocalVo
+					.setTiempoAtencion(emprendimientoVo.getConfiguracionLocales().get(i).getTiempoAtencion());
+			reqPostConfiguracionLocalVo
+					.setTurno1Desde(emprendimientoVo.getConfiguracionLocales().get(i).getTurno1Desde());
+			reqPostConfiguracionLocalVo
+					.setTurno1Hasta(emprendimientoVo.getConfiguracionLocales().get(i).getTurno1Hasta());
+			reqPostConfiguracionLocalVo
+					.setTurno2Desde(emprendimientoVo.getConfiguracionLocales().get(i).getTurno2Desde());
+			reqPostConfiguracionLocalVo
+					.setTurno2Hasta(emprendimientoVo.getConfiguracionLocales().get(i).getTurno2Hasta());
+			reqPostConfiguracionLocalVo
+					.setUsuarioModi(emprendimientoVo.getConfiguracionLocales().get(i).getUsuarioModi());
+			configuracionLocalService.crearConfiguracion(reqPostConfiguracionLocalVo);
+
+		}
 
 	}
 

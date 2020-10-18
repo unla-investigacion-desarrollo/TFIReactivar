@@ -71,6 +71,17 @@ public class ConfiguracionLocalController {
 		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
 	}
 
+	@DeleteMapping("/{idEmprendimiento}/borrarConfiguracionesEmprendimiento")
+	@ApiOperation(value = "Eliminar lista de Configuracion Locale por ID Emprendimiento", notes = "Servicio para eliminar una lista de Configuracion Local a partir de un ID de Emprendimiento")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Configuracion Local eliminado con exito"),
+			@ApiResponse(code = 404, message = "Configuracion Locales no encontradas") })
+	public ResponseEntity<Empty> eliminarListaConfiguracionLocal(@PathVariable("idEmprendimiento") long id) {
+
+		service.borrarListaConfiguracionLocal(id);
+
+		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
+	}
+
 	@PutMapping("/{idConfiguracionLocal}")
 	@ApiOperation(value = "Modificar Configuracion Local por ID", notes = "Servicio para modificar una Configuracion Local a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Configuracion Local modificada con exito"),
@@ -80,5 +91,5 @@ public class ConfiguracionLocalController {
 
 		return new ResponseEntity<>(service.actualizarConfiguracionLocal(id, configuracionLocalVo), HttpStatus.OK);
 	}
-	
+
 }

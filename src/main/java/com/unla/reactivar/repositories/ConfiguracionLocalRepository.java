@@ -9,13 +9,15 @@ import org.springframework.stereotype.Repository;
 import com.unla.reactivar.models.ConfiguracionLocal;
 import com.unla.reactivar.models.Emprendimiento;
 
-
 @Repository
 public interface ConfiguracionLocalRepository extends JpaRepository<ConfiguracionLocal, Long> {
 
 	public ConfiguracionLocal findByIdConfiguracionLocal(Long id);
-	
+
 	@Query("select c from ConfiguracionLocal c where c.emprendimiento= ?1 and c.intervaloTurnos > 0")
 	public List<ConfiguracionLocal> findByEmprendimiento(Emprendimiento emprendimiento);
+
+	@Query("select c from ConfiguracionLocal c where c.emprendimiento= ?1 ")
+	public List<ConfiguracionLocal> traerConfiguracionesLocal(Emprendimiento emprendimiento);
 
 }

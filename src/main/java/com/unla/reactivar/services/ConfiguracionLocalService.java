@@ -42,15 +42,14 @@ public class ConfiguracionLocalService {
 
 	public List<ConfiguracionLocal> traerTodasConfiguracionesLocalesPorEmprendimiento(long idEmprendimiento) {
 		log.info("Se traeran todas las cfg locales de un emprendimiento");
-		Emprendimiento emprendimiento = emprendimientoService
-				.traerEmprendimientoPorId(idEmprendimiento);
+		Emprendimiento emprendimiento = emprendimientoService.traerEmprendimientoPorId(idEmprendimiento);
 		if (emprendimiento == null) {
 			throw new ObjectNotFound("Emprendimiento");
 		}
-		
+
 		return repository.findByEmprendimiento(emprendimiento);
 	}
-	
+
 	@Transactional
 	public ConfiguracionLocal crearConfiguracion(ReqPostConfiguracionLocalVo configuracionLocalVo) {
 		ConfiguracionLocal config = new ConfiguracionLocal();
@@ -102,6 +101,23 @@ public class ConfiguracionLocalService {
 	}
 
 	@Transactional
+	public void borrarListaConfiguracionLocal(long id) {
+		Emprendimiento emprendimiento = emprendimientoService.traerEmprendimientoPorId(id);
+		List<ConfiguracionLocal> configuracionLocal = repository.traerConfiguracionesLocal(emprendimiento);
+
+		if (configuracionLocal.isEmpty() == true || configuracionLocal == null) {
+			log.error("Se obtuvo un error al intentar borrar las cfg local para el emprendimiento [{}]", id);
+			throw new ObjectNotFound("ConfiguracionLocal");
+		}
+
+		for (int i = 0; i < configuracionLocal.size(); i++) {
+			log.info("Se eliminara articulo [{}]", configuracionLocal.get(i).getIdConfiguracionLocal());
+			repository.delete(configuracionLocal.get(i));
+		}
+
+	}
+
+	@Transactional
 	public ConfiguracionLocal actualizarConfiguracionLocal(Long id, ConfiguracionLocalVo configuracionLocalVo) {
 		ConfiguracionLocal configuracionLocal = repository.findByIdConfiguracionLocal(id);
 
@@ -135,6 +151,5 @@ public class ConfiguracionLocalService {
 		config.setFechaModi(DateUtils.fechaHoy());
 		config.setUsuarioModi(configuracionLocales.getUsuarioModi());
 	}
-	
-	
+
 }
