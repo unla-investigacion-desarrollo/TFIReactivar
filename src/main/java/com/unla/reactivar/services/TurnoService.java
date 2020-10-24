@@ -248,31 +248,31 @@ public class TurnoService {
 		switch (f.get(Calendar.DAY_OF_WEEK)) {
 
 		case 1:
-			dia = "Domingo";
+			dia = "7";
 			break;
 
 		case 2:
-			dia = "Lunes";
+			dia = "1";
 			break;
 
 		case 3:
-			dia = "Martes";
+			dia = "2";
 			break;
 
 		case 4:
-			dia = "Miercoles";
+			dia = "3";
 			break;
 
 		case 5:
-			dia = "Jueves";
+			dia = "4";
 			break;
 
 		case 6:
-			dia = "Viernes";
+			dia = "5";
 			break;
 
 		case 7:
-			dia = "Sabado";
+			dia = "6";
 			break;
 		}
 

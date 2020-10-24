@@ -4,13 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum EnumDiaSemana {
-	DOMINGO("domingo", 1),
-	LUNES("lunes", 2),
-	MARTES("martes", 3),
-	MIERCOLES("miercoles", 4),
-	JUEVES("jueves", 5),
-	VIERNES("viernes", 6),
-	SABADO("sabado", 7),
+	DOMINGO("domingo", 7),
+	LUNES("lunes", 1),
+	MARTES("martes", 2),
+	MIERCOLES("miercoles", 3),
+	JUEVES("jueves", 4),
+	VIERNES("viernes", 5),
+	SABADO("sabado", 6),
 	NONE("", 0);
 	
 	private String dia;
