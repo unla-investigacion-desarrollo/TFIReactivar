@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import com.google.zxing.WriterException;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
+import com.lowagie.text.Element;
 import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
 import com.lowagie.text.Image;
@@ -75,7 +76,7 @@ public class InformeContactoEstrechoPDFExporter {
 
 			table.addCell(cell);
 			cell.setPhrase(new Phrase(String.valueOf(emprendimiento.getUbicacion().getNumero()), font));
-			cell.setHorizontalAlignment(cell.ALIGN_LEFT);
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
 
 			table.addCell(cell);
 
@@ -110,7 +111,8 @@ public class InformeContactoEstrechoPDFExporter {
 		document.add(qrImage2);
 
 		Image qrImage3 = Image.getInstance("src/main/resources/image/Reactivar.png");
-		qrImage3.setAbsolutePosition(438, 22);
+		qrImage3.setAbsolutePosition(400, 5);
+		qrImage3.scaleToFit(200, 200);
 		document.add(qrImage3);
 
 		document.close();

@@ -107,7 +107,8 @@ public class QREmprendimientoPDFExporter {
 		document.add(qrImage2);
 
 		Image qrImage3 = Image.getInstance("src/main/resources/image/Reactivar.png");
-		qrImage3.setAbsolutePosition(438, 22);
+		qrImage3.setAbsolutePosition(400, 5);
+		qrImage3.scaleToFit(200, 200);
 		document.add(qrImage3);
 
 		document.close();
