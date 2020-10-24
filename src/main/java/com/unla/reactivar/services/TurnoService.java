@@ -35,7 +35,7 @@ public class TurnoService {
 
 	private final Logger log = LoggerFactory.getLogger(getClass().getName());
 	private static final long OCUPADO = 2L;
-	
+
 	@Autowired
 	private TurnoRepository repository;
 
@@ -47,7 +47,7 @@ public class TurnoService {
 
 	@Autowired
 	private EstadoTurnoService estadoService;
-	
+
 	@Autowired
 	private ConfiguracionLocalService configuracionLocalService;
 
@@ -129,7 +129,7 @@ public class TurnoService {
 		turno.setPersona(persona);
 		turno.setUsuarioModi(turnoVo.getUsuarioModi());
 	}
-	
+
 	public List<Turno> traerTurnosPorEmprendimiento(long idEmp, long idEst) {
 		List<Turno> turnos = new ArrayList<>();
 		Emprendimiento emprendimiento = emprendimientoService.traerEmprendimientoPorId(idEmp);
@@ -140,49 +140,7 @@ public class TurnoService {
 		turnos = repository.findTurnosPorEmprendimiento(emprendimiento, estadoTurno);
 		return turnos;
 	}
-	
-	public Map<String, List<String>> traerTurnosDisponibles(long idEmprendimiento, String dia) {
-		DateFormat format = new SimpleDateFormat("HH:mm");
-		Map<String, List<String>> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-		List<ConfiguracionLocal> configuraciones = configuracionLocalService
-				.traerTodasConfiguracionesLocalesPorEmprendimiento(idEmprendimiento);
-		List<Turno> turnos = traerTurnosPorEmprendimiento(idEmprendimiento, OCUPADO);
-		for (ConfiguracionLocal config : configuraciones) {
-			if(!config.getDiaSemana().equalsIgnoreCase(dia))
-				continue;
-			if (!map.containsKey(config.getDiaSemana())) {
-				List<String> horas =  new ArrayList<>();
-				int intervalo = config.getIntervaloTurnos();
-				LocalTime turnoInicio1 = LocalTime.parse(config.getTurno1Desde());
-				LocalTime turnoFin1 = LocalTime.parse(config.getTurno1Hasta());
-				LocalTime turnoInicio2 = LocalTime.parse(config.getTurno2Desde());
-				LocalTime turnoFin2 = LocalTime.parse(config.getTurno2Hasta());
-				while(turnoInicio1.isBefore(turnoFin1) || turnoInicio1.isEqual(turnoFin1)) {
-					String hora = turnoInicio1.toString("HH:mm");
-					horas.add(hora);
-					turnoInicio1 = turnoInicio1.plusMinutes(intervalo);
-				}
-				while(turnoInicio2.isBefore(turnoFin2) || turnoInicio2.isEqual(turnoFin2)) {
-					String hora = turnoInicio2.toString("HH:mm");
-					horas.add(hora);
-					turnoInicio2 = turnoInicio2.plusMinutes(intervalo);
-				}
-				map.put(config.getDiaSemana(), horas);
-			}
-		}
-		Calendar calendar = Calendar.getInstance();
-		for(Turno turno : turnos) {
-			calendar.setTime(turno.getFechaHora());
-			int nroDiaSemana = calendar.get(Calendar.DAY_OF_WEEK);
-			String diaSemana = EnumDiaSemana.getByNroDia(nroDiaSemana).getDiaKey();
-			String horaTurno = new SimpleDateFormat("HH:mm").format(turno.getFechaHora().getTime() + 10800000);
-			if(map.containsKey(diaSemana))
-				map.get(diaSemana).remove(horaTurno);
-		}
-		
-		return map;
-	}
-	
+
 	public Map<String, List<String>> traerTurnosDisponiblesXFecha(long idEmprendimiento, String fecha) {
 		log.info("Se consultaran los turnos disponibles de la fecha elegida");
 		DateFormat format = new SimpleDateFormat("HH:mm");
@@ -190,47 +148,52 @@ public class TurnoService {
 		List<ConfiguracionLocal> configuraciones = configuracionLocalService
 				.traerTodasConfiguracionesLocalesPorEmprendimiento(idEmprendimiento);
 		List<Turno> turnos = traerTurnosPorEmprendimiento(idEmprendimiento, OCUPADO);
-		//String fecha = "23/10/2020"
-		GregorianCalendar fechaDia = traerFecha2(fecha);		
+		// String fecha = "23/10/2020"
+		GregorianCalendar fechaDia = traerFecha2(fecha);
 		String dia = traerDiaDeLaSemana(fechaDia);
-		log.info("dia [{}]", dia );
-		
+		log.info("dia [{}]", dia);
+
 		for (ConfiguracionLocal config : configuraciones) {
-			if(!config.getDiaSemana().equalsIgnoreCase(dia))
+			if (!config.getDiaSemana().equalsIgnoreCase(dia))
 				continue;
 			if (!map.containsKey(config.getDiaSemana())) {
-				List<String> horas =  new ArrayList<>();
+				List<String> horas = new ArrayList<>();
 				int intervalo = config.getIntervaloTurnos();
 				LocalTime turnoInicio1 = LocalTime.parse(config.getTurno1Desde());
 				LocalTime turnoFin1 = LocalTime.parse(config.getTurno1Hasta());
-				LocalTime turnoInicio2 = LocalTime.parse(config.getTurno2Desde());
-				LocalTime turnoFin2 = LocalTime.parse(config.getTurno2Hasta());
-				while(turnoInicio1.isBefore(turnoFin1) || turnoInicio1.isEqual(turnoFin1)) {
+				while (turnoInicio1.isBefore(turnoFin1) || turnoInicio1.isEqual(turnoFin1)) {
 					String hora = turnoInicio1.toString("HH:mm");
 					horas.add(hora);
 					turnoInicio1 = turnoInicio1.plusMinutes(intervalo);
 				}
-				while(turnoInicio2.isBefore(turnoFin2) || turnoInicio2.isEqual(turnoFin2)) {
-					String hora = turnoInicio2.toString("HH:mm");
-					horas.add(hora);
-					turnoInicio2 = turnoInicio2.plusMinutes(intervalo);
+
+				if (!config.getTurno2Desde().equals("--:--") && !config.getTurno2Hasta().equals("--:--")) {
+					LocalTime turnoInicio2 = LocalTime.parse(config.getTurno2Desde());
+					LocalTime turnoFin2 = LocalTime.parse(config.getTurno2Hasta());
+
+					while (turnoInicio2.isBefore(turnoFin2) || turnoInicio2.isEqual(turnoFin2)) {
+						String hora = turnoInicio2.toString("HH:mm");
+						horas.add(hora);
+						turnoInicio2 = turnoInicio2.plusMinutes(intervalo);
+					}
 				}
+
 				map.put(config.getDiaSemana(), horas);
 			}
 		}
 		Calendar calendar = Calendar.getInstance();
-		for(Turno turno : turnos) {
+		for (Turno turno : turnos) {
 			calendar.setTime(turno.getFechaHora());
 			int nroDiaSemana = calendar.get(Calendar.DAY_OF_WEEK);
 			String diaSemana = EnumDiaSemana.getByNroDia(nroDiaSemana).getDiaKey();
 			String horaTurno = new SimpleDateFormat("HH:mm").format(turno.getFechaHora().getTime() + 10800000);
-			if(map.containsKey(diaSemana))
+			if (map.containsKey(diaSemana))
 				map.get(diaSemana).remove(horaTurno);
 		}
-		
+
 		return map;
 	}
-	
+
 	public static GregorianCalendar traerFecha2(String fecha) {
 		String d = fecha.substring(0, 2);
 		String m = fecha.substring(3, 5);
@@ -241,7 +204,7 @@ public class TurnoService {
 		int dia = Integer.valueOf(d);
 		return new GregorianCalendar(anio, mes - 1, dia);
 	}
-	
+
 	public static String traerDiaDeLaSemana(GregorianCalendar f) {
 		String dia = "";
 

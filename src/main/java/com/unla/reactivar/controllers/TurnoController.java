@@ -41,13 +41,8 @@ public class TurnoController {
 	public List<Turno> traerTodosTurnos() {
 		return service.traerTodosTurnos();
 	}
-	
-	@GetMapping("/disponibles")
-	public Map<String, List<String>> traerTodosTurnosDisponibles(@RequestParam long idEmprendimiento, @RequestParam String dia) {
-		return service.traerTurnosDisponibles(idEmprendimiento, dia);
-	}
 
-	@GetMapping("/disponibles2")
+	@GetMapping("/disponibles")
 	public Map<String, List<String>> traerTodosTurnosDisponiblesXFecha(@RequestParam long idEmprendimiento, @RequestParam String fecha) {
 		return service.traerTurnosDisponiblesXFecha(idEmprendimiento, fecha);
 	}
