@@ -111,9 +111,40 @@ public class EmprendimientoService {
 		return repository.findAll();
 	}
 
+	public List<GetResEmprendimientoVo> traerTodosEmprendimientosSinPersona() {
+		log.info("Se traeran todos los emprendimientos");
+		List<Emprendimiento> listEmprendimiento = repository.findAll();
+		List<GetResEmprendimientoVo> listGetResEmprendimientoVo = new ArrayList();
+
+		for (int i = 0; i < listEmprendimiento.size(); i++) {
+			GetResEmprendimientoVo getResEmprendimientoVo = new GetResEmprendimientoVo();
+			adaptarEmprendimientoAGetResEmprendimientoVo(getResEmprendimientoVo, listEmprendimiento.get(i));
+			listGetResEmprendimientoVo.add(getResEmprendimientoVo);
+
+		}
+
+		return listGetResEmprendimientoVo;
+
+	}
+
 	public List<Emprendimiento> traerTodosEmprendimientosInactivos() {
 		log.info("Se traeran todos los emprendimientos inactivos");
 		return repository.findAllInactivos();
+	}
+
+	public List<GetResEmprendimientoVo> traerTodosEmprendimientosInactivosSinPersona() {
+		log.info("Se traeran todos los emprendimientos inactivos");
+		List<Emprendimiento> listEmprendimiento = repository.findAllInactivos();
+		List<GetResEmprendimientoVo> listGetResEmprendimientoVo = new ArrayList();
+		for (int i = 0; i < listEmprendimiento.size(); i++) {
+			GetResEmprendimientoVo getResEmprendimientoVo = new GetResEmprendimientoVo();
+			adaptarEmprendimientoAGetResEmprendimientoVo(getResEmprendimientoVo, listEmprendimiento.get(i));
+			listGetResEmprendimientoVo.add(getResEmprendimientoVo);
+
+		}
+
+		return listGetResEmprendimientoVo;
+
 	}
 
 	public List<Emprendimiento> traerTodosEmprendimientosActivos() {
@@ -121,14 +152,60 @@ public class EmprendimientoService {
 		return repository.findAllActivos();
 	}
 
+	public List<GetResEmprendimientoVo> traerTodosEmprendimientosActivosSinPersona() {
+		log.info("Se traeran todos los emprendimientos activos");
+		List<Emprendimiento> listEmprendimiento = repository.findAllActivos();
+		List<GetResEmprendimientoVo> listGetResEmprendimientoVo = new ArrayList();
+
+		for (int i = 0; i < listEmprendimiento.size(); i++) {
+			GetResEmprendimientoVo getResEmprendimientoVo = new GetResEmprendimientoVo();
+			adaptarEmprendimientoAGetResEmprendimientoVo(getResEmprendimientoVo, listEmprendimiento.get(i));
+			listGetResEmprendimientoVo.add(getResEmprendimientoVo);
+
+		}
+
+		return listGetResEmprendimientoVo;
+
+	}
+
 	public List<Emprendimiento> traerTodosEmprendimientosEnBaja() {
 		log.info("Se traeran todos los emprendimientos dados de baja");
 		return repository.findAllBajas();
 	}
 
+	public List<GetResEmprendimientoVo> traerTodosEmprendimientosEnBajaSinPersona() {
+		log.info("Se traeran todos los emprendimientos dados de baja");
+		List<Emprendimiento> listEmprendimiento = repository.findAllBajas();
+		List<GetResEmprendimientoVo> listGetResEmprendimientoVo = new ArrayList();
+
+		for (int i = 0; i < listEmprendimiento.size(); i++) {
+			GetResEmprendimientoVo getResEmprendimientoVo = new GetResEmprendimientoVo();
+			adaptarEmprendimientoAGetResEmprendimientoVo(getResEmprendimientoVo, listEmprendimiento.get(i));
+			listGetResEmprendimientoVo.add(getResEmprendimientoVo);
+
+		}
+
+		return listGetResEmprendimientoVo;
+	}
+
 	public List<Emprendimiento> traerTodosEmprendimientosPorEstado(Long idEstadoEmprendimiento) {
 		log.info("Se traeran todos los emprendimientos a partir del id del estado de emprendimiento ingresado");
 		return repository.findAllEmprendimientoByEstado(idEstadoEmprendimiento);
+	}
+
+	public List<GetResEmprendimientoVo> traerTodosEmprendimientosPorEstadoSinPersona(Long idEstadoEmprendimiento) {
+		log.info("Se traeran todos los emprendimientos a partir del id del estado de emprendimiento ingresado");
+		List<Emprendimiento> listEmprendimiento = repository.findAllEmprendimientoByEstado(idEstadoEmprendimiento);
+		List<GetResEmprendimientoVo> listGetResEmprendimientoVo = new ArrayList();
+
+		for (int i = 0; i < listEmprendimiento.size(); i++) {
+			GetResEmprendimientoVo getResEmprendimientoVo = new GetResEmprendimientoVo();
+			adaptarEmprendimientoAGetResEmprendimientoVo(getResEmprendimientoVo, listEmprendimiento.get(i));
+			listGetResEmprendimientoVo.add(getResEmprendimientoVo);
+
+		}
+
+		return listGetResEmprendimientoVo;
 	}
 
 	public List<Emprendimiento> traerPorRubro(long idRubro) {
@@ -197,6 +274,34 @@ public class EmprendimientoService {
 	}
 
 	@Transactional
+	public GetResEmprendimientoVo crearEmprendimientoSinPersona(EmprendimientoVo emprendimientoVo) {
+		Emprendimiento emprendimiento = new Emprendimiento();
+		EstadoEmprendimiento estadoEmprendimiento = estadoEmprendimientoService.traerEstadoEmprendimientoPorId(ACTIVO);
+		GetResEmprendimientoVo getResEmprendimientoVo = new GetResEmprendimientoVo();
+
+		adaptarEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
+
+		if (estadoEmprendimiento == null) {
+			throw new ObjectNotFound("EstadoEmprendimiento (activo = 2)");
+		}
+
+		emprendimiento.setEstadoEmprendimiento(estadoEmprendimiento);
+
+		try {
+			log.info("Se creara emprendimiento [{}]", emprendimientoVo.getNombre());
+			emprendimiento = repository.save(emprendimiento);
+		} catch (Exception e) {
+			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
+				throw new ObjectAlreadyExists();
+			}
+		}
+
+		adaptarEmprendimientoAGetResEmprendimientoVo(getResEmprendimientoVo, emprendimiento);
+
+		return getResEmprendimientoVo;
+	}
+
+	@Transactional
 	public void borrarEmprendimiento(Long id) {
 		Emprendimiento emprendimiento = repository.findByIdEmprendimiento(id);
 
@@ -228,6 +333,31 @@ public class EmprendimientoService {
 		}
 
 		return emprendimiento;
+	}
+
+	@Transactional
+	public GetResEmprendimientoVo actualizarEmprendimientoSinPersona(Long id, ReqPutEmprendimientoVo emprendimientoVo) {
+		GetResEmprendimientoVo getResEmprendimientoVo = new GetResEmprendimientoVo();
+		Emprendimiento emprendimiento = repository.findByIdEmprendimiento(id);
+
+		if (emprendimiento == null) {
+			throw new ObjectNotFound(EMPRENDIMIENTO);
+		}
+
+		adaptarPutEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
+
+		try {
+			log.info("Se actualizara emprendimiento [{}]", emprendimiento.getNombre());
+			emprendimiento = repository.save(emprendimiento);
+		} catch (Exception e) {
+			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
+				throw new ObjectAlreadyExists();
+			}
+		}
+
+		adaptarEmprendimientoAGetResEmprendimientoVo(getResEmprendimientoVo, emprendimiento);
+
+		return getResEmprendimientoVo;
 	}
 
 	private void adaptarEmprendimientoVoAEmprendimiento(EmprendimientoVo emprendimientoVo,
@@ -386,6 +516,35 @@ public class EmprendimientoService {
 	}
 
 	@Transactional
+	public GetResEmprendimientoVo bajaLogicaEmprendimientoSinPersona(Long id) {
+		Emprendimiento emprendimiento = repository.findByIdEmprendimiento(id);
+		GetResEmprendimientoVo getResEmprendimientoVo = new GetResEmprendimientoVo();
+
+		if (emprendimiento == null) {
+			throw new ObjectNotFound(EMPRENDIMIENTO);
+		}
+
+		if (ACTIVO == emprendimiento.getEstadoEmprendimiento().getIdEstadoEmprendimiento()) {
+			EstadoEmprendimiento estadoEmprendimiento = estadoEmprendimientoService
+					.traerEstadoEmprendimientoPorId(BAJA);
+			if (estadoEmprendimiento == null) {
+				throw new ObjectNotFound("EstadoEmprendimiento (baja = 3)");
+			}
+			emprendimiento.setEstadoEmprendimiento(estadoEmprendimiento);
+		}
+
+		try {
+			log.info("Se dara de baja emprendimiento [{}]", emprendimiento.getNombre());
+			emprendimiento = repository.save(emprendimiento);
+		} catch (Exception e) {
+			throw new ObjectAlreadyExists();
+		}
+
+		adaptarEmprendimientoAGetResEmprendimientoVo(getResEmprendimientoVo, emprendimiento);
+		return getResEmprendimientoVo;
+	}
+
+	@Transactional
 	public Emprendimiento habilitarEmprendimiento(Long id) {
 		Emprendimiento emprendimiento = repository.findByIdEmprendimiento(id);
 		EstadoEmprendimiento estadoEmprendimiento = estadoEmprendimientoService.traerEstadoEmprendimientoPorId(ACTIVO);
@@ -397,6 +556,24 @@ public class EmprendimientoService {
 		emprendimiento.setEstadoEmprendimiento(estadoEmprendimiento);
 
 		return repository.save(emprendimiento);
+	}
+
+	@Transactional
+	public GetResEmprendimientoVo habilitarEmprendimientoSinPersona(Long id) {
+		Emprendimiento emprendimiento = repository.findByIdEmprendimiento(id);
+		EstadoEmprendimiento estadoEmprendimiento = estadoEmprendimientoService.traerEstadoEmprendimientoPorId(ACTIVO);
+		GetResEmprendimientoVo getResEmprendimientoVo = new GetResEmprendimientoVo();
+
+		if (emprendimiento == null || estadoEmprendimiento == null) {
+			throw new ObjectNotFound(EMPRENDIMIENTO + " EstadoEmprendimiento activo=2");
+		}
+		log.info("Se habilitara emprendimiento [{}]", emprendimiento.getNombre());
+		emprendimiento.setEstadoEmprendimiento(estadoEmprendimiento);
+
+		repository.save(emprendimiento);
+
+		adaptarEmprendimientoAGetResEmprendimientoVo(getResEmprendimientoVo, emprendimiento);
+		return getResEmprendimientoVo;
 	}
 
 	public List<Turno> traerTurnosPorEmprendimiento(long idEmp, long idEst) {
