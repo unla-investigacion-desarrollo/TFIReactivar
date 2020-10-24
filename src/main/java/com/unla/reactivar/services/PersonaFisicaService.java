@@ -25,7 +25,6 @@ import com.unla.reactivar.models.Ubicacion;
 import com.unla.reactivar.repositories.PersonaFisicaRepository;
 import com.unla.reactivar.utils.CuilValidator;
 import com.unla.reactivar.utils.DateUtils;
-import com.unla.reactivar.vo.LoginVo;
 import com.unla.reactivar.vo.PersonaFisicaVo;
 import com.unla.reactivar.vo.ReclamoVo;
 import com.unla.reactivar.vo.ReqPutPersonaFisicaVo;

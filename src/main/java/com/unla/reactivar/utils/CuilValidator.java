@@ -9,7 +9,8 @@ public class CuilValidator {
 
 	private static final String HOMBRE = "hombre";
 	private static final String MUJER = "mujer";
-
+	private static final int MILLON_DIGITOS = 8;
+	
 	/*
 	 * 27 es para mujeres 20 es para hombres 23 puede ser ambos (se usa cuando hay
 	 * otro número igual) 30 empresas
@@ -17,10 +18,16 @@ public class CuilValidator {
 	public static boolean esCuilValido(String cuil, String sexo, String dni) {
 		boolean flag = true;
 		
+		if(!StringUtils.isBlank(dni) && dni.length() < MILLON_DIGITOS) {
+			while(dni.length() < MILLON_DIGITOS) {
+				dni = new StringBuilder("0").append(dni).toString();
+			}
+		}
 		
 		if(!StringUtils.isBlank(dni) && !cuil.substring(2, cuil.length()-1).equals(dni)) {
 			throw new InvalidCuilCuit();
 		}
+		
 		
 		if(cuil.length() < 10) {
 			throw new InvalidCuilCuit();

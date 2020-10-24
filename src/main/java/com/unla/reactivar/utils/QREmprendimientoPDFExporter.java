@@ -7,7 +7,6 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.util.Base64Util;
-import org.springframework.beans.factory.annotation.Value;
 
 import com.google.zxing.WriterException;
 import com.lowagie.text.Document;
@@ -107,7 +106,7 @@ public class QREmprendimientoPDFExporter {
 		qrImage2.setAbsolutePosition(33, 0);
 		document.add(qrImage2);
 
-		Image qrImage3 = Image.getInstance("src/main/resources/image/Reactivar.jpg");
+		Image qrImage3 = Image.getInstance("src/main/resources/image/Reactivar.png");
 		qrImage3.setAbsolutePosition(438, 22);
 		document.add(qrImage3);
 

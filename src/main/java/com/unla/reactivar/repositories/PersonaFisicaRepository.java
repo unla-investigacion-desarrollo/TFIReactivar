@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.unla.reactivar.models.PersonaFisica;
-import com.unla.reactivar.models.PersonaJuridica;
 
 @Repository
 public interface PersonaFisicaRepository extends JpaRepository<PersonaFisica, Long> {

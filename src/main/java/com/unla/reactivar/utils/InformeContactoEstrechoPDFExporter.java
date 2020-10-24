@@ -109,7 +109,7 @@ public class InformeContactoEstrechoPDFExporter {
 		qrImage2.setAbsolutePosition(33, 0);
 		document.add(qrImage2);
 
-		Image qrImage3 = Image.getInstance("src/main/resources/image/Reactivar.jpg");
+		Image qrImage3 = Image.getInstance("src/main/resources/image/Reactivar.png");
 		qrImage3.setAbsolutePosition(438, 22);
 		document.add(qrImage3);
 

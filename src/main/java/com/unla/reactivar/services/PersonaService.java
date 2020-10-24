@@ -25,7 +25,6 @@ import com.unla.reactivar.models.EstadoPersona;
 import com.unla.reactivar.models.OcupacionLocal;
 import com.unla.reactivar.models.Perfil;
 import com.unla.reactivar.models.Persona;
-import com.unla.reactivar.models.PersonaJuridica;
 import com.unla.reactivar.models.ResetAndValidatingToken;
 import com.unla.reactivar.models.Ubicacion;
 import com.unla.reactivar.repositories.PersonaRepository;

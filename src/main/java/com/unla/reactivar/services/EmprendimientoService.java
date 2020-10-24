@@ -30,7 +30,6 @@ import com.unla.reactivar.models.Rubro;
 import com.unla.reactivar.models.TipoEmprendimiento;
 import com.unla.reactivar.models.Turno;
 import com.unla.reactivar.models.Ubicacion;
-import com.unla.reactivar.repositories.ConfiguracionLocalRepository;
 import com.unla.reactivar.repositories.EmprendimientoRepository;
 import com.unla.reactivar.utils.CuilValidator;
 import com.unla.reactivar.utils.DateUtils;

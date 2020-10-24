@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unla.reactivar.models.Persona;
-import com.unla.reactivar.models.PersonaJuridica;
 import com.unla.reactivar.services.PersonaService;
 import com.unla.reactivar.vo.BusquedaPorContactoVo;
 import com.unla.reactivar.vo.CoordenadasVo;
