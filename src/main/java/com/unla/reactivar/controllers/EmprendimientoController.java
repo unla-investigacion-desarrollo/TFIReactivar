@@ -44,40 +44,41 @@ public class EmprendimientoController {
 	@ApiOperation(value = "Listar todos los Emprendimientos", notes = "Servicio para listar todos los Emprendimientos")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimientos encontrados"),
 			@ApiResponse(code = 404, message = "Emprendimientos no encontrados") })
-	public List<Emprendimiento> traerTodosEmprendimientos() {
-		return service.traerTodosEmprendimientos();
+	public List<GetResEmprendimientoVo> traerTodosEmprendimientos() {
+		return service.traerTodosEmprendimientosSinPersona();
 	}
 
 	@GetMapping("/inactivos")
 	@ApiOperation(value = "Listar todos los Emprendimientos inactivos", notes = "Servicio para listar todos los Emprendimientos inactivos")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimientos inactivos encontrados"),
 			@ApiResponse(code = 404, message = "Emprendimientos no encontrados") })
-	public List<Emprendimiento> traerTodosEmprendimientosInactivos() {
-		return service.traerTodosEmprendimientosInactivos();
+	public List<GetResEmprendimientoVo> traerTodosEmprendimientosInactivos() {
+		return service.traerTodosEmprendimientosInactivosSinPersona();
 	}
 
 	@GetMapping("/activos")
 	@ApiOperation(value = "Listar todos los Emprendimientos activos", notes = "Servicio para listar todos los Emprendimientos activos")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimientos activos encontrados"),
 			@ApiResponse(code = 404, message = "Emprendimientos no encontrados") })
-	public List<Emprendimiento> traerTodosEmprendimientosActivos() {
-		return service.traerTodosEmprendimientosActivos();
+	public List<GetResEmprendimientoVo> traerTodosEmprendimientosActivos() {
+		return service.traerTodosEmprendimientosActivosSinPersona();
 	}
 
 	@GetMapping("/enBaja")
 	@ApiOperation(value = "Listar todos los Emprendimientos dados de baja", notes = "Servicio para listar todos los Emprendimientos dados de baja")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimientos dados de baja encontrados"),
 			@ApiResponse(code = 404, message = "Emprendimientos no encontrados") })
-	public List<Emprendimiento> traerTodosEmprendimientosEnBaja() {
-		return service.traerTodosEmprendimientosEnBaja();
+	public List<GetResEmprendimientoVo> traerTodosEmprendimientosEnBaja() {
+		return service.traerTodosEmprendimientosEnBajaSinPersona();
 	}
 
 	@GetMapping("empXEstado/{idEstadoEmprendimiento}")
 	@ApiOperation(value = "Listar todos los Emprendimientos segun su Estado", notes = "Servicio para listar todos los Emprendimientos a partir del ID del Estado de emprendimiento deseado")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimientos encontrados"),
 			@ApiResponse(code = 404, message = "Emprendimientos no encontrados") })
-	public List<Emprendimiento> traerTodosEmprendimientosPorEstado(@PathVariable("idEstadoEmprendimiento") Long id) {
-		return service.traerTodosEmprendimientosPorEstado(id);
+	public List<GetResEmprendimientoVo> traerTodosEmprendimientosPorEstado(
+			@PathVariable("idEstadoEmprendimiento") Long id) {
+		return service.traerTodosEmprendimientosPorEstadoSinPersona(id);
 	}
 
 	@GetMapping("/{idEmprendimiento}")
@@ -127,10 +128,9 @@ public class EmprendimientoController {
 	@ApiOperation(value = "Crear Emprendimiento", notes = "Servicio para crear un Emprendimiento")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Emprendimiento creado exitosamente"),
 			@ApiResponse(code = 400, message = "No se pudo crear Emprendimiento") })
-	public ResponseEntity<Emprendimiento> crearEmprendimiento(@RequestBody EmprendimientoVo emprendimientoVo) {
-		Emprendimiento emprendimiento = service.crearEmprendimiento(emprendimientoVo);
+	public ResponseEntity<GetResEmprendimientoVo> crearEmprendimiento(@RequestBody EmprendimientoVo emprendimientoVo) {
 
-		return new ResponseEntity<>(emprendimiento, HttpStatus.CREATED);
+		return new ResponseEntity<>(service.crearEmprendimientoSinPersona(emprendimientoVo), HttpStatus.CREATED);
 	}
 
 	@DeleteMapping("/{idEmprendimiento}")
@@ -148,10 +148,10 @@ public class EmprendimientoController {
 	@ApiOperation(value = "Modificar un Emprendimiento por ID", notes = "Servicio para modificar un Emprendimiento a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimiento modificado correctamente"),
 			@ApiResponse(code = 404, message = "Emprendimiento no encontrado") })
-	public ResponseEntity<Emprendimiento> updateEmprendimiento(@PathVariable("idEmprendimiento") long id,
+	public ResponseEntity<GetResEmprendimientoVo> updateEmprendimiento(@PathVariable("idEmprendimiento") long id,
 			@RequestBody ReqPutEmprendimientoVo emprendimientoVo) {
 
-		return new ResponseEntity<>(service.actualizarEmprendimiento(id, emprendimientoVo), HttpStatus.OK);
+		return new ResponseEntity<>(service.actualizarEmprendimientoSinPersona(id, emprendimientoVo), HttpStatus.OK);
 	}
 
 	@GetMapping("/{idEmprendimiento}/exportpdf")
@@ -167,18 +167,18 @@ public class EmprendimientoController {
 	@ApiOperation(value = "Baja logica de un Emprendimiento por ID", notes = "Servicio para dar de baja a un Emprendimiento a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimiento dado de baja correctamente"),
 			@ApiResponse(code = 404, message = "Emprendimiento no encontrado") })
-	public ResponseEntity<Emprendimiento> bajaLogicaEmprendimiento(@PathVariable("idEmprendimiento") long id) {
+	public ResponseEntity<GetResEmprendimientoVo> bajaLogicaEmprendimiento(@PathVariable("idEmprendimiento") long id) {
 
-		return new ResponseEntity<>(service.bajaLogicaEmprendimiento(id), HttpStatus.OK);
+		return new ResponseEntity<>(service.bajaLogicaEmprendimientoSinPersona(id), HttpStatus.OK);
 	}
 
 	@PatchMapping("/{idEmprendimiento}")
 	@ApiOperation(value = "Habilitar un Emprendimiento por ID", notes = "Servicio para habilitar un Emprendimiento a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Emprendimiento habilitado correctamente"),
 			@ApiResponse(code = 404, message = "Emprendimiento no encontrado") })
-	public ResponseEntity<Emprendimiento> habilitarEmprendimiento(@PathVariable("idEmprendimiento") long id) {
+	public ResponseEntity<GetResEmprendimientoVo> habilitarEmprendimiento(@PathVariable("idEmprendimiento") long id) {
 
-		return new ResponseEntity<>(service.habilitarEmprendimiento(id), HttpStatus.OK);
+		return new ResponseEntity<>(service.habilitarEmprendimientoSinPersona(id), HttpStatus.OK);
 	}
 
 	@GetMapping("/{idEmprendimiento}/traerConfiguracionLocal")
