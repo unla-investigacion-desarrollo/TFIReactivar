@@ -54,7 +54,13 @@ public class ReactivarApplication extends SpringBootServletInitializer {
 						.antMatchers(HttpMethod.GET, "/api/provincia").permitAll()
 						.antMatchers(HttpMethod.GET, "/api/provincia/{idProvincia}/localidades").permitAll()
 						.antMatchers(HttpMethod.POST, "/api/ocupacionLocal/{idEmprendimientoBase64}").permitAll()
-						.antMatchers(HttpMethod.POST, "/api/juridica").permitAll().antMatchers(AUTH_WHITELIST)
+						.antMatchers(HttpMethod.POST, "/api/juridica").permitAll()
+						.antMatchers(HttpMethod.POST, "/api/persona/resetPassword").permitAll()
+						.antMatchers(HttpMethod.GET, "/api/persona/changePassword").permitAll()
+						.antMatchers(HttpMethod.POST, "/api/persona/savePassword").permitAll()
+						.antMatchers(HttpMethod.GET, "/api/persona/validateEmail").permitAll()
+						.antMatchers(HttpMethod.GET, "/api/persona/resendValidationEmail").permitAll()
+						.antMatchers(AUTH_WHITELIST)
 						.permitAll().anyRequest().authenticated();
 			} else {
 				http.authorizeRequests().anyRequest().permitAll();
