@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -180,6 +181,102 @@ public class TurnoService {
 		}
 		
 		return map;
+	}
+	
+	public Map<String, List<String>> traerTurnosDisponiblesXFecha(long idEmprendimiento, String fecha) {
+		log.info("Se consultaran los turnos disponibles de la fecha elegida");
+		DateFormat format = new SimpleDateFormat("HH:mm");
+		Map<String, List<String>> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+		List<ConfiguracionLocal> configuraciones = configuracionLocalService
+				.traerTodasConfiguracionesLocalesPorEmprendimiento(idEmprendimiento);
+		List<Turno> turnos = traerTurnosPorEmprendimiento(idEmprendimiento, OCUPADO);
+		//String fecha = "23/10/2020"
+		GregorianCalendar fechaDia = traerFecha2(fecha);		
+		String dia = traerDiaDeLaSemana(fechaDia);
+		log.info("dia [{}]", dia );
+		
+		for (ConfiguracionLocal config : configuraciones) {
+			if(!config.getDiaSemana().equalsIgnoreCase(dia))
+				continue;
+			if (!map.containsKey(config.getDiaSemana())) {
+				List<String> horas =  new ArrayList<>();
+				int intervalo = config.getIntervaloTurnos();
+				LocalTime turnoInicio1 = LocalTime.parse(config.getTurno1Desde());
+				LocalTime turnoFin1 = LocalTime.parse(config.getTurno1Hasta());
+				LocalTime turnoInicio2 = LocalTime.parse(config.getTurno2Desde());
+				LocalTime turnoFin2 = LocalTime.parse(config.getTurno2Hasta());
+				while(turnoInicio1.isBefore(turnoFin1) || turnoInicio1.isEqual(turnoFin1)) {
+					String hora = turnoInicio1.toString("HH:mm");
+					horas.add(hora);
+					turnoInicio1 = turnoInicio1.plusMinutes(intervalo);
+				}
+				while(turnoInicio2.isBefore(turnoFin2) || turnoInicio2.isEqual(turnoFin2)) {
+					String hora = turnoInicio2.toString("HH:mm");
+					horas.add(hora);
+					turnoInicio2 = turnoInicio2.plusMinutes(intervalo);
+				}
+				map.put(config.getDiaSemana(), horas);
+			}
+		}
+		Calendar calendar = Calendar.getInstance();
+		for(Turno turno : turnos) {
+			calendar.setTime(turno.getFechaHora());
+			int nroDiaSemana = calendar.get(Calendar.DAY_OF_WEEK);
+			String diaSemana = EnumDiaSemana.getByNroDia(nroDiaSemana).getDiaKey();
+			String horaTurno = new SimpleDateFormat("HH:mm").format(turno.getFechaHora().getTime() + 10800000);
+			if(map.containsKey(diaSemana))
+				map.get(diaSemana).remove(horaTurno);
+		}
+		
+		return map;
+	}
+	
+	public static GregorianCalendar traerFecha2(String fecha) {
+		String d = fecha.substring(0, 2);
+		String m = fecha.substring(3, 5);
+		String a = fecha.substring(6, 10);
+
+		int anio = Integer.valueOf(a);
+		int mes = Integer.valueOf(m);
+		int dia = Integer.valueOf(d);
+		return new GregorianCalendar(anio, mes - 1, dia);
+	}
+	
+	public static String traerDiaDeLaSemana(GregorianCalendar f) {
+		String dia = "";
+
+		switch (f.get(Calendar.DAY_OF_WEEK)) {
+
+		case 1:
+			dia = "Domingo";
+			break;
+
+		case 2:
+			dia = "Lunes";
+			break;
+
+		case 3:
+			dia = "Martes";
+			break;
+
+		case 4:
+			dia = "Miercoles";
+			break;
+
+		case 5:
+			dia = "Jueves";
+			break;
+
+		case 6:
+			dia = "Viernes";
+			break;
+
+		case 7:
+			dia = "Sabado";
+			break;
+		}
+
+		return dia;
 	}
 
 }

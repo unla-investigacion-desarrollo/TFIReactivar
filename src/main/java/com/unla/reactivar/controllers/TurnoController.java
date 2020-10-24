@@ -47,6 +47,11 @@ public class TurnoController {
 		return service.traerTurnosDisponibles(idEmprendimiento, dia);
 	}
 
+	@GetMapping("/disponibles2")
+	public Map<String, List<String>> traerTodosTurnosDisponiblesXFecha(@RequestParam long idEmprendimiento, @RequestParam String fecha) {
+		return service.traerTurnosDisponiblesXFecha(idEmprendimiento, fecha);
+	}
+
 	@GetMapping("/{idTurno}")
 	@ApiOperation(value = "Mostrar un Turno por ID", notes = "Servicio para mostrar un Turno a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Turno encontrado"),
