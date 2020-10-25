@@ -242,4 +242,13 @@ public class TurnoService {
 		return dia;
 	}
 
+	public List<Turno> traerTurnoPorPersona(long id) {
+		Persona persona = personaService.traerPersonaPorId(id);
+		if (persona == null) {
+			throw new ObjectNotFound("Persona");
+		}
+		
+		return repository.findByPersona(persona);
+	}
+
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.unla.reactivar.models.Emprendimiento;
 import com.unla.reactivar.models.EstadoTurno;
+import com.unla.reactivar.models.Persona;
 import com.unla.reactivar.models.Turno;
 
 @Repository
@@ -17,5 +18,8 @@ public interface TurnoRepository extends JpaRepository<Turno, Long> {
 	
 	@Query("SELECT t FROM Turno t WHERE t.emprendimiento= ?1 and t.estadoTurno= ?2")
 	public List<Turno> findTurnosPorEmprendimiento(Emprendimiento emp, EstadoTurno estadoTurno);
+
+	@Query("SELECT t FROM Turno t WHERE t.persona= ?1 and t.estadoTurno= 1")
+	public List<Turno> findByPersona(Persona persona);
 
 }

@@ -54,6 +54,14 @@ public class TurnoController {
 	public Turno traerTurno(@PathVariable("idTurno") long id) {
 		return service.traerTurnoPorId(id);
 	}
+	
+	@GetMapping("/persona/{idPersona}")
+	@ApiOperation(value = "Mostrar un Turno por persona", notes = "Servicio para mostrar un Turno a partir de un ID")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Turno encontrado"),
+			@ApiResponse(code = 404, message = "Turno no encontrado") })
+	public ResponseEntity<List<Turno>> traerTurnoPorPersona(@PathVariable("idPersona") long id) {
+		return new ResponseEntity<>(service.traerTurnoPorPersona(id), HttpStatus.OK);
+	}
 
 	@PostMapping
 	@ApiOperation(value = "Crear un Turno", notes = "Servicio para crear un Turno")
