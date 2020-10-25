@@ -1,6 +1,5 @@
 package com.unla.reactivar.services;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,9 +23,6 @@ public class ImageService {
 	@Autowired
 	private ImageRepository repository;
 	
-	@Value("${image.upload.directory}")
-	private String imageUploadPath;
-	
 	@Transactional
 	public Image crearImagen(String nombreImagen, long idEmprendimiento, String imageBase64) {
 		Image image = new Image();
@@ -49,10 +45,6 @@ public class ImageService {
 		
 		if(imagen == null)
 			throw new ObjectNotFound("Image");
-		
-		File file = new File(imageUploadPath+"/"+imagen.getNombreImagen()+".jpg"); 
-		
-		file.delete();
 		
 		repository.delete(imagen);
 	}

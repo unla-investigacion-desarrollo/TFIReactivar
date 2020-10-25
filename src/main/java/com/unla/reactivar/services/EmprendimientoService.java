@@ -64,9 +64,6 @@ public class EmprendimientoService {
 	@Value("${server.host}")
 	private String serverHost;
 
-	@Value("${image.upload.directory}")
-	private String imageUploadPath;
-
 	@Value("${image.upload.max}")
 	private int imageUploadMax;
 
@@ -776,20 +773,10 @@ public class EmprendimientoService {
 		Random rnd = new Random();
 		String randomStr = String.format("%09d", rnd.nextInt(999999999));
 
-		byte[] imageByte = Base64Utils.decodeFromString(uploadImageVo.getImageBase64());
-
 		String nombreImagen = emprendimiento.getNombre() + randomStr;
 
-		String directory = imageUploadPath + "/" + nombreImagen + ".jpg";
-
 		imageService.crearImagen(nombreImagen, emprendimiento.getIdEmprendimiento(), uploadImageVo.getImageBase64());
-
-		try {
-			new FileOutputStream(directory).write(imageByte);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
+		
 	}
 
 }
