@@ -586,7 +586,8 @@ public class EmprendimientoService {
 		}
 		log.info("Se habilitara emprendimiento [{}]", emprendimiento.getNombre());
 		emprendimiento.setEstadoEmprendimiento(estadoEmprendimiento);
-
+		Perfil perfil = perfilService.traerPerfilPorId(VENDEDOR);
+		emprendimiento.getPersona().setPerfil(perfil);
 		repository.save(emprendimiento);
 
 		adaptarEmprendimientoAGetResEmprendimientoVo(getResEmprendimientoVo, emprendimiento);
