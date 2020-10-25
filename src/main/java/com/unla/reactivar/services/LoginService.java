@@ -75,7 +75,7 @@ public class LoginService {
 		loginResp.setIdPerfil(persona.getPerfil().getIdPerfil());
 		
 		if(!persona.getEmprendimientos().isEmpty()) {
-			loginResp.setIdEmprendimiento(persona.getEmprendimientos().get(0).getIdEmprendimiento());
+			loginResp.setIdEmprendimiento(persona.getEmprendimientos().stream().filter(x -> x.getEstadoEmprendimiento().getIdEstadoEmprendimiento() == 2).findFirst().get().getIdEmprendimiento());
 		}
 		
 		log.info("Se logea [{}]", email);
