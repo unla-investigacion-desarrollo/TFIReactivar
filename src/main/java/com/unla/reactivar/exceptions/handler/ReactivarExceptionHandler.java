@@ -92,7 +92,7 @@ public class ReactivarExceptionHandler {
 	@ResponseBody
 	protected GenericError ObjectAlreadyExistsExceptionHandler(ObjectAlreadyExists ex) {
 
-		String message = "El objeto ya exite dentro de la BD.";
+		String message = "El objeto ya existe dentro de la BD."+ex.getErrorMessage();
 
 		GenericError error = new GenericError("error.reactivar.db.registro_ya_existente", message);
 

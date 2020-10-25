@@ -161,7 +161,7 @@ public class LoginService {
 			login = repository.save(login);
 		} catch (Exception e) {
 			if (e.getCause() != null && e.getCause().getCause() instanceof SQLIntegrityConstraintViolationException) {
-				throw new ObjectAlreadyExists();
+				throw new ObjectAlreadyExists("Login");
 			}
 		}
 

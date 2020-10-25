@@ -3,7 +3,7 @@ package com.unla.reactivar.exceptions;
 public class ObjectAlreadyExists extends RuntimeException {
 
 	private static final long serialVersionUID = -9090379577606600324L;
-	private String errorMessage;
+	private String errorMessage = "";
 	private String errorCode;
 
 	public ObjectAlreadyExists() {
