@@ -1,6 +1,5 @@
 package com.unla.reactivar.services;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
@@ -17,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Base64Utils;
 
 import com.google.zxing.WriterException;
 import com.lowagie.text.DocumentException;
@@ -30,6 +28,7 @@ import com.unla.reactivar.models.Emprendimiento;
 import com.unla.reactivar.models.EstadoEmprendimiento;
 import com.unla.reactivar.models.Perfil;
 import com.unla.reactivar.models.Persona;
+import com.unla.reactivar.models.PersonaFisica;
 import com.unla.reactivar.models.Rubro;
 import com.unla.reactivar.models.TipoEmprendimiento;
 import com.unla.reactivar.models.Turno;
@@ -56,6 +55,7 @@ public class EmprendimientoService {
 	private static final long ACTIVO = 2;
 	private static final long BAJA = 3;
 	private static final long VENDEDOR = 3;
+	private static final long USUARIO = 2;
 
 	private static final int VERDE = 1;
 	private static final int AMARILLO = 2;
@@ -72,7 +72,7 @@ public class EmprendimientoService {
 
 	@Autowired
 	private PersonaService personaService;
-
+	
 	@Autowired
 	private RubroService rubroService;
 
@@ -319,6 +319,8 @@ public class EmprendimientoService {
 		if (emprendimiento == null) {
 			throw new ObjectNotFound(EMPRENDIMIENTO);
 		}
+		
+		
 		log.info("Se eliminara emprendimiento [{}]", emprendimiento.getNombre());
 
 		repository.delete(emprendimiento);
@@ -515,6 +517,8 @@ public class EmprendimientoService {
 				throw new ObjectNotFound("EstadoEmprendimiento (baja = 3)");
 			}
 			emprendimiento.setEstadoEmprendimiento(estadoEmprendimiento);
+			Perfil perfil = perfilService.traerPerfilPorId(USUARIO);
+			emprendimiento.getPersona().setPerfil(perfil);
 		}
 
 		try {
@@ -542,6 +546,8 @@ public class EmprendimientoService {
 				throw new ObjectNotFound("EstadoEmprendimiento (baja = 3)");
 			}
 			emprendimiento.setEstadoEmprendimiento(estadoEmprendimiento);
+			Perfil perfil = perfilService.traerPerfilPorId(USUARIO);
+			emprendimiento.getPersona().setPerfil(perfil);
 		}
 
 		try {
