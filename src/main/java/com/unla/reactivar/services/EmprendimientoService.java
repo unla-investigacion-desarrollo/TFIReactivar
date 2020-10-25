@@ -1,11 +1,13 @@
 package com.unla.reactivar.services;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,9 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 
 import com.google.zxing.WriterException;
 import com.lowagie.text.DocumentException;
+import com.unla.reactivar.exceptions.MaximumNumberOfImages;
 import com.unla.reactivar.exceptions.ObjectAlreadyExists;
 import com.unla.reactivar.exceptions.ObjectNotFound;
 import com.unla.reactivar.exceptions.PdfExporterException;
@@ -39,6 +43,7 @@ import com.unla.reactivar.vo.EmprendimientoVo;
 import com.unla.reactivar.vo.GetResEmprendimientoVo;
 import com.unla.reactivar.vo.ReqPostConfiguracionLocalVo;
 import com.unla.reactivar.vo.ReqPutEmprendimientoVo;
+import com.unla.reactivar.vo.UploadImageVo;
 
 @Service
 @Transactional(readOnly = true)
@@ -58,6 +63,12 @@ public class EmprendimientoService {
 
 	@Value("${server.host}")
 	private String serverHost;
+
+	@Value("${image.upload.directory}")
+	private String imageUploadPath;
+
+	@Value("${image.upload.max}")
+	private int imageUploadMax;
 
 	@Autowired
 	private EmprendimientoRepository repository;
@@ -88,6 +99,9 @@ public class EmprendimientoService {
 
 	@Autowired
 	private ConfiguracionLocalService configuracionLocalService;
+
+	@Autowired
+	private ImageService imageService;
 
 	public Emprendimiento traerEmprendimientoPorId(Long id) {
 		log.info("Se traera un Emprendimiento por id");
@@ -695,7 +709,7 @@ public class EmprendimientoService {
 		getResEmprendimientoVo.setTelefono(emprendimiento.getTelefono());
 		getResEmprendimientoVo.setNroColor(traerNroColor(emprendimiento.getCapacidad(),
 				ocupacionLocalService.traerCantidadClientes(emprendimiento.getIdEmprendimiento())));
-
+		getResEmprendimientoVo.setImagenes(emprendimiento.getImagenes());
 		usaTurno = repository.usaTurno(emprendimiento);
 
 		getResEmprendimientoVo.setUsaTurnos(usaTurno);
@@ -746,6 +760,35 @@ public class EmprendimientoService {
 		}
 
 		return nroColor;
+
+	}
+
+	@SuppressWarnings("resource")
+	@Transactional
+	public void uploadImage(UploadImageVo uploadImageVo) {
+
+		Emprendimiento emprendimiento = repository.findByIdEmprendimiento(uploadImageVo.getIdEmprendimiento());
+
+		if (emprendimiento.getImagenes().size() >= imageUploadMax) {
+			throw new MaximumNumberOfImages();
+		}
+
+		Random rnd = new Random();
+		String randomStr = String.format("%09d", rnd.nextInt(999999999));
+
+		byte[] imageByte = Base64Utils.decodeFromString(uploadImageVo.getImageBase64());
+
+		String nombreImagen = emprendimiento.getNombre() + randomStr;
+
+		String directory = imageUploadPath + "/" + nombreImagen + ".jpg";
+
+		imageService.crearImagen(nombreImagen, emprendimiento.getIdEmprendimiento(), uploadImageVo.getImageBase64());
+
+		try {
+			new FileOutputStream(directory).write(imageByte);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
 

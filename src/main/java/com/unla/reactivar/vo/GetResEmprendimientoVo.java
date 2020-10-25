@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.unla.reactivar.models.ConfiguracionLocal;
 import com.unla.reactivar.models.EstadoEmprendimiento;
+import com.unla.reactivar.models.Image;
 import com.unla.reactivar.models.Rubro;
 import com.unla.reactivar.models.TipoEmprendimiento;
 import com.unla.reactivar.models.Ubicacion;
@@ -27,7 +28,7 @@ public class GetResEmprendimientoVo {
 	private Rubro rubro;
 	private long telefono;
 	private List<ConfiguracionLocal> configuracionesLocal;
-
+	private List<Image> imagenes;
 	private boolean usaTurnos;
 	private int nroColor;
 	private int cantPersonasEnLocal;

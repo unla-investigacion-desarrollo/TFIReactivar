@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unla.reactivar.models.ConfiguracionLocal;
-import com.unla.reactivar.models.Emprendimiento;
 import com.unla.reactivar.models.Turno;
 import com.unla.reactivar.services.EmprendimientoService;
 import com.unla.reactivar.vo.EmprendimientoVo;
 import com.unla.reactivar.vo.Empty;
 import com.unla.reactivar.vo.GetResEmprendimientoVo;
 import com.unla.reactivar.vo.ReqPutEmprendimientoVo;
+import com.unla.reactivar.vo.UploadImageVo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -200,4 +200,9 @@ public class EmprendimientoController {
 		return service.verificarEmprendimiento(id);
 	}
 
+	@PostMapping("/uploadImage")
+	public ResponseEntity<Empty> uploadImage(@RequestBody UploadImageVo uploadImageVo) {
+		service.uploadImage(uploadImageVo);
+		return new ResponseEntity<>(new Empty(), HttpStatus.OK);
+	}
 }

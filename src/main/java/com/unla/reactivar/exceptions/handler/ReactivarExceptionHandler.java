@@ -15,6 +15,7 @@ import com.unla.reactivar.exceptions.IncorrectToken;
 import com.unla.reactivar.exceptions.IncorrectTokenOrTokenExpiredPwd;
 import com.unla.reactivar.exceptions.IncorrectUserOrPassword;
 import com.unla.reactivar.exceptions.InvalidCuilCuit;
+import com.unla.reactivar.exceptions.MaximumNumberOfImages;
 import com.unla.reactivar.exceptions.ObjectAlreadyExists;
 import com.unla.reactivar.exceptions.ObjectNotFound;
 import com.unla.reactivar.exceptions.PdfExporterException;
@@ -150,6 +151,20 @@ public class ReactivarExceptionHandler {
 		String message = "Usuario no se encuentra verificado";
 
 		GenericError error = new GenericError("error.reactivar.user.already_inactive", message);
+
+		logger.error(message);
+
+		return error;
+	}
+	
+	@ExceptionHandler(MaximumNumberOfImages.class)
+	@ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)
+	@ResponseBody
+	protected GenericError MaximumNumberOfImagesExceptionHandler(MaximumNumberOfImages ex) {
+
+		String message = "El emprendimiento ya posee la cantidad maxima de imagenes";
+
+		GenericError error = new GenericError("error.reactivar.emprendimiento.images.maximum", message);
 
 		logger.error(message);
 

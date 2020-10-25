@@ -86,4 +86,8 @@ public class Emprendimiento {
 	@OneToMany(mappedBy = "emprendimiento")
 	@JsonBackReference
 	private List<OcupacionLocal> ocupacionLocales;
+	
+	@OneToMany(mappedBy = "emprendimiento")
+	@JsonManagedReference
+	private List<Image> imagenes;
 }

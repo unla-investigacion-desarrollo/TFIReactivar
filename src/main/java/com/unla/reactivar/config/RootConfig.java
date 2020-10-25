@@ -12,6 +12,7 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource("file:${root.path}/app-directory/cfg/security/config.properties")
 @PropertySource("file:${root.path}/app-directory/cfg/mail/config.properties")
 @PropertySource("file:${root.path}/app-directory/cfg/notifications/config.properties")
+@PropertySource("file:${root.path}/app-directory/cfg/images/config.properties")
 public class RootConfig {
 
 }
