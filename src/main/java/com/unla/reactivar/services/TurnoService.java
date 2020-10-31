@@ -9,6 +9,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import org.joda.time.LocalTime;
 import org.slf4j.Logger;
@@ -27,6 +28,7 @@ import com.unla.reactivar.models.Turno;
 import com.unla.reactivar.repositories.TurnoRepository;
 import com.unla.reactivar.utils.DateUtils;
 import com.unla.reactivar.utils.EnumDiaSemana;
+import com.unla.reactivar.vo.ReqPatchTurnoVo;
 import com.unla.reactivar.vo.TurnoVo;
 
 @Service
@@ -35,6 +37,7 @@ public class TurnoService {
 
 	private final Logger log = LoggerFactory.getLogger(getClass().getName());
 	private static final long OCUPADO = 2L;
+	private static final long PENDIENTE = 3L;
 
 	@Autowired
 	private TurnoRepository repository;
@@ -114,11 +117,11 @@ public class TurnoService {
 
 	private void adaptVoToTurno(Turno turno, TurnoVo turnoVo) {
 		Emprendimiento emprendimiento = emprendimientoService.traerEmprendimientoPorId(turnoVo.getIdEmprendimiento());
-		EstadoTurno estadoTurno = estadoService.traerEstadoTurnoPorId(OCUPADO);
+		EstadoTurno estadoTurno = estadoService.traerEstadoTurnoPorId(PENDIENTE);
 		Persona persona = personaService.traerPersonaPorId(turnoVo.getIdPersona());
 
 		if (emprendimiento == null || estadoTurno == null || persona == null) {
-			throw new ObjectNotFound("Emprendimiento / EstadoTurno (Ocupado = 2) / Persona");
+			throw new ObjectNotFound("Emprendimiento / EstadoTurno (Pendiente = 3) / Persona");
 		}
 
 		turno.setEmprendimiento(emprendimiento);
@@ -147,7 +150,9 @@ public class TurnoService {
 		Map<String, List<String>> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 		List<ConfiguracionLocal> configuraciones = configuracionLocalService
 				.traerTodasConfiguracionesLocalesPorEmprendimiento(idEmprendimiento);
-		List<Turno> turnos = traerTurnosPorEmprendimiento(idEmprendimiento, OCUPADO);
+		List<Turno> turnosOcupados = traerTurnosPorEmprendimiento(idEmprendimiento, OCUPADO);
+		List<Turno> turnosPendientes = traerTurnosPorEmprendimiento(idEmprendimiento, PENDIENTE);
+
 		// String fecha = "23/10/2020"
 		GregorianCalendar fechaDia = traerFecha2(fecha);
 		String dia = traerDiaDeLaSemana(fechaDia);
@@ -182,7 +187,15 @@ public class TurnoService {
 			}
 		}
 		Calendar calendar = Calendar.getInstance();
-		for (Turno turno : turnos) {
+		for (Turno turno : turnosOcupados) {
+			calendar.setTime(turno.getFechaHora());
+			int nroDiaSemana = calendar.get(Calendar.DAY_OF_WEEK);
+			String diaSemana = EnumDiaSemana.getByNroDia(nroDiaSemana).getDiaKey();
+			String horaTurno = new SimpleDateFormat("HH:mm").format(turno.getFechaHora().getTime() + 10800000);
+			if (map.containsKey(diaSemana))
+				map.get(diaSemana).remove(horaTurno);
+		}
+		for (Turno turno : turnosPendientes) {
 			calendar.setTime(turno.getFechaHora());
 			int nroDiaSemana = calendar.get(Calendar.DAY_OF_WEEK);
 			String diaSemana = EnumDiaSemana.getByNroDia(nroDiaSemana).getDiaKey();
@@ -242,13 +255,54 @@ public class TurnoService {
 		return dia;
 	}
 
-	public List<Turno> traerTurnoPorPersona(long id) {
+	@SuppressWarnings("deprecation")
+	public List<Turno> traerTurnoPorPersona(long id, String fecha) {
 		Persona persona = personaService.traerPersonaPorId(id);
+		int d = Integer.valueOf(fecha.substring(0, 2));
+		int m = Integer.valueOf(fecha.substring(3, 5));
+		int a = Integer.valueOf(fecha.substring(6, 10));
+		
+		int mes = m-1;
 		if (persona == null) {
 			throw new ObjectNotFound("Persona");
 		}
 		
-		return repository.findByPersona(persona);
+		List<Turno> turnos = repository.findByPersona(persona);
+		
+		return turnos.stream().filter(x -> x.getFechaHora().getDate() == d).filter(x -> x.getFechaHora().getMonth() == mes).filter(x-> x.getFechaHora().getYear()+1900 == a).collect(Collectors.toList());
+		
+	}
+	
+	@SuppressWarnings("deprecation")
+	public List<Turno> traerTurnoPorEmprendimiento(long id, String fecha) {
+		Emprendimiento emp = emprendimientoService.traerEmprendimientoPorId(id);
+		int d = Integer.valueOf(fecha.substring(0, 2));
+		int m = Integer.valueOf(fecha.substring(3, 5));
+		int a = Integer.valueOf(fecha.substring(6, 10));
+		
+		int mes = m-1;
+		if (emp == null) {
+			throw new ObjectNotFound("Persona");
+		}
+		
+		List<Turno> turnos = repository.findByEmprendimiento(emp);
+		
+		return turnos.stream().filter(x -> x.getFechaHora().getDate() == d).filter(x -> x.getFechaHora().getMonth() == mes).filter(x-> x.getFechaHora().getYear()+1900 == a).collect(Collectors.toList());
+		
+	}
+
+
+	public Turno patchTurno(Long id, ReqPatchTurnoVo patchTurno) {
+		Turno turno = repository.findByIdTurno(id);
+		EstadoTurno estadoTurno = estadoService.traerEstadoTurnoPorId(patchTurno.getIdEstadoTurno());
+
+		if (turno == null || estadoTurno == null) {
+			throw new ObjectNotFound("Turno / EstadoTurno");
+		}
+		
+		turno.setEstadoTurno(estadoTurno);
+
+		return repository.save(turno) ;
 	}
 
 }
