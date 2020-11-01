@@ -28,6 +28,7 @@ import com.unla.reactivar.models.Turno;
 import com.unla.reactivar.repositories.TurnoRepository;
 import com.unla.reactivar.utils.DateUtils;
 import com.unla.reactivar.utils.EnumDiaSemana;
+import com.unla.reactivar.vo.GetResTurnoVo;
 import com.unla.reactivar.vo.ReqPatchTurnoVo;
 import com.unla.reactivar.vo.TurnoVo;
 
@@ -274,6 +275,32 @@ public class TurnoService {
 	}
 	
 	@SuppressWarnings("deprecation")
+	public List<GetResTurnoVo> traerGetResTurnoVoPorPersona(long id, String fecha) {
+		Persona persona = personaService.traerPersonaPorId(id);
+		int d = Integer.valueOf(fecha.substring(0, 2));
+		int m = Integer.valueOf(fecha.substring(3, 5));
+		int a = Integer.valueOf(fecha.substring(6, 10));
+		
+		int mes = m-1;
+		if (persona == null) {
+			throw new ObjectNotFound("Persona");
+		}
+		
+		
+		List<Turno> turnos = repository.findByPersona(persona);
+		List<GetResTurnoVo> turnosVo =new ArrayList();
+		for(int i=0; i< turnos.size(); i++) {
+			GetResTurnoVo turnoVoAux = new GetResTurnoVo();
+			adaptarTurnoAGetResTurnoVo(turnoVoAux,turnos.get(i));
+			turnosVo.add(turnoVoAux);
+		}
+		
+		
+		return turnosVo.stream().filter(x -> x.getFechaHora().getDate() == d).filter(x -> x.getFechaHora().getMonth() == mes).filter(x-> x.getFechaHora().getYear()+1900 == a).collect(Collectors.toList());
+		
+	}
+	
+	@SuppressWarnings("deprecation")
 	public List<Turno> traerTurnoPorEmprendimiento(long id, String fecha) {
 		Emprendimiento emp = emprendimientoService.traerEmprendimientoPorId(id);
 		int d = Integer.valueOf(fecha.substring(0, 2));
@@ -288,6 +315,29 @@ public class TurnoService {
 		List<Turno> turnos = repository.findByEmprendimiento(emp);
 		
 		return turnos.stream().filter(x -> x.getFechaHora().getDate() == d).filter(x -> x.getFechaHora().getMonth() == mes).filter(x-> x.getFechaHora().getYear()+1900 == a).collect(Collectors.toList());
+		
+	}
+	
+	@SuppressWarnings("deprecation")
+	public List<GetResTurnoVo> traerGetResTurnoVoPorEmprendimiento(long id, String fecha) {
+		Emprendimiento emp = emprendimientoService.traerEmprendimientoPorId(id);
+		int d = Integer.valueOf(fecha.substring(0, 2));
+		int m = Integer.valueOf(fecha.substring(3, 5));
+		int a = Integer.valueOf(fecha.substring(6, 10));
+		
+		int mes = m-1;
+		if (emp == null) {
+			throw new ObjectNotFound("Persona");
+		}
+		
+		List<Turno> turnos = repository.findByEmprendimiento(emp);
+		List<GetResTurnoVo> turnosVo =new ArrayList();
+		for(int i=0; i< turnos.size(); i++) {
+			GetResTurnoVo turnoVoAux = new GetResTurnoVo();
+			adaptarTurnoAGetResTurnoVo(turnoVoAux,turnos.get(i));
+			turnosVo.add(turnoVoAux);
+		}
+		return turnosVo.stream().filter(x -> x.getFechaHora().getDate() == d).filter(x -> x.getFechaHora().getMonth() == mes).filter(x-> x.getFechaHora().getYear()+1900 == a).collect(Collectors.toList());
 		
 	}
 
@@ -305,4 +355,20 @@ public class TurnoService {
 		return repository.save(turno) ;
 	}
 
+	private void adaptarTurnoAGetResTurnoVo(GetResTurnoVo getResTurnoVo,Turno turno) {
+		 
+		getResTurnoVo.setIdTurno(turno.getIdTurno());
+		getResTurnoVo.setFechaHora(turno.getFechaHora());
+		getResTurnoVo.setObservaciones(turno.getObservaciones());
+		getResTurnoVo.setIdEstadoTurno(turno.getEstadoTurno().getIdEstadoTurno());
+		getResTurnoVo.setEstado(turno.getEstadoTurno().getEstado());
+		getResTurnoVo.setIdEmprendimiento(turno.getEmprendimiento().getIdEmprendimiento());
+		getResTurnoVo.setNombre(turno.getEmprendimiento().getNombre());
+		getResTurnoVo.setLatitud(turno.getEmprendimiento().getUbicacion().getLatitud());
+		getResTurnoVo.setLongitud(turno.getEmprendimiento().getUbicacion().getLongitud());
+		getResTurnoVo.setTelefono(turno.getEmprendimiento().getTelefono());
+		
+	}
+	
+	
 }

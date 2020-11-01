@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.unla.reactivar.models.Turno;
 import com.unla.reactivar.services.TurnoService;
 import com.unla.reactivar.vo.Empty;
+import com.unla.reactivar.vo.GetResTurnoVo;
 import com.unla.reactivar.vo.ReqPatchTurnoVo;
 import com.unla.reactivar.vo.TurnoVo;
 
@@ -62,16 +63,16 @@ public class TurnoController {
 	@ApiOperation(value = "Mostrar un Turno por persona", notes = "Servicio para mostrar un Turno a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Turno encontrado"),
 			@ApiResponse(code = 404, message = "Turno no encontrado") })
-	public ResponseEntity<List<Turno>> traerTurnoPorPersona(@PathVariable("idPersona") long id, @RequestParam String fecha) {
-		return new ResponseEntity<>(service.traerTurnoPorPersona(id, fecha), HttpStatus.OK);
+	public ResponseEntity<List<GetResTurnoVo>> traerTurnoPorPersona(@PathVariable("idPersona") long id, @RequestParam String fecha) {
+		return new ResponseEntity<>(service.traerGetResTurnoVoPorPersona(id, fecha), HttpStatus.OK);
 	}
 	
 	@GetMapping("/emprendimiento/{idEmprendimiento}")
 	@ApiOperation(value = "Mostrar un Turno por emprendimiento", notes = "Servicio para mostrar un Turno a partir de un ID")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Turno encontrado"),
 			@ApiResponse(code = 404, message = "Turno no encontrado") })
-	public ResponseEntity<List<Turno>> traerTurnoPorEmp(@PathVariable("idEmprendimiento") long id, @RequestParam String fecha) {
-		return new ResponseEntity<>(service.traerTurnoPorEmprendimiento(id, fecha), HttpStatus.OK);
+	public ResponseEntity<List<GetResTurnoVo>> traerTurnoPorEmp(@PathVariable("idEmprendimiento") long id, @RequestParam String fecha) {
+		return new ResponseEntity<>(service.traerGetResTurnoVoPorEmprendimiento(id, fecha), HttpStatus.OK);
 	}
 
 
