@@ -2,11 +2,9 @@ package com.unla.reactivar.services;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +24,7 @@ import com.unla.reactivar.models.ConfiguracionLocal;
 import com.unla.reactivar.models.Emprendimiento;
 import com.unla.reactivar.models.EstadoTurno;
 import com.unla.reactivar.models.Persona;
+import com.unla.reactivar.models.PersonaFisica;
 import com.unla.reactivar.models.Turno;
 import com.unla.reactivar.repositories.TurnoRepository;
 import com.unla.reactivar.utils.DateUtils;
@@ -47,6 +46,9 @@ public class TurnoService {
 
 	@Autowired
 	private PersonaService personaService;
+	
+	@Autowired
+	private PersonaFisicaService personaFisicaService;
 
 	@Autowired
 	private EmprendimientoService emprendimientoService;
@@ -338,7 +340,8 @@ public class TurnoService {
 		getResTurnoVo.setLatitud(turno.getEmprendimiento().getUbicacion().getLatitud());
 		getResTurnoVo.setLongitud(turno.getEmprendimiento().getUbicacion().getLongitud());
 		getResTurnoVo.setTelefono(turno.getEmprendimiento().getTelefono());
-		
+		PersonaFisica persona = personaFisicaService.traerPersonaFisicaPorId(turno.getPersona().getIdPersona());
+		getResTurnoVo.setNombrePersona(persona.getNombre() + " " + persona.getApellido());
 	}
 	
 	
