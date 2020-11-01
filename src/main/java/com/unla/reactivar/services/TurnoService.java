@@ -310,7 +310,11 @@ public class TurnoService {
 			turnosVo.add(turnoVoAux);
 		}
 		
-		List<GetResTurnoVo> turnoResponse = turnosVo.stream().filter(x -> x.getFechaHora().getDate() == d).filter(x -> x.getFechaHora().getMonth() == mes).filter(x-> x.getFechaHora().getYear()+1900 == a).map(x -> x.setFechaHora(new Date(x.getFechaHora().getTime() + 3600000)))).collect(Collectors.toList());
+		List<GetResTurnoVo> turnoResponse = turnosVo.stream().filter(x -> x.getFechaHora().getDate() == d).filter(x -> x.getFechaHora().getMonth() == mes).filter(x-> x.getFechaHora().getYear()+1900 == a).collect(Collectors.toList());
+		
+		for(GetResTurnoVo turno : turnoResponse) {
+			turno.setFechaHora(new Date(turno.getFechaHora().getTime() + 3600000));
+		}
 		
 		return turnoResponse;
 	}
