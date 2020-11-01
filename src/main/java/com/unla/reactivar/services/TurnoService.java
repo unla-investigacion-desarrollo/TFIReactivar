@@ -2,9 +2,11 @@ package com.unla.reactivar.services;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
@@ -256,26 +258,9 @@ public class TurnoService {
 		return dia;
 	}
 
-	@SuppressWarnings("deprecation")
-	public List<Turno> traerTurnoPorPersona(long id, String fecha) {
-		Persona persona = personaService.traerPersonaPorId(id);
-		int d = Integer.valueOf(fecha.substring(0, 2));
-		int m = Integer.valueOf(fecha.substring(3, 5));
-		int a = Integer.valueOf(fecha.substring(6, 10));
-		
-		int mes = m-1;
-		if (persona == null) {
-			throw new ObjectNotFound("Persona");
-		}
-		
-		List<Turno> turnos = repository.findByPersona(persona);
-		
-		return turnos.stream().filter(x -> x.getFechaHora().getDate() == d).filter(x -> x.getFechaHora().getMonth() == mes).filter(x-> x.getFechaHora().getYear()+1900 == a).collect(Collectors.toList());
-		
-	}
 	
 	@SuppressWarnings("deprecation")
-	public List<GetResTurnoVo> traerGetResTurnoVoPorPersona(long id, String fecha) {
+	public List<GetResTurnoVo> traerGetResTurnoVoPorPersona(long id, String fecha){
 		Persona persona = personaService.traerPersonaPorId(id);
 		int d = Integer.valueOf(fecha.substring(0, 2));
 		int m = Integer.valueOf(fecha.substring(3, 5));
@@ -286,35 +271,19 @@ public class TurnoService {
 			throw new ObjectNotFound("Persona");
 		}
 		
-		
-		List<Turno> turnos = repository.findByPersona(persona);
+		List<Turno> turnos = repository.findByPersona(persona);		
+				
 		List<GetResTurnoVo> turnosVo =new ArrayList();
+		
 		for(int i=0; i< turnos.size(); i++) {
 			GetResTurnoVo turnoVoAux = new GetResTurnoVo();
 			adaptarTurnoAGetResTurnoVo(turnoVoAux,turnos.get(i));
 			turnosVo.add(turnoVoAux);
 		}
 		
+		List<GetResTurnoVo> turnoResponse = turnosVo.stream().filter(x -> x.getFechaHora().getDate() == d).filter(x -> x.getFechaHora().getMonth() == mes).filter(x-> x.getFechaHora().getYear()+1900 == a).collect(Collectors.toList());
 		
-		return turnosVo.stream().filter(x -> x.getFechaHora().getDate() == d).filter(x -> x.getFechaHora().getMonth() == mes).filter(x-> x.getFechaHora().getYear()+1900 == a).collect(Collectors.toList());
-		
-	}
-	
-	@SuppressWarnings("deprecation")
-	public List<Turno> traerTurnoPorEmprendimiento(long id, String fecha) {
-		Emprendimiento emp = emprendimientoService.traerEmprendimientoPorId(id);
-		int d = Integer.valueOf(fecha.substring(0, 2));
-		int m = Integer.valueOf(fecha.substring(3, 5));
-		int a = Integer.valueOf(fecha.substring(6, 10));
-		
-		int mes = m-1;
-		if (emp == null) {
-			throw new ObjectNotFound("Persona");
-		}
-		
-		List<Turno> turnos = repository.findByEmprendimiento(emp);
-		
-		return turnos.stream().filter(x -> x.getFechaHora().getDate() == d).filter(x -> x.getFechaHora().getMonth() == mes).filter(x-> x.getFechaHora().getYear()+1900 == a).collect(Collectors.toList());
+		return turnoResponse;
 		
 	}
 	
@@ -337,11 +306,13 @@ public class TurnoService {
 			adaptarTurnoAGetResTurnoVo(turnoVoAux,turnos.get(i));
 			turnosVo.add(turnoVoAux);
 		}
-		return turnosVo.stream().filter(x -> x.getFechaHora().getDate() == d).filter(x -> x.getFechaHora().getMonth() == mes).filter(x-> x.getFechaHora().getYear()+1900 == a).collect(Collectors.toList());
 		
+		List<GetResTurnoVo> turnoResponse = turnosVo.stream().filter(x -> x.getFechaHora().getDate() == d).filter(x -> x.getFechaHora().getMonth() == mes).filter(x-> x.getFechaHora().getYear()+1900 == a).collect(Collectors.toList());
+		
+		return turnoResponse;
 	}
 
-
+	@Transactional
 	public Turno patchTurno(Long id, ReqPatchTurnoVo patchTurno) {
 		Turno turno = repository.findByIdTurno(id);
 		EstadoTurno estadoTurno = estadoService.traerEstadoTurnoPorId(patchTurno.getIdEstadoTurno());
@@ -352,7 +323,7 @@ public class TurnoService {
 		
 		turno.setEstadoTurno(estadoTurno);
 
-		return repository.save(turno) ;
+		return repository.save(turno);
 	}
 
 	private void adaptarTurnoAGetResTurnoVo(GetResTurnoVo getResTurnoVo,Turno turno) {
