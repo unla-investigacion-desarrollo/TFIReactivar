@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
@@ -331,7 +332,7 @@ public class TurnoService {
 	private void adaptarTurnoAGetResTurnoVo(GetResTurnoVo getResTurnoVo,Turno turno) {
 		 
 		getResTurnoVo.setIdTurno(turno.getIdTurno());
-		getResTurnoVo.setFechaHora(turno.getFechaHora());
+		getResTurnoVo.setFechaHora(new Date(turno.getFechaHora().getTime() - 3600000));
 		getResTurnoVo.setObservaciones(turno.getObservaciones());
 		getResTurnoVo.setIdEstadoTurno(turno.getEstadoTurno().getIdEstadoTurno());
 		getResTurnoVo.setEstado(turno.getEstadoTurno().getEstado());
