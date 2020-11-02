@@ -43,7 +43,7 @@ public class QREmprendimientoPDFExporter {
 			cell.setPadding(5);
 			cell.setPhrase(new Phrase("", font));
 			table.addCell(cell);
-			cell.setPhrase(new Phrase(horario.getDiaSemana().toUpperCase(), font));
+			cell.setPhrase(new Phrase(traerDiaDeLaSemana(horario.getDiaSemana()).toUpperCase(), font));
 			cell.setHorizontalAlignment(cell.ALIGN_LEFT);
 
 			table.addCell(cell);
@@ -66,7 +66,7 @@ public class QREmprendimientoPDFExporter {
 
 		String qrMessage = new StringBuilder(serverHost).append("/api/ocupacionLocal/").append(Base64Util.encode(String.valueOf(idEmprendimiento))).toString();
 
-		GenerateQRCode.generateQRCode(qrMessage, 350, 350, rutaImagenQR);
+		GenerateQRCode.generateQRCode(qrMessage, 275, 275, rutaImagenQR);
 
 		Document document = new Document(PageSize.A4);
 		PdfWriter.getInstance(document, response.getOutputStream());
@@ -116,6 +116,43 @@ public class QREmprendimientoPDFExporter {
 		File archivo1 = new File(rutaImagenQR);
 		archivo1.delete();
 
+	}
+	
+	public static String traerDiaDeLaSemana(String diaSemana) {
+		String dia = "";
+
+		switch (Integer.parseInt(diaSemana)) {
+
+		case 1:
+			dia = "Domingo";
+			break;
+
+		case 2:
+			dia = "Lunes";
+			break;
+
+		case 3:
+			dia = "Martes";
+			break;
+
+		case 4:
+			dia = "Miercoles";
+			break;
+
+		case 5:
+			dia = "Jueves";
+			break;
+
+		case 6:
+			dia = "Viernes";
+			break;
+
+		case 7:
+			dia = "Sabado";
+			break;
+		}
+
+		return dia;
 	}
 
 }
