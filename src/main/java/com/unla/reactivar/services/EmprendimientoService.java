@@ -34,6 +34,7 @@ import com.unla.reactivar.models.TipoEmprendimiento;
 import com.unla.reactivar.models.Turno;
 import com.unla.reactivar.models.Ubicacion;
 import com.unla.reactivar.repositories.EmprendimientoRepository;
+import com.unla.reactivar.repositories.TurnoRepository;
 import com.unla.reactivar.utils.CuilValidator;
 import com.unla.reactivar.utils.DateUtils;
 import com.unla.reactivar.utils.QREmprendimientoPDFExporter;
@@ -72,7 +73,7 @@ public class EmprendimientoService {
 
 	@Autowired
 	private PersonaService personaService;
-	
+
 	@Autowired
 	private RubroService rubroService;
 
@@ -99,6 +100,9 @@ public class EmprendimientoService {
 
 	@Autowired
 	private ImageService imageService;
+
+	@Autowired
+	private TurnoRepository turnoRepository;
 
 	public Emprendimiento traerEmprendimientoPorId(Long id) {
 		log.info("Se traera un Emprendimiento por id");
@@ -319,8 +323,7 @@ public class EmprendimientoService {
 		if (emprendimiento == null) {
 			throw new ObjectNotFound(EMPRENDIMIENTO);
 		}
-		
-		
+
 		log.info("Se eliminara emprendimiento [{}]", emprendimiento.getNombre());
 
 		repository.delete(emprendimiento);
@@ -357,7 +360,47 @@ public class EmprendimientoService {
 			throw new ObjectNotFound(EMPRENDIMIENTO);
 		}
 
-		adaptarPutEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
+		// Agregar validacion para modificar configuracion local
+
+		/*
+		 * if tiene turnos = SI if intervalo de turnos <> it Turno Aux and horarios <>
+		 * horarios aux {
+		 * 
+		 * actualizate tranquilo }
+		 * 
+		 * else { no gato no podes }
+		 * 
+		 * else { actualizate tranquilo }
+		 */
+
+		if (turnoRepository.findByEmprendimiento(emprendimiento).isEmpty() == false) {
+			/*
+			 * List<ConfiguracionLocal> listaConfEmp
+			 * =emprendimiento.getConfiguracionLocales(); List<ConfiguracionLocalVo>
+			 * listaConfEmpVo= emprendimientoVo.getConfiguracionLocales();
+			 * 
+			 * for (int i=0;listaConfEmp.size();i++) { for(int
+			 * j=0;listaConfEmpVo.size();j++) {
+			 * emprendimiento.getConfiguracionLocales().get(i).equals(o)
+			 * 
+			 * }
+			 * 
+			 * }
+			 * 
+			 */
+			if (1 == 1) {
+				adaptarPutEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
+			}
+
+			else {
+				throw new ObjectNotFound("El emprendiento tiene turnos pendientes");
+			}
+
+		}
+
+		else {
+			adaptarPutEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
+		}
 
 		try {
 			log.info("Se actualizara emprendimiento [{}]", emprendimiento.getNombre());
@@ -781,7 +824,7 @@ public class EmprendimientoService {
 		String nombreImagen = emprendimiento.getNombre() + randomStr;
 
 		imageService.crearImagen(nombreImagen, emprendimiento.getIdEmprendimiento(), uploadImageVo.getImageBase64());
-		
+
 	}
 
 }

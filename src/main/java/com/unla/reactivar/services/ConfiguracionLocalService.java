@@ -96,7 +96,7 @@ public class ConfiguracionLocalService {
 			log.error("Se obtuvo un error al intentar borrar la cfg local [{}]", id);
 			throw new ObjectNotFound("ConfiguracionLocal");
 		}
-		log.info("Se eliminara articulo [{}]", configuracionLocal.getIdConfiguracionLocal());
+		log.info("Se eliminara la configuracion local ID: [{}]", configuracionLocal.getIdConfiguracionLocal());
 		repository.delete(configuracionLocal);
 	}
 
@@ -111,7 +111,7 @@ public class ConfiguracionLocalService {
 		}
 
 		for (int i = 0; i < configuracionLocal.size(); i++) {
-			log.info("Se eliminara articulo [{}]", configuracionLocal.get(i).getIdConfiguracionLocal());
+			log.info("Se eliminara la configuracion local id: [{}]", configuracionLocal.get(i).getIdConfiguracionLocal());
 			repository.delete(configuracionLocal.get(i));
 		}
 
