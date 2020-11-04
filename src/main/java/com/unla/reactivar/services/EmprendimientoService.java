@@ -374,25 +374,54 @@ public class EmprendimientoService {
 		 */
 
 		if (turnoRepository.findByEmprendimiento(emprendimiento).isEmpty() == false) {
-			/*
-			 * List<ConfiguracionLocal> listaConfEmp
-			 * =emprendimiento.getConfiguracionLocales(); List<ConfiguracionLocalVo>
-			 * listaConfEmpVo= emprendimientoVo.getConfiguracionLocales();
-			 * 
-			 * for (int i=0;listaConfEmp.size();i++) { for(int
-			 * j=0;listaConfEmpVo.size();j++) {
-			 * emprendimiento.getConfiguracionLocales().get(i).equals(o)
-			 * 
-			 * }
-			 * 
-			 * }
-			 * 
-			 */
-			if (1 == 1) {
+			
+			  List<ConfiguracionLocal> listaConfEmp =emprendimiento.getConfiguracionLocales(); 
+			  List<ConfiguracionLocalVo> listaConfEmpVo= emprendimientoVo.getConfiguracionLocales();
+			 
+			  int sonIguales= 0;
+			  int noSonIguales= 0;
+			  for (int i=0; i<listaConfEmp.size();i++) { 
+				  System.out.println(listaConfEmp.get(i).getIntervaloTurnos());
+				  System.out.println(listaConfEmp.get(i).getDiaSemana());
+				  ConfiguracionLocalVo confVoEnBase = new ConfiguracionLocalVo();
+					confVoEnBase.setDiaSemana(listaConfEmp.get(i).getDiaSemana());
+					confVoEnBase.setIntervaloTurnos(listaConfEmp.get(i).getIntervaloTurnos());
+					confVoEnBase.setTurno1Desde(listaConfEmp.get(i).getTurno1Desde());
+					confVoEnBase.setTurno1Hasta(listaConfEmp.get(i).getTurno1Hasta());
+					confVoEnBase.setTurno2Desde(listaConfEmp.get(i).getTurno2Desde());
+				confVoEnBase.setTurno2Hasta(listaConfEmp.get(i).getTurno2Hasta());
+					ConfiguracionLocalVo confVoEnAux = new ConfiguracionLocalVo();
+					
+				  for(int j=0;j<listaConfEmpVo.size();j++) {
+					  	
+					  
+						System.out.println(listaConfEmpVo.get(j).getIntervaloTurnos() );
+						System.out.println(listaConfEmpVo.get(j).getDiaSemana());
+											
+						
+						confVoEnAux.setDiaSemana(listaConfEmpVo.get(j).getDiaSemana());
+						confVoEnAux.setIntervaloTurnos(listaConfEmpVo.get(j).getIntervaloTurnos());
+						confVoEnAux.setTurno1Desde(listaConfEmpVo.get(j).getTurno1Desde());
+						confVoEnAux.setTurno1Hasta(listaConfEmpVo.get(j).getTurno1Hasta());
+						confVoEnAux.setTurno2Desde(listaConfEmpVo.get(j).getTurno2Desde());
+						confVoEnAux.setTurno2Hasta(listaConfEmpVo.get(j).getTurno2Hasta());
+						
+					  if(confVoEnBase.equals(confVoEnAux)) {
+						  sonIguales++;						  
+					  }
+					  else {
+						  noSonIguales++;
+					  }
+			  
+				  }
+			  
+			  }
+			  			
+			if (sonIguales > 0 && noSonIguales==0 ) {
 				adaptarPutEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
 			}
 
-			else {
+			else if (sonIguales >= 0 && noSonIguales>=0){
 				throw new ObjectNotFound("El emprendiento tiene turnos pendientes");
 			}
 
@@ -401,6 +430,8 @@ public class EmprendimientoService {
 		else {
 			adaptarPutEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
 		}
+		
+		//adaptarPutEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
 
 		try {
 			log.info("Se actualizara emprendimiento [{}]", emprendimiento.getNombre());
