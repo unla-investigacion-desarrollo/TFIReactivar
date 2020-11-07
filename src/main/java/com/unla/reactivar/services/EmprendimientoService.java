@@ -8,6 +8,8 @@ import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -46,6 +48,8 @@ import com.unla.reactivar.vo.ReqPostConfiguracionLocalVo;
 import com.unla.reactivar.vo.ReqPutEmprendimientoVo;
 import com.unla.reactivar.vo.UploadImageVo;
 import com.unla.reactivar.vo.ValConfLocalVo;
+
+import sun.net.www.content.audio.x_aiff;
 
 @Service
 @Transactional(readOnly = true)
@@ -360,24 +364,86 @@ public class EmprendimientoService {
 		Emprendimiento emprendimiento = repository.findByIdEmprendimiento(id);
 		List<ValConfLocalVo> listConfLocDelEmprendimiento = new ArrayList();
 		List<ValConfLocalVo> listConfLocVoDelRequest = new ArrayList();
-
+		List<ValConfLocalVo> listValConfLocVoAux = new ArrayList();
 		if (emprendimiento == null) {
 			throw new ObjectNotFound(EMPRENDIMIENTO);
 		}
 
-		if (turnoRepository.findByEmprendimientoFechaActual(emprendimiento).isEmpty()== false) {
+		List<Turno> turnos = turnoRepository.findByEmprendimientoFechaActual(emprendimiento);
+		
+		if (turnos.isEmpty()== false) {
 
 			listConfLocDelEmprendimiento = adaptarConfiguracionLocalAValConfLocalVo(
 					emprendimiento.getConfiguracionLocales());
 			listConfLocVoDelRequest = adaptarConfiguracionLocalVoAValConfLocalVo(
 					emprendimientoVo.getConfiguracionLocales());
-
-			boolean result = new HashSet<>(listConfLocDelEmprendimiento).equals(new HashSet<>(listConfLocVoDelRequest));
-
-			if (result== true) {
+							
+			boolean result= listConfLocDelEmprendimiento.equals(listConfLocVoDelRequest);
+			//boolean result = new HashSet<>(listConfLocDelEmprendimiento).equals(new HashSet<>(listConfLocVoDelRequest));
+					
+				
+			if (result== true ) {
 				adaptarPutEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
-			} else {
-				throw new ObjectNotFound("El emprendiento tiene turnos pendientes");
+			}
+			
+			/*else if(!listValConfLocVoAux.isEmpty()){
+				List<ConfiguracionLocalVo> listaConfiguracionLocalVoAux= new ArrayList ();
+				for(ValConfLocalVo a : listValConfLocVoAux) {
+					ConfiguracionLocalVo cfvo= new ConfiguracionLocalVo();
+					cfvo.setDiaSemana(a.getDiaSemana());
+					cfvo.setTiempoAtencion(emprendimientoVo.getConfiguracionLocales().stream().filter(x -> x.getDiaSemana().equals(a.getDiaSemana())).collect(Collectors.toList()).get(0).getTiempoAtencion());
+					cfvo.setIntervaloTurnos(a.getIntervaloTurnos());
+					cfvo.setTurno1Desde(a.getTurno1Desde());
+					cfvo.setTurno1Hasta(a.getTurno1Hasta());
+					cfvo.setTurno2Desde(a.getTurno2Desde());
+					cfvo.setTurno2Hasta(a.getTurno2Hasta());
+					cfvo.setUsuarioModi(emprendimientoVo.getConfiguracionLocales().stream().filter(x -> x.getDiaSemana().equals(a.getDiaSemana())).collect(Collectors.toList()).get(0).getUsuarioModi());
+					listaConfiguracionLocalVoAux.add(cfvo);
+				}
+				emprendimientoVo.getConfiguracionLocales().clear();
+				emprendimientoVo.setConfiguracionLocales(listaConfiguracionLocalVoAux);
+				adaptarPutEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
+				
+			}*/
+			
+			else {
+			/*
+			 * verificar si ese dia existe en al bd 
+			 * si existe verificar sus campos:
+			 * 1)todos sus campos son iguales (continua flujo)
+			 * 2)tiene algun campo distinto(esta queriendo actualizar cuando ya hay turnos entonces excepcion)
+			 * 
+			 * si continua el flujo de 1 llamoa adaptar
+			 */
+				for(ValConfLocalVo a : listConfLocDelEmprendimiento) {
+					for(ValConfLocalVo b : listConfLocVoDelRequest) {
+						if(a.getDiaSemana().equals(b.getDiaSemana())) {
+							//comparar todos los campos, si hay alguno distinto , excepcion
+							if(a.equals(b)) {
+							break;
+							}
+							else {
+								throw new ObjectNotFound("Estas modificando un dia con turnos pendientes.");
+							}
+							
+						}
+					}	
+				}
+				
+				List<ValConfLocalVo> listaAux = new ArrayList(listConfLocDelEmprendimiento);
+				listaAux.removeAll(listConfLocVoDelRequest);
+				
+				for(Turno t :turnos) {
+					for(ValConfLocalVo cf : listaAux) {
+						if(t.getFechaHora().getDay()+1 ==  Integer.parseInt(cf.getDiaSemana())) {
+							throw new ObjectNotFound("Estas modificando un dia con turnos pendientes.");
+						}
+					}
+					
+				}
+				
+				adaptarPutEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
+				
 			}
 
 		}
