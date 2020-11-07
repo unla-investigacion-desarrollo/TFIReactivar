@@ -372,10 +372,12 @@ public class EmprendimientoService {
 		 * 
 		 * else { actualizate tranquilo }
 		 */
+		
+		
 
-		if (turnoRepository.findByEmprendimiento(emprendimiento).isEmpty() == false) {
+		/*if (turnoRepository.findByEmprendimiento(emprendimiento).isEmpty() == false) {
 			
-			  List<ConfiguracionLocal> listaConfEmp =emprendimiento.getConfiguracionLocales(); 
+			List<ConfiguracionLocal> listaConfEmp =emprendimiento.getConfiguracionLocales(); 
 			  List<ConfiguracionLocalVo> listaConfEmpVo= emprendimientoVo.getConfiguracionLocales();
 			 
 			  int sonIguales= 0;
@@ -416,7 +418,7 @@ public class EmprendimientoService {
 				  }
 			  
 			  }
-			  			
+			  
 			if (sonIguales > 0 && noSonIguales==0 ) {
 				adaptarPutEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
 			}
@@ -429,10 +431,19 @@ public class EmprendimientoService {
 
 		else {
 			adaptarPutEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
-		}
+		}*/
 		
 		//adaptarPutEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
+		
+		if (turnoRepository.findByEmprendimiento(emprendimiento).isEmpty() == false && 
+				sonHorariosIguales(emprendimiento.getConfiguracionLocales(),emprendimientoVo.getConfiguracionLocales())==true) {
+			adaptarPutEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
+		}
 
+		else {
+			throw new ObjectNotFound("El emprendiento tiene turnos pendientes");
+		}
+		
 		try {
 			log.info("Se actualizara emprendimiento [{}]", emprendimiento.getNombre());
 			emprendimiento = repository.save(emprendimiento);
@@ -446,7 +457,64 @@ public class EmprendimientoService {
 
 		return getResEmprendimientoVo;
 	}
+	
+	public boolean sonHorariosIguales(List<ConfiguracionLocal> listaConfEmp,List<ConfiguracionLocalVo> listaConfEmpVo) {
+		int sonIguales= 0;
+		int noSonIguales= 0;
+		boolean resultado= false;
+		  for (int i=0; i<listaConfEmp.size();i++) { 
+			  System.out.println(listaConfEmp.get(i).getIntervaloTurnos());
+			  System.out.println(listaConfEmp.get(i).getDiaSemana());
+			  ConfiguracionLocalVo confVoEnBase = new ConfiguracionLocalVo();
+				confVoEnBase.setDiaSemana(listaConfEmp.get(i).getDiaSemana());
+				confVoEnBase.setIntervaloTurnos(listaConfEmp.get(i).getIntervaloTurnos());
+				confVoEnBase.setTurno1Desde(listaConfEmp.get(i).getTurno1Desde());
+				confVoEnBase.setTurno1Hasta(listaConfEmp.get(i).getTurno1Hasta());
+				confVoEnBase.setTurno2Desde(listaConfEmp.get(i).getTurno2Desde());
+			confVoEnBase.setTurno2Hasta(listaConfEmp.get(i).getTurno2Hasta());
+				ConfiguracionLocalVo confVoEnAux = new ConfiguracionLocalVo();
+				
+			  for(int j=0;j<listaConfEmpVo.size();j++) {
+				  	
+				  
+					System.out.println(listaConfEmpVo.get(j).getIntervaloTurnos() );
+					System.out.println(listaConfEmpVo.get(j).getDiaSemana());
+										
+					
+					confVoEnAux.setDiaSemana(listaConfEmpVo.get(j).getDiaSemana());
+					confVoEnAux.setIntervaloTurnos(listaConfEmpVo.get(j).getIntervaloTurnos());
+					confVoEnAux.setTurno1Desde(listaConfEmpVo.get(j).getTurno1Desde());
+					confVoEnAux.setTurno1Hasta(listaConfEmpVo.get(j).getTurno1Hasta());
+					confVoEnAux.setTurno2Desde(listaConfEmpVo.get(j).getTurno2Desde());
+					confVoEnAux.setTurno2Hasta(listaConfEmpVo.get(j).getTurno2Hasta());
+					
+				  if(confVoEnBase.equals(confVoEnAux)) {
+					  sonIguales++;						  
+				  }
+				  else {
+					  noSonIguales++;
+				  }
+		  
+			  }
+		  
+		  }
+		  
+		if (sonIguales > 0 && noSonIguales==0 ) {
+			resultado= true;
+		}
 
+		else if (sonIguales >= 0 && noSonIguales>=0){
+			resultado= false;
+		}
+		
+		return resultado;
+	}
+
+	
+	
+	
+	
+	
 	private void adaptarEmprendimientoVoAEmprendimiento(EmprendimientoVo emprendimientoVo,
 			Emprendimiento emprendimiento) {
 		for (int i = 0; i < emprendimientoVo.getConfiguracionLocales().size(); i++) {
