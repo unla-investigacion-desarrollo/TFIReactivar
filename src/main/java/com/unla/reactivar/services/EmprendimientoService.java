@@ -360,28 +360,28 @@ public class EmprendimientoService {
 		Emprendimiento emprendimiento = repository.findByIdEmprendimiento(id);
 		List<ValConfLocalVo> listConfLocDelEmprendimiento = new ArrayList();
 		List<ValConfLocalVo> listConfLocVoDelRequest = new ArrayList();
-	
+
 		if (emprendimiento == null) {
 			throw new ObjectNotFound(EMPRENDIMIENTO);
 		}
 
-		if (turnoRepository.findByEmprendimientoFechaActual(emprendimiento).isEmpty() == false) {
-			
-			listConfLocDelEmprendimiento=adaptarConfiguracionLocalAValConfLocalVo(emprendimiento.getConfiguracionLocales());
-			listConfLocVoDelRequest=adaptarConfiguracionLocalVoAValConfLocalVo(emprendimientoVo.getConfiguracionLocales());
-						
+		if (turnoRepository.findByEmprendimientoFechaActual(emprendimiento).isEmpty()== false) {
+
+			listConfLocDelEmprendimiento = adaptarConfiguracionLocalAValConfLocalVo(
+					emprendimiento.getConfiguracionLocales());
+			listConfLocVoDelRequest = adaptarConfiguracionLocalVoAValConfLocalVo(
+					emprendimientoVo.getConfiguracionLocales());
+
 			boolean result = new HashSet<>(listConfLocDelEmprendimiento).equals(new HashSet<>(listConfLocVoDelRequest));
-			
-			
-			if (result == true) {
-				//NO SE PORQUE AL ENTRAR ACA SE DUPLICA LA CONFIGURACION
+
+			if (result== true) {
 				adaptarPutEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
 			} else {
 				throw new ObjectNotFound("El emprendiento tiene turnos pendientes");
 			}
 
 		}
-					
+
 		else {
 			adaptarPutEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
 		}
@@ -400,11 +400,11 @@ public class EmprendimientoService {
 		return getResEmprendimientoVo;
 	}
 
-	
-	private List<ValConfLocalVo> adaptarConfiguracionLocalAValConfLocalVo(List<ConfiguracionLocal> listaConfiguracionLocal){
+	private List<ValConfLocalVo> adaptarConfiguracionLocalAValConfLocalVo(
+			List<ConfiguracionLocal> listaConfiguracionLocal) {
 		List<ValConfLocalVo> listaValConfLocalVo = new ArrayList();
-		for(int i=0;i < listaConfiguracionLocal.size();i++) {
-			ValConfLocalVo valConfLocalVo= new ValConfLocalVo();
+		for (int i = 0; i < listaConfiguracionLocal.size(); i++) {
+			ValConfLocalVo valConfLocalVo = new ValConfLocalVo();
 			valConfLocalVo.setDiaSemana(listaConfiguracionLocal.get(i).getDiaSemana());
 			valConfLocalVo.setIntervaloTurnos(listaConfiguracionLocal.get(i).getIntervaloTurnos());
 			valConfLocalVo.setTurno1Desde(listaConfiguracionLocal.get(i).getTurno1Desde());
@@ -413,15 +413,16 @@ public class EmprendimientoService {
 			valConfLocalVo.setTurno2Hasta(listaConfiguracionLocal.get(i).getTurno2Hasta());
 			listaValConfLocalVo.add(valConfLocalVo);
 		}
-		
+
 		return listaValConfLocalVo;
-		
+
 	}
-	
-	private List<ValConfLocalVo> adaptarConfiguracionLocalVoAValConfLocalVo(List<ConfiguracionLocalVo> listaConfiguracionLocalVo){
+
+	private List<ValConfLocalVo> adaptarConfiguracionLocalVoAValConfLocalVo(
+			List<ConfiguracionLocalVo> listaConfiguracionLocalVo) {
 		List<ValConfLocalVo> listaValConfLocalVo = new ArrayList();
-		for(int i=0;i < listaConfiguracionLocalVo.size();i++) {
-			ValConfLocalVo valConfLocalVo= new ValConfLocalVo();
+		for (int i = 0; i < listaConfiguracionLocalVo.size(); i++) {
+			ValConfLocalVo valConfLocalVo = new ValConfLocalVo();
 			valConfLocalVo.setDiaSemana(listaConfiguracionLocalVo.get(i).getDiaSemana());
 			valConfLocalVo.setIntervaloTurnos(listaConfiguracionLocalVo.get(i).getIntervaloTurnos());
 			valConfLocalVo.setTurno1Desde(listaConfiguracionLocalVo.get(i).getTurno1Desde());
@@ -430,11 +431,11 @@ public class EmprendimientoService {
 			valConfLocalVo.setTurno2Hasta(listaConfiguracionLocalVo.get(i).getTurno2Hasta());
 			listaValConfLocalVo.add(valConfLocalVo);
 		}
-		
+
 		return listaValConfLocalVo;
-		
+
 	}
-	
+
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 	private void adaptarEmprendimientoVoAEmprendimiento(EmprendimientoVo emprendimientoVo,
 			Emprendimiento emprendimiento) {
@@ -501,7 +502,7 @@ public class EmprendimientoService {
 		emprendimiento.setUbicacion(ubicacion);
 
 		configuracionLocalService.borrarListaConfiguracionLocal(emprendimiento.getIdEmprendimiento());
-		
+
 		emprendimiento.getConfiguracionLocales().clear();
 
 		for (int i = 0; i < emprendimientoVo.getConfiguracionLocales().size(); i++) {
@@ -523,10 +524,10 @@ public class EmprendimientoService {
 					.setTurno2Hasta(emprendimientoVo.getConfiguracionLocales().get(i).getTurno2Hasta());
 			reqPostConfiguracionLocalVo
 					.setUsuarioModi(emprendimientoVo.getConfiguracionLocales().get(i).getUsuarioModi());
-			emprendimiento.getConfiguracionLocales().add(configuracionLocalService.crearConfiguracion(reqPostConfiguracionLocalVo));
+			emprendimiento.getConfiguracionLocales()
+					.add(configuracionLocalService.crearConfiguracion(reqPostConfiguracionLocalVo));
 
 		}
-	
 
 	}
 
