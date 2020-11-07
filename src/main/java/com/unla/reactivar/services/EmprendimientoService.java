@@ -501,6 +501,8 @@ public class EmprendimientoService {
 		emprendimiento.setUbicacion(ubicacion);
 
 		configuracionLocalService.borrarListaConfiguracionLocal(emprendimiento.getIdEmprendimiento());
+		
+		emprendimiento.getConfiguracionLocales().clear();
 
 		for (int i = 0; i < emprendimientoVo.getConfiguracionLocales().size(); i++) {
 
@@ -521,7 +523,7 @@ public class EmprendimientoService {
 					.setTurno2Hasta(emprendimientoVo.getConfiguracionLocales().get(i).getTurno2Hasta());
 			reqPostConfiguracionLocalVo
 					.setUsuarioModi(emprendimientoVo.getConfiguracionLocales().get(i).getUsuarioModi());
-			configuracionLocalService.crearConfiguracion(reqPostConfiguracionLocalVo);
+			emprendimiento.getConfiguracionLocales().add(configuracionLocalService.crearConfiguracion(reqPostConfiguracionLocalVo));
 
 		}
 	
