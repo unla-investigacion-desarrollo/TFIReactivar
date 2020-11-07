@@ -360,7 +360,7 @@ public class EmprendimientoService {
 		Emprendimiento emprendimiento = repository.findByIdEmprendimiento(id);
 		List<ValConfLocalVo> listConfLocDelEmprendimiento = new ArrayList();
 		List<ValConfLocalVo> listConfLocVoDelRequest = new ArrayList();
-		int flag=0;
+	
 		if (emprendimiento == null) {
 			throw new ObjectNotFound(EMPRENDIMIENTO);
 		}
@@ -374,6 +374,7 @@ public class EmprendimientoService {
 			
 			
 			if (result == true) {
+				//NO SE PORQUE AL ENTRAR ACA SE DUPLICA LA CONFIGURACION
 				adaptarPutEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
 			} else {
 				throw new ObjectNotFound("El emprendiento tiene turnos pendientes");
