@@ -5,6 +5,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
@@ -44,6 +45,7 @@ import com.unla.reactivar.vo.GetResEmprendimientoVo;
 import com.unla.reactivar.vo.ReqPostConfiguracionLocalVo;
 import com.unla.reactivar.vo.ReqPutEmprendimientoVo;
 import com.unla.reactivar.vo.UploadImageVo;
+import com.unla.reactivar.vo.ValConfLocalVo;
 
 @Service
 @Transactional(readOnly = true)
@@ -350,23 +352,38 @@ public class EmprendimientoService {
 
 		return emprendimiento;
 	}
+
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 	@Transactional
 	public GetResEmprendimientoVo actualizarEmprendimientoSinPersona(Long id, ReqPutEmprendimientoVo emprendimientoVo) {
 		GetResEmprendimientoVo getResEmprendimientoVo = new GetResEmprendimientoVo();
 		Emprendimiento emprendimiento = repository.findByIdEmprendimiento(id);
-
+		List<ValConfLocalVo> listConfLocDelEmprendimiento = new ArrayList();
+		List<ValConfLocalVo> listConfLocVoDelRequest = new ArrayList();
+		int flag=0;
 		if (emprendimiento == null) {
 			throw new ObjectNotFound(EMPRENDIMIENTO);
 		}
-//,DateUtils.fechaHoy()
-		if(turnoRepository.findByEmprendimientoFechaActual(emprendimiento).isEmpty() == false) {
-			throw new ObjectNotFound("El emprendiento tiene turnos pendientes");
+
+		if (turnoRepository.findByEmprendimientoFechaActual(emprendimiento).isEmpty() == false) {
+			
+			listConfLocDelEmprendimiento=adaptarConfiguracionLocalAValConfLocalVo(emprendimiento.getConfiguracionLocales());
+			listConfLocVoDelRequest=adaptarConfiguracionLocalVoAValConfLocalVo(emprendimientoVo.getConfiguracionLocales());
+						
+			boolean result = new HashSet<>(listConfLocDelEmprendimiento).equals(new HashSet<>(listConfLocVoDelRequest));
+			
+			
+			if (result == true) {
+				adaptarPutEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
+			} else {
+				throw new ObjectNotFound("El emprendiento tiene turnos pendientes");
+			}
+
 		}
+					
 		else {
 			adaptarPutEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
 		}
-		
 
 		try {
 			log.info("Se actualizara emprendimiento [{}]", emprendimiento.getNombre());
@@ -381,6 +398,42 @@ public class EmprendimientoService {
 
 		return getResEmprendimientoVo;
 	}
+
+	
+	private List<ValConfLocalVo> adaptarConfiguracionLocalAValConfLocalVo(List<ConfiguracionLocal> listaConfiguracionLocal){
+		List<ValConfLocalVo> listaValConfLocalVo = new ArrayList();
+		for(int i=0;i < listaConfiguracionLocal.size();i++) {
+			ValConfLocalVo valConfLocalVo= new ValConfLocalVo();
+			valConfLocalVo.setDiaSemana(listaConfiguracionLocal.get(i).getDiaSemana());
+			valConfLocalVo.setIntervaloTurnos(listaConfiguracionLocal.get(i).getIntervaloTurnos());
+			valConfLocalVo.setTurno1Desde(listaConfiguracionLocal.get(i).getTurno1Desde());
+			valConfLocalVo.setTurno1Hasta(listaConfiguracionLocal.get(i).getTurno1Hasta());
+			valConfLocalVo.setTurno2Desde(listaConfiguracionLocal.get(i).getTurno2Desde());
+			valConfLocalVo.setTurno2Hasta(listaConfiguracionLocal.get(i).getTurno2Hasta());
+			listaValConfLocalVo.add(valConfLocalVo);
+		}
+		
+		return listaValConfLocalVo;
+		
+	}
+	
+	private List<ValConfLocalVo> adaptarConfiguracionLocalVoAValConfLocalVo(List<ConfiguracionLocalVo> listaConfiguracionLocalVo){
+		List<ValConfLocalVo> listaValConfLocalVo = new ArrayList();
+		for(int i=0;i < listaConfiguracionLocalVo.size();i++) {
+			ValConfLocalVo valConfLocalVo= new ValConfLocalVo();
+			valConfLocalVo.setDiaSemana(listaConfiguracionLocalVo.get(i).getDiaSemana());
+			valConfLocalVo.setIntervaloTurnos(listaConfiguracionLocalVo.get(i).getIntervaloTurnos());
+			valConfLocalVo.setTurno1Desde(listaConfiguracionLocalVo.get(i).getTurno1Desde());
+			valConfLocalVo.setTurno1Hasta(listaConfiguracionLocalVo.get(i).getTurno1Hasta());
+			valConfLocalVo.setTurno2Desde(listaConfiguracionLocalVo.get(i).getTurno2Desde());
+			valConfLocalVo.setTurno2Hasta(listaConfiguracionLocalVo.get(i).getTurno2Hasta());
+			listaValConfLocalVo.add(valConfLocalVo);
+		}
+		
+		return listaValConfLocalVo;
+		
+	}
+	
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 	private void adaptarEmprendimientoVoAEmprendimiento(EmprendimientoVo emprendimientoVo,
 			Emprendimiento emprendimiento) {
@@ -470,6 +523,7 @@ public class EmprendimientoService {
 			configuracionLocalService.crearConfiguracion(reqPostConfiguracionLocalVo);
 
 		}
+	
 
 	}
 
