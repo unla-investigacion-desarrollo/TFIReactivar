@@ -25,5 +25,8 @@ public interface TurnoRepository extends JpaRepository<Turno, Long> {
 	
 	@Query("SELECT t FROM Turno t WHERE t.emprendimiento= ?1 and (t.estadoTurno=2 or t.estadoTurno=3)")
 	public List<Turno> findByEmprendimiento(Emprendimiento emprendimiento);
+	
+	@Query("SELECT t FROM Turno t WHERE t.emprendimiento= ?1 and fechaHora>=now() and (t.estadoTurno=2 or t.estadoTurno=3)")
+	public List<Turno> findByEmprendimientoFechaActual(Emprendimiento emprendimiento);
 
 }
