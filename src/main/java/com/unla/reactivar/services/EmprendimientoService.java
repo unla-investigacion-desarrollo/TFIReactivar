@@ -379,36 +379,11 @@ public class EmprendimientoService {
 					emprendimientoVo.getConfiguracionLocales());
 
 			boolean result = listConfLocDelEmprendimiento.equals(listConfLocVoDelRequest);
-			// boolean result = new HashSet<>(listConfLocDelEmprendimiento).equals(new
-			// HashSet<>(listConfLocVoDelRequest));
+	
 
 			if (result == true) {
 				adaptarPutEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
 			}
-
-			/*
-			 * else if(!listValConfLocVoAux.isEmpty()){ List<ConfiguracionLocalVo>
-			 * listaConfiguracionLocalVoAux= new ArrayList (); for(ValConfLocalVo a :
-			 * listValConfLocVoAux) { ConfiguracionLocalVo cfvo= new ConfiguracionLocalVo();
-			 * cfvo.setDiaSemana(a.getDiaSemana());
-			 * cfvo.setTiempoAtencion(emprendimientoVo.getConfiguracionLocales().stream().
-			 * filter(x ->
-			 * x.getDiaSemana().equals(a.getDiaSemana())).collect(Collectors.toList()).get(0
-			 * ).getTiempoAtencion()); cfvo.setIntervaloTurnos(a.getIntervaloTurnos());
-			 * cfvo.setTurno1Desde(a.getTurno1Desde());
-			 * cfvo.setTurno1Hasta(a.getTurno1Hasta());
-			 * cfvo.setTurno2Desde(a.getTurno2Desde());
-			 * cfvo.setTurno2Hasta(a.getTurno2Hasta());
-			 * cfvo.setUsuarioModi(emprendimientoVo.getConfiguracionLocales().stream().
-			 * filter(x ->
-			 * x.getDiaSemana().equals(a.getDiaSemana())).collect(Collectors.toList()).get(0
-			 * ).getUsuarioModi()); listaConfiguracionLocalVoAux.add(cfvo); }
-			 * emprendimientoVo.getConfiguracionLocales().clear();
-			 * emprendimientoVo.setConfiguracionLocales(listaConfiguracionLocalVoAux);
-			 * adaptarPutEmprendimientoVoAEmprendimiento(emprendimientoVo, emprendimiento);
-			 * 
-			 * }
-			 */
 
 			else {
 				/*
