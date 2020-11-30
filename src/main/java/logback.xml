@@ -2,5 +2,5 @@
 <!DOCTYPE xml>
 <configuration>
 	<include
-		url="file:${root.path}/app-directory/cfg/logback/reactivar-app.xml" />
+		url="file:${ROOT_PATH}/app-directory/cfg/logback/reactivar-app.xml" />
 </configuration>

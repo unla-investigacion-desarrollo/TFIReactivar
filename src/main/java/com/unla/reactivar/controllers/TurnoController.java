@@ -1,12 +1,12 @@
 package com.unla.reactivar.controllers;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -33,6 +33,7 @@ import io.swagger.annotations.ApiResponses;
 @RestController
 @RequestMapping("/api/turno")
 @Api(tags = "Turno")
+@CrossOrigin(origins = "*")
 public class TurnoController {
 
 	@Autowired

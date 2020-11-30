@@ -21,12 +21,12 @@ Antes de levantar el servidor, es necesario tener una base de datos mysql con el
 * Crear setenv.bat con el path donde se encuentra la carpeta app-directory (Ej. Si la ruta de app-directory es __C:/Users/Matias/Desktop/UnlaTesis/app-directory__ entonces:
    * Windows : {{Path Tomcat}}/bin/setenv.bat:
 ```bash
-set "root.path=C:/Users/Matias/Desktop/UnlaTesis"
+set "ROOT_PATH=C:/Users/Matias/Desktop/UnlaTesis"
   exit /b 0
 ```
    * Linux: {{Path Tomcat}}/bin/setenv.sh:
 ```bash
-root.path=/user/UnlaTesis
+ROOT_PATH=/user/UnlaTesis
 ```
 
 * Colocar War en {{Path Tomcat}}/webapps

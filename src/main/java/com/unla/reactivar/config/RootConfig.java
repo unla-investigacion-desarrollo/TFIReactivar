@@ -9,10 +9,10 @@ import org.springframework.context.annotation.PropertySource;
 		"com.unla.reactivar.exceptions.models", "com.unla.reactivar.models", "com.unla.reactivar.repositories",
 		"com.unla.reactivar.security", "com.unla.reactivar.services", "com.unla.reactivar.task", "com.unla.reactivar.firebase","com.unla.reactivar.utils"})
 @Configuration
-@PropertySource("file:${root.path}/app-directory/cfg/security/config.properties")
-@PropertySource("file:${root.path}/app-directory/cfg/mail/config.properties")
-@PropertySource("file:${root.path}/app-directory/cfg/notifications/config.properties")
-@PropertySource("file:${root.path}/app-directory/cfg/images/config.properties")
+@PropertySource("file:${ROOT_PATH}/app-directory/cfg/security/config.properties")
+@PropertySource("file:${ROOT_PATH}/app-directory/cfg/mail/config.properties")
+@PropertySource("file:${ROOT_PATH}/app-directory/cfg/notifications/config.properties")
+@PropertySource("file:${ROOT_PATH}/app-directory/cfg/images/config.properties")
 public class RootConfig {
 
 }
